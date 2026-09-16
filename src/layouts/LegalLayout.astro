@@ -1,5 +1,7 @@
 ---
 import Layout from './Layout.astro';
+import { Image } from 'astro:assets';
+import logoIcon from '../assets/logo-icon-v2.png';
 import { company, legalLastUpdated } from '../config';
 
 interface Props {
@@ -28,7 +30,7 @@ const navLinks = [
   <header class="site">
     <div class="wrap nav-row legal-nav-row">
       <a href="/" class="brand">
-        <img class="hex-mark" src="/assets/logo-icon-v2.png" alt="ELCON Icon">
+        <Image class="hex-mark" src={logoIcon} alt="ELCON Icon" loading="eager" />
         <span class="brand-text">
           <span class="brand-word">ELCON</span>
           <span class="brand-tagline">Connected Building Engineering</span>
@@ -61,7 +63,7 @@ const navLinks = [
     <div class="wrap footer-grid">
       <div>
         <a href="/" class="brand" style="margin-bottom:.8rem;">
-          <img class="hex-mark" style="width:30px;height:30px;" src="/assets/logo-icon-v2.png" alt="ELCON Icon">
+          <Image class="hex-mark" style="width:30px;height:30px;" src={logoIcon} alt="ELCON Icon" />
           <span class="brand-word" style="font-size:1.05rem;">ELCON</span>
         </a>
         <p style="color:var(--text-muted);font-size:.88rem;max-width:32ch;line-height:1.6;">

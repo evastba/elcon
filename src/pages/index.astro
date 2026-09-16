@@ -1,6 +1,39 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { Image, getImage } from 'astro:assets';
 import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
+
+/* Bilder laufen über astro:assets: Die Dateien liegen in src/assets und werden
+   beim Build in WebP umgewandelt, mit Hash versioniert und mit Breite und Höhe
+   ausgezeichnet. Aus public/ ausgelieferte Bilder umgehen diese Pipeline
+   vollständig — dort blieb nur das Favicon, das über einen festen Pfad im
+   <head> referenziert wird.
+
+   Der Glob-Import lädt die Metadaten aller Bilder auf einmal. Das ist hier der
+   Einzelimporten vorzuziehen, weil die Seite 63 verschiedene Bilder verwendet. */
+const assetModules = import.meta.glob<{ default: ImageMetadata }>(
+  '../assets/**/*.{jpg,jpeg,png}',
+  { eager: true },
+);
+
+/** Löst einen Pfad der Form "/assets/logos/audi.png" in die Bild-Metadaten auf. */
+function asset(path: string): ImageMetadata {
+  const key = '../assets/' + path.replace(/^\/assets\//, '');
+  const mod = assetModules[key];
+  if (!mod) throw new Error(`Bild nicht gefunden: ${path}`);
+  return mod.default;
+}
+
+/* Zwei Stellen setzen Bilder erst im Browser: die Logo-Laufschrift im Hero und
+   die Großansicht der Referenzschreiben. Beide brauchen fertige URLs statt
+   Metadaten, deshalb werden die optimierten Adressen hier vorab erzeugt und als
+   JSON in die Seite gelegt. */
+const assetUrls: Record<string, string> = {};
+for (const [key, mod] of Object.entries(assetModules)) {
+  const publicPath = '/assets/' + key.replace('../assets/', '');
+  const optimized = await getImage({ src: mod.default, format: 'webp' });
+  assetUrls[publicPath] = optimized.src;
+}
 ---
 
 <Layout>
@@ -10,7 +43,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
 <header class="site">
   <div class="wrap nav-row">
     <a href="#" class="brand" data-page-link="home">
-      <img class="hex-mark" src="/assets/logo-icon-v2.png" alt="ELCON Icon">
+      <Image src={asset("/assets/logo-icon-v2.png")} class="hex-mark" alt="ELCON Icon" loading="eager" />
       <span class="brand-text">
         <span class="brand-word">ELCON</span>
         <span class="brand-tagline">Connected Building Engineering</span>
@@ -57,7 +90,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
         </div>
       </div>
       <div class="hero-art">
-        <img src="/assets/hero-building.jpg" alt="Modernes Firmengebäude mit technischer Gebäudeausrüstung">
+        <Image src={asset("/assets/hero-building.jpg")} alt="Modernes Firmengebäude mit technischer Gebäudeausrüstung" loading="eager" fetchpriority="high" />
         <span class="ai-badge"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.7 5.3L19 9l-5.3 1.7L12 16l-1.7-5.3L5 9l5.3-1.7L12 2z"/><path d="M19 14l.85 2.15L22 17l-2.15.85L19 20l-.85-2.15L16 17l2.15-.85L19 14z"/></svg>AI generated</span>
       </div>
     </div>
@@ -103,7 +136,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
       <div class="project-grid" id="projectGrid">
         <article class="project-card" data-category="elektro">
           <div class="project-art-wrap project-art-wrap--logo">
-            <div class="project-logo"><div class="project-logo-chip"><img src="/assets/logos/audi.png" alt="Audi Logo"></div></div>
+            <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/audi.png")} alt="Audi Logo" /></div></div>
           </div>
           <div class="project-body">
             <h3>Audi-Werk Ingolstadt, Umbau</h3>
@@ -113,7 +146,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
         </article>
         <article class="project-card" data-category="elektro">
           <div class="project-art-wrap project-art-wrap--logo">
-            <div class="project-logo"><div class="project-logo-chip project-logo-chip--sm"><img src="/assets/logos/volkswagen.png" alt="Volkswagen Logo"></div></div>
+            <div class="project-logo"><div class="project-logo-chip project-logo-chip--sm"><Image src={asset("/assets/logos/volkswagen.png")} alt="Volkswagen Logo" /></div></div>
           </div>
           <div class="project-body">
             <h3>VW-Werk Emden, Umbau Elektrofahrzeug</h3>
@@ -123,7 +156,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
         </article>
         <article class="project-card" data-category="planung">
           <div class="project-art-wrap project-art-wrap--logo">
-            <div class="project-logo project-logo--large"><div class="project-logo-chip project-logo-chip--large"><img src="/assets/logos/nordstream.png" alt="Nord Stream Logo"></div></div>
+            <div class="project-logo project-logo--large"><div class="project-logo-chip project-logo-chip--large"><Image src={asset("/assets/logos/nordstream.png")} alt="Nord Stream Logo" /></div></div>
           </div>
           <div class="project-body">
             <h3>Nord Stream Gaspipeline, Ostsee</h3>
@@ -133,7 +166,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
         </article>
         <article class="project-card" data-category="planung">
           <div class="project-art-wrap project-art-wrap--logo">
-            <div class="project-logo project-logo--large"><div class="project-logo-chip project-logo-chip--large"><img src="/assets/logos/nordstream2.png" alt="Nord Stream 2 Logo"></div></div>
+            <div class="project-logo project-logo--large"><div class="project-logo-chip project-logo-chip--large"><Image src={asset("/assets/logos/nordstream2.png")} alt="Nord Stream 2 Logo" /></div></div>
           </div>
           <div class="project-body">
             <h3>Nord Stream 2 Gaspipeline, Ostsee</h3>
@@ -143,7 +176,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
         </article>
         <article class="project-card" data-category="msr">
           <div class="project-art-wrap project-art-wrap--logo">
-            <div class="project-logo"><div class="project-logo-chip"><img src="/assets/logos/auswaertiges-amt.png" alt="Auswärtiges Amt Logo"></div></div>
+            <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/auswaertiges-amt.png")} alt="Auswärtiges Amt Logo" /></div></div>
           </div>
           <div class="project-body">
             <h3>Deutsche Botschaft, Kiew</h3>
@@ -153,7 +186,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
         </article>
         <article class="project-card" data-category="hkls">
           <div class="project-art-wrap project-art-wrap--logo">
-            <div class="project-logo"><div class="project-logo-chip"><img src="/assets/logos/siemens.png" alt="Siemens Logo"></div></div>
+            <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/siemens.png")} alt="Siemens Logo" /></div></div>
           </div>
           <div class="project-body">
             <h3>Brauerei Almaty Sosnadar</h3>
@@ -163,7 +196,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
         </article>
         <article class="project-card" data-category="elektro">
           <div class="project-art-wrap project-art-wrap--logo">
-            <div class="project-logo"><div class="project-logo-chip project-logo-chip--sm"><img src="/assets/logos/volkswagen.png" alt="Volkswagen Logo"></div></div>
+            <div class="project-logo"><div class="project-logo-chip project-logo-chip--sm"><Image src={asset("/assets/logos/volkswagen.png")} alt="Volkswagen Logo" /></div></div>
           </div>
           <div class="project-body">
             <h3>VW-Batteriewerk Salzgitter</h3>
@@ -173,7 +206,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
         </article>
         <article class="project-card" data-category="elektro">
           <div class="project-art-wrap project-art-wrap--logo">
-            <div class="project-logo"><div class="project-logo-chip project-logo-chip--sm"><img src="/assets/logos/volkswagen.png" alt="Volkswagen Logo"></div></div>
+            <div class="project-logo"><div class="project-logo-chip project-logo-chip--sm"><Image src={asset("/assets/logos/volkswagen.png")} alt="Volkswagen Logo" /></div></div>
           </div>
           <div class="project-body">
             <h3>VW-Werk, Crafter-Fertigung</h3>
@@ -183,7 +216,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
         </article>
         <article class="project-card" data-category="elektro">
           <div class="project-art-wrap project-art-wrap--logo">
-            <div class="project-logo"><div class="project-logo-chip project-logo-chip--sm"><img src="/assets/logos/volkswagen.png" alt="Volkswagen Logo"></div></div>
+            <div class="project-logo"><div class="project-logo-chip project-logo-chip--sm"><Image src={asset("/assets/logos/volkswagen.png")} alt="Volkswagen Logo" /></div></div>
           </div>
           <div class="project-body">
             <h3>VW-Werk Poznań, Caddy-Fertigung</h3>
@@ -193,7 +226,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
         </article>
         <article class="project-card" data-category="hkls">
           <div class="project-art-wrap project-art-wrap--logo">
-            <div class="project-logo project-logo--large"><div class="project-logo-chip project-logo-chip--large"><img src="/assets/logos/sos-kinderdorf.png" alt="SOS-Kinderdorf International Logo"></div></div>
+            <div class="project-logo project-logo--large"><div class="project-logo-chip project-logo-chip--large"><Image src={asset("/assets/logos/sos-kinderdorf.png")} alt="SOS-Kinderdorf International Logo" /></div></div>
           </div>
           <div class="project-body">
             <h3>SOS-Kinderdorf, Tansania</h3>
@@ -203,7 +236,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
         </article>
         <article class="project-card" data-category="hkls">
           <div class="project-art-wrap project-art-wrap--logo">
-            <div class="project-logo project-logo--large"><div class="project-logo-chip project-logo-chip--large"><img src="/assets/logos/sos-kinderdorf.png" alt="SOS-Kinderdorf International Logo"></div></div>
+            <div class="project-logo project-logo--large"><div class="project-logo-chip project-logo-chip--large"><Image src={asset("/assets/logos/sos-kinderdorf.png")} alt="SOS-Kinderdorf International Logo" /></div></div>
           </div>
           <div class="project-body">
             <h3>SOS-Kinderdorf, Äthiopien</h3>
@@ -213,7 +246,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
         </article>
         <article class="project-card" data-category="msr">
           <div class="project-art-wrap project-art-wrap--logo">
-            <div class="project-logo project-logo--large"><div class="project-logo-chip project-logo-chip--large"><img src="/assets/logos/schweiz-konsulat.png" alt="Schweizerische Eidgenossenschaft Logo"></div></div>
+            <div class="project-logo project-logo--large"><div class="project-logo-chip project-logo-chip--large"><Image src={asset("/assets/logos/schweiz-konsulat.png")} alt="Schweizerische Eidgenossenschaft Logo" /></div></div>
           </div>
           <div class="project-body">
             <h3>Schweizer Botschaft, Kiew</h3>
@@ -223,7 +256,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
         </article>
         <article class="project-card" data-category="msr">
           <div class="project-art-wrap project-art-wrap--logo">
-            <div class="project-logo project-logo--large"><div class="project-logo-chip project-logo-chip--large"><img src="/assets/logos/schweiz-konsulat.png" alt="Schweizerische Eidgenossenschaft Logo"></div></div>
+            <div class="project-logo project-logo--large"><div class="project-logo-chip project-logo-chip--large"><Image src={asset("/assets/logos/schweiz-konsulat.png")} alt="Schweizerische Eidgenossenschaft Logo" /></div></div>
           </div>
           <div class="project-body">
             <h3>Schweizer Botschaft, Republik Moldau</h3>
@@ -233,7 +266,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
         </article>
         <article class="project-card" data-category="elektro">
           <div class="project-art-wrap project-art-wrap--logo">
-            <div class="project-logo"><div class="project-logo-chip"><img src="/assets/logos/porsche.png" alt="Porsche Logo"></div></div>
+            <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/porsche.png")} alt="Porsche Logo" /></div></div>
           </div>
           <div class="project-body">
             <h3>Neubau Porsche-Zentrum, Moskau</h3>
@@ -243,7 +276,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
         </article>
         <article class="project-card" data-category="elektro">
           <div class="project-art-wrap project-art-wrap--logo">
-            <div class="project-logo"><div class="project-logo-chip"><img src="/assets/logos/gm.png" alt="General Motors Logo"></div></div>
+            <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/gm.png")} alt="General Motors Logo" /></div></div>
           </div>
           <div class="project-body">
             <h3>GM Headquarters, Moskau</h3>
@@ -253,7 +286,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
         </article>
         <article class="project-card" data-category="hkls">
           <div class="project-art-wrap project-art-wrap--logo">
-            <div class="project-logo"><div class="project-logo-chip"><img src="/assets/logos/selgros.png" alt="Selgros Logo"></div></div>
+            <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/selgros.png")} alt="Selgros Logo" /></div></div>
           </div>
           <div class="project-body">
             <h3>Selgros Cash &amp; Carry, Kotelniki</h3>
@@ -263,7 +296,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
         </article>
         <article class="project-card" data-category="hkls">
           <div class="project-art-wrap project-art-wrap--logo">
-            <div class="project-logo"><div class="project-logo-chip"><img src="/assets/logos/heineken.png" alt="Heineken Logo"></div></div>
+            <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/heineken.png")} alt="Heineken Logo" /></div></div>
           </div>
           <div class="project-body">
             <h3>Heineken Brauerei, Nischni Nowgorod</h3>
@@ -273,7 +306,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
         </article>
         <article class="project-card" data-category="hkls">
           <div class="project-art-wrap project-art-wrap--logo">
-            <div class="project-logo"><div class="project-logo-chip"><img src="/assets/logos/inbev.png" alt="AB InBev Logo"></div></div>
+            <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/inbev.png")} alt="AB InBev Logo" /></div></div>
           </div>
           <div class="project-body">
             <h3>InBev Brauerei, St. Petersburg</h3>
@@ -283,7 +316,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
         </article>
         <article class="project-card" data-category="msr">
           <div class="project-art-wrap project-art-wrap--logo">
-            <div class="project-logo project-logo--large"><div class="project-logo-chip project-logo-chip--large"><img src="/assets/logos/schweiz-konsulat.png" alt="Schweizerische Eidgenossenschaft Logo"></div></div>
+            <div class="project-logo project-logo--large"><div class="project-logo-chip project-logo-chip--large"><Image src={asset("/assets/logos/schweiz-konsulat.png")} alt="Schweizerische Eidgenossenschaft Logo" /></div></div>
           </div>
           <div class="project-body">
             <h3>Schweizer Konsulat, St. Petersburg</h3>
@@ -293,7 +326,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
         </article>
         <article class="project-card" data-category="elektro">
           <div class="project-art-wrap project-art-wrap--logo">
-            <div class="project-logo project-logo--large"><div class="project-logo-chip project-logo-chip--large"><img src="/assets/logos/schweiz-konsulat.png" alt="Schweizerische Eidgenossenschaft Logo"></div></div>
+            <div class="project-logo project-logo--large"><div class="project-logo-chip project-logo-chip--large"><Image src={asset("/assets/logos/schweiz-konsulat.png")} alt="Schweizerische Eidgenossenschaft Logo" /></div></div>
           </div>
           <div class="project-body">
             <h3>Schweizer Botschaft, Moskau</h3>
@@ -303,7 +336,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
         </article>
         <article class="project-card" data-category="elektro">
           <div class="project-art-wrap project-art-wrap--logo">
-            <div class="project-logo project-logo--large"><div class="project-logo-chip project-logo-chip--large"><img src="/assets/logos/continental.png" alt="Continental Logo"></div></div>
+            <div class="project-logo project-logo--large"><div class="project-logo-chip project-logo-chip--large"><Image src={asset("/assets/logos/continental.png")} alt="Continental Logo" /></div></div>
           </div>
           <div class="project-body">
             <h3>Continental Automotive Systems, Kaluga</h3>
@@ -313,7 +346,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
         </article>
         <article class="project-card" data-category="elektro">
           <div class="project-art-wrap project-art-wrap--logo">
-            <div class="project-logo project-logo--large"><div class="project-logo-chip project-logo-chip--large"><img src="/assets/logos/continental.png" alt="Continental Logo"></div></div>
+            <div class="project-logo project-logo--large"><div class="project-logo-chip project-logo-chip--large"><Image src={asset("/assets/logos/continental.png")} alt="Continental Logo" /></div></div>
           </div>
           <div class="project-body">
             <h3>Continental, Moskau</h3>
@@ -323,7 +356,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
         </article>
         <article class="project-card" data-category="netzwerk">
           <div class="project-art-wrap project-art-wrap--logo">
-            <div class="project-logo"><div class="project-logo-chip project-logo-chip--sm"><img src="/assets/logos/volkswagen.png" alt="Volkswagen Logo"></div></div>
+            <div class="project-logo"><div class="project-logo-chip project-logo-chip--sm"><Image src={asset("/assets/logos/volkswagen.png")} alt="Volkswagen Logo" /></div></div>
           </div>
           <div class="project-body">
             <h3>Volkswagen-Werk, Kaluga</h3>
@@ -333,7 +366,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
         </article>
         <article class="project-card" data-category="elektro">
           <div class="project-art-wrap project-art-wrap--logo">
-            <div class="project-logo"><div class="project-logo-chip"><img src="/assets/logos/benteler.png" alt="Benteler Logo"></div></div>
+            <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/benteler.png")} alt="Benteler Logo" /></div></div>
           </div>
           <div class="project-body">
             <h3>Benteler Automobiltechnik, Kaluga</h3>
@@ -343,7 +376,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
         </article>
         <article class="project-card" data-category="hkls">
           <div class="project-art-wrap project-art-wrap--logo">
-            <div class="project-logo"><div class="project-logo-chip"><img src="/assets/logos/ambassador-hotel.png" alt="Ambassador Hotel Logo"></div></div>
+            <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/ambassador-hotel.png")} alt="Ambassador Hotel Logo" /></div></div>
           </div>
           <div class="project-body">
             <h3>Ambassador Hotel &amp; Boardinghouse, Kaluga</h3>
@@ -353,7 +386,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
         </article>
         <article class="project-card" data-category="hkls">
           <div class="project-art-wrap project-art-wrap--logo">
-            <div class="project-logo project-logo--large"><div class="project-logo-dual"><div class="project-logo-chip"><img src="/assets/logos/hilton.png" alt="Hilton Logo"></div><div class="project-logo-chip"><img src="/assets/logos/hyatt.png" alt="Hyatt Logo"></div></div></div>
+            <div class="project-logo project-logo--large"><div class="project-logo-dual"><div class="project-logo-chip"><Image src={asset("/assets/logos/hilton.png")} alt="Hilton Logo" /></div><div class="project-logo-chip"><Image src={asset("/assets/logos/hyatt.png")} alt="Hyatt Logo" /></div></div></div>
           </div>
           <div class="project-body">
             <h3>Hilton / Ararat Park Hyatt Hotel, Moskau</h3>
@@ -363,7 +396,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
         </article>
         <article class="project-card" data-category="elektro">
           <div class="project-art-wrap project-art-wrap--logo">
-            <div class="project-logo"><div class="project-logo-chip"><img src="/assets/logos/billa.png" alt="BILLA Logo"></div></div>
+            <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/billa.png")} alt="BILLA Logo" /></div></div>
           </div>
           <div class="project-body">
             <h3>BILLA Einkaufsmärkte, Moskau</h3>
@@ -373,7 +406,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
         </article>
         <article class="project-card" data-category="elektro">
           <div class="project-art-wrap project-art-wrap--logo">
-            <div class="project-logo"><div class="project-logo-chip"><img src="/assets/logos/mitsubishi.png" alt="Mitsubishi Logo"></div></div>
+            <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/mitsubishi.png")} alt="Mitsubishi Logo" /></div></div>
           </div>
           <div class="project-body">
             <h3>Mitsubishi Servicestation, Moskau</h3>
@@ -383,7 +416,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
         </article>
         <article class="project-card" data-category="msr">
           <div class="project-art-wrap project-art-wrap--logo">
-            <div class="project-logo"><div class="project-logo-chip"><img src="/assets/logos/eu.png" alt="Botschaft der Europäischen Union Logo"></div></div>
+            <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/eu.png")} alt="Botschaft der Europäischen Union Logo" /></div></div>
           </div>
           <div class="project-body">
             <h3>Botschaft der Europäischen Union, Moskau</h3>
@@ -393,7 +426,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
         </article>
         <article class="project-card" data-category="elektro">
           <div class="project-art-wrap project-art-wrap--logo">
-            <div class="project-logo"><div class="project-logo-chip"><img src="/assets/logos/thyssenkrupp.png" alt="thyssenkrupp Logo"></div></div>
+            <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/thyssenkrupp.png")} alt="thyssenkrupp Logo" /></div></div>
           </div>
           <div class="project-body">
             <h3>thyssenkrupp Schiffslackiererei, Rijeka</h3>
@@ -403,7 +436,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
         </article>
         <article class="project-card" data-category="msr">
           <div class="project-art-wrap project-art-wrap--logo">
-            <div class="project-logo"><div class="project-logo-chip"><img src="/assets/logos/osce.png" alt="OSZE Logo"></div></div>
+            <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/osce.png")} alt="OSZE Logo" /></div></div>
           </div>
           <div class="project-body">
             <h3>OSZE-Hauptquartier, Pristina</h3>
@@ -413,7 +446,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
         </article>
         <article class="project-card" data-category="elektro">
           <div class="project-art-wrap project-art-wrap--logo">
-            <div class="project-logo"><div class="project-logo-chip"><img src="/assets/logos/bautech.png" alt="Bautech Logo"></div></div>
+            <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/bautech.png")} alt="Bautech Logo" /></div></div>
           </div>
           <div class="project-body">
             <h3>Bautech, Gewerbebau</h3>
@@ -423,7 +456,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
         </article>
         <article class="project-card" data-category="elektro">
           <div class="project-art-wrap project-art-wrap--logo">
-            <div class="project-logo"><div class="project-logo-chip"><img src="/assets/logos/hochtief.png" alt="HOCHTIEF Logo"></div></div>
+            <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/hochtief.png")} alt="HOCHTIEF Logo" /></div></div>
           </div>
           <div class="project-body">
             <h3>HOCHTIEF, Gewerbebau</h3>
@@ -433,7 +466,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
         </article>
         <article class="project-card" data-category="elektro">
           <div class="project-art-wrap project-art-wrap--logo">
-            <div class="project-logo"><div class="project-logo-chip"><img src="/assets/logos/roche.png" alt="Hoffmann-La Roche Logo"></div></div>
+            <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/roche.png")} alt="Hoffmann-La Roche Logo" /></div></div>
           </div>
           <div class="project-body">
             <h3>Hoffmann-La Roche Verwaltungsgebäude, Moskau</h3>
@@ -443,7 +476,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
         </article>
         <article class="project-card" data-category="hkls">
           <div class="project-art-wrap project-art-wrap--logo">
-            <div class="project-logo"><div class="project-logo-chip"><img src="/assets/logos/care.png" alt="CARE International Logo"></div></div>
+            <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/care.png")} alt="CARE International Logo" /></div></div>
           </div>
           <div class="project-body">
             <h3>CARE International, Reha-Zentrum</h3>
@@ -453,7 +486,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
         </article>
         <article class="project-card" data-category="elektro">
           <div class="project-art-wrap project-art-wrap--logo">
-            <div class="project-logo"><div class="project-logo-chip"><img src="/assets/logos/streif.png" alt="STREIF Logo"></div></div>
+            <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/streif.png")} alt="STREIF Logo" /></div></div>
           </div>
           <div class="project-body">
             <h3>STREIF, Bauprojekt</h3>
@@ -463,7 +496,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
         </article>
         <article class="project-card" data-category="elektro">
           <div class="project-art-wrap project-art-wrap--logo">
-            <div class="project-logo"><div class="project-logo-chip"><img src="/assets/logos/auswaertiges-amt.png" alt="Auswärtiges Amt Logo"></div></div>
+            <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/auswaertiges-amt.png")} alt="Auswärtiges Amt Logo" /></div></div>
           </div>
           <div class="project-body">
             <h3>Deutsche Botschaft, Riga</h3>
@@ -473,7 +506,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
         </article>
         <article class="project-card" data-category="elektro">
           <div class="project-art-wrap project-art-wrap--logo">
-            <div class="project-logo"><div class="project-logo-chip"><img src="/assets/logos/auswaertiges-amt.png" alt="Auswärtiges Amt Logo"></div></div>
+            <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/auswaertiges-amt.png")} alt="Auswärtiges Amt Logo" /></div></div>
           </div>
           <div class="project-body">
             <h3>Wohnkomplex Deutsche Botschaft, Moskau</h3>
@@ -483,7 +516,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
         </article>
         <article class="project-card" data-category="elektro">
           <div class="project-art-wrap project-art-wrap--logo">
-            <div class="project-logo"><div class="project-logo-chip"><img src="/assets/logos/philipp-holzmann.png" alt="Philipp Holzmann AG Logo"></div></div>
+            <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/philipp-holzmann.png")} alt="Philipp Holzmann AG Logo" /></div></div>
           </div>
           <div class="project-body">
             <h3>Modernisierungsprojekt Moskau</h3>
@@ -499,7 +532,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
         <section class="ref-showcase">
           <div class="ref-stage">
             <!-- Platzhalter-Bild: vorhandenes Projekt-Stock-Asset (bereits im Leistungen-Bereich verwendet). Bildrechte für den finalen Produktiveinsatz separat prüfen; bei Bedarf gegen ein reales ELCON-Projektfoto austauschen. -->
-            <img src="/assets/offer/technik-msr.jpg" width="900" height="519" alt="Technische Gebäudeausrüstung in einer Gewerbeimmobilie — Schaltschrank mit Gebäudeleittechnik">
+            <Image src={asset("/assets/offer/technik-msr.jpg")} width="900" height="519" alt="Technische Gebäudeausrüstung in einer Gewerbeimmobilie — Schaltschrank mit Gebäudeleittechnik" />
             <span class="ai-badge"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.7 5.3L19 9l-5.3 1.7L12 16l-1.7-5.3L5 9l5.3-1.7L12 2z"/><path d="M19 14l.85 2.15L22 17l-2.15.85L19 20l-.85-2.15L16 17l2.15-.85L19 14z"/></svg>AI generated</span>
             <div class="ref-stage-overlay"></div>
             <div class="ref-stage-content wrap">
@@ -603,122 +636,122 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
           <button type="button" class="tc-nav tc-prev" id="tcPrev" aria-label="Vorheriges Schreiben">&#8249;</button>
           <div class="tc-track" id="tcTrack">
             <figure class="tc-slide" data-index="0">
-              <button type="button" class="tc-thumb" data-full="/assets/testimonials/expo2000-hannover-2000.jpg" data-sender="EXPO 2000 Hannover GmbH" data-date="31. Oktober 2000" aria-label="Vergrößern: EXPO 2000 Hannover GmbH, 31. Oktober 2000">
-                <img src="/assets/testimonials/expo2000-hannover-2000.jpg" alt="Dankschreiben EXPO 2000 Hannover GmbH für die Ticketvertriebs-Partnerschaft" loading="lazy">
+              <button type="button" class="tc-thumb" data-full={assetUrls["/assets/testimonials/expo2000-hannover-2000.jpg"]} data-sender="EXPO 2000 Hannover GmbH" data-date="31. Oktober 2000" aria-label="Vergrößern: EXPO 2000 Hannover GmbH, 31. Oktober 2000">
+                <Image src={asset("/assets/testimonials/expo2000-hannover-2000.jpg")} alt="Dankschreiben EXPO 2000 Hannover GmbH für die Ticketvertriebs-Partnerschaft" />
               </button>
               <figcaption><strong>EXPO 2000 Hannover GmbH</strong><span>31. Oktober 2000</span></figcaption>
             </figure>
             <figure class="tc-slide" data-index="1">
-              <button type="button" class="tc-thumb" data-full="/assets/testimonials/kaluga-brewing-company-2001.jpg" data-sender="The Kaluga Brewing Company" data-date="13. März 2001" aria-label="Vergrößern: The Kaluga Brewing Company, 13. März 2001">
-                <img src="/assets/testimonials/kaluga-brewing-company-2001.jpg" alt="Empfehlungsschreiben The Kaluga Brewing Company" loading="lazy">
+              <button type="button" class="tc-thumb" data-full={assetUrls["/assets/testimonials/kaluga-brewing-company-2001.jpg"]} data-sender="The Kaluga Brewing Company" data-date="13. März 2001" aria-label="Vergrößern: The Kaluga Brewing Company, 13. März 2001">
+                <Image src={asset("/assets/testimonials/kaluga-brewing-company-2001.jpg")} alt="Empfehlungsschreiben The Kaluga Brewing Company" />
               </button>
               <figcaption><strong>The Kaluga Brewing Company</strong><span>13. März 2001</span></figcaption>
             </figure>
             <figure class="tc-slide" data-index="2">
-              <button type="button" class="tc-thumb" data-full="/assets/testimonials/kbc-dankschreiben-2001.jpg" data-sender="Kaluga Brewing Company" data-date="15. Juni 2001" aria-label="Vergrößern: Kaluga Brewing Company, 15. Juni 2001">
-                <img src="/assets/testimonials/kbc-dankschreiben-2001.jpg" alt="Dankschreiben Kaluga Brewing Company" loading="lazy">
+              <button type="button" class="tc-thumb" data-full={assetUrls["/assets/testimonials/kbc-dankschreiben-2001.jpg"]} data-sender="Kaluga Brewing Company" data-date="15. Juni 2001" aria-label="Vergrößern: Kaluga Brewing Company, 15. Juni 2001">
+                <Image src={asset("/assets/testimonials/kbc-dankschreiben-2001.jpg")} alt="Dankschreiben Kaluga Brewing Company" />
               </button>
               <figcaption><strong>Kaluga Brewing Company</strong><span>15. Juni 2001</span></figcaption>
             </figure>
             <figure class="tc-slide" data-index="3">
-              <button type="button" class="tc-thumb" data-full="/assets/testimonials/niedersaechsischer-landtag-stolze-2001.jpg" data-sender="Niedersächsischer Landtag · M. Stolze MdL" data-date="17. November 2001" aria-label="Vergrößern: Niedersächsischer Landtag · M. Stolze MdL, 17. November 2001">
-                <img src="/assets/testimonials/niedersaechsischer-landtag-stolze-2001.jpg" alt="Schreiben von Michael Stolze MdL, Niedersächsischer Landtag" loading="lazy">
+              <button type="button" class="tc-thumb" data-full={assetUrls["/assets/testimonials/niedersaechsischer-landtag-stolze-2001.jpg"]} data-sender="Niedersächsischer Landtag · M. Stolze MdL" data-date="17. November 2001" aria-label="Vergrößern: Niedersächsischer Landtag · M. Stolze MdL, 17. November 2001">
+                <Image src={asset("/assets/testimonials/niedersaechsischer-landtag-stolze-2001.jpg")} alt="Schreiben von Michael Stolze MdL, Niedersächsischer Landtag" />
               </button>
               <figcaption><strong>Niedersächsischer Landtag · M. Stolze MdL</strong><span>17. November 2001</span></figcaption>
             </figure>
             <figure class="tc-slide" data-index="4">
-              <button type="button" class="tc-thumb" data-full="/assets/testimonials/bundesamt-bauwesen-riga-2002.jpg" data-sender="Bundesamt für Bauwesen und Raumordnung" data-date="3. Januar 2002" aria-label="Vergrößern: Bundesamt für Bauwesen und Raumordnung, 3. Januar 2002">
-                <img src="/assets/testimonials/bundesamt-bauwesen-riga-2002.jpg" alt="Bestätigung Bundesamt für Bauwesen und Raumordnung zur Sanierung der Deutschen Botschaft Riga" loading="lazy">
+              <button type="button" class="tc-thumb" data-full={assetUrls["/assets/testimonials/bundesamt-bauwesen-riga-2002.jpg"]} data-sender="Bundesamt für Bauwesen und Raumordnung" data-date="3. Januar 2002" aria-label="Vergrößern: Bundesamt für Bauwesen und Raumordnung, 3. Januar 2002">
+                <Image src={asset("/assets/testimonials/bundesamt-bauwesen-riga-2002.jpg")} alt="Bestätigung Bundesamt für Bauwesen und Raumordnung zur Sanierung der Deutschen Botschaft Riga" />
               </button>
               <figcaption><strong>Bundesamt für Bauwesen und Raumordnung</strong><span>3. Januar 2002</span></figcaption>
             </figure>
             <figure class="tc-slide" data-index="5">
-              <button type="button" class="tc-thumb" data-full="/assets/testimonials/valentin-klein-rexel-2002-01.jpg" data-sender="Valentin Klein GmbH / Rexel" data-date="9. Januar 2002" aria-label="Vergrößern: Valentin Klein GmbH / Rexel, 9. Januar 2002">
-                <img src="/assets/testimonials/valentin-klein-rexel-2002-01.jpg" alt="Dankschreiben Valentin Klein GmbH / Rexel Elektrotechnik" loading="lazy">
+              <button type="button" class="tc-thumb" data-full={assetUrls["/assets/testimonials/valentin-klein-rexel-2002-01.jpg"]} data-sender="Valentin Klein GmbH / Rexel" data-date="9. Januar 2002" aria-label="Vergrößern: Valentin Klein GmbH / Rexel, 9. Januar 2002">
+                <Image src={asset("/assets/testimonials/valentin-klein-rexel-2002-01.jpg")} alt="Dankschreiben Valentin Klein GmbH / Rexel Elektrotechnik" />
               </button>
               <figcaption><strong>Valentin Klein GmbH / Rexel</strong><span>9. Januar 2002</span></figcaption>
             </figure>
             <figure class="tc-slide" data-index="6">
-              <button type="button" class="tc-thumb" data-full="/assets/testimonials/imco-moldova-vereinbarung-2002.jpg" data-sender="IMCO Ltd, Chișinău" data-date="11. Januar 2002" aria-label="Vergrößern: IMCO Ltd, Chișinău, 11. Januar 2002">
-                <img src="/assets/testimonials/imco-moldova-vereinbarung-2002.jpg" alt="Kooperationsvereinbarung ELCON GmbH und IMCO Ltd, Chișinău" loading="lazy">
+              <button type="button" class="tc-thumb" data-full={assetUrls["/assets/testimonials/imco-moldova-vereinbarung-2002.jpg"]} data-sender="IMCO Ltd, Chișinău" data-date="11. Januar 2002" aria-label="Vergrößern: IMCO Ltd, Chișinău, 11. Januar 2002">
+                <Image src={asset("/assets/testimonials/imco-moldova-vereinbarung-2002.jpg")} alt="Kooperationsvereinbarung ELCON GmbH und IMCO Ltd, Chișinău" />
               </button>
               <figcaption><strong>IMCO Ltd, Chișinău</strong><span>11. Januar 2002</span></figcaption>
             </figure>
             <figure class="tc-slide" data-index="7">
-              <button type="button" class="tc-thumb" data-full="/assets/testimonials/ministerul-energeticii-moldova-2002-01.jpg" data-sender="Ministerul Energeticii al Republicii Moldova" data-date="22. Januar 2002" aria-label="Vergrößern: Ministerul Energeticii al Republicii Moldova, 22. Januar 2002">
-                <img src="/assets/testimonials/ministerul-energeticii-moldova-2002-01.jpg" alt="Schreiben des Energieministeriums der Republik Moldau" loading="lazy">
+              <button type="button" class="tc-thumb" data-full={assetUrls["/assets/testimonials/ministerul-energeticii-moldova-2002-01.jpg"]} data-sender="Ministerul Energeticii al Republicii Moldova" data-date="22. Januar 2002" aria-label="Vergrößern: Ministerul Energeticii al Republicii Moldova, 22. Januar 2002">
+                <Image src={asset("/assets/testimonials/ministerul-energeticii-moldova-2002-01.jpg")} alt="Schreiben des Energieministeriums der Republik Moldau" />
               </button>
               <figcaption><strong>Ministerul Energeticii al Republicii Moldova</strong><span>22. Januar 2002</span></figcaption>
             </figure>
             <figure class="tc-slide" data-index="8">
-              <button type="button" class="tc-thumb" data-full="/assets/testimonials/energiewerkstatt-2002.jpg" data-sender="energiewerkstatt GmbH" data-date="23. Januar 2002" aria-label="Vergrößern: energiewerkstatt GmbH, 23. Januar 2002">
-                <img src="/assets/testimonials/energiewerkstatt-2002.jpg" alt="Dankschreiben energiewerkstatt Gesellschaft für rationelle Energieverwendung mbH" loading="lazy">
+              <button type="button" class="tc-thumb" data-full={assetUrls["/assets/testimonials/energiewerkstatt-2002.jpg"]} data-sender="energiewerkstatt GmbH" data-date="23. Januar 2002" aria-label="Vergrößern: energiewerkstatt GmbH, 23. Januar 2002">
+                <Image src={asset("/assets/testimonials/energiewerkstatt-2002.jpg")} alt="Dankschreiben energiewerkstatt Gesellschaft für rationelle Energieverwendung mbH" />
               </button>
               <figcaption><strong>energiewerkstatt GmbH</strong><span>23. Januar 2002</span></figcaption>
             </figure>
             <figure class="tc-slide" data-index="9">
-              <button type="button" class="tc-thumb" data-full="/assets/testimonials/beta-gmbh-2002.jpg" data-sender="beta GmbH" data-date="24. Januar 2002" aria-label="Vergrößern: beta GmbH, 24. Januar 2002">
-                <img src="/assets/testimonials/beta-gmbh-2002.jpg" alt="Dankschreiben beta GmbH Betrieb energietechnischer Anlagen" loading="lazy">
+              <button type="button" class="tc-thumb" data-full={assetUrls["/assets/testimonials/beta-gmbh-2002.jpg"]} data-sender="beta GmbH" data-date="24. Januar 2002" aria-label="Vergrößern: beta GmbH, 24. Januar 2002">
+                <Image src={asset("/assets/testimonials/beta-gmbh-2002.jpg")} alt="Dankschreiben beta GmbH Betrieb energietechnischer Anlagen" />
               </button>
               <figcaption><strong>beta GmbH</strong><span>24. Januar 2002</span></figcaption>
             </figure>
             <figure class="tc-slide" data-index="10">
-              <button type="button" class="tc-thumb" data-full="/assets/testimonials/bundestag-kansy-2002.jpg" data-sender="Deutscher Bundestag · Dr.-Ing. D. Kansy MdB" data-date="24. Januar 2002" aria-label="Vergrößern: Deutscher Bundestag · Dr.-Ing. D. Kansy MdB, 24. Januar 2002">
-                <img src="/assets/testimonials/bundestag-kansy-2002.jpg" alt="Schreiben von Dr.-Ing. Dietmar Kansy MdB, Deutscher Bundestag" loading="lazy">
+              <button type="button" class="tc-thumb" data-full={assetUrls["/assets/testimonials/bundestag-kansy-2002.jpg"]} data-sender="Deutscher Bundestag · Dr.-Ing. D. Kansy MdB" data-date="24. Januar 2002" aria-label="Vergrößern: Deutscher Bundestag · Dr.-Ing. D. Kansy MdB, 24. Januar 2002">
+                <Image src={asset("/assets/testimonials/bundestag-kansy-2002.jpg")} alt="Schreiben von Dr.-Ing. Dietmar Kansy MdB, Deutscher Bundestag" />
               </button>
               <figcaption><strong>Deutscher Bundestag · Dr.-Ing. D. Kansy MdB</strong><span>24. Januar 2002</span></figcaption>
             </figure>
             <figure class="tc-slide" data-index="11">
-              <button type="button" class="tc-thumb" data-full="/assets/testimonials/niedersaechsischer-landtag-heide-2002.jpg" data-sender="Niedersächsischer Landtag · L. von der Heide MdL" data-date="4. Februar 2002" aria-label="Vergrößern: Niedersächsischer Landtag · L. von der Heide MdL, 4. Februar 2002">
-                <img src="/assets/testimonials/niedersaechsischer-landtag-heide-2002.jpg" alt="Schreiben von Lutz von der Heide MdL, Niedersächsischer Landtag" loading="lazy">
+              <button type="button" class="tc-thumb" data-full={assetUrls["/assets/testimonials/niedersaechsischer-landtag-heide-2002.jpg"]} data-sender="Niedersächsischer Landtag · L. von der Heide MdL" data-date="4. Februar 2002" aria-label="Vergrößern: Niedersächsischer Landtag · L. von der Heide MdL, 4. Februar 2002">
+                <Image src={asset("/assets/testimonials/niedersaechsischer-landtag-heide-2002.jpg")} alt="Schreiben von Lutz von der Heide MdL, Niedersächsischer Landtag" />
               </button>
               <figcaption><strong>Niedersächsischer Landtag · L. von der Heide MdL</strong><span>4. Februar 2002</span></figcaption>
             </figure>
             <figure class="tc-slide" data-index="12">
-              <button type="button" class="tc-thumb" data-full="/assets/testimonials/bundeskanzleramt-2002.jpg" data-sender="Bundesrepublik Deutschland, Der Bundeskanzler" data-date="5. Februar 2002" aria-label="Vergrößern: Bundesrepublik Deutschland, Der Bundeskanzler, 5. Februar 2002">
-                <img src="/assets/testimonials/bundeskanzleramt-2002.jpg" alt="Schreiben aus dem Bundeskanzleramt im Auftrag von Bundeskanzler Schröder" loading="lazy">
+              <button type="button" class="tc-thumb" data-full={assetUrls["/assets/testimonials/bundeskanzleramt-2002.jpg"]} data-sender="Bundesrepublik Deutschland, Der Bundeskanzler" data-date="5. Februar 2002" aria-label="Vergrößern: Bundesrepublik Deutschland, Der Bundeskanzler, 5. Februar 2002">
+                <Image src={asset("/assets/testimonials/bundeskanzleramt-2002.jpg")} alt="Schreiben aus dem Bundeskanzleramt im Auftrag von Bundeskanzler Schröder" />
               </button>
               <figcaption><strong>Bundesrepublik Deutschland, Der Bundeskanzler</strong><span>5. Februar 2002</span></figcaption>
             </figure>
             <figure class="tc-slide" data-index="13">
-              <button type="button" class="tc-thumb" data-full="/assets/testimonials/siemens-spls-2002.jpg" data-sender="Siemens SPLS · Jörg Mattern" data-date="28. Februar 2002" aria-label="Vergrößern: Siemens SPLS · Jörg Mattern, 28. Februar 2002">
-                <img src="/assets/testimonials/siemens-spls-2002.jpg" alt="Dankschreiben Siemens Procurement and Logistics Services" loading="lazy">
+              <button type="button" class="tc-thumb" data-full={assetUrls["/assets/testimonials/siemens-spls-2002.jpg"]} data-sender="Siemens SPLS · Jörg Mattern" data-date="28. Februar 2002" aria-label="Vergrößern: Siemens SPLS · Jörg Mattern, 28. Februar 2002">
+                <Image src={asset("/assets/testimonials/siemens-spls-2002.jpg")} alt="Dankschreiben Siemens Procurement and Logistics Services" />
               </button>
               <figcaption><strong>Siemens SPLS · Jörg Mattern</strong><span>28. Februar 2002</span></figcaption>
             </figure>
             <figure class="tc-slide" data-index="14">
-              <button type="button" class="tc-thumb" data-full="/assets/testimonials/abb-airport-technologies-2002.jpg" data-sender="ABB Airport Technologies GmbH" data-date="18. März 2002" aria-label="Vergrößern: ABB Airport Technologies GmbH, 18. März 2002">
-                <img src="/assets/testimonials/abb-airport-technologies-2002.jpg" alt="Bestätigung ABB Airport Technologies GmbH" loading="lazy">
+              <button type="button" class="tc-thumb" data-full={assetUrls["/assets/testimonials/abb-airport-technologies-2002.jpg"]} data-sender="ABB Airport Technologies GmbH" data-date="18. März 2002" aria-label="Vergrößern: ABB Airport Technologies GmbH, 18. März 2002">
+                <Image src={asset("/assets/testimonials/abb-airport-technologies-2002.jpg")} alt="Bestätigung ABB Airport Technologies GmbH" />
               </button>
               <figcaption><strong>ABB Airport Technologies GmbH</strong><span>18. März 2002</span></figcaption>
             </figure>
             <figure class="tc-slide" data-index="15">
-              <button type="button" class="tc-thumb" data-full="/assets/testimonials/ministerul-energeticii-moldova-2002-02.jpg" data-sender="Ministerul Energeticii al Republicii Moldova" data-date="2002" aria-label="Vergrößern: Ministerul Energeticii al Republicii Moldova, 2002">
-                <img src="/assets/testimonials/ministerul-energeticii-moldova-2002-02.jpg" alt="Dankschreiben des Energieministeriums der Republik Moldau" loading="lazy">
+              <button type="button" class="tc-thumb" data-full={assetUrls["/assets/testimonials/ministerul-energeticii-moldova-2002-02.jpg"]} data-sender="Ministerul Energeticii al Republicii Moldova" data-date="2002" aria-label="Vergrößern: Ministerul Energeticii al Republicii Moldova, 2002">
+                <Image src={asset("/assets/testimonials/ministerul-energeticii-moldova-2002-02.jpg")} alt="Dankschreiben des Energieministeriums der Republik Moldau" />
               </button>
               <figcaption><strong>Ministerul Energeticii al Republicii Moldova</strong><span>2002</span></figcaption>
             </figure>
             <figure class="tc-slide" data-index="16">
-              <button type="button" class="tc-thumb" data-full="/assets/testimonials/rexel-valentin-klein-2002-08.jpg" data-sender="REXEL Deutschland / Valentin Klein" data-date="12. August 2002" aria-label="Vergrößern: REXEL Deutschland / Valentin Klein, 12. August 2002">
-                <img src="/assets/testimonials/rexel-valentin-klein-2002-08.jpg" alt="Dankschreiben REXEL Deutschland Elektrofachgroßhandel" loading="lazy">
+              <button type="button" class="tc-thumb" data-full={assetUrls["/assets/testimonials/rexel-valentin-klein-2002-08.jpg"]} data-sender="REXEL Deutschland / Valentin Klein" data-date="12. August 2002" aria-label="Vergrößern: REXEL Deutschland / Valentin Klein, 12. August 2002">
+                <Image src={asset("/assets/testimonials/rexel-valentin-klein-2002-08.jpg")} alt="Dankschreiben REXEL Deutschland Elektrofachgroßhandel" />
               </button>
               <figcaption><strong>REXEL Deutschland / Valentin Klein</strong><span>12. August 2002</span></figcaption>
             </figure>
             <figure class="tc-slide" data-index="17">
-              <button type="button" class="tc-thumb" data-full="/assets/testimonials/sonepar-2002.jpg" data-sender="Sonepar Deutschland, Region Nord-Ost" data-date="14. August 2002" aria-label="Vergrößern: Sonepar Deutschland, Region Nord-Ost, 14. August 2002">
-                <img src="/assets/testimonials/sonepar-2002.jpg" alt="Dankschreiben Sonepar Deutschland/Region Nord-Ost GmbH" loading="lazy">
+              <button type="button" class="tc-thumb" data-full={assetUrls["/assets/testimonials/sonepar-2002.jpg"]} data-sender="Sonepar Deutschland, Region Nord-Ost" data-date="14. August 2002" aria-label="Vergrößern: Sonepar Deutschland, Region Nord-Ost, 14. August 2002">
+                <Image src={asset("/assets/testimonials/sonepar-2002.jpg")} alt="Dankschreiben Sonepar Deutschland/Region Nord-Ost GmbH" />
               </button>
               <figcaption><strong>Sonepar Deutschland, Region Nord-Ost</strong><span>14. August 2002</span></figcaption>
             </figure>
             <figure class="tc-slide" data-index="18">
-              <button type="button" class="tc-thumb" data-full="/assets/testimonials/assmann-beraten-planen-2003.jpg" data-sender="ASSMANN BERATEN + PLANEN GmbH" data-date="22. April 2003" aria-label="Vergrößern: ASSMANN BERATEN + PLANEN GmbH, 22. April 2003">
-                <img src="/assets/testimonials/assmann-beraten-planen-2003.jpg" alt="Schreiben ASSMANN BERATEN + PLANEN GmbH" loading="lazy">
+              <button type="button" class="tc-thumb" data-full={assetUrls["/assets/testimonials/assmann-beraten-planen-2003.jpg"]} data-sender="ASSMANN BERATEN + PLANEN GmbH" data-date="22. April 2003" aria-label="Vergrößern: ASSMANN BERATEN + PLANEN GmbH, 22. April 2003">
+                <Image src={asset("/assets/testimonials/assmann-beraten-planen-2003.jpg")} alt="Schreiben ASSMANN BERATEN + PLANEN GmbH" />
               </button>
               <figcaption><strong>ASSMANN BERATEN + PLANEN GmbH</strong><span>22. April 2003</span></figcaption>
             </figure>
             <figure class="tc-slide" data-index="19">
-              <button type="button" class="tc-thumb" data-full="/assets/testimonials/merten-2006.jpg" data-sender="Merten GmbH & Co. KG" data-date="15. Februar 2006" aria-label="Vergrößern: Merten GmbH & Co. KG, 15. Februar 2006">
-                <img src="/assets/testimonials/merten-2006.jpg" alt="Persönliches Schreiben Merten GmbH & Co. KG" loading="lazy">
+              <button type="button" class="tc-thumb" data-full={assetUrls["/assets/testimonials/merten-2006.jpg"]} data-sender="Merten GmbH & Co. KG" data-date="15. Februar 2006" aria-label="Vergrößern: Merten GmbH & Co. KG, 15. Februar 2006">
+                <Image src={asset("/assets/testimonials/merten-2006.jpg")} alt="Persönliches Schreiben Merten GmbH & Co. KG" />
               </button>
               <figcaption><strong>Merten GmbH & Co. KG</strong><span>15. Februar 2006</span></figcaption>
             </figure>
@@ -743,7 +776,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
 
       <div class="company-showcase">
         <div class="company-art">
-          <img src="/assets/unternehmen/team-planung.jpg" alt="Zwei ELCON-Techniker besprechen einen Anlagenplan vor der technischen Gebäudeausrüstung">
+          <Image src={asset("/assets/unternehmen/team-planung.jpg")} alt="Zwei ELCON-Techniker besprechen einen Anlagenplan vor der technischen Gebäudeausrüstung" />
           <span class="ai-badge"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.7 5.3L19 9l-5.3 1.7L12 16l-1.7-5.3L5 9l5.3-1.7L12 2z"/><path d="M19 14l.85 2.15L22 17l-2.15.85L19 20l-.85-2.15L16 17l2.15-.85L19 14z"/></svg>AI generated</span>
           <div class="company-art-overlay"></div>
           <blockquote class="leitbild">„Wir sind der verlässliche Generalunternehmer für technische Gebäudeausrüstung — wir planen, bauen und betreuen Elektro-, Heizungs-, Klima-, Lüftungs-, Sanitär- und Automatisierungstechnik aus einer Hand, persönlich und mit langjähriger Erfahrung.“</blockquote>
@@ -819,7 +852,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
         </div>
         <div class="phase-grid">
           <div class="phase-item">
-            <div class="phase-photo"><img src="/assets/leistungen/planbesprechung-baustelle.jpg" alt="Zwei Techniker besprechen Baupläne auf der Baustelle"><span class="ai-badge"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.7 5.3L19 9l-5.3 1.7L12 16l-1.7-5.3L5 9l5.3-1.7L12 2z"/><path d="M19 14l.85 2.15L22 17l-2.15.85L19 20l-.85-2.15L16 17l2.15-.85L19 14z"/></svg>AI generated</span></div>
+            <div class="phase-photo"><Image src={asset("/assets/leistungen/planbesprechung-baustelle.jpg")} alt="Zwei Techniker besprechen Baupläne auf der Baustelle" /><span class="ai-badge"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.7 5.3L19 9l-5.3 1.7L12 16l-1.7-5.3L5 9l5.3-1.7L12 2z"/><path d="M19 14l.85 2.15L22 17l-2.15.85L19 20l-.85-2.15L16 17l2.15-.85L19 14z"/></svg>AI generated</span></div>
             <div class="phase-item-body">
               <div class="phase-num">01</div>
               <h3>Projektierung</h3>
@@ -827,7 +860,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
             </div>
           </div>
           <div class="phase-item">
-            <div class="phase-photo"><img src="/assets/leistungen/team-montage.jpg" alt="Vierköpfiges Montageteam bei der Installation eines Schaltschranks auf der Baustelle"><span class="ai-badge"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.7 5.3L19 9l-5.3 1.7L12 16l-1.7-5.3L5 9l5.3-1.7L12 2z"/><path d="M19 14l.85 2.15L22 17l-2.15.85L19 20l-.85-2.15L16 17l2.15-.85L19 14z"/></svg>AI generated</span></div>
+            <div class="phase-photo"><Image src={asset("/assets/leistungen/team-montage.jpg")} alt="Vierköpfiges Montageteam bei der Installation eines Schaltschranks auf der Baustelle" /><span class="ai-badge"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.7 5.3L19 9l-5.3 1.7L12 16l-1.7-5.3L5 9l5.3-1.7L12 2z"/><path d="M19 14l.85 2.15L22 17l-2.15.85L19 20l-.85-2.15L16 17l2.15-.85L19 14z"/></svg>AI generated</span></div>
             <div class="phase-item-body">
               <div class="phase-num">02</div>
               <h3>Montagearbeiten</h3>
@@ -835,7 +868,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
             </div>
           </div>
           <div class="phase-item">
-            <div class="phase-photo"><img src="/assets/leistungen/thermografie.jpg" alt="Techniker führt eine Thermografie-Inspektion an einer Schaltanlage durch"><span class="ai-badge"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.7 5.3L19 9l-5.3 1.7L12 16l-1.7-5.3L5 9l5.3-1.7L12 2z"/><path d="M19 14l.85 2.15L22 17l-2.15.85L19 20l-.85-2.15L16 17l2.15-.85L19 14z"/></svg>AI generated</span></div>
+            <div class="phase-photo"><Image src={asset("/assets/leistungen/thermografie.jpg")} alt="Techniker führt eine Thermografie-Inspektion an einer Schaltanlage durch" /><span class="ai-badge"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.7 5.3L19 9l-5.3 1.7L12 16l-1.7-5.3L5 9l5.3-1.7L12 2z"/><path d="M19 14l.85 2.15L22 17l-2.15.85L19 20l-.85-2.15L16 17l2.15-.85L19 14z"/></svg>AI generated</span></div>
             <div class="phase-item-body">
               <div class="phase-num">03</div>
               <h3>Wartung, Instandhaltung &amp; Reparatur</h3>
@@ -861,7 +894,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
           </div>
         </div>
         <figure class="capability-photo">
-          <img src="/assets/leistungen/msr-handheld.jpg" alt="Techniker programmiert eine SPS-Steuerung mit einem Handbediengerät am Schaltschrank">
+          <Image src={asset("/assets/leistungen/msr-handheld.jpg")} alt="Techniker programmiert eine SPS-Steuerung mit einem Handbediengerät am Schaltschrank" />
           <span class="ai-badge"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.7 5.3L19 9l-5.3 1.7L12 16l-1.7-5.3L5 9l5.3-1.7L12 2z"/><path d="M19 14l.85 2.15L22 17l-2.15.85L19 20l-.85-2.15L16 17l2.15-.85L19 14z"/></svg>AI generated</span>
           <figcaption>MSR-Technik in der Praxis</figcaption>
         </figure>
@@ -908,14 +941,14 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
           </div>
         </div>
         <figure class="capability-photo">
-          <img src="/assets/leistungen/kabeltrasse.jpg" alt="Kabeltrasse mit strukturierter Verkabelung und Anschlussklemmen unter der Decke">
+          <Image src={asset("/assets/leistungen/kabeltrasse.jpg")} alt="Kabeltrasse mit strukturierter Verkabelung und Anschlussklemmen unter der Decke" />
           <span class="ai-badge"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.7 5.3L19 9l-5.3 1.7L12 16l-1.7-5.3L5 9l5.3-1.7L12 2z"/><path d="M19 14l.85 2.15L22 17l-2.15.85L19 20l-.85-2.15L16 17l2.15-.85L19 14z"/></svg>AI generated</span>
           <figcaption>Strukturierte Verkabelung &amp; Netzwerktechnik</figcaption>
         </figure>
       </div>
 
       <div class="lifecycle-band">
-        <div class="lifecycle-photo"><img src="/assets/leistungen/beratung-anlage.jpg" alt="Techniker berät zwei Kollegen mit Tablet vor einer Heizungs- und Klimaanlage"><span class="ai-badge"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.7 5.3L19 9l-5.3 1.7L12 16l-1.7-5.3L5 9l5.3-1.7L12 2z"/><path d="M19 14l.85 2.15L22 17l-2.15.85L19 20l-.85-2.15L16 17l2.15-.85L19 14z"/></svg>AI generated</span></div>
+        <div class="lifecycle-photo"><Image src={asset("/assets/leistungen/beratung-anlage.jpg")} alt="Techniker berät zwei Kollegen mit Tablet vor einer Heizungs- und Klimaanlage" /><span class="ai-badge"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.7 5.3L19 9l-5.3 1.7L12 16l-1.7-5.3L5 9l5.3-1.7L12 2z"/><path d="M19 14l.85 2.15L22 17l-2.15.85L19 20l-.85-2.15L16 17l2.15-.85L19 14z"/></svg>AI generated</span></div>
         <div class="hex-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 1 3 6.7"/><path d="M3 12v6h6"/></svg></div>
         <div>
           <h3>Wir begleiten Anlagen ein Leben lang</h3>
@@ -929,7 +962,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
       </div>
       <div class="techscope-grid">
         <div class="techscope-item has-photo">
-          <div class="techscope-photo"><img src="/assets/leistungen/mittelspannung-schneider.jpg" alt="Techniker arbeitet an einer Mittelspannungsschaltanlage"><span class="ai-badge"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.7 5.3L19 9l-5.3 1.7L12 16l-1.7-5.3L5 9l5.3-1.7L12 2z"/><path d="M19 14l.85 2.15L22 17l-2.15.85L19 20l-.85-2.15L16 17l2.15-.85L19 14z"/></svg>AI generated</span></div>
+          <div class="techscope-photo"><Image src={asset("/assets/leistungen/mittelspannung-schneider.jpg")} alt="Techniker arbeitet an einer Mittelspannungsschaltanlage" /><span class="ai-badge"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.7 5.3L19 9l-5.3 1.7L12 16l-1.7-5.3L5 9l5.3-1.7L12 2z"/><path d="M19 14l.85 2.15L22 17l-2.15.85L19 20l-.85-2.15L16 17l2.15-.85L19 14z"/></svg>AI generated</span></div>
           <div class="techscope-item-body">
             <h4>Mittelspannungsanlagen</h4>
             <p>Mittelspannungsschaltanlagen und Trafostationen.</p>
@@ -940,7 +973,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
           <p>Datenfernübertragung (DFÜ) und lokale Netzwerkinstallationen (LAN).</p>
         </div>
         <div class="techscope-item has-photo">
-          <div class="techscope-photo"><img src="/assets/leistungen/hebebuehne-verkabelung.jpg" alt="Techniker verlegt auf einer Hebebühne Kabeltrassen unter der Decke"><span class="ai-badge"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.7 5.3L19 9l-5.3 1.7L12 16l-1.7-5.3L5 9l5.3-1.7L12 2z"/><path d="M19 14l.85 2.15L22 17l-2.15.85L19 20l-.85-2.15L16 17l2.15-.85L19 14z"/></svg>AI generated</span></div>
+          <div class="techscope-photo"><Image src={asset("/assets/leistungen/hebebuehne-verkabelung.jpg")} alt="Techniker verlegt auf einer Hebebühne Kabeltrassen unter der Decke" /><span class="ai-badge"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.7 5.3L19 9l-5.3 1.7L12 16l-1.7-5.3L5 9l5.3-1.7L12 2z"/><path d="M19 14l.85 2.15L22 17l-2.15.85L19 20l-.85-2.15L16 17l2.15-.85L19 14z"/></svg>AI generated</span></div>
           <div class="techscope-item-body">
             <h4>Niederspannungsanlagen</h4>
             <p>Niederspannungsschaltanlagen, Starkstromkabel- und Leitungsnetze, Schaltanlagenbau, EMV- und ESE-Technologie, Erdungs- und Potentialausgleichssysteme, Blitz- und Überspannungsschutz sowie Niedrigenergiehaus-Technik.</p>
@@ -955,7 +988,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
           <p>Innenraum-, Außen-, Straßen-, Wege- und Platzbeleuchtung sowie Effekt- und Werbebeleuchtung.</p>
         </div>
         <div class="techscope-item has-photo">
-          <div class="techscope-photo"><img src="/assets/leistungen/kommunikationssysteme-rack.jpg" alt="Techniker konfektioniert Netzwerk- und Kommunikationsverkabelung in einem Serverschrank"><span class="ai-badge"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.7 5.3L19 9l-5.3 1.7L12 16l-1.7-5.3L5 9l5.3-1.7L12 2z"/><path d="M19 14l.85 2.15L22 17l-2.15.85L19 20l-.85-2.15L16 17l2.15-.85L19 14z"/></svg>AI generated</span></div>
+          <div class="techscope-photo"><Image src={asset("/assets/leistungen/kommunikationssysteme-rack.jpg")} alt="Techniker konfektioniert Netzwerk- und Kommunikationsverkabelung in einem Serverschrank" /><span class="ai-badge"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.7 5.3L19 9l-5.3 1.7L12 16l-1.7-5.3L5 9l5.3-1.7L12 2z"/><path d="M19 14l.85 2.15L22 17l-2.15.85L19 20l-.85-2.15L16 17l2.15-.85L19 14z"/></svg>AI generated</span></div>
           <div class="techscope-item-body">
             <h4>Kommunikationssysteme</h4>
             <p>Telefon- und Interkomanlagen, Personenrufanlagen, elektroakustische Lautsprecheranlagen (ELA) sowie terrestrische und Satelliten-Empfangsanlagen.</p>
@@ -966,7 +999,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
           <p>Brand- und Gasalarmanlagen, Einbruchmeldeanlagen, Videoüberwachung und Zutrittskontrollsysteme.</p>
         </div>
         <div class="techscope-item has-photo">
-          <div class="techscope-photo"><img src="/assets/leistungen/baustelle-messung.jpg" alt="Techniker dokumentiert Messwerte an einer Schaltanlage auf der Baustelle"><span class="ai-badge"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.7 5.3L19 9l-5.3 1.7L12 16l-1.7-5.3L5 9l5.3-1.7L12 2z"/><path d="M19 14l.85 2.15L22 17l-2.15.85L19 20l-.85-2.15L16 17l2.15-.85L19 14z"/></svg>AI generated</span></div>
+          <div class="techscope-photo"><Image src={asset("/assets/leistungen/baustelle-messung.jpg")} alt="Techniker dokumentiert Messwerte an einer Schaltanlage auf der Baustelle" /><span class="ai-badge"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.7 5.3L19 9l-5.3 1.7L12 16l-1.7-5.3L5 9l5.3-1.7L12 2z"/><path d="M19 14l.85 2.15L22 17l-2.15.85L19 20l-.85-2.15L16 17l2.15-.85L19 14z"/></svg>AI generated</span></div>
           <div class="techscope-item-body">
             <h4>Gebäudeautomation &amp; MSRL-Technik</h4>
             <p>DDC- und SPS-Steuerungen, Gebäudeautomation und Industrie-Steuerungsanlagen.</p>
@@ -1034,7 +1067,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
   <div class="wrap footer-grid">
     <div>
       <a href="#" class="brand" data-page-link="home" style="margin-bottom:.8rem;">
-        <img class="hex-mark" style="width:30px;height:30px;" src="/assets/logo-icon-v2.png" alt="ELCON Icon">
+        <Image src={asset("/assets/logo-icon-v2.png")} class="hex-mark" style="width:30px;height:30px;" alt="ELCON Icon" />
         <span class="brand-word" style="font-size:1.05rem;">ELCON</span>
       </a>
       <p style="color:var(--text-muted);font-size:.88rem;max-width:32ch;line-height:1.6;">Generalunternehmer für technische Gebäudeausrüstung — Elektro, HKLS, MSR &amp; Automation aus einer Hand.</p>
@@ -1080,11 +1113,13 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
 <div class="tc-lightbox" id="tcLightbox" hidden role="dialog" aria-modal="true" aria-label="Referenzschreiben, vergrößerte Ansicht">
   <button type="button" class="tc-lb-close" id="tcLbClose" aria-label="Schließen">&#10005;</button>
   <button type="button" class="tc-lb-nav tc-lb-prev" id="tcLbPrev" aria-label="Vorheriges Schreiben">&#8249;</button>
-  <img class="tc-lb-img" id="tcLbImg" src="" alt="">
+  <img class="tc-lb-img" id="tcLbImg" alt="">
   <button type="button" class="tc-lb-nav tc-lb-next" id="tcLbNext" aria-label="Nächstes Schreiben">&#8250;</button>
   <div class="tc-lb-caption" id="tcLbCaption"></div>
 </div>
 
+
+<script type="application/json" id="assetUrls" set:html={JSON.stringify(assetUrls)}></script>
 
 <script>
   /* Messpunkte der Seite.
@@ -1099,6 +1134,15 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
       detail: { name: name, params: params || {} }
     }));
   }
+
+  /* Die Logo-Laufschrift wird erst im Browser aufgebaut und kann deshalb nicht
+     die <Image>-Komponente nutzen. Die beim Build erzeugten WebP-Adressen
+     stehen als JSON in der Seite und werden hier nachgeschlagen. */
+  var ASSET_URLS = (function(){
+    var el = document.getElementById('assetUrls');
+    try { return el ? JSON.parse(el.textContent) : {}; } catch(err){ return {}; }
+  })();
+  function assetUrl(path){ return ASSET_URLS[path] || path; }
 
   var CLIENTS = [
     {name:"Volkswagen", logo:"/assets/logos/volkswagen.png", size:"lg"},
@@ -1140,7 +1184,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
   track.innerHTML = doubled.map(function(c){
     var sizeClass = c.size === 'lg' ? ' marquee-logo--lg' : '';
     return c.logo
-      ? '<span class="marquee-logo' + sizeClass + '"><img src="' + c.logo + '" alt="' + c.name + '" loading="lazy"></span>'
+      ? '<span class="marquee-logo' + sizeClass + '"><img src="' + assetUrl(c.logo) + '" alt="' + c.name + '" loading="lazy" decoding="async"></span>'
       : '<span class="marquee-logo marquee-logo-text' + sizeClass + '">' + c.name + '</span>';
   }).join('');
 
