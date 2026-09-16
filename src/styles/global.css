@@ -74,6 +74,9 @@ html, body { overflow-x: clip; }
     --hex-fill-4:#6CBF6F;
     --hex-line:#C9D3D3;
     --shadow:0 20px 44px -28px rgba(15,45,58,.35);
+    /* Weicher, enger gefasster Schatten fuer Hover-Zustaende */
+    --shadow-hover:0 12px 28px -14px rgba(15,45,58,.22);
+    --shadow-hover-strong:0 16px 34px -16px rgba(15,45,58,.28);
   }
 
   *{box-sizing:border-box;}
@@ -351,7 +354,8 @@ html, body { overflow-x: clip; }
     border-radius:6px;overflow:hidden;background:var(--surface-raised);cursor:zoom-in;box-shadow:var(--shadow);
     transition:transform .15s ease,border-color .15s ease;
   }
-  .tc-thumb:hover{transform:translateY(-3px);border-color:var(--accent-3);}
+  .tc-thumb:hover{border-color:var(--accent-3);}
+  .tc-thumb:hover{@apply motion-safe:-translate-y-0.5;}
   .tc-thumb img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;}
   .tc-slide figcaption{margin-top:.6rem;display:flex;flex-direction:column;gap:.2rem;}
   .tc-slide figcaption strong{font-size:.8rem;font-weight:700;color:var(--text);line-height:1.3;}
@@ -497,7 +501,7 @@ html, body { overflow-x: clip; }
   .contact-info a:hover{color:var(--accent-3);}
   .contact-list{list-style:none;margin:0;padding:0;font-size:.96rem;line-height:1.8;color:var(--text-muted);}
   .contact-info a.whatsapp-link{display:inline-flex;align-items:center;gap:.65rem;text-decoration:none;background:var(--surface-raised);border:1px solid var(--border);color:var(--ink);font-weight:700;font-size:.92rem;padding:.6rem .95rem .6rem .6rem;border-radius:999px;margin-top:1.3rem;transition:border-color .15s,transform .15s;}
-  .contact-info a.whatsapp-link:hover{border-color:#25D366;transform:translateY(-1px);color:var(--ink);}
+  .contact-info a.whatsapp-link:hover{border-color:#25D366;color:var(--ink);@apply motion-safe:-translate-y-0.5;}
   .whatsapp-badge{width:32px;height:32px;flex:none;display:flex;align-items:center;justify-content:center;}
   .whatsapp-badge svg{width:32px;height:32px;display:block;}
   form.request{
@@ -613,4 +617,97 @@ html, body { overflow-x: clip; }
   @media (max-width:560px){
     .legal-nav-row{flex-wrap:wrap;gap:.6rem;}
     nav.primary.legal-nav{width:100%;justify-content:flex-start;}
+  }
+
+  /* ===== Hover-Zustände =====================================================
+
+     Umgesetzt über Tailwind-@apply auf den bestehenden Komponentenklassen:
+     eine Regel je Elementtyp wirkt damit auf alle Instanzen — allein bei den
+     Projektkarten sind das 39 Stück.
+
+     Zur Aufteilung der Eigenschaften: Farb- und Schattenwechsel laufen für
+     alle Besucher, denn sie sind keine Bewegung. Verschiebung und Skalierung
+     stehen dagegen unter motion-safe: und entfallen damit automatisch, wenn im
+     Betriebssystem reduzierte Bewegung eingestellt ist. Für diese Besucher
+     bleibt der Hover-Zustand also deutlich erkennbar, nur eben ohne Bewegung.
+
+     Die Farben stammen aus den Projekt-Tokens: Rahmen von --border (#E5E8E8)
+     nach --accent-3 (Petrol), Schatten aus --shadow-hover. */
+
+  /* --- Karten ------------------------------------------------------------ */
+  .project-card,
+  .ref-group-card,
+  .techscope-item,
+  .philosophy-card{
+    @apply duration-150 ease-out;
+    transition-property:transform,border-color,box-shadow;
+    will-change:transform;
+  }
+  .project-card:hover,
+  .ref-group-card:hover,
+  .techscope-item:hover,
+  .philosophy-card:hover{
+    border-color:var(--accent-3);
+    box-shadow:var(--shadow-hover);
+    @apply motion-safe:-translate-y-0.5;
+  }
+
+  /* Tastaturbedienung: derselbe Zustand, wenn ein Element im Inneren den
+     Fokus erhält — sonst bliebe der Effekt Mausnutzern vorbehalten. */
+  .project-card:focus-within,
+  .ref-group-card:focus-within,
+  .techscope-item:focus-within,
+  .philosophy-card:focus-within{
+    border-color:var(--accent-3);
+    box-shadow:var(--shadow-hover);
+  }
+
+  /* --- Schaltflächen ----------------------------------------------------- */
+  .cta-btn{
+    @apply duration-150 ease-out;
+    transition-property:transform,background-color,border-color,color,box-shadow,filter;
+  }
+  .cta-btn:hover{
+    @apply motion-safe:scale-[1.02];
+    box-shadow:var(--shadow-hover);
+  }
+  .cta-btn:active{
+    @apply motion-safe:scale-[0.98];
+    box-shadow:none;
+  }
+
+  .filter-chip{
+    @apply duration-150 ease-out;
+    transition-property:transform,background-color,border-color,color;
+  }
+  .filter-chip:hover{ @apply motion-safe:scale-[1.02]; }
+  .filter-chip:active{ @apply motion-safe:scale-[0.98]; }
+
+  .tc-nav,
+  .lang-toggle button{
+    @apply duration-150 ease-out;
+    transition-property:transform,background-color,border-color,color;
+  }
+  .tc-nav:hover,
+  .lang-toggle button:hover{ @apply motion-safe:scale-[1.02]; }
+  .tc-nav:active,
+  .lang-toggle button:active{ @apply motion-safe:scale-[0.98]; }
+
+  /* --- Links -------------------------------------------------------------- */
+  nav.primary a,
+  .footer-grid a,
+  .contact-info a,
+  .legal-breadcrumb a,
+  .nav-drop-menu a,
+  .subpage-back{
+    @apply transition-colors duration-150 ease-out;
+  }
+
+  /* --- Bewegung generell zurücknehmen ------------------------------------- */
+  /* Die Logo-Laufschrift im Hero läuft als Endlosanimation. Sie gehört zu den
+     Bewegungen, die bei entsprechender Systemeinstellung stören können, und
+     wird deshalb angehalten statt nur verlangsamt. */
+  @media (prefers-reduced-motion: reduce){
+    .marquee-track{animation:none;transform:none;}
+    .marquee{overflow-x:auto;}
   }
