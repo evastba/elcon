@@ -1087,6 +1087,19 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
 
 
 <script>
+  /* Messpunkte der Seite.
+
+     track() meldet ein Ereignis ueber ein DOM-Event. Ob daraus eine Messung
+     wird, entscheidet allein der Analytics-Block am Seitenende — der wird nur
+     ausgeliefert, wenn eine GA4-Property-ID hinterlegt ist, und wertet die
+     Ereignisse erst nach erteilter Einwilligung aus. Ohne beides laufen die
+     Aufrufe hier folgenlos ins Leere. */
+  function trackEvent(name, params){
+    document.dispatchEvent(new CustomEvent('elcon:track', {
+      detail: { name: name, params: params || {} }
+    }));
+  }
+
   var CLIENTS = [
     {name:"Volkswagen", logo:"/assets/logos/volkswagen.png", size:"lg"},
     {name:"Porsche", logo:"/assets/logos/porsche.png", size:"lg"},
@@ -1158,6 +1171,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
       btn.classList.add('is-active');
       btn.setAttribute('aria-pressed','true');
       var f = btn.dataset.filter;
+      trackEvent('projekt_filter', { filter: f, filter_label: btn.textContent.trim() });
       document.querySelectorAll('#projectGrid .project-card').forEach(function(card){
         card.hidden = !(f === 'all' || card.dataset.category === f);
       });
@@ -1167,6 +1181,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
   document.getElementById('requestForm').addEventListener('submit', function(e){
     e.preventDefault();
     var f = e.target;
+    trackEvent('anfrage_abgesendet', { leistungsbereich: f.topic.value });
     var subject = encodeURIComponent('Projektanfrage: ' + (f.topic.value || 'ELCON'));
     var body = encodeURIComponent(
       'Name: ' + f.name.value + '\n' +
@@ -1198,7 +1213,20 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
       : name === 'unternehmen'
       ? 'Unternehmen — ELCON Connected Building Engineering'
       : 'ELCON Connected Building Engineering — Generalunternehmer für technische Gebäudeausrüstung';
+
+    /* Die Bereiche der Startseite sind Panels, keine eigenen Dokumente. Ohne
+       diese Meldung saehe die Auswertung nur einen einzigen Seitenaufruf und
+       damit nichts von der Bewegung innerhalb der Seite. */
+    if(name !== currentPage){
+      currentPage = name;
+      trackEvent('page_view', {
+        page_title: document.title,
+        page_path: '/' + (name === 'home' ? '' : name),
+        page_location: location.origin + '/' + (name === 'home' ? '' : name)
+      });
+    }
   }
+  var currentPage = null;
 
   var PROJEKTE_ANCHORS = ['projekte', 'generalunternehmer', 'refVerzeichnis', 'kundenfeedback'];
   var UNTERNEHMEN_ANCHORS = ['unternehmen', 'unternehmenPage'];
@@ -1269,6 +1297,7 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
     function openLightbox(index){
       currentIndex = (index + thumbs.length) % thumbs.length;
       var t = thumbs[currentIndex];
+      trackEvent('referenz_geoeffnet', { absender: t.dataset.sender, datum: t.dataset.date });
       lbImg.src = t.dataset.full;
       lbImg.alt = t.querySelector('img').alt;
       lbCaption.innerHTML = '<strong>' + t.dataset.sender + '</strong><span>' + t.dataset.date + '</span>';
@@ -1298,6 +1327,52 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
     });
   })();
 
+  /* Kontaktaufnahmen und Handlungsaufforderungen.
+     Delegiert am document, damit auch spaeter eingefuegte Elemente erfasst
+     werden (z. B. die per JS aufgebaute Logo-Laufschrift). */
+  document.addEventListener('click', function(e){
+    var a = e.target.closest && e.target.closest('a, button');
+    if(!a) return;
+    var href = a.getAttribute('href') || '';
+
+    if(href.indexOf('tel:') === 0){
+      trackEvent('kontakt_telefon', { ziel: href.replace('tel:', '') });
+    } else if(href.indexOf('mailto:') === 0){
+      trackEvent('kontakt_email', { ziel: href.replace('mailto:', '').split('?')[0] });
+    } else if(href.indexOf('wa.me') !== -1){
+      trackEvent('kontakt_whatsapp', {});
+    } else if(a.classList.contains('cta-btn')){
+      trackEvent('cta_klick', {
+        beschriftung: a.textContent.trim().slice(0, 60),
+        variante: a.classList.contains('primary') ? 'primaer' : 'sekundaer'
+      });
+    }
+  });
+
+  /* Scrolltiefe in Vierteln — zeigt, wie weit Besucher tatsaechlich lesen. */
+  (function(){
+    var marks = [25, 50, 75, 100];
+    var reached = {};
+    function check(){
+      var doc = document.documentElement;
+      var scrollbar = doc.scrollHeight - window.innerHeight;
+      if(scrollbar <= 0) return;
+      var pct = (window.scrollY / scrollbar) * 100;
+      marks.forEach(function(m){
+        if(pct >= m && !reached[m]){
+          reached[m] = true;
+          trackEvent('scrolltiefe', { tiefe_prozent: m });
+        }
+      });
+    }
+    var ticking = false;
+    window.addEventListener('scroll', function(){
+      if(ticking) return;
+      ticking = true;
+      requestAnimationFrame(function(){ check(); ticking = false; });
+    }, { passive: true });
+  })();
+
 </script>
 
 {analyticsEnabled && (
@@ -1320,8 +1395,23 @@ import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
     function gtag(){ window.dataLayer.push(arguments); }
     window.gtag = gtag;
     gtag('js', new Date());
+    /* send_page_view bleibt an: GA4 misst den Erstaufruf samt Herkunft
+       (Referrer, utm-Parameter) selbst. Die Panelwechsel der Startseite
+       melden wir zusaetzlich von Hand, siehe setPage(). */
     gtag('config', GA_MEASUREMENT_ID, { anonymize_ip: true });
   }
+
+  /* Bruecke zwischen den Messpunkten der Seite und GA4.
+
+     Die Seite meldet Ereignisse ueber das DOM-Event 'elcon:track', ohne GA4 zu
+     kennen. Hier werden sie weitergereicht — aber nur, wenn eine Einwilligung
+     vorliegt, denn erst dann existiert window.gtag. Ereignisse davor werden
+     bewusst verworfen und nicht nachtraeglich gesendet. */
+  document.addEventListener('elcon:track', function(e){
+    if(typeof window.gtag !== 'function') return;
+    var d = e.detail || {};
+    window.gtag('event', d.name, d.params || {});
+  });
 
   (function(){
     var banner = document.getElementById('cookieBanner');
