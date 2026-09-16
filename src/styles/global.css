@@ -63,23 +63,6 @@ html, body { overflow-x: clip; }
 
   .wrap{max-width:1180px;margin-inline:auto;padding-inline:clamp(16px,4vw,32px);}
 
-  /* Internal review banner */
-  .review-note{
-    background:repeating-linear-gradient(135deg, var(--surface-alt), var(--surface-alt) 10px, var(--surface) 10px, var(--surface) 20px);
-    border-bottom:1px dashed var(--accent-2);
-    font-size:.82rem;
-    color:var(--text-muted);
-  }
-  .review-note .wrap{padding-block:.65rem;display:flex;gap:.75rem;align-items:flex-start;}
-  .review-note strong{color:var(--text);}
-  .review-note ul{margin:.3rem 0 0;padding-left:1.1rem;}
-  .review-note li{margin:.15rem 0;}
-  .review-note button{
-    margin-left:auto;flex:none;background:none;border:1px solid var(--border);border-radius:4px;
-    color:var(--text-muted);width:26px;height:26px;cursor:pointer;font-size:.9rem;line-height:1;
-  }
-  .review-note[hidden]{display:none;}
-
   /* Header */
   header.site{
     position:sticky;top:0;z-index:100;
