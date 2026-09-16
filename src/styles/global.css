@@ -535,3 +535,46 @@ html, body { overflow-x: clip; }
     .footer-grid{grid-template-columns:1fr;}
     nav.primary{top:60px;}
   }
+
+  /* Rechtstexte (Impressum, Datenschutz) */
+  .legal-page{padding-block:2.4rem 4rem;}
+  .legal-breadcrumb{display:flex;gap:.5rem;align-items:center;font-size:.85rem;color:var(--text-muted);margin-bottom:1.4rem;}
+  .legal-breadcrumb a{color:var(--text-muted);text-decoration:none;}
+  .legal-breadcrumb a:hover{color:var(--accent-3);text-decoration:underline;}
+  .legal-page h1{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:800;margin:0 0 .5rem;}
+  .legal-updated{color:var(--text-muted);font-size:.88rem;margin:0 0 2.4rem;}
+
+  .legal-prose{max-width:72ch;}
+  .legal-prose h2{font-size:1.15rem;font-weight:800;margin:2.4rem 0 .7rem;padding-top:1.4rem;border-top:1px solid var(--border);}
+  .legal-prose h2:first-child{margin-top:0;padding-top:0;border-top:0;}
+  .legal-prose p{line-height:1.75;margin:0 0 1rem;color:var(--text-muted);}
+  /* list-style explizit, da Tailwinds Preflight (@tailwind base) es global entfernt */
+  .legal-prose ul{margin:0 0 1rem;padding-left:1.3rem;line-height:1.75;color:var(--text-muted);list-style:disc;}
+  .legal-prose li{margin:.3rem 0;}
+  .legal-prose a{color:var(--accent-3);}
+  .legal-prose code{font-size:.9em;background:var(--surface-alt);border:1px solid var(--border);border-radius:4px;padding:.1em .4em;}
+
+  /* Sichtbarer Hinweis auf noch fehlende Pflichtangaben */
+  .legal-todo{
+    border:1px solid var(--accent-2);border-left-width:4px;border-radius:6px;
+    background:var(--surface-alt);padding:1rem 1.2rem;margin:0 0 2rem;
+  }
+  .legal-todo strong{display:block;color:var(--text);margin-bottom:.4rem;}
+  .legal-todo p{margin:0 0 .5rem;font-size:.9rem;line-height:1.6;color:var(--text-muted);}
+  .legal-todo ul{margin:0;padding-left:1.2rem;font-size:.9rem;color:var(--text-muted);list-style:disc;}
+  .legal-missing{font-style:italic;}
+
+  /* Die Rechtsseiten haben keinen Burger-Umschalter. Ihre Navigation darf
+     deshalb unter 900px nicht in das ausgeblendete Off-Canvas-Panel der
+     Startseite fallen, sondern bleibt als umbrechende Zeile sichtbar. */
+  @media (max-width:900px){
+    nav.primary.legal-nav{
+      position:static;inset:auto;flex-direction:row;flex-wrap:wrap;
+      padding:0;gap:.9rem 1.2rem;transform:none;border-top:0;background:none;
+      justify-content:flex-end;font-size:.92rem;
+    }
+  }
+  @media (max-width:560px){
+    .legal-nav-row{flex-wrap:wrap;gap:.6rem;}
+    nav.primary.legal-nav{width:100%;justify-content:flex-start;}
+  }
