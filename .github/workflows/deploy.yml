@@ -1,14 +1,16 @@
 name: Deploy auf Cloudflare Pages
 
 on:
+  # Jeder Branch wird deployt: main geht auf die Produktions-URL,
+  # alle anderen bekommen ein Preview-Deployment unter eigener URL.
   push:
-    branches: [main]
+    branches: ['**']
   workflow_dispatch:
 
-# Ein Deployment gleichzeitig; laufende Vorgänger werden abgebrochen,
-# damit nicht ein älterer Build einen neueren überholt.
+# Ein Deployment pro Branch; laufende Vorgänger desselben Branches werden
+# abgebrochen, damit nicht ein älterer Build einen neueren überholt.
 concurrency:
-  group: deploy-cloudflare-pages
+  group: deploy-cloudflare-pages-${{ github.ref }}
   cancel-in-progress: true
 
 permissions:
@@ -35,8 +37,23 @@ jobs:
         run: npm run build
 
       - name: Auf Cloudflare Pages veröffentlichen
+        id: cloudflare
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=elcon --branch=${{ github.ref_name }}
+          command: pages deploy dist --project-name=elcon --branch=${{ github.ref_name }} --commit-dirty=true
+
+      - name: Deployment-URL in der Zusammenfassung ausgeben
+        run: |
+          if [ "${{ github.ref_name }}" = "main" ]; then
+            ART="Produktion"
+          else
+            ART="Preview"
+          fi
+          {
+            echo "### Cloudflare Pages — $ART"
+            echo ""
+            echo "- Branch: \`${{ github.ref_name }}\`"
+            echo "- URL: ${{ steps.cloudflare.outputs.deployment-url }}"
+          } >> "$GITHUB_STEP_SUMMARY"
