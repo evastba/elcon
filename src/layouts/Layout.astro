@@ -19,12 +19,12 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="description" content={description} />
     <link rel="icon" type="image/png" href="/assets/logo-icon.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Inter:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
+    <!-- Schriften werden selbst gehostet (siehe public/fonts und die
+         @font-face-Regeln in src/styles/global.css). Dadurch entsteht beim
+         Seitenaufruf keine Verbindung zu Google-Servern. Vorgeladen wird nur
+         das latin-Subset, das den sichtbaren Text der Seite abdeckt. -->
+    <link rel="preload" href="/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin />
     <title>{title}</title>
   </head>
   <body>

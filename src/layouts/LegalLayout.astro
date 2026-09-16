@@ -1,0 +1,92 @@
+---
+import Layout from './Layout.astro';
+import { Image } from 'astro:assets';
+import logoIcon from '../assets/logo-icon-v2.png';
+import { company, legalLastUpdated } from '../config';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Überschrift der Seite; fällt auf den Titel zurück. */
+  heading?: string;
+}
+
+const { title, description, heading } = Astro.props;
+const pageHeading = heading ?? title;
+
+// Die Navigationsziele der Startseite sind Anker innerhalb von "/" — von einer
+// Unterseite aus müssen sie deshalb absolut adressiert werden.
+const navLinks = [
+  { href: '/#leistungen', label: 'Leistungen' },
+  { href: '/#projekte', label: 'Projekte' },
+  { href: '/#unternehmen', label: 'Unternehmen' },
+  { href: '/#kontakt', label: 'Kontakt' },
+];
+---
+
+<Layout title={`${title} — ELCON Connected Building Engineering`} description={description}>
+  <a href="#main" class="skip-link">Zum Inhalt springen</a>
+
+  <header class="site">
+    <div class="wrap nav-row legal-nav-row">
+      <a href="/" class="brand">
+        <Image class="hex-mark" src={logoIcon} alt="ELCON Icon" loading="eager" />
+        <span class="brand-text">
+          <span class="brand-word">ELCON</span>
+          <span class="brand-tagline">Connected Building Engineering</span>
+        </span>
+      </a>
+      <nav class="primary legal-nav" aria-label="Hauptnavigation">
+        {navLinks.map((link) => <a href={link.href}>{link.label}</a>)}
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="legal-page">
+    <div class="wrap">
+      <nav class="legal-breadcrumb" aria-label="Brotkrumennavigation">
+        <a href="/">Startseite</a>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page">{pageHeading}</span>
+      </nav>
+
+      <h1>{pageHeading}</h1>
+      <p class="legal-updated">Stand: {legalLastUpdated}</p>
+
+      <div class="legal-prose">
+        <slot />
+      </div>
+    </div>
+  </main>
+
+  <footer class="site">
+    <div class="wrap footer-grid">
+      <div>
+        <a href="/" class="brand" style="margin-bottom:.8rem;">
+          <Image class="hex-mark" style="width:30px;height:30px;" src={logoIcon} alt="ELCON Icon" />
+          <span class="brand-word" style="font-size:1.05rem;">ELCON</span>
+        </a>
+        <p style="color:var(--text-muted);font-size:.88rem;max-width:32ch;line-height:1.6;">
+          Generalunternehmer für technische Gebäudeausrüstung — Elektro, HKLS, MSR &amp; Automation aus einer Hand.
+        </p>
+      </div>
+      <div>
+        <h4>Navigation</h4>
+        <ul>
+          {navLinks.map((link) => <li><a href={link.href}>{link.label}</a></li>)}
+        </ul>
+      </div>
+      <div>
+        <h4>Rechtliches</h4>
+        <ul>
+          <li><a href="/impressum/">Impressum</a></li>
+          <li><a href="/datenschutz/">Datenschutz</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="wrap footer-bottom">
+      <span>© 2026 {company.name}</span>
+      <span>{company.street} · {company.zip} {company.city} · {company.country}</span>
+    </div>
+  </footer>
+</Layout>
