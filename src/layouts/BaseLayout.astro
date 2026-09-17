@@ -1,0 +1,88 @@
+---
+import Layout from './Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import CookieConsent from '../components/CookieConsent.astro';
+
+interface Props {
+  /** Seitentitel ohne Firmenzusatz; der wird hier angehängt. */
+  title: string;
+  description: string;
+  /** Titel unverändert übernehmen (für die Startseite). */
+  rawTitle?: boolean;
+}
+
+const { title, description, rawTitle = false } = Astro.props;
+const fullTitle = rawTitle ? title : `${title} — ELCON Connected Building Engineering`;
+---
+
+<Layout title={fullTitle} description={description}>
+  <a href="#main" class="skip-link">Zum Inhalt springen</a>
+
+  <Header />
+
+  <main id="main">
+    <slot />
+  </main>
+
+  <Footer />
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <CookieConsent />
+</Layout>
+
+<script>
+  import { trackEvent } from '../scripts/track';
+
+  /* Messpunkte, die auf jeder Seite gelten. */
+
+  /* Kontaktaufnahmen und Handlungsaufforderungen. Delegiert am document, damit
+     auch nachträglich eingefügte Elemente erfasst werden — etwa die per
+     JavaScript aufgebaute Logo-Laufschrift auf der Startseite. */
+  document.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement | null;
+    const a = target?.closest?.('a, button') as HTMLAnchorElement | null;
+    if (!a) return;
+    const href = a.getAttribute('href') || '';
+
+    if (href.startsWith('tel:')) {
+      trackEvent('kontakt_telefon', { ziel: href.replace('tel:', '') });
+    } else if (href.startsWith('mailto:')) {
+      trackEvent('kontakt_email', { ziel: href.replace('mailto:', '').split('?')[0] });
+    } else if (href.includes('wa.me')) {
+      trackEvent('kontakt_whatsapp', {});
+    } else if (a.classList.contains('cta-btn')) {
+      trackEvent('cta_klick', {
+        beschriftung: (a.textContent || '').trim().slice(0, 60),
+        variante: a.classList.contains('primary') ? 'primaer' : 'sekundaer',
+      });
+    }
+  });
+
+  /* Scrolltiefe in Vierteln — zeigt, wie weit Besucher tatsächlich lesen. */
+  {
+    const marks = [25, 50, 75, 100];
+    const reached = new Set<number>();
+    let ticking = false;
+
+    const check = () => {
+      const doc = document.documentElement;
+      const scrollbar = doc.scrollHeight - window.innerHeight;
+      if (scrollbar <= 0) return;
+      const pct = (window.scrollY / scrollbar) * 100;
+      for (const m of marks) {
+        if (pct >= m && !reached.has(m)) {
+          reached.add(m);
+          trackEvent('scrolltiefe', { tiefe_prozent: m });
+        }
+      }
+    };
+
+    window.addEventListener('scroll', () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => { check(); ticking = false; });
+    }, { passive: true });
+  }
+</script>

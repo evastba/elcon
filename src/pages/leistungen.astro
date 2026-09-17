@@ -1,0 +1,184 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { asset } from '../lib/assets';
+---
+
+<BaseLayout title="Leistungen" description="Elektrotechnik, HKLS, MSR- und Gebäudeautomation, Netzwerktechnik, Brandschutz sowie Projektmanagement — alle Gewerke der technischen Gebäudeausrüstung aus einer Hand.">
+
+  <section id="leistungen" style="background:var(--surface-alt)">
+    <div class="wrap">
+      <div class="section-head" style="margin-bottom:1.8rem;">
+        <p class="eyebrow">Alle Gewerke, ein Partner</p>
+        <h1>Leistungen im Überblick</h1>
+      </div>
+
+      <div class="offer-band">
+        <p class="eyebrow" style="margin-bottom:.6rem;">Angebot</p>
+        <h3 style="margin:0 0 .8rem;font-size:1.15rem;font-weight:800;">Leistungs- und Serviceangebot</h3>
+        <p class="offer-lead">Unsere Kompetenz in allen Gewerken des technischen Anlagenbaus runden wir durch einen maßgeschneiderten Service in jeder Lebensphase Ihrer Immobilie ab — schlüsselfertige Gebäudeausrüstung aus einer Hand, von der ersten Planung bis zur laufenden Instandhaltung.</p>
+        <div class="offer-domains">
+          <span class="offer-domain-tag">Gebäudetechnik (Heizung, Klima, Lüftung, Sanitär)</span>
+          <span class="offer-domain-tag">Elektrotechnik</span>
+          <span class="offer-domain-tag">Brandschutz</span>
+        </div>
+        <div class="phase-grid">
+          <div class="phase-item">
+            <div class="phase-photo"><Image src={asset("/assets/leistungen/planbesprechung-baustelle.jpg")} alt="Zwei Techniker besprechen Baupläne auf der Baustelle" /><span class="ai-badge"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.7 5.3L19 9l-5.3 1.7L12 16l-1.7-5.3L5 9l5.3-1.7L12 2z"/><path d="M19 14l.85 2.15L22 17l-2.15.85L19 20l-.85-2.15L16 17l2.15-.85L19 14z"/></svg>AI generated</span></div>
+            <div class="phase-item-body">
+              <div class="phase-num">01</div>
+              <h3>Projektierung</h3>
+              <p>Planung aller Innen- und Außenelektroanlagen bis 10 kV, haustechnischer Systeme und der Sicherheitssysteme (Brandschutz, Alarmanlagen) — inklusive Abstimmung mit den zuständigen Aufsichtsbehörden.</p>
+            </div>
+          </div>
+          <div class="phase-item">
+            <div class="phase-photo"><Image src={asset("/assets/leistungen/team-montage.jpg")} alt="Vierköpfiges Montageteam bei der Installation eines Schaltschranks auf der Baustelle" /><span class="ai-badge"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.7 5.3L19 9l-5.3 1.7L12 16l-1.7-5.3L5 9l5.3-1.7L12 2z"/><path d="M19 14l.85 2.15L22 17l-2.15.85L19 20l-.85-2.15L16 17l2.15-.85L19 14z"/></svg>AI generated</span></div>
+            <div class="phase-item-body">
+              <div class="phase-num">02</div>
+              <h3>Montagearbeiten</h3>
+              <p>Montage der Innen- und Außenelektroanlagen bis 10 kV, haustechnischer Anlagen und der Sicherheitssysteme — schlüsselfertig aus einer Hand umgesetzt.</p>
+            </div>
+          </div>
+          <div class="phase-item">
+            <div class="phase-photo"><Image src={asset("/assets/leistungen/thermografie.jpg")} alt="Techniker führt eine Thermografie-Inspektion an einer Schaltanlage durch" /><span class="ai-badge"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.7 5.3L19 9l-5.3 1.7L12 16l-1.7-5.3L5 9l5.3-1.7L12 2z"/><path d="M19 14l.85 2.15L22 17l-2.15.85L19 20l-.85-2.15L16 17l2.15-.85L19 14z"/></svg>AI generated</span></div>
+            <div class="phase-item-body">
+              <div class="phase-num">03</div>
+              <h3>Wartung, Instandhaltung &amp; Reparatur</h3>
+              <p>Technische Wartung, Instandhaltung und Reparatur von Elektroanlagen, haustechnischen Systemen und Brandschutzsystemen über den gesamten Lebenszyklus der Anlage.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="capability-strip">
+        <div class="capability-item">
+          <div class="hex-icon"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></div>
+          <div>
+            <h3>Elektrotechnik</h3>
+            <p>Elektroinstallationen aller Art, Anlagen bis 10 kV, Energieerzeugung und -verteilung bis 36 kV.</p>
+          </div>
+        </div>
+        <div class="capability-item">
+          <div class="hex-icon"><svg viewBox="0 0 24 24"><path d="M12 3c2 2.5 4 5.2 4 8a4 4 0 0 1-8 0c0-2.8 2-5.5 4-8Z"/><path d="M12 13v8"/></svg></div>
+          <div>
+            <h3>Heizung, Klima, Lüftung, Sanitär</h3>
+            <p>Versorgungstechnik aller Gewerke, aus einer Hand geplant, montiert und gewartet.</p>
+          </div>
+        </div>
+        <figure class="capability-photo">
+          <Image src={asset("/assets/leistungen/msr-handheld.jpg")} alt="Techniker programmiert eine SPS-Steuerung mit einem Handbediengerät am Schaltschrank" />
+          <span class="ai-badge"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.7 5.3L19 9l-5.3 1.7L12 16l-1.7-5.3L5 9l5.3-1.7L12 2z"/><path d="M19 14l.85 2.15L22 17l-2.15.85L19 20l-.85-2.15L16 17l2.15-.85L19 14z"/></svg>AI generated</span>
+          <figcaption>MSR-Technik in der Praxis</figcaption>
+        </figure>
+        <div class="capability-item">
+          <div class="hex-icon"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4V5Z"/><path d="M8 9h8M8 12h5"/></svg></div>
+          <div>
+            <h3>Kommunikationstechnik</h3>
+            <p>Kommunikations- und Signalisationssysteme — sicher beherrscht über die gesamte Systemvielfalt hinweg.</p>
+          </div>
+        </div>
+        <div class="capability-item">
+          <div class="hex-icon"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1.1 2.1h4.8c.1-.9.5-1.6 1.1-2.1A6 6 0 0 0 12 3Z"/></svg></div>
+          <div>
+            <h3>Beleuchtungstechnik</h3>
+            <p>Von der Allgemeinbeleuchtung in Wohn- und Geschäftsbauten bis zur Ausleuchtung industrieller Anlagen und Sonderlösungen.</p>
+          </div>
+        </div>
+        <div class="capability-item">
+          <div class="hex-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="2.2"/><circle cx="5" cy="19" r="2.2"/><circle cx="19" cy="19" r="2.2"/><path d="M12 7.2 6.4 17M12 7.2 17.6 17M7.2 19h9.6"/></svg></div>
+          <div>
+            <h3>Netzwerktechnik &amp; IT</h3>
+            <p>Strukturierte Verkabelung, Lichtwellenleiter und aktive Netzwerkkomponenten nach aktuellem Stand der Technik.</p>
+          </div>
+        </div>
+        <div class="capability-item">
+          <div class="hex-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg></div>
+          <div>
+            <h3>MSR- &amp; Gebäudeautomation</h3>
+            <p>DDC- und SPS-Steuerungen, Gebäudeautomation und Industrie-Steuerungsanlagen, individuell konzipiert und mehrsprachig dokumentiert.</p>
+          </div>
+        </div>
+        <div class="capability-item">
+          <div class="hex-icon"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6l7-3Z"/></svg></div>
+          <div>
+            <h3>Brandschutz &amp; Sicherheitstechnik</h3>
+            <p>Brandmelde- und Sicherheitssysteme für Gewerbe-, Industrie- und öffentliche Bauten.</p>
+          </div>
+        </div>
+        <div class="capability-item">
+          <div class="hex-icon"><svg viewBox="0 0 24 24"><path d="M5 4h14v16l-7-4-7 4Z"/><path d="M9 9h6M9 13h6"/></svg></div>
+          <div>
+            <h3>Projektmanagement &amp; Consulting</h3>
+            <p>Technische Beratung, Berechnung und Prüfung, Projektsteuerung, Bauleitung und Revisionsdokumentation.</p>
+          </div>
+        </div>
+        <figure class="capability-photo">
+          <Image src={asset("/assets/leistungen/kabeltrasse.jpg")} alt="Kabeltrasse mit strukturierter Verkabelung und Anschlussklemmen unter der Decke" />
+          <span class="ai-badge"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.7 5.3L19 9l-5.3 1.7L12 16l-1.7-5.3L5 9l5.3-1.7L12 2z"/><path d="M19 14l.85 2.15L22 17l-2.15.85L19 20l-.85-2.15L16 17l2.15-.85L19 14z"/></svg>AI generated</span>
+          <figcaption>Strukturierte Verkabelung &amp; Netzwerktechnik</figcaption>
+        </figure>
+      </div>
+
+      <div class="lifecycle-band">
+        <div class="lifecycle-photo"><Image src={asset("/assets/leistungen/beratung-anlage.jpg")} alt="Techniker berät zwei Kollegen mit Tablet vor einer Heizungs- und Klimaanlage" /><span class="ai-badge"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.7 5.3L19 9l-5.3 1.7L12 16l-1.7-5.3L5 9l5.3-1.7L12 2z"/><path d="M19 14l.85 2.15L22 17l-2.15.85L19 20l-.85-2.15L16 17l2.15-.85L19 14z"/></svg>AI generated</span></div>
+        <div class="hex-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 1 3 6.7"/><path d="M3 12v6h6"/></svg></div>
+        <div>
+          <h3>Wir begleiten Anlagen ein Leben lang</h3>
+          <p>Nach Fertigstellung warten, entstören und optimieren wir jede Anlage kontinuierlich weiter — geprüft mit moderner Messtechnik und mehrsprachig dokumentiert, damit Betriebsdauer und Lebensdauer der Komponenten optimal ausgenutzt werden.</p>
+        </div>
+      </div>
+
+      <div class="techscope-head">
+        <h3>Abgedeckte Anlagentechnik im Detail</h3>
+        <p>Von der Mittelspannungsschaltanlage bis zur Gebäudeautomation — die technische Bandbreite, die wir aus einer Hand planen, bauen und betreuen.</p>
+      </div>
+      <div class="techscope-grid">
+        <div class="techscope-item has-photo">
+          <div class="techscope-photo"><Image src={asset("/assets/leistungen/mittelspannung-schneider.jpg")} alt="Techniker arbeitet an einer Mittelspannungsschaltanlage" /><span class="ai-badge"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.7 5.3L19 9l-5.3 1.7L12 16l-1.7-5.3L5 9l5.3-1.7L12 2z"/><path d="M19 14l.85 2.15L22 17l-2.15.85L19 20l-.85-2.15L16 17l2.15-.85L19 14z"/></svg>AI generated</span></div>
+          <div class="techscope-item-body">
+            <h4>Mittelspannungsanlagen</h4>
+            <p>Mittelspannungsschaltanlagen und Trafostationen.</p>
+          </div>
+        </div>
+        <div class="techscope-item">
+          <h4>EDV-Technik</h4>
+          <p>Datenfernübertragung (DFÜ) und lokale Netzwerkinstallationen (LAN).</p>
+        </div>
+        <div class="techscope-item has-photo">
+          <div class="techscope-photo"><Image src={asset("/assets/leistungen/hebebuehne-verkabelung.jpg")} alt="Techniker verlegt auf einer Hebebühne Kabeltrassen unter der Decke" /><span class="ai-badge"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.7 5.3L19 9l-5.3 1.7L12 16l-1.7-5.3L5 9l5.3-1.7L12 2z"/><path d="M19 14l.85 2.15L22 17l-2.15.85L19 20l-.85-2.15L16 17l2.15-.85L19 14z"/></svg>AI generated</span></div>
+          <div class="techscope-item-body">
+            <h4>Niederspannungsanlagen</h4>
+            <p>Niederspannungsschaltanlagen, Starkstromkabel- und Leitungsnetze, Schaltanlagenbau, EMV- und ESE-Technologie, Erdungs- und Potentialausgleichssysteme, Blitz- und Überspannungsschutz sowie Niedrigenergiehaus-Technik.</p>
+          </div>
+        </div>
+        <div class="techscope-item">
+          <h4>Energieerzeugung, KWK &amp; Photovoltaik</h4>
+          <p>Diesel-Generator-Anlagen, Blockheizkraftwerke, Windkraftanlagen, solare Energieversorgung und unterbrechungsfreie Stromversorgung (USV).</p>
+        </div>
+        <div class="techscope-item">
+          <h4>Beleuchtungsanlagen</h4>
+          <p>Innenraum-, Außen-, Straßen-, Wege- und Platzbeleuchtung sowie Effekt- und Werbebeleuchtung.</p>
+        </div>
+        <div class="techscope-item has-photo">
+          <div class="techscope-photo"><Image src={asset("/assets/leistungen/kommunikationssysteme-rack.jpg")} alt="Techniker konfektioniert Netzwerk- und Kommunikationsverkabelung in einem Serverschrank" /><span class="ai-badge"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.7 5.3L19 9l-5.3 1.7L12 16l-1.7-5.3L5 9l5.3-1.7L12 2z"/><path d="M19 14l.85 2.15L22 17l-2.15.85L19 20l-.85-2.15L16 17l2.15-.85L19 14z"/></svg>AI generated</span></div>
+          <div class="techscope-item-body">
+            <h4>Kommunikationssysteme</h4>
+            <p>Telefon- und Interkomanlagen, Personenrufanlagen, elektroakustische Lautsprecheranlagen (ELA) sowie terrestrische und Satelliten-Empfangsanlagen.</p>
+          </div>
+        </div>
+        <div class="techscope-item">
+          <h4>Sicherheitssysteme</h4>
+          <p>Brand- und Gasalarmanlagen, Einbruchmeldeanlagen, Videoüberwachung und Zutrittskontrollsysteme.</p>
+        </div>
+        <div class="techscope-item has-photo">
+          <div class="techscope-photo"><Image src={asset("/assets/leistungen/baustelle-messung.jpg")} alt="Techniker dokumentiert Messwerte an einer Schaltanlage auf der Baustelle" /><span class="ai-badge"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.7 5.3L19 9l-5.3 1.7L12 16l-1.7-5.3L5 9l5.3-1.7L12 2z"/><path d="M19 14l.85 2.15L22 17l-2.15.85L19 20l-.85-2.15L16 17l2.15-.85L19 14z"/></svg>AI generated</span></div>
+          <div class="techscope-item-body">
+            <h4>Gebäudeautomation &amp; MSRL-Technik</h4>
+            <p>DDC- und SPS-Steuerungen, Gebäudeautomation und Industrie-Steuerungsanlagen.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>

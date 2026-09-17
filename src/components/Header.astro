@@ -1,0 +1,95 @@
+---
+import { Image } from 'astro:assets';
+import logoIcon from '../assets/logo-icon-v2.png';
+
+/* Die Navigation markiert die aktive Seite serverseitig. Astro.url.pathname
+   endet je nach Aufruf mit oder ohne Schrägstrich, deshalb wird normalisiert. */
+const path = Astro.url.pathname.replace(/\/+$/, '') || '/';
+
+const links = [
+  { href: '/leistungen/', label: 'Leistungen' },
+  {
+    href: '/projekte/',
+    label: 'Projekte',
+    sub: [
+      { href: '/projekte/#generalunternehmer', label: 'Ausgewählte Projekte' },
+      { href: '/projekte/#refVerzeichnis', label: 'Kundenübersicht' },
+      { href: '/projekte/#kundenfeedback', label: 'Kundenfeedback' },
+    ],
+  },
+  { href: '/unternehmen/', label: 'Unternehmen' },
+  { href: '/kontakt/', label: 'Kontakt' },
+];
+
+const isActive = (href: string) => path === href.replace(/\/+$/, '');
+---
+
+<header class="site">
+  <div class="wrap nav-row">
+    <a href="/" class="brand" aria-label="ELCON — zur Startseite">
+      <Image src={logoIcon} class="hex-mark" alt="ELCON Icon" loading="eager" />
+      <span class="brand-text">
+        <span class="brand-word">ELCON</span>
+        <span class="brand-tagline">Connected Building Engineering</span>
+      </span>
+    </a>
+
+    <input type="checkbox" id="menuToggle" class="menu-toggle">
+    <label for="menuToggle" class="menu-toggle-label" aria-label="Menü öffnen">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><path d="M2 5h16M2 10h16M2 15h16"/></svg>
+    </label>
+
+    <nav class="primary" aria-label="Hauptnavigation">
+      {links.map((link) => link.sub ? (
+        <div class="nav-drop">
+          <a
+            href={link.href}
+            class:list={{ 'is-active': isActive(link.href) }}
+            aria-current={isActive(link.href) ? 'page' : undefined}
+          >{link.label}</a>
+          <div class="nav-drop-menu">
+            {link.sub.map((s) => <a href={s.href}>{s.label}</a>)}
+          </div>
+        </div>
+      ) : (
+        <a
+          href={link.href}
+          class:list={{ 'is-active': isActive(link.href) }}
+          aria-current={isActive(link.href) ? 'page' : undefined}
+        >{link.label}</a>
+      ))}
+      <div class="lang-toggle" role="group" aria-label="Sprache">
+        <button type="button" data-lang="de" aria-pressed="true">DE</button>
+        <button type="button" data-lang="en" aria-pressed="false">EN</button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<script>
+  import { showToast } from '../scripts/toast';
+
+  /* Sprachumschalter. Die englische Fassung existiert noch nicht; der Schalter
+     sagt das offen, statt ins Leere zu führen. */
+  document.querySelectorAll<HTMLButtonElement>('.lang-toggle button').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const group = btn.closest('.lang-toggle');
+      group?.querySelectorAll('button').forEach((b) => {
+        b.setAttribute('aria-pressed', String(b === btn));
+      });
+      if (btn.dataset.lang === 'en') {
+        showToast('Die vollständige englische Version wird in der nächsten Ausbaustufe ergänzt.');
+      }
+    });
+  });
+
+  /* Mobiles Menü nach einem Klick schließen — beim Wechsel auf eine andere
+     Seite lädt das Dokument zwar neu, bei Ankerlinks innerhalb der Seite
+     bliebe das Panel sonst offen stehen. */
+  document.querySelectorAll('nav.primary a').forEach((a) => {
+    a.addEventListener('click', () => {
+      const mt = document.getElementById('menuToggle') as HTMLInputElement | null;
+      if (mt) mt.checked = false;
+    });
+  });
+</script>

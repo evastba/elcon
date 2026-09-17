@@ -1,0 +1,90 @@
+---
+import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
+---
+
+{analyticsEnabled && (
+<div class="cookie-banner" id="cookieBanner" hidden role="dialog" aria-live="polite" aria-label="Cookie-Einstellungen">
+  <div class="cookie-banner-inner">
+    <p>Diese Website verwendet Cookies bzw. vergleichbare Technologien, um die Nutzung der Seite anonymisiert auszuwerten und sie so zu verbessern. Sie können der Analyse zustimmen oder sie ablehnen. Details finden Sie in unserer <a href="/datenschutz/">Datenschutzerklärung</a>.</p>
+    <div class="cookie-banner-actions">
+      <button type="button" class="cta-btn ghost" id="cookieDecline">Ablehnen</button>
+      <button type="button" class="cta-btn primary" id="cookieAccept">Akzeptieren</button>
+    </div>
+  </div>
+</div>
+)}
+
+{analyticsEnabled && (
+<script is:inline define:vars={{ GA_MEASUREMENT_ID }}>
+  /* Cookie-Consent + Reichweitenmessung.
+
+     Dieser Block wird nur ausgeliefert, wenn in src/config.ts eine echte
+     GA4-Property-ID hinterlegt ist. Ohne ID verlaesst weder Analytics-Code
+     noch der Consent-Banner den Server, und die Datenschutzerklaerung
+     beschreibt die Seite entsprechend als trackingfrei. */
+
+  function loadAnalytics(){
+    if(document.getElementById('gaScript')) return;
+    var s = document.createElement('script');
+    s.id = 'gaScript';
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_MEASUREMENT_ID;
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ window.dataLayer.push(arguments); }
+    window.gtag = gtag;
+    gtag('js', new Date());
+    /* Seit der Umstellung auf echte Seiten ist jeder Bereichswechsel ein
+       eigener Seitenaufruf. GA4 misst ihn samt Herkunft (Referrer,
+       utm-Parameter) von selbst; virtuelle Seitenaufrufe entfallen. */
+    gtag('config', GA_MEASUREMENT_ID, { anonymize_ip: true });
+  }
+
+  /* Bruecke zwischen den Messpunkten der Seite und GA4.
+
+     Die Seite meldet Ereignisse ueber das DOM-Event 'elcon:track', ohne GA4 zu
+     kennen. Hier werden sie weitergereicht — aber nur, wenn eine Einwilligung
+     vorliegt, denn erst dann existiert window.gtag. Ereignisse davor werden
+     bewusst verworfen und nicht nachtraeglich gesendet. */
+  document.addEventListener('elcon:track', function(e){
+    if(typeof window.gtag !== 'function') return;
+    var d = e.detail || {};
+    window.gtag('event', d.name, d.params || {});
+  });
+
+  (function(){
+    var banner = document.getElementById('cookieBanner');
+    var acceptBtn = document.getElementById('cookieAccept');
+    var declineBtn = document.getElementById('cookieDecline');
+    var settingsLink = document.getElementById('cookieSettingsLink');
+    if(!banner) return;
+
+    function getConsent(){
+      try{ return localStorage.getItem('elconCookieConsent'); }catch(err){ return null; }
+    }
+    function setConsent(value){
+      try{ localStorage.setItem('elconCookieConsent', value); }catch(err){}
+    }
+    function showBanner(){ banner.hidden = false; }
+    function hideBanner(){ banner.hidden = true; }
+
+    var consent = getConsent();
+    if(consent === 'accepted'){ loadAnalytics(); }
+    else if(consent !== 'declined'){ showBanner(); }
+
+    if(acceptBtn) acceptBtn.addEventListener('click', function(){
+      setConsent('accepted');
+      loadAnalytics();
+      hideBanner();
+    });
+    if(declineBtn) declineBtn.addEventListener('click', function(){
+      setConsent('declined');
+      hideBanner();
+    });
+    if(settingsLink) settingsLink.addEventListener('click', function(e){
+      e.preventDefault();
+      showBanner();
+    });
+  })();
+</script>
+)}

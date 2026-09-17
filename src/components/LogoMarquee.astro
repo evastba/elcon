@@ -1,0 +1,38 @@
+---
+import { Image } from 'astro:assets';
+import { CLIENTS } from '../data/clients';
+
+/* Die Laufschrift wurde bisher im Browser per innerHTML aufgebaut. Serverseitig
+   gerendert laufen die Logos durch die Bildpipeline (WebP, Maße im Markup) und
+   stehen ohne JavaScript im Dokument.
+
+   Die Liste wird verdoppelt, weil die CSS-Animation exakt die halbe Breite
+   verschiebt und der zweite Durchlauf die Lücke füllt. Für Vorlesesoftware ist
+   das Band als dekorativ ausgezeichnet. */
+const logoModules = import.meta.glob<{ default: ImageMetadata }>(
+  '../assets/logos/*.{jpg,jpeg,png}',
+  { eager: true },
+);
+
+const logos = CLIENTS.map((c) => ({
+  ...c,
+  image: c.logo ? logoModules[`../assets/${c.logo}`]?.default : undefined,
+}));
+
+const doubled = [...logos, ...logos];
+---
+
+<div class="trust-block" style="margin-bottom:1.4rem;">
+  <h3>Vertrauen von Unternehmen und Institutionen</h3>
+  <div class="marquee">
+    <div class="marquee-track" aria-hidden="true">
+      {doubled.map((c) => c.image ? (
+        <span class:list={['marquee-logo', c.size === 'lg' && 'marquee-logo--lg']}>
+          <Image src={c.image} alt={c.name} loading="lazy" decoding="async" />
+        </span>
+      ) : (
+        <span class:list={['marquee-logo', 'marquee-logo-text', c.size === 'lg' && 'marquee-logo--lg']}>{c.name}</span>
+      ))}
+    </div>
+  </div>
+</div>
