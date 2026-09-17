@@ -1,0 +1,76 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { asset } from '../lib/assets';
+---
+
+<BaseLayout title="Unternehmen" description="Die ELCON LED GmbH: Generalunternehmer für technische Gebäudeausrüstung mit 30 Jahren Erfahrung — verlässlich, persönlich, aus einer Hand.">
+
+  <section id="unternehmenPage" style="padding-top:2.2rem;">
+    <div class="wrap">
+      <a href="/" class="subpage-back">← Zurück zur Startseite</a>
+      <div class="section-head" style="max-width:none;">
+        <p class="eyebrow">Unternehmen</p>
+        <h1>Verlässlich. Persönlich. Aus einer Hand.</h1>
+        <p>Aus dem 1953 von Wilhelm Deiters gegründeten Elektrofachbetrieb hervorgegangen, ist die ELCON seit 1993 als eigenständige Gesellschaft aktiv — heute als ELCON LED GmbH Teil der Deiters-Gruppe.</p>
+      </div>
+
+      <div class="company-showcase">
+        <div class="company-art">
+          <Image src={asset("/assets/unternehmen/team-planung.jpg")} alt="Zwei ELCON-Techniker besprechen einen Anlagenplan vor der technischen Gebäudeausrüstung" />
+          <span class="ai-badge"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.7 5.3L19 9l-5.3 1.7L12 16l-1.7-5.3L5 9l5.3-1.7L12 2z"/><path d="M19 14l.85 2.15L22 17l-2.15.85L19 20l-.85-2.15L16 17l2.15-.85L19 14z"/></svg>AI generated</span>
+          <div class="company-art-overlay"></div>
+          <blockquote class="leitbild">„Wir sind der verlässliche Generalunternehmer für technische Gebäudeausrüstung — wir planen, bauen und betreuen Elektro-, Heizungs-, Klima-, Lüftungs-, Sanitär- und Automatisierungstechnik aus einer Hand, persönlich und mit langjähriger Erfahrung.“</blockquote>
+        </div>
+      </div>
+
+      <p class="values-lead">Dafür stehen wir – das bestätigen auch unsere Kunden:</p>
+      <div class="values">
+        <div class="value-chip">
+          <span class="value-icon" style="background:var(--ink);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 5-3.2 8.5-7 10-3.8-1.5-7-5-7-10V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg>
+          </span>
+          <div><h4>Vertrauen &amp; Verlässlichkeit</h4><p>Zusagen werden eingehalten, Projekte zuverlässig betreut.</p></div>
+        </div>
+        <div class="value-chip">
+          <span class="value-icon" style="background:var(--accent-3);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="2.6"/><path d="M4 19c0-3 2.5-5 5-5s5 2 5 5"/><circle cx="17" cy="7" r="2"/><path d="M15 12c2 0 4.5 1.6 4.5 4.5"/></svg>
+          </span>
+          <div><h4>Kundennähe &amp; Kompetenz</h4><p>Persönliche Ansprechpartner mit Fachwissen über alle Gewerke.</p></div>
+        </div>
+        <div class="value-chip">
+          <span class="value-icon" style="background:var(--accent-2);">
+            <svg viewBox="0 0 24 24" fill="#fff" stroke="none"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg>
+          </span>
+          <div><h4>Tempo &amp; Pragmatismus</h4><p>Schnelle, unkomplizierte Umsetzung.</p></div>
+        </div>
+        <div class="value-chip">
+          <span class="value-icon" style="background:var(--accent);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19c0-8 5-14 14-14 0 9-6 14-14 14z"/><path d="M5 19c2-5 5-8 9-10"/></svg>
+          </span>
+          <div><h4>Energieeffizienz</h4><p>Messbare Verbesserung als zentrales Leistungsversprechen.</p></div>
+        </div>
+      </div>
+
+      <div class="section-head" style="margin-top:3rem;margin-bottom:1.4rem;max-width:none;">
+        <p class="eyebrow">Philosophie</p>
+        <h2>Grundsätze der Unternehmensphilosophie</h2>
+      </div>
+      <div class="philosophy-card">
+        <p class="values-lead">Qualität und Kundennähe:</p>
+        <ul class="philosophy-list">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Flexibles, objektbezogenes Leistungsangebot ohne kostenintensive Vorhalte-Aufwendungen</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Pragmatische Umsetzung einer klaren Vertragsgestaltung</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Gleichbleibend hohe Qualität trotz steigendem Kostendruck</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Intensive Kundenkontakte, aktives Zuhören, wenn Kunden ihre Vorstellungen erläutern</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Unterbreitung preisgünstiger, maßgeschneiderter Lösungsvorschläge</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Zuverlässige Wahrnehmung vertraglicher Pflichten</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Bereitschaft zu außergewöhnlichen Anstrengungen und Arbeit unter extremen Bedingungen</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Dezentrale Operationseinheiten unter zentraler Führung bieten ein Maximum an Kundennähe</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</div>
+
+</BaseLayout>

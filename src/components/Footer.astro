@@ -1,0 +1,44 @@
+---
+import { Image } from 'astro:assets';
+import logoIcon from '../assets/logo-icon-v2.png';
+import { company, analyticsEnabled } from '../config';
+
+const links = [
+  { href: '/leistungen/', label: 'Leistungen' },
+  { href: '/projekte/', label: 'Projekte' },
+  { href: '/unternehmen/', label: 'Unternehmen' },
+  { href: '/kontakt/', label: 'Kontakt' },
+];
+---
+
+<footer class="site">
+  <div class="wrap footer-grid">
+    <div>
+      <a href="/" class="brand" style="margin-bottom:.8rem;">
+        <Image src={logoIcon} class="hex-mark" style="width:30px;height:30px;" alt="ELCON Icon" />
+        <span class="brand-word" style="font-size:1.05rem;">ELCON</span>
+      </a>
+      <p style="color:var(--text-muted);font-size:.88rem;max-width:32ch;line-height:1.6;">
+        Generalunternehmer für technische Gebäudeausrüstung — Elektro, HKLS, MSR &amp; Automation aus einer Hand.
+      </p>
+    </div>
+    <div>
+      <h4>Navigation</h4>
+      <ul>
+        {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+      </ul>
+    </div>
+    <div>
+      <h4>Rechtliches</h4>
+      <ul>
+        <li><a href="/impressum/">Impressum</a></li>
+        <li><a href="/datenschutz/">Datenschutz</a></li>
+        {analyticsEnabled && <li><a href="#" id="cookieSettingsLink">Cookie-Einstellungen</a></li>}
+      </ul>
+    </div>
+  </div>
+  <div class="wrap footer-bottom">
+    <span>© 2026 {company.name}</span>
+    <span>{company.street} · {company.zip} {company.city} · {company.country}</span>
+  </div>
+</footer>

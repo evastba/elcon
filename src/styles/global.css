@@ -162,6 +162,9 @@ html, body { overflow-x: clip; }
 
   section{padding-block:clamp(3.2rem,6vw,5.5rem);}
   .section-head{max-width:640px;margin-bottom:2.6rem;}
+  /* Seit der Umstellung auf eigenstaendige Seiten traegt die erste Ueberschrift
+     eines Abschnittskopfs h1; die Auszeichnung bleibt unveraendert. */
+  .section-head h1,
   .section-head h2{font-size:clamp(1.6rem,3vw,2.3rem);margin:0 0 .7rem;font-weight:800;}
   .section-head p{color:var(--text-muted);font-size:1.02rem;line-height:1.6;margin:0;}
 
@@ -603,21 +606,6 @@ html, body { overflow-x: clip; }
   .legal-todo p{margin:0 0 .5rem;font-size:.9rem;line-height:1.6;color:var(--text-muted);}
   .legal-todo ul{margin:0;padding-left:1.2rem;font-size:.9rem;color:var(--text-muted);list-style:disc;}
   .legal-missing{font-style:italic;}
-
-  /* Die Rechtsseiten haben keinen Burger-Umschalter. Ihre Navigation darf
-     deshalb unter 900px nicht in das ausgeblendete Off-Canvas-Panel der
-     Startseite fallen, sondern bleibt als umbrechende Zeile sichtbar. */
-  @media (max-width:900px){
-    nav.primary.legal-nav{
-      position:static;inset:auto;flex-direction:row;flex-wrap:wrap;
-      padding:0;gap:.9rem 1.2rem;transform:none;border-top:0;background:none;
-      justify-content:flex-end;font-size:.92rem;
-    }
-  }
-  @media (max-width:560px){
-    .legal-nav-row{flex-wrap:wrap;gap:.6rem;}
-    nav.primary.legal-nav{width:100%;justify-content:flex-start;}
-  }
 
   /* ===== Hover-Zustände =====================================================
 

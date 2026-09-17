@@ -1,0 +1,788 @@
+---
+import { Image, getImage } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { asset } from '../lib/assets';
+
+/* Die Großansicht der Referenzschreiben wird erst im Browser gesetzt und kann
+   deshalb nicht über die <Image>-Komponente laufen. getImage() erzeugt die
+   optimierten Adressen beim Build; sie stehen als data-full am Vorschaubild. */
+const vollbildPfade = [
+  '/assets/testimonials/abb-airport-technologies-2002.jpg',
+  '/assets/testimonials/assmann-beraten-planen-2003.jpg',
+  '/assets/testimonials/beta-gmbh-2002.jpg',
+  '/assets/testimonials/bundesamt-bauwesen-riga-2002.jpg',
+  '/assets/testimonials/bundeskanzleramt-2002.jpg',
+  '/assets/testimonials/bundestag-kansy-2002.jpg',
+  '/assets/testimonials/energiewerkstatt-2002.jpg',
+  '/assets/testimonials/expo2000-hannover-2000.jpg',
+  '/assets/testimonials/imco-moldova-vereinbarung-2002.jpg',
+  '/assets/testimonials/kaluga-brewing-company-2001.jpg',
+  '/assets/testimonials/kbc-dankschreiben-2001.jpg',
+  '/assets/testimonials/merten-2006.jpg',
+  '/assets/testimonials/ministerul-energeticii-moldova-2002-01.jpg',
+  '/assets/testimonials/ministerul-energeticii-moldova-2002-02.jpg',
+  '/assets/testimonials/niedersaechsischer-landtag-heide-2002.jpg',
+  '/assets/testimonials/niedersaechsischer-landtag-stolze-2001.jpg',
+  '/assets/testimonials/rexel-valentin-klein-2002-08.jpg',
+  '/assets/testimonials/siemens-spls-2002.jpg',
+  '/assets/testimonials/sonepar-2002.jpg',
+  '/assets/testimonials/valentin-klein-rexel-2002-01.jpg',
+];
+
+const vollbild: Record<string, string> = Object.fromEntries(
+  await Promise.all(
+    vollbildPfade.map(async (pfad) => [
+      pfad,
+      (await getImage({ src: asset(pfad), format: 'webp' })).src,
+    ]),
+  ),
+);
+---
+
+<BaseLayout title="Projekte & Referenzen" description="Realisierte Projekte der ELCON LED GmbH: Elektro-, HKLS- und Automatisierungstechnik für Industrie, Gewerbe und öffentliche Auftraggeber weltweit.">
+
+  <section id="referenzen" style="padding-top:2.2rem;">
+    <div class="wrap">
+      <a href="/" class="subpage-back">← Zurück zur Startseite</a>
+      <div class="section-head" id="generalunternehmer" style="max-width:none;">
+        <p class="eyebrow">Ausgewählte Projekte</p>
+        <h1>Realisierte Lösungen für unsere Kunden</h1>
+        <p>Vom Automobilwerk über Hotellerie und Brauereien bis zur Botschaft: ELCON hat technische Gebäudeausrüstung für Industrie, Gewerbe und öffentliche Institutionen realisiert — von Werken in Deutschland und Polen über soziale Projekte in Ostafrika bis zu langjährigen Standorten in Russland, der Ukraine und Zentralasien. Eine Auswahl unserer Projekte aus drei Jahrzehnten:</p>
+      </div>
+
+      <div class="stat-strip" style="margin-bottom:2.6rem;">
+        <div><span class="stat-num">60+</span><span class="stat-label">realisierte Projekte</span></div>
+        <div><span class="stat-num">1993</span><span class="stat-label">gegründet als ELCON LED GmbH</span></div>
+        <div><span class="stat-num">6</span><span class="stat-label">Gewerke aus einer Hand</span></div>
+        <div><span class="stat-num">3</span><span class="stat-label">Kontinente mit Projekterfahrung</span></div>
+      </div>
+
+      <div class="filter-row" role="group" aria-label="Projekte nach Gewerk filtern">
+        <button type="button" class="filter-chip is-active" data-filter="all" aria-pressed="true">Alle</button>
+        <button type="button" class="filter-chip" data-filter="elektro" aria-pressed="false">Elektrotechnik</button>
+        <button type="button" class="filter-chip" data-filter="hkls" aria-pressed="false">HKLS</button>
+        <button type="button" class="filter-chip" data-filter="msr" aria-pressed="false">MSR &amp; Automation</button>
+        <button type="button" class="filter-chip" data-filter="netzwerk" aria-pressed="false">Netzwerktechnik</button>
+        <button type="button" class="filter-chip" data-filter="planung" aria-pressed="false">Planung &amp; Betrieb</button>
+      </div>
+
+      <div class="project-grid" id="projectGrid">
+        <article class="project-card" data-category="elektro">
+          <div class="project-art-wrap project-art-wrap--logo">
+            <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/audi.png")} alt="Audi Logo" /></div></div>
+          </div>
+          <div class="project-body">
+            <h3>Audi-Werk Ingolstadt, Umbau</h3>
+            <span class="project-meta">Deutschland · Elektrotechnik</span>
+            <p>Elektrotechnische Umbaumaßnahmen im laufenden Fertigungsbetrieb am Audi-Standort Ingolstadt.</p>
+          </div>
+        </article>
+        <article class="project-card" data-category="elektro">
+          <div class="project-art-wrap project-art-wrap--logo">
+            <div class="project-logo"><div class="project-logo-chip project-logo-chip--sm"><Image src={asset("/assets/logos/volkswagen.png")} alt="Volkswagen Logo" /></div></div>
+          </div>
+          <div class="project-body">
+            <h3>VW-Werk Emden, Umbau Elektrofahrzeug</h3>
+            <span class="project-meta">Deutschland · Elektrotechnik</span>
+            <p>Elektrotechnische Anpassungen im Zuge der Umstellung des VW-Werks Emden auf die Elektrofahrzeug-Fertigung.</p>
+          </div>
+        </article>
+        <article class="project-card" data-category="planung">
+          <div class="project-art-wrap project-art-wrap--logo">
+            <div class="project-logo project-logo--large"><div class="project-logo-chip project-logo-chip--large"><Image src={asset("/assets/logos/nordstream.png")} alt="Nord Stream Logo" /></div></div>
+          </div>
+          <div class="project-body">
+            <h3>Nord Stream Gaspipeline, Ostsee</h3>
+            <span class="project-meta">Ostsee · Planung &amp; Betrieb</span>
+            <p>Verlegung von Spezialkabeln und Anschlussarbeiten für die Ostsee-Pipeline (2011); seit der Inbetriebnahme im November 2011 zusätzlich Wartung und Betrieb.</p>
+          </div>
+        </article>
+        <article class="project-card" data-category="planung">
+          <div class="project-art-wrap project-art-wrap--logo">
+            <div class="project-logo project-logo--large"><div class="project-logo-chip project-logo-chip--large"><Image src={asset("/assets/logos/nordstream2.png")} alt="Nord Stream 2 Logo" /></div></div>
+          </div>
+          <div class="project-body">
+            <h3>Nord Stream 2 Gaspipeline, Ostsee</h3>
+            <span class="project-meta">Ostsee · Planung &amp; Betrieb</span>
+            <p>ELT-Technik für das Offshore-Gaspipeline-Projekt Nord Stream 2, seit 2018 — Fortführung der Offshore-Kompetenz aus dem Vorgängerprojekt.</p>
+          </div>
+        </article>
+        <article class="project-card" data-category="msr">
+          <div class="project-art-wrap project-art-wrap--logo">
+            <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/auswaertiges-amt.png")} alt="Auswärtiges Amt Logo" /></div></div>
+          </div>
+          <div class="project-body">
+            <h3>Deutsche Botschaft, Kiew</h3>
+            <span class="project-meta">Ukraine · Sicherheits- &amp; Zutrittstechnik</span>
+            <p>Gebäude- und Sicherheitstechnik für die Deutsche Botschaft in Kiew (2005) — mit erhöhten Sicherheitsanforderungen gemäß den verschärften Protokollen nach dem 11. September.</p>
+          </div>
+        </article>
+        <article class="project-card" data-category="hkls">
+          <div class="project-art-wrap project-art-wrap--logo">
+            <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/siemens.png")} alt="Siemens Logo" /></div></div>
+          </div>
+          <div class="project-body">
+            <h3>Brauerei Almaty Sosnadar</h3>
+            <span class="project-meta">Kasachstan · HKLS &amp; Prozesssteuerung</span>
+            <p>Prozesssteuerung mit Siemens-SIMATIC-Technik (2003) sowie Versorgungstechnik für den Brauereistandort Almaty (2006) — umgesetzt bei laufendem Produktionsbetrieb.</p>
+          </div>
+        </article>
+        <article class="project-card" data-category="elektro">
+          <div class="project-art-wrap project-art-wrap--logo">
+            <div class="project-logo"><div class="project-logo-chip project-logo-chip--sm"><Image src={asset("/assets/logos/volkswagen.png")} alt="Volkswagen Logo" /></div></div>
+          </div>
+          <div class="project-body">
+            <h3>VW-Batteriewerk Salzgitter</h3>
+            <span class="project-meta">Deutschland · Elektrotechnik</span>
+            <p>Elektrotechnische Ausrüstung im Rahmen des Aufbaus der Batteriezellfertigung am Standort Salzgitter.</p>
+          </div>
+        </article>
+        <article class="project-card" data-category="elektro">
+          <div class="project-art-wrap project-art-wrap--logo">
+            <div class="project-logo"><div class="project-logo-chip project-logo-chip--sm"><Image src={asset("/assets/logos/volkswagen.png")} alt="Volkswagen Logo" /></div></div>
+          </div>
+          <div class="project-body">
+            <h3>VW-Werk, Crafter-Fertigung</h3>
+            <span class="project-meta">Polen · Elektrotechnik</span>
+            <p>Elektrotechnische Ausrüstung im Zuge des Werksumbaus für die Crafter-Fertigung.</p>
+          </div>
+        </article>
+        <article class="project-card" data-category="elektro">
+          <div class="project-art-wrap project-art-wrap--logo">
+            <div class="project-logo"><div class="project-logo-chip project-logo-chip--sm"><Image src={asset("/assets/logos/volkswagen.png")} alt="Volkswagen Logo" /></div></div>
+          </div>
+          <div class="project-body">
+            <h3>VW-Werk Poznań, Caddy-Fertigung</h3>
+            <span class="project-meta">Polen · Elektrotechnik</span>
+            <p>Elektrotechnische Ausrüstung für die Caddy-Fertigung im VW-Werk Poznań.</p>
+          </div>
+        </article>
+        <article class="project-card" data-category="hkls">
+          <div class="project-art-wrap project-art-wrap--logo">
+            <div class="project-logo project-logo--large"><div class="project-logo-chip project-logo-chip--large"><Image src={asset("/assets/logos/sos-kinderdorf.png")} alt="SOS-Kinderdorf International Logo" /></div></div>
+          </div>
+          <div class="project-body">
+            <h3>SOS-Kinderdorf, Tansania</h3>
+            <span class="project-meta">Tansania · Haustechnik &amp; Energieversorgung</span>
+            <p>Sanitär-, Energie- und Gebäudetechnik für ein SOS-Kinderdorf in Ostafrika — robuste Lösungen für den Betrieb abseits stabiler Versorgungsnetze.</p>
+          </div>
+        </article>
+        <article class="project-card" data-category="hkls">
+          <div class="project-art-wrap project-art-wrap--logo">
+            <div class="project-logo project-logo--large"><div class="project-logo-chip project-logo-chip--large"><Image src={asset("/assets/logos/sos-kinderdorf.png")} alt="SOS-Kinderdorf International Logo" /></div></div>
+          </div>
+          <div class="project-body">
+            <h3>SOS-Kinderdorf, Äthiopien</h3>
+            <span class="project-meta">Äthiopien · Haustechnik &amp; Energieversorgung</span>
+            <p>Technische Gebäudeausrüstung für ein weiteres SOS-Kinderdorf in Äthiopien — Fortsetzung des sozialen Engagements in Ostafrika.</p>
+          </div>
+        </article>
+        <article class="project-card" data-category="msr">
+          <div class="project-art-wrap project-art-wrap--logo">
+            <div class="project-logo project-logo--large"><div class="project-logo-chip project-logo-chip--large"><Image src={asset("/assets/logos/schweiz-konsulat.png")} alt="Schweizerische Eidgenossenschaft Logo" /></div></div>
+          </div>
+          <div class="project-body">
+            <h3>Schweizer Botschaft, Kiew</h3>
+            <span class="project-meta">Ukraine · Sicherheits- &amp; Zutrittstechnik</span>
+            <p>Gesamte Haustechnik für den Neubau der Schweizer Botschaft in Kiew (2005) — termingerecht in nur 11 Monaten Bauzeit realisiert.</p>
+          </div>
+        </article>
+        <article class="project-card" data-category="msr">
+          <div class="project-art-wrap project-art-wrap--logo">
+            <div class="project-logo project-logo--large"><div class="project-logo-chip project-logo-chip--large"><Image src={asset("/assets/logos/schweiz-konsulat.png")} alt="Schweizerische Eidgenossenschaft Logo" /></div></div>
+          </div>
+          <div class="project-body">
+            <h3>Schweizer Botschaft, Republik Moldau</h3>
+            <span class="project-meta">Moldau · Sicherheits- &amp; Zutrittstechnik</span>
+            <p>Sicherheits- und Zutrittstechnik für die Schweizer Botschaft in Chișinău — Teil einer Reihe diplomatischer Projekte in Osteuropa.</p>
+          </div>
+        </article>
+        <article class="project-card" data-category="elektro">
+          <div class="project-art-wrap project-art-wrap--logo">
+            <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/porsche.png")} alt="Porsche Logo" /></div></div>
+          </div>
+          <div class="project-body">
+            <h3>Neubau Porsche-Zentrum, Moskau</h3>
+            <span class="project-meta">Russland · Elektrotechnik</span>
+            <p>Komplette Elektrotechnik für den Neubau des Porsche-Zentrums in Moskau (2006) — großzügige Ausstellungsflächen, anspruchsvoller Showroom, repräsentative Ausstattung.</p>
+          </div>
+        </article>
+        <article class="project-card" data-category="elektro">
+          <div class="project-art-wrap project-art-wrap--logo">
+            <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/gm.png")} alt="General Motors Logo" /></div></div>
+          </div>
+          <div class="project-body">
+            <h3>GM Headquarters, Moskau</h3>
+            <span class="project-meta">Russland · Elektrotechnik</span>
+            <p>Komplettausbau der 9. und 10. Etage (Nordturm) der GM-Unternehmenszentrale — rund 4.500 m² Bürofläche, Elektro-, Beleuchtungs- und Sicherheitstechnik aus einer Hand (2008).</p>
+          </div>
+        </article>
+        <article class="project-card" data-category="hkls">
+          <div class="project-art-wrap project-art-wrap--logo">
+            <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/selgros.png")} alt="Selgros Logo" /></div></div>
+          </div>
+          <div class="project-body">
+            <h3>Selgros Cash &amp; Carry, Kotelniki</h3>
+            <span class="project-meta">Russland · HKLS &amp; Elektrotechnik</span>
+            <p>Technische Gebäudeausrüstung für den Großmarkt-Neubau in Kotelniki (2008) — Heizung, Klima, Lüftung und Elektrotechnik im Zusammenspiel.</p>
+          </div>
+        </article>
+        <article class="project-card" data-category="hkls">
+          <div class="project-art-wrap project-art-wrap--logo">
+            <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/heineken.png")} alt="Heineken Logo" /></div></div>
+          </div>
+          <div class="project-body">
+            <h3>Heineken Brauerei, Nischni Nowgorod</h3>
+            <span class="project-meta">Russland · HKLS</span>
+            <p>Versorgungstechnik für den Brauereistandort in Nischni Nowgorod (2004) — ausgelegt auf durchgehenden Produktionsbetrieb und hohe Prozesssicherheit.</p>
+          </div>
+        </article>
+        <article class="project-card" data-category="hkls">
+          <div class="project-art-wrap project-art-wrap--logo">
+            <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/inbev.png")} alt="AB InBev Logo" /></div></div>
+          </div>
+          <div class="project-body">
+            <h3>InBev Brauerei, St. Petersburg</h3>
+            <span class="project-meta">Russland · HKLS</span>
+            <p>Versorgungstechnik für einen weiteren internationalen Brauereistandort in St. Petersburg (2006).</p>
+          </div>
+        </article>
+        <article class="project-card" data-category="msr">
+          <div class="project-art-wrap project-art-wrap--logo">
+            <div class="project-logo project-logo--large"><div class="project-logo-chip project-logo-chip--large"><Image src={asset("/assets/logos/schweiz-konsulat.png")} alt="Schweizerische Eidgenossenschaft Logo" /></div></div>
+          </div>
+          <div class="project-body">
+            <h3>Schweizer Konsulat, St. Petersburg</h3>
+            <span class="project-meta">Russland · Sicherheits- &amp; Zutrittstechnik</span>
+            <p>Sicherheits- und Elektrotechnik für das Schweizer Konsulat in St. Petersburg (2006) — Beleuchtung, Schalter und Steckdosen, IT-Infrastruktur sowie Schleusensteuerung.</p>
+          </div>
+        </article>
+        <article class="project-card" data-category="elektro">
+          <div class="project-art-wrap project-art-wrap--logo">
+            <div class="project-logo project-logo--large"><div class="project-logo-chip project-logo-chip--large"><Image src={asset("/assets/logos/schweiz-konsulat.png")} alt="Schweizerische Eidgenossenschaft Logo" /></div></div>
+          </div>
+          <div class="project-body">
+            <h3>Schweizer Botschaft, Moskau</h3>
+            <span class="project-meta">Russland · Elektrotechnik &amp; IT</span>
+            <p>Elektrotechnik und IT-Infrastruktur für die Renovierung der Visastelle der Schweizer Botschaft in Moskau (2005) — im selben Jahr wie das Kiewer Botschaftsprojekt.</p>
+          </div>
+        </article>
+        <article class="project-card" data-category="elektro">
+          <div class="project-art-wrap project-art-wrap--logo">
+            <div class="project-logo project-logo--large"><div class="project-logo-chip project-logo-chip--large"><Image src={asset("/assets/logos/continental.png")} alt="Continental Logo" /></div></div>
+          </div>
+          <div class="project-body">
+            <h3>Continental Automotive Systems, Kaluga</h3>
+            <span class="project-meta">Russland · Elektrotechnik</span>
+            <p>Ausbau und Instandhaltung der Elektrotechnik im laufenden Fertigungsbetrieb, seit 2011.</p>
+          </div>
+        </article>
+        <article class="project-card" data-category="elektro">
+          <div class="project-art-wrap project-art-wrap--logo">
+            <div class="project-logo project-logo--large"><div class="project-logo-chip project-logo-chip--large"><Image src={asset("/assets/logos/continental.png")} alt="Continental Logo" /></div></div>
+          </div>
+          <div class="project-body">
+            <h3>Continental, Moskau</h3>
+            <span class="project-meta">Russland · Elektrotechnik</span>
+            <p>Elektrotechnische Ausrüstung für einen weiteren Continental-Standort in Moskau (2004), ergänzend zum späteren Werk in Kaluga.</p>
+          </div>
+        </article>
+        <article class="project-card" data-category="netzwerk">
+          <div class="project-art-wrap project-art-wrap--logo">
+            <div class="project-logo"><div class="project-logo-chip project-logo-chip--sm"><Image src={asset("/assets/logos/volkswagen.png")} alt="Volkswagen Logo" /></div></div>
+          </div>
+          <div class="project-body">
+            <h3>Volkswagen-Werk, Kaluga</h3>
+            <span class="project-meta">Russland · Netzwerk- &amp; Dateninstallation</span>
+            <p>Fernmelde- und Dateninstallation für das neu errichtete VW-Automobilwerk in Kaluga (2008–2009) — von der Planung bis zur Inbetriebnahme.</p>
+          </div>
+        </article>
+        <article class="project-card" data-category="elektro">
+          <div class="project-art-wrap project-art-wrap--logo">
+            <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/benteler.png")} alt="Benteler Logo" /></div></div>
+          </div>
+          <div class="project-body">
+            <h3>Benteler Automobiltechnik, Kaluga</h3>
+            <span class="project-meta">Russland · Elektrotechnik</span>
+            <p>Elektrotechnische Ausrüstung für die Betriebsstätte des Fahrwerkskomponenten-Herstellers Benteler in Kaluga (2011).</p>
+          </div>
+        </article>
+        <article class="project-card" data-category="hkls">
+          <div class="project-art-wrap project-art-wrap--logo">
+            <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/ambassador-hotel.png")} alt="Ambassador Hotel Logo" /></div></div>
+          </div>
+          <div class="project-body">
+            <h3>Ambassador Hotel &amp; Boardinghouse, Kaluga</h3>
+            <span class="project-meta">Russland · Haustechnik &amp; Elektrotechnik</span>
+            <p>Technische Gebäudeausrüstung für den 18.000 m² großen Hotel- und Boardinghouse-Komplex in Kaluga (2008) — inklusive Wellnessbereich.</p>
+          </div>
+        </article>
+        <article class="project-card" data-category="hkls">
+          <div class="project-art-wrap project-art-wrap--logo">
+            <div class="project-logo project-logo--large"><div class="project-logo-dual"><div class="project-logo-chip"><Image src={asset("/assets/logos/hilton.png")} alt="Hilton Logo" /></div><div class="project-logo-chip"><Image src={asset("/assets/logos/hyatt.png")} alt="Hyatt Logo" /></div></div></div>
+          </div>
+          <div class="project-body">
+            <h3>Hilton / Ararat Park Hyatt Hotel, Moskau</h3>
+            <span class="project-meta">Russland · Haustechnik &amp; Elektrotechnik</span>
+            <p>Heizungs-, Klima- und Elektrotechnik für internationale Hotelstandorte in Moskau.</p>
+          </div>
+        </article>
+        <article class="project-card" data-category="elektro">
+          <div class="project-art-wrap project-art-wrap--logo">
+            <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/billa.png")} alt="BILLA Logo" /></div></div>
+          </div>
+          <div class="project-body">
+            <h3>BILLA Einkaufsmärkte, Moskau</h3>
+            <span class="project-meta">Russland · Elektrotechnik (21 Standorte)</span>
+            <p>Elektrotechnische Ausrüstung für 21 BILLA-Einkaufsmärkte im Großraum Moskau.</p>
+          </div>
+        </article>
+        <article class="project-card" data-category="elektro">
+          <div class="project-art-wrap project-art-wrap--logo">
+            <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/mitsubishi.png")} alt="Mitsubishi Logo" /></div></div>
+          </div>
+          <div class="project-body">
+            <h3>Mitsubishi Servicestation, Moskau</h3>
+            <span class="project-meta">Russland · Elektrotechnik</span>
+            <p>Komplette Gebäudetechnik für die Mitsubishi-Servicestation in Moskau (2003) — 12.300 m² auf zwei Ebenen.</p>
+          </div>
+        </article>
+        <article class="project-card" data-category="msr">
+          <div class="project-art-wrap project-art-wrap--logo">
+            <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/eu.png")} alt="Botschaft der Europäischen Union Logo" /></div></div>
+          </div>
+          <div class="project-body">
+            <h3>Botschaft der Europäischen Union, Moskau</h3>
+            <span class="project-meta">Russland · Sicherheitstechnik</span>
+            <p>Komplette Sicherheitstechnik für die Botschaft der Europäischen Union in Moskau (2001) — realisiert im Winter unter knappem Zeitrahmen.</p>
+          </div>
+        </article>
+        <article class="project-card" data-category="elektro">
+          <div class="project-art-wrap project-art-wrap--logo">
+            <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/thyssenkrupp.png")} alt="thyssenkrupp Logo" /></div></div>
+          </div>
+          <div class="project-body">
+            <h3>thyssenkrupp Schiffslackiererei, Rijeka</h3>
+            <span class="project-meta">Kroatien · Elektrotechnik</span>
+            <p>Elektrotechnik für eine Schiffslackiererei in Rijeka (2001) — Industrieanlage für thyssenkrupp.</p>
+          </div>
+        </article>
+        <article class="project-card" data-category="msr">
+          <div class="project-art-wrap project-art-wrap--logo">
+            <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/osce.png")} alt="OSZE Logo" /></div></div>
+          </div>
+          <div class="project-body">
+            <h3>OSZE-Hauptquartier, Pristina</h3>
+            <span class="project-meta">Kosovo · Brandmeldetechnik</span>
+            <p>Planung und Installation der Brandmeldeanlage für das OSZE-Hauptquartier in Pristina (2000).</p>
+          </div>
+        </article>
+        <article class="project-card" data-category="elektro">
+          <div class="project-art-wrap project-art-wrap--logo">
+            <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/bautech.png")} alt="Bautech Logo" /></div></div>
+          </div>
+          <div class="project-body">
+            <h3>Bautech, Gewerbebau</h3>
+            <span class="project-meta">Elektrotechnik &amp; Gewerbebau</span>
+            <p>Elektrotechnische Leistungen im Rahmen von Gewerbe- und Immobilienprojekten mit Bautech als Generalunternehmer-Partner.</p>
+          </div>
+        </article>
+        <article class="project-card" data-category="elektro">
+          <div class="project-art-wrap project-art-wrap--logo">
+            <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/hochtief.png")} alt="HOCHTIEF Logo" /></div></div>
+          </div>
+          <div class="project-body">
+            <h3>HOCHTIEF, Gewerbebau</h3>
+            <span class="project-meta">Elektrotechnik &amp; Gewerbebau</span>
+            <p>Elektrotechnische Leistungen im Rahmen von Gewerbe- und Immobilienprojekten mit HOCHTIEF als Generalunternehmer-Partner.</p>
+          </div>
+        </article>
+        <article class="project-card" data-category="elektro">
+          <div class="project-art-wrap project-art-wrap--logo">
+            <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/roche.png")} alt="Hoffmann-La Roche Logo" /></div></div>
+          </div>
+          <div class="project-body">
+            <h3>Hoffmann-La Roche Verwaltungsgebäude, Moskau</h3>
+            <span class="project-meta">Russland · Elektrotechnik</span>
+            <p>Renovierung des Verwaltungsgebäudes von Hoffmann-La Roche in Moskau (1999).</p>
+          </div>
+        </article>
+        <article class="project-card" data-category="hkls">
+          <div class="project-art-wrap project-art-wrap--logo">
+            <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/care.png")} alt="CARE International Logo" /></div></div>
+          </div>
+          <div class="project-body">
+            <h3>CARE International, Reha-Zentrum</h3>
+            <span class="project-meta">Öffentliche Auftraggeber · Haustechnik</span>
+            <p>Technische Gebäudeausrüstung für ein Reha-Zentrum von CARE International — Teil des sozialen Engagements neben den SOS-Kinderdorf-Projekten.</p>
+          </div>
+        </article>
+        <article class="project-card" data-category="elektro">
+          <div class="project-art-wrap project-art-wrap--logo">
+            <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/streif.png")} alt="STREIF Logo" /></div></div>
+          </div>
+          <div class="project-body">
+            <h3>STREIF, Bauprojekt</h3>
+            <span class="project-meta">Elektrotechnik</span>
+            <p>Elektrotechnische Leistungen für ein Bauprojekt mit STREIF als Partner.</p>
+          </div>
+        </article>
+        <article class="project-card" data-category="elektro">
+          <div class="project-art-wrap project-art-wrap--logo">
+            <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/auswaertiges-amt.png")} alt="Auswärtiges Amt Logo" /></div></div>
+          </div>
+          <div class="project-body">
+            <h3>Deutsche Botschaft, Riga</h3>
+            <span class="project-meta">Lettland · Elektrotechnik</span>
+            <p>Komplette Elektroinfrastruktur für die Deutsche Botschaft in Riga (1996) — Niederspannungsverteilung, Notstromversorgung, Brandmeldeanlagen und Blitzschutz, unter Erhalt der historischen Stuckdecken.</p>
+          </div>
+        </article>
+        <article class="project-card" data-category="elektro">
+          <div class="project-art-wrap project-art-wrap--logo">
+            <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/auswaertiges-amt.png")} alt="Auswärtiges Amt Logo" /></div></div>
+          </div>
+          <div class="project-body">
+            <h3>Wohnkomplex Deutsche Botschaft, Moskau</h3>
+            <span class="project-meta">Russland · Elektrotechnik (1996–2001)</span>
+            <p>Vierjährige Modernisierung der elektrotechnischen Ausrüstung sowie Kommunikations-, Antennen- und Brandmeldeanlagen für den Wohnkomplex der Deutschen Botschaft in Moskau — Projektvolumen rund 40 Mio. €.</p>
+          </div>
+        </article>
+        <article class="project-card" data-category="elektro">
+          <div class="project-art-wrap project-art-wrap--logo">
+            <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/philipp-holzmann.png")} alt="Philipp Holzmann AG Logo" /></div></div>
+          </div>
+          <div class="project-body">
+            <h3>Modernisierungsprojekt Moskau</h3>
+            <span class="project-meta">Russland · Elektro- &amp; Sicherheitstechnik (1994)</span>
+            <p>Planung und Ausführung von Elektro- und Kommunikationstechnik für neun Modernisierungsprojekte in Moskau — u.&nbsp;a. Hotel Balschug/Kempinski und mehrere Repräsentanzgebäude, im Auftrag der AMR (Philipp Holzmann AG).</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="reference-directory" id="refVerzeichnis">
+
+        <!-- ABSCHNITT 1: AUSGEWÄHLTE REFERENZEN -->
+        <section class="ref-showcase">
+          <div class="ref-stage">
+            <!-- Platzhalter-Bild: vorhandenes Projekt-Stock-Asset (bereits im Leistungen-Bereich verwendet). Bildrechte für den finalen Produktiveinsatz separat prüfen; bei Bedarf gegen ein reales ELCON-Projektfoto austauschen. -->
+            <Image src={asset("/assets/offer/technik-msr.jpg")} width="900" height="519" alt="Technische Gebäudeausrüstung in einer Gewerbeimmobilie — Schaltschrank mit Gebäudeleittechnik" />
+            <span class="ai-badge"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.7 5.3L19 9l-5.3 1.7L12 16l-1.7-5.3L5 9l5.3-1.7L12 2z"/><path d="M19 14l.85 2.15L22 17l-2.15.85L19 20l-.85-2.15L16 17l2.15-.85L19 14z"/></svg>AI generated</span>
+            <div class="ref-stage-overlay"></div>
+            <div class="ref-stage-content wrap">
+              <h2>Erfahrung, die Vertrauen schafft</h2>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- ABSCHNITT 2: BRANCHEN- UND PROJEKTERFAHRUNG -->
+        <section class="ref-industries">
+          <div class="wrap">
+            <div class="section-head" style="margin-bottom:1.8rem;max-width:none;">
+              <p class="eyebrow">Kundenübersicht</p>
+              <h2>Diverse Branchen und Märkte weltweit</h2>
+              <p>Von Automotive und Industrie über Gewerbeimmobilien bis zu öffentlichen und internationalen Projekten.</p>
+            </div>
+
+            <div class="ref-groups">
+              <div class="ref-group-card">
+                <div class="ref-group-top">
+                  <span class="ref-group-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16l1.5-5a2 2 0 011.9-1.4h9.2A2 2 0 0118.5 11l1.5 5"/><path d="M3 16h18v2a1 1 0 01-1 1h-1.5a1 1 0 01-1-1v-1H6.5v1a1 1 0 01-1 1H4a1 1 0 01-1-1v-2z"/><circle cx="7" cy="17.5" r="1.3"/><circle cx="17" cy="17.5" r="1.3"/></svg></span>
+                  <div>
+                    <span class="ref-group-line" style="background:var(--ink);"></span>
+                    <h3>Industrie &amp; Automotive</h3>
+                  </div>
+                </div>
+                <ul class="ref-group-list two-col">
+                  <li>Volkswagen AG</li><li>Porsche</li><li>General Motors</li><li>Continental AG</li><li>Benteler AG Automobiltechnik</li><li>ThyssenKrupp: Schiffslackiererei</li>
+                </ul>
+                <ul class="ref-group-list two-col" style="margin-top:.7rem;">
+                  <li>CLAAS Landmaschinen</li><li>Egger Spanplattenwerk</li><li>Kronospan</li><li>ZAO Rolf Estate – Mitsubishi Autohaus</li><li>Lexus-Autohaus</li><li>Vental Stahlfabrik</li><li>Schubbeize</li><li>Ziegelwerk</li><li>Rani Plast</li>
+                </ul>
+              </div>
+
+              <div class="ref-group-card">
+                <div class="ref-group-top">
+                  <span class="ref-group-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="10" height="16"/><path d="M15 11h4v9h-4"/><path d="M8 8h2M8 12h2M8 16h2"/></svg></span>
+                  <div>
+                    <span class="ref-group-line" style="background:var(--accent-3);"></span>
+                    <h3>Gewerbe, Immobilien &amp; Hospitality</h3>
+                  </div>
+                </div>
+                <ul class="ref-group-list">
+                  <li>Bau Grund AG</li><li>HOCHTIEF</li><li>Internationales Handelszentrum „Moskva City“</li><li>Hotel Golden Apple</li><li>Messeorganisation „Kazakhstan International Exposition“</li><li>World Class Fitness Club</li>
+                </ul>
+                <ul class="ref-group-list" style="margin-top:.7rem;">
+                  <li>AMR (Philipp Holzmann AG)</li><li>Bautech</li>
+                </ul>
+              </div>
+
+              <div class="ref-group-card">
+                <div class="ref-group-top">
+                  <span class="ref-group-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9l8-5 8 5"/><path d="M4 9h16"/><path d="M6 9v9M10 9v9M14 9v9M18 9v9"/><path d="M3 20h18"/></svg></span>
+                  <div>
+                    <span class="ref-group-line" style="background:var(--accent);"></span>
+                    <h3>Öffentliche Auftraggeber &amp; Diplomatie</h3>
+                  </div>
+                </div>
+                <ul class="ref-group-list two-col">
+                  <li>Auswärtiges Amt</li><li>Botschaft der Europäischen Union</li><li>SOS-Kinderdorf International</li><li>OSZE-Hauptquartier</li><li>OSZE-Wirtschaftsfakultät</li><li>OSZE-Regierungsgebäude</li>
+                </ul>
+                <ul class="ref-group-list two-col" style="margin-top:.7rem;">
+                  <li>OSZE-Polizeischule</li><li>Visaamt</li><li>Flughafen</li><li>Care International</li>
+                </ul>
+              </div>
+
+              <div class="ref-group-card">
+                <div class="ref-group-top">
+                  <span class="ref-group-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 4 5.7 4 9s-1.5 6.5-4 9c-2.5-2.5-4-5.7-4-9s1.5-6.5 4-9z"/></svg></span>
+                  <div>
+                    <span class="ref-group-line" style="background:var(--accent-3);"></span>
+                    <h3>Internationale Industrie- und Sonderprojekte</h3>
+                  </div>
+                </div>
+                <div class="ref-subgroup">
+                  <h4>Banken</h4>
+                  <ul class="ref-group-list two-col"><li>Aeroflot-Bank</li><li>Toko-Bank</li><li>Europäische Handelsbank</li><li>Westdeutsche Landesbank</li></ul>
+                </div>
+                <div class="ref-subgroup">
+                  <h4>Brauereien</h4>
+                  <ul class="ref-group-list two-col"><li>Siemens: Brauerei Sosnadar</li><li>KBC – Kaluga Brewing Company</li><li>Stepan Rasin Brauerei</li><li>Tinkoff Brauerei</li><li>SABMiller</li><li>Belarus Brauerei-Gesellschaft</li><li>Baltika Brauerei Holding</li><li>Susyndar Brauerei</li><li>Huppmann Tuchenhagen Brewery Systems</li></ul>
+                </div>
+                <div class="ref-subgroup">
+                  <h4>Büro und weitere Projekte</h4>
+                  <ul class="ref-group-list two-col"><li>Hoffmann-La Roche</li><li>Johnson &amp; Johnson</li><li>Interros Estate</li><li>Siemens AG / Rospatentamt</li></ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="testimonial-carousel" id="kundenfeedback">
+        <div class="section-head" style="margin-bottom:1.4rem;max-width:none;">
+          <p class="eyebrow">Kundenfeedback</p>
+          <h2>Was unsere Kunden über uns sagen</h2>
+          <p>Dankschreiben und Empfehlungen von Kunden, Geschäftspartnern und Institutionen aus mehr als zwei Jahrzehnten — ein Ausschnitt aus dem ELCON-Archiv. Zum Vergrößern anklicken.</p>
+        </div>
+        <div class="tc-viewport">
+          <button type="button" class="tc-nav tc-prev" id="tcPrev" aria-label="Vorheriges Schreiben">&#8249;</button>
+          <div class="tc-track" id="tcTrack">
+            <figure class="tc-slide" data-index="0">
+              <button type="button" class="tc-thumb" data-full={vollbild["/assets/testimonials/expo2000-hannover-2000.jpg"]} data-sender="EXPO 2000 Hannover GmbH" data-date="31. Oktober 2000" aria-label="Vergrößern: EXPO 2000 Hannover GmbH, 31. Oktober 2000">
+                <Image src={asset("/assets/testimonials/expo2000-hannover-2000.jpg")} alt="Dankschreiben EXPO 2000 Hannover GmbH für die Ticketvertriebs-Partnerschaft" />
+              </button>
+              <figcaption><strong>EXPO 2000 Hannover GmbH</strong><span>31. Oktober 2000</span></figcaption>
+            </figure>
+            <figure class="tc-slide" data-index="1">
+              <button type="button" class="tc-thumb" data-full={vollbild["/assets/testimonials/kaluga-brewing-company-2001.jpg"]} data-sender="The Kaluga Brewing Company" data-date="13. März 2001" aria-label="Vergrößern: The Kaluga Brewing Company, 13. März 2001">
+                <Image src={asset("/assets/testimonials/kaluga-brewing-company-2001.jpg")} alt="Empfehlungsschreiben The Kaluga Brewing Company" />
+              </button>
+              <figcaption><strong>The Kaluga Brewing Company</strong><span>13. März 2001</span></figcaption>
+            </figure>
+            <figure class="tc-slide" data-index="2">
+              <button type="button" class="tc-thumb" data-full={vollbild["/assets/testimonials/kbc-dankschreiben-2001.jpg"]} data-sender="Kaluga Brewing Company" data-date="15. Juni 2001" aria-label="Vergrößern: Kaluga Brewing Company, 15. Juni 2001">
+                <Image src={asset("/assets/testimonials/kbc-dankschreiben-2001.jpg")} alt="Dankschreiben Kaluga Brewing Company" />
+              </button>
+              <figcaption><strong>Kaluga Brewing Company</strong><span>15. Juni 2001</span></figcaption>
+            </figure>
+            <figure class="tc-slide" data-index="3">
+              <button type="button" class="tc-thumb" data-full={vollbild["/assets/testimonials/niedersaechsischer-landtag-stolze-2001.jpg"]} data-sender="Niedersächsischer Landtag · M. Stolze MdL" data-date="17. November 2001" aria-label="Vergrößern: Niedersächsischer Landtag · M. Stolze MdL, 17. November 2001">
+                <Image src={asset("/assets/testimonials/niedersaechsischer-landtag-stolze-2001.jpg")} alt="Schreiben von Michael Stolze MdL, Niedersächsischer Landtag" />
+              </button>
+              <figcaption><strong>Niedersächsischer Landtag · M. Stolze MdL</strong><span>17. November 2001</span></figcaption>
+            </figure>
+            <figure class="tc-slide" data-index="4">
+              <button type="button" class="tc-thumb" data-full={vollbild["/assets/testimonials/bundesamt-bauwesen-riga-2002.jpg"]} data-sender="Bundesamt für Bauwesen und Raumordnung" data-date="3. Januar 2002" aria-label="Vergrößern: Bundesamt für Bauwesen und Raumordnung, 3. Januar 2002">
+                <Image src={asset("/assets/testimonials/bundesamt-bauwesen-riga-2002.jpg")} alt="Bestätigung Bundesamt für Bauwesen und Raumordnung zur Sanierung der Deutschen Botschaft Riga" />
+              </button>
+              <figcaption><strong>Bundesamt für Bauwesen und Raumordnung</strong><span>3. Januar 2002</span></figcaption>
+            </figure>
+            <figure class="tc-slide" data-index="5">
+              <button type="button" class="tc-thumb" data-full={vollbild["/assets/testimonials/valentin-klein-rexel-2002-01.jpg"]} data-sender="Valentin Klein GmbH / Rexel" data-date="9. Januar 2002" aria-label="Vergrößern: Valentin Klein GmbH / Rexel, 9. Januar 2002">
+                <Image src={asset("/assets/testimonials/valentin-klein-rexel-2002-01.jpg")} alt="Dankschreiben Valentin Klein GmbH / Rexel Elektrotechnik" />
+              </button>
+              <figcaption><strong>Valentin Klein GmbH / Rexel</strong><span>9. Januar 2002</span></figcaption>
+            </figure>
+            <figure class="tc-slide" data-index="6">
+              <button type="button" class="tc-thumb" data-full={vollbild["/assets/testimonials/imco-moldova-vereinbarung-2002.jpg"]} data-sender="IMCO Ltd, Chișinău" data-date="11. Januar 2002" aria-label="Vergrößern: IMCO Ltd, Chișinău, 11. Januar 2002">
+                <Image src={asset("/assets/testimonials/imco-moldova-vereinbarung-2002.jpg")} alt="Kooperationsvereinbarung ELCON GmbH und IMCO Ltd, Chișinău" />
+              </button>
+              <figcaption><strong>IMCO Ltd, Chișinău</strong><span>11. Januar 2002</span></figcaption>
+            </figure>
+            <figure class="tc-slide" data-index="7">
+              <button type="button" class="tc-thumb" data-full={vollbild["/assets/testimonials/ministerul-energeticii-moldova-2002-01.jpg"]} data-sender="Ministerul Energeticii al Republicii Moldova" data-date="22. Januar 2002" aria-label="Vergrößern: Ministerul Energeticii al Republicii Moldova, 22. Januar 2002">
+                <Image src={asset("/assets/testimonials/ministerul-energeticii-moldova-2002-01.jpg")} alt="Schreiben des Energieministeriums der Republik Moldau" />
+              </button>
+              <figcaption><strong>Ministerul Energeticii al Republicii Moldova</strong><span>22. Januar 2002</span></figcaption>
+            </figure>
+            <figure class="tc-slide" data-index="8">
+              <button type="button" class="tc-thumb" data-full={vollbild["/assets/testimonials/energiewerkstatt-2002.jpg"]} data-sender="energiewerkstatt GmbH" data-date="23. Januar 2002" aria-label="Vergrößern: energiewerkstatt GmbH, 23. Januar 2002">
+                <Image src={asset("/assets/testimonials/energiewerkstatt-2002.jpg")} alt="Dankschreiben energiewerkstatt Gesellschaft für rationelle Energieverwendung mbH" />
+              </button>
+              <figcaption><strong>energiewerkstatt GmbH</strong><span>23. Januar 2002</span></figcaption>
+            </figure>
+            <figure class="tc-slide" data-index="9">
+              <button type="button" class="tc-thumb" data-full={vollbild["/assets/testimonials/beta-gmbh-2002.jpg"]} data-sender="beta GmbH" data-date="24. Januar 2002" aria-label="Vergrößern: beta GmbH, 24. Januar 2002">
+                <Image src={asset("/assets/testimonials/beta-gmbh-2002.jpg")} alt="Dankschreiben beta GmbH Betrieb energietechnischer Anlagen" />
+              </button>
+              <figcaption><strong>beta GmbH</strong><span>24. Januar 2002</span></figcaption>
+            </figure>
+            <figure class="tc-slide" data-index="10">
+              <button type="button" class="tc-thumb" data-full={vollbild["/assets/testimonials/bundestag-kansy-2002.jpg"]} data-sender="Deutscher Bundestag · Dr.-Ing. D. Kansy MdB" data-date="24. Januar 2002" aria-label="Vergrößern: Deutscher Bundestag · Dr.-Ing. D. Kansy MdB, 24. Januar 2002">
+                <Image src={asset("/assets/testimonials/bundestag-kansy-2002.jpg")} alt="Schreiben von Dr.-Ing. Dietmar Kansy MdB, Deutscher Bundestag" />
+              </button>
+              <figcaption><strong>Deutscher Bundestag · Dr.-Ing. D. Kansy MdB</strong><span>24. Januar 2002</span></figcaption>
+            </figure>
+            <figure class="tc-slide" data-index="11">
+              <button type="button" class="tc-thumb" data-full={vollbild["/assets/testimonials/niedersaechsischer-landtag-heide-2002.jpg"]} data-sender="Niedersächsischer Landtag · L. von der Heide MdL" data-date="4. Februar 2002" aria-label="Vergrößern: Niedersächsischer Landtag · L. von der Heide MdL, 4. Februar 2002">
+                <Image src={asset("/assets/testimonials/niedersaechsischer-landtag-heide-2002.jpg")} alt="Schreiben von Lutz von der Heide MdL, Niedersächsischer Landtag" />
+              </button>
+              <figcaption><strong>Niedersächsischer Landtag · L. von der Heide MdL</strong><span>4. Februar 2002</span></figcaption>
+            </figure>
+            <figure class="tc-slide" data-index="12">
+              <button type="button" class="tc-thumb" data-full={vollbild["/assets/testimonials/bundeskanzleramt-2002.jpg"]} data-sender="Bundesrepublik Deutschland, Der Bundeskanzler" data-date="5. Februar 2002" aria-label="Vergrößern: Bundesrepublik Deutschland, Der Bundeskanzler, 5. Februar 2002">
+                <Image src={asset("/assets/testimonials/bundeskanzleramt-2002.jpg")} alt="Schreiben aus dem Bundeskanzleramt im Auftrag von Bundeskanzler Schröder" />
+              </button>
+              <figcaption><strong>Bundesrepublik Deutschland, Der Bundeskanzler</strong><span>5. Februar 2002</span></figcaption>
+            </figure>
+            <figure class="tc-slide" data-index="13">
+              <button type="button" class="tc-thumb" data-full={vollbild["/assets/testimonials/siemens-spls-2002.jpg"]} data-sender="Siemens SPLS · Jörg Mattern" data-date="28. Februar 2002" aria-label="Vergrößern: Siemens SPLS · Jörg Mattern, 28. Februar 2002">
+                <Image src={asset("/assets/testimonials/siemens-spls-2002.jpg")} alt="Dankschreiben Siemens Procurement and Logistics Services" />
+              </button>
+              <figcaption><strong>Siemens SPLS · Jörg Mattern</strong><span>28. Februar 2002</span></figcaption>
+            </figure>
+            <figure class="tc-slide" data-index="14">
+              <button type="button" class="tc-thumb" data-full={vollbild["/assets/testimonials/abb-airport-technologies-2002.jpg"]} data-sender="ABB Airport Technologies GmbH" data-date="18. März 2002" aria-label="Vergrößern: ABB Airport Technologies GmbH, 18. März 2002">
+                <Image src={asset("/assets/testimonials/abb-airport-technologies-2002.jpg")} alt="Bestätigung ABB Airport Technologies GmbH" />
+              </button>
+              <figcaption><strong>ABB Airport Technologies GmbH</strong><span>18. März 2002</span></figcaption>
+            </figure>
+            <figure class="tc-slide" data-index="15">
+              <button type="button" class="tc-thumb" data-full={vollbild["/assets/testimonials/ministerul-energeticii-moldova-2002-02.jpg"]} data-sender="Ministerul Energeticii al Republicii Moldova" data-date="2002" aria-label="Vergrößern: Ministerul Energeticii al Republicii Moldova, 2002">
+                <Image src={asset("/assets/testimonials/ministerul-energeticii-moldova-2002-02.jpg")} alt="Dankschreiben des Energieministeriums der Republik Moldau" />
+              </button>
+              <figcaption><strong>Ministerul Energeticii al Republicii Moldova</strong><span>2002</span></figcaption>
+            </figure>
+            <figure class="tc-slide" data-index="16">
+              <button type="button" class="tc-thumb" data-full={vollbild["/assets/testimonials/rexel-valentin-klein-2002-08.jpg"]} data-sender="REXEL Deutschland / Valentin Klein" data-date="12. August 2002" aria-label="Vergrößern: REXEL Deutschland / Valentin Klein, 12. August 2002">
+                <Image src={asset("/assets/testimonials/rexel-valentin-klein-2002-08.jpg")} alt="Dankschreiben REXEL Deutschland Elektrofachgroßhandel" />
+              </button>
+              <figcaption><strong>REXEL Deutschland / Valentin Klein</strong><span>12. August 2002</span></figcaption>
+            </figure>
+            <figure class="tc-slide" data-index="17">
+              <button type="button" class="tc-thumb" data-full={vollbild["/assets/testimonials/sonepar-2002.jpg"]} data-sender="Sonepar Deutschland, Region Nord-Ost" data-date="14. August 2002" aria-label="Vergrößern: Sonepar Deutschland, Region Nord-Ost, 14. August 2002">
+                <Image src={asset("/assets/testimonials/sonepar-2002.jpg")} alt="Dankschreiben Sonepar Deutschland/Region Nord-Ost GmbH" />
+              </button>
+              <figcaption><strong>Sonepar Deutschland, Region Nord-Ost</strong><span>14. August 2002</span></figcaption>
+            </figure>
+            <figure class="tc-slide" data-index="18">
+              <button type="button" class="tc-thumb" data-full={vollbild["/assets/testimonials/assmann-beraten-planen-2003.jpg"]} data-sender="ASSMANN BERATEN + PLANEN GmbH" data-date="22. April 2003" aria-label="Vergrößern: ASSMANN BERATEN + PLANEN GmbH, 22. April 2003">
+                <Image src={asset("/assets/testimonials/assmann-beraten-planen-2003.jpg")} alt="Schreiben ASSMANN BERATEN + PLANEN GmbH" />
+              </button>
+              <figcaption><strong>ASSMANN BERATEN + PLANEN GmbH</strong><span>22. April 2003</span></figcaption>
+            </figure>
+            <figure class="tc-slide" data-index="19">
+              <button type="button" class="tc-thumb" data-full={vollbild["/assets/testimonials/merten-2006.jpg"]} data-sender="Merten GmbH & Co. KG" data-date="15. Februar 2006" aria-label="Vergrößern: Merten GmbH & Co. KG, 15. Februar 2006">
+                <Image src={asset("/assets/testimonials/merten-2006.jpg")} alt="Persönliches Schreiben Merten GmbH & Co. KG" />
+              </button>
+              <figcaption><strong>Merten GmbH & Co. KG</strong><span>15. Februar 2006</span></figcaption>
+            </figure>
+          </div>
+          <button type="button" class="tc-nav tc-next" id="tcNext" aria-label="Nächstes Schreiben">&#8250;</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="tc-lightbox" id="tcLightbox" hidden role="dialog" aria-modal="true" aria-label="Referenzschreiben, vergrößerte Ansicht">
+  <button type="button" class="tc-lb-close" id="tcLbClose" aria-label="Schließen">&#10005;</button>
+  <button type="button" class="tc-lb-nav tc-lb-prev" id="tcLbPrev" aria-label="Vorheriges Schreiben">&#8249;</button>
+  <img class="tc-lb-img" id="tcLbImg" alt="">
+  <button type="button" class="tc-lb-nav tc-lb-next" id="tcLbNext" aria-label="Nächstes Schreiben">&#8250;</button>
+  <div class="tc-lb-caption" id="tcLbCaption"></div>
+</div>
+
+<script>
+  import { trackEvent } from '../scripts/track';
+
+  /* Filterleiste der Projektübersicht */
+  document.querySelectorAll('.filter-chip').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      document.querySelectorAll('.filter-chip').forEach(function(b){
+        b.classList.remove('is-active');
+        b.setAttribute('aria-pressed','false');
+      });
+      btn.classList.add('is-active');
+      btn.setAttribute('aria-pressed','true');
+      var f = btn.dataset.filter;
+      trackEvent('projekt_filter', { filter: f, filter_label: btn.textContent.trim() });
+      document.querySelectorAll('#projectGrid .project-card').forEach(function(card){
+        card.hidden = !(f === 'all' || card.dataset.category === f);
+      });
+    });
+  });
+
+  /* Testimonial carousel + lightbox */
+  (function(){
+    var track = document.getElementById('tcTrack');
+    var prevBtn = document.getElementById('tcPrev');
+    var nextBtn = document.getElementById('tcNext');
+    if(!track) return;
+
+    var thumbs = Array.prototype.slice.call(track.querySelectorAll('.tc-thumb'));
+    var lightbox = document.getElementById('tcLightbox');
+    var lbImg = document.getElementById('tcLbImg');
+    var lbCaption = document.getElementById('tcLbCaption');
+    var lbClose = document.getElementById('tcLbClose');
+    var lbPrev = document.getElementById('tcLbPrev');
+    var lbNext = document.getElementById('tcLbNext');
+    var currentIndex = 0;
+    var lastFocused = null;
+
+    function slideStep(){
+      var slide = track.querySelector('.tc-slide');
+      if(!slide) return 200;
+      var style = getComputedStyle(track);
+      var gap = parseFloat(style.columnGap || style.gap || 0) || 0;
+      return slide.getBoundingClientRect().width + gap;
+    }
+    if(prevBtn) prevBtn.addEventListener('click', function(){ track.scrollBy({left:-slideStep()*2, behavior:'smooth'}); });
+    if(nextBtn) nextBtn.addEventListener('click', function(){ track.scrollBy({left:slideStep()*2, behavior:'smooth'}); });
+
+    function openLightbox(index){
+      currentIndex = (index + thumbs.length) % thumbs.length;
+      var t = thumbs[currentIndex];
+      trackEvent('referenz_geoeffnet', { absender: t.dataset.sender, datum: t.dataset.date });
+      lbImg.src = t.dataset.full;
+      lbImg.alt = t.querySelector('img').alt;
+      lbCaption.innerHTML = '<strong>' + t.dataset.sender + '</strong><span>' + t.dataset.date + '</span>';
+      lastFocused = document.activeElement;
+      lightbox.hidden = false;
+      document.body.style.overflow = 'hidden';
+      lbClose.focus();
+    }
+    function closeLightbox(){
+      lightbox.hidden = true;
+      document.body.style.overflow = '';
+      if(lastFocused && lastFocused.focus) lastFocused.focus();
+    }
+
+    thumbs.forEach(function(t, i){
+      t.addEventListener('click', function(){ openLightbox(i); });
+    });
+    lbClose.addEventListener('click', closeLightbox);
+    lbPrev.addEventListener('click', function(){ openLightbox(currentIndex - 1); });
+    lbNext.addEventListener('click', function(){ openLightbox(currentIndex + 1); });
+    lightbox.addEventListener('click', function(e){ if(e.target === lightbox) closeLightbox(); });
+    document.addEventListener('keydown', function(e){
+      if(lightbox.hidden) return;
+      if(e.key === 'Escape') closeLightbox();
+      else if(e.key === 'ArrowLeft') openLightbox(currentIndex - 1);
+      else if(e.key === 'ArrowRight') openLightbox(currentIndex + 1);
+    });
+  })();
+</script>
+
+</BaseLayout>
