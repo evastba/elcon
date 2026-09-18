@@ -1,0 +1,21 @@
+---
+import { CF_BEACON_TOKEN, cloudflareBeaconInline } from '../config';
+
+/* Cloudflare Web Analytics.
+ *
+ * Läuft cookielos: Das Beacon speichert nichts auf dem Endgerät und liest
+ * nichts aus. Deshalb ist es — anders als Google Analytics — nicht von einer
+ * Einwilligung abhängig und wird ohne Cookie-Banner ausgeliefert. Der Dienst
+ * liefert Seitenaufrufe, Herkunft der Besucher und technische Eckdaten, aber
+ * keine eigenen Ereignisse wie Filternutzung oder Formularabsendungen.
+ */
+---
+
+{cloudflareBeaconInline && (
+  <script
+    is:inline
+    defer
+    src="https://static.cloudflareinsights.com/beacon.min.js"
+    data-cf-beacon={JSON.stringify({ token: CF_BEACON_TOKEN })}
+  ></script>
+)}

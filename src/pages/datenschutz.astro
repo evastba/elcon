@@ -1,6 +1,6 @@
 ---
 import LegalLayout from '../layouts/LegalLayout.astro';
-import { company, analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
+import { company, analyticsEnabled, GA_MEASUREMENT_ID, cloudflareAnalyticsEnabled, anyAnalyticsEnabled } from '../config';
 ---
 
 <LegalLayout
@@ -127,7 +127,37 @@ import { company, analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
         wurde.
       </p>
     </>
-  ) : (
+  ) : null}
+
+  {cloudflareAnalyticsEnabled && (
+    <>
+      <p>
+        Zur Reichweitenmessung setzen wir „Cloudflare Web Analytics“ der Cloudflare, Inc.,
+        101 Townsend St., San Francisco, CA 94107, USA, ein. Der Dienst erhebt aggregierte
+        Kennzahlen darüber, welche Seiten aufgerufen werden und über welche Quelle Besucher zu uns
+        gelangen.
+      </p>
+      <p>
+        Cloudflare Web Analytics arbeitet <strong>ohne Cookies</strong>: Es werden keine
+        Informationen auf Ihrem Endgerät gespeichert oder ausgelesen, es wird keine Kennung
+        vergeben und es findet kein geräte- oder websiteübergreifendes Wiedererkennen statt. Es
+        werden keine Nutzungsprofile erstellt. Aus diesem Grund ist eine Einwilligung nach § 25
+        Abs. 1 TDDDG nicht erforderlich, und auf dieser Website erscheint kein Cookie-Hinweis.
+      </p>
+      <p>
+        Erfasst werden dabei die aufgerufene Adresse, die zuvor besuchte Website (Referrer), der
+        ungefähre Herkunftsraum auf Länderebene sowie technische Angaben zu Browser, Betriebssystem
+        und Gerätetyp. Die IP-Adresse wird zur Verarbeitung herangezogen, aber nicht gespeichert.
+        Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO; unser berechtigtes Interesse liegt in einer
+        bedarfsgerechten Gestaltung und der statistischen Auswertung unseres Angebots. Mit
+        Cloudflare besteht ein Vertrag über die Auftragsverarbeitung nach Art. 28 DSGVO; die
+        Übermittlung in die USA wird auf die EU-Standardvertragsklauseln sowie die Zertifizierung
+        des Anbieters unter dem EU-US Data Privacy Framework gestützt.
+      </p>
+    </>
+  )}
+
+  {!anyAnalyticsEnabled && (
     <p>
       Diese Website setzt keine Cookies zu Analyse-, Werbe- oder Tracking-Zwecken ein. Es findet
       keine Reichweitenmessung statt, es werden keine Nutzungsprofile erstellt und es sind keine

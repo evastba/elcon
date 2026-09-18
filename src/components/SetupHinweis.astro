@@ -1,0 +1,37 @@
+---
+import { company, analyticsEnabled, cloudflareAnalyticsEnabled } from '../config';
+
+/* Sichtbarer Hinweis auf noch fehlende Konfiguration.
+ *
+ * Hintergrund: Funktionen, die nur wegen einer fehlenden Zugangsangabe ruhen,
+ * sind von einem Defekt nicht zu unterscheiden — ein still abgeschalteter
+ * Cookie-Hinweis wirkt wie ein Fehler. Dieser Kasten macht den Zustand
+ * sichtbar, statt ihn zu verschweigen.
+ *
+ * Er erscheint ausschließlich in der lokalen Entwicklung (import.meta.env.DEV)
+ * und ist im Build für Cloudflare nicht enthalten — Besucher sehen ihn nie.
+ */
+const offen: string[] = [];
+
+if (!analyticsEnabled && !cloudflareAnalyticsEnabled) {
+  offen.push('Keine Reichweitenmessung aktiv — weder GA4 (GA_MEASUREMENT_ID) noch Cloudflare (CF_BEACON_TOKEN bzw. CF_ANALYTICS_VIA_DASHBOARD) ist gesetzt. Deshalb erscheint auch kein Cookie-Hinweis.');
+} else if (!analyticsEnabled) {
+  offen.push('Cloudflare Web Analytics läuft; GA4 ist nicht gesetzt. Ereignisse wie Filternutzung oder Formularabsendungen werden daher nicht gemessen.');
+}
+
+if (!company.managingDirectors || !company.registerCourt || !company.registerNumber || !company.vatId) {
+  offen.push('Impressum unvollständig — Pflichtangaben nach § 5 DDG fehlen (siehe Kasten auf /impressum/).');
+}
+
+const zeigen = import.meta.env.DEV && offen.length > 0;
+---
+
+{zeigen && (
+  <aside class="setup-hinweis" aria-label="Hinweis zur Einrichtung">
+    <strong>Nur lokal sichtbar — offene Einrichtung</strong>
+    <ul>
+      {offen.map((o) => <li>{o}</li>)}
+    </ul>
+    <p>Alle Angaben liegen in <code>src/config.ts</code>.</p>
+  </aside>
+)}
