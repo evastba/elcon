@@ -1,0 +1,106 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { PROJEKTDETAILS, type Projektdetail } from '../../data/projekte';
+
+export function getStaticPaths() {
+  return PROJEKTDETAILS.map((projekt) => ({
+    params: { slug: projekt.slug },
+    props: { projekt },
+  }));
+}
+
+interface Props {
+  projekt: Projektdetail;
+}
+
+const { projekt } = Astro.props;
+
+/* Fotos liegen nur für einzelne Projekte vor. Der Glob lädt die Metadaten
+   aller vorhandenen; fehlt eine Datei, entfällt die Galerie stillschweigend. */
+const fotoModule = import.meta.glob<{ default: ImageMetadata }>(
+  '../../assets/projekte/*.{jpg,jpeg,png}',
+  { eager: true },
+);
+
+const fotos = (projekt.bilder ?? [])
+  .map((datei) => fotoModule[`../../assets/projekte/${datei}`]?.default)
+  .filter(Boolean) as ImageMetadata[];
+
+/* Dachzeile über der Überschrift: der Auftraggeber, sofern bekannt. Er ordnet
+   das Projekt sofort ein, ohne dass man den Fließtext lesen muss. */
+const auftraggeber = projekt.felder.find((f) => /auftraggeber/i.test(f.label))?.value.split('\n')[0];
+
+/* Der erste Absatz führt als Vorspann in das Projekt ein, die übrigen bilden
+   den Fließtext. */
+const [vorspann, ...weitereAbsaetze] = projekt.absaetze;
+
+/* Kurzbeschreibung für Suchmaschinen: erster Fließtext, auf Satzgrenze gekürzt. */
+const rohText = projekt.absaetze.join(' ') || projekt.felder.map((f) => f.value).join(' ');
+const beschreibungMeta = rohText.length > 155 ? rohText.slice(0, 152).trimEnd() + '…' : rohText;
+---
+
+<BaseLayout title={projekt.titel} description={beschreibungMeta}>
+  <section class="projekt-detail">
+    <div class="wrap">
+      <a href="/projekte/" class="subpage-back">← Zurück zur Projektübersicht</a>
+
+      <div class="projekt-layout">
+        <div class="projekt-text">
+          <header class="projekt-kopf">
+            {auftraggeber && <p class="eyebrow">{auftraggeber}</p>}
+            <h1>{projekt.titel}</h1>
+            {vorspann && (
+              <p class="projekt-vorspann">
+                {vorspann.split('\n').map((zeile, i) => i === 0 ? zeile : <><br />{zeile}</>)}
+              </p>
+            )}
+          </header>
+
+          {weitereAbsaetze.map((a) => (
+            <p>{a.split('\n').map((zeile, i) => i === 0 ? zeile : <><br />{zeile}</>)}</p>
+          ))}
+          {projekt.absaetze.length === 0 && projekt.felder.length === 0 && (
+            <p>Zu diesem Projekt liegen derzeit keine weiteren Angaben vor.</p>
+          )}
+        </div>
+
+        {projekt.felder.length > 0 && (
+          <aside class="projekt-daten" aria-label="Projektdaten">
+            <h2>Projektdaten</h2>
+            <dl>
+              {projekt.felder.map((f) => (
+                <div class="projekt-datenzeile">
+                  <dt>{f.label}</dt>
+                  <dd>{f.value.split('\n').map((zeile, i) => i === 0 ? zeile : <><br />{zeile}</>)}</dd>
+                </div>
+              ))}
+            </dl>
+          </aside>
+        )}
+      </div>
+
+      {fotos.length > 0 && (
+        <section class="projekt-galerie" aria-label="Bilder vom Projekt">
+          <h2>Bilder vom Projekt</h2>
+          <div class="projekt-galerie-grid">
+            {fotos.map((foto, i) => (
+              <figure>
+                <Image src={foto} alt={`${projekt.titel} — Aufnahme ${i + 1} von ${fotos.length}`} widths={[400, 800]} sizes="(max-width: 700px) 100vw, 360px" loading="lazy" />
+              </figure>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <p class="projekt-quelle">
+        Angaben übernommen von <a href={projekt.quelle} target="_blank" rel="noopener noreferrer">elcon-led.com</a>.
+      </p>
+
+      <div class="hero-ctas" style="margin-top:2rem;">
+        <a class="cta-btn primary" href="/kontakt/">Ähnliches Projekt anfragen</a>
+        <a class="cta-btn ghost" href="/projekte/">Weitere Projekte</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

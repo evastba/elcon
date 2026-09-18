@@ -700,3 +700,83 @@ html, body { overflow-x: clip; }
     .marquee{overflow-x:auto;}
   }
 
+
+  /* ===== Projekt-Detailseite ================================================ */
+  .projekt-detail{padding-block:2.2rem 4rem;}
+  .projekt-kopf{max-width:62ch;margin:1.4rem 0 2rem;}
+  .projekt-kopf h1{font-size:clamp(1.7rem,3.4vw,2.5rem);font-weight:800;line-height:1.2;margin:.4rem 0 0;letter-spacing:-.01em;}
+  .projekt-vorspann{margin:1rem 0 0;font-size:1.05rem;line-height:1.65;color:var(--text-muted);}
+
+  /* Fließtext und Datenblock stehen nebeneinander; der Datenblock ist das
+     Nachschlagewerk zum Projekt und bleibt beim Scrollen im Blick. */
+  .projekt-layout{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(280px,1fr);gap:2.6rem;align-items:start;margin-top:1rem;}
+  .projekt-text p{line-height:1.75;color:var(--text-muted);margin:0 0 1.1rem;max-width:68ch;}
+
+  .projekt-daten{
+    background:var(--surface-alt);border:1px solid var(--border);border-radius:12px;
+    padding:1.4rem 1.5rem;position:sticky;top:96px;
+  }
+  .projekt-daten h2{font-size:.82rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);margin:0 0 1rem;}
+  .projekt-daten dl{margin:0;}
+  .projekt-datenzeile{padding:.7rem 0;border-top:1px solid var(--border);}
+  .projekt-datenzeile:first-child{border-top:0;padding-top:0;}
+  .projekt-daten dt{font-size:.78rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--accent-3);margin:0 0 .25rem;}
+  .projekt-daten dd{margin:0;font-size:.92rem;line-height:1.6;color:var(--text);}
+
+  .projekt-galerie{margin-top:3.2rem;}
+  .projekt-galerie h2{font-size:1.15rem;font-weight:800;margin:0 0 1.2rem;}
+  .projekt-galerie-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem;}
+  .projekt-galerie figure{margin:0;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:var(--surface-raised);}
+  .projekt-galerie img{width:100%;height:100%;aspect-ratio:4/3;object-fit:cover;display:block;}
+
+  .projekt-quelle{margin-top:2.4rem;font-size:.82rem;color:var(--text-muted);}
+  .projekt-quelle a{color:var(--accent-3);}
+
+  @media (max-width:900px){
+    .projekt-layout{grid-template-columns:1fr;gap:1.8rem;}
+    .projekt-daten{position:static;}
+  }
+
+  /* Kacheln mit Detailseite sind vollflächig anklickbar.
+
+     Umgesetzt über einen echten Link auf der Überschrift, den ein
+     ::after-Feld über die ganze Kachel aufspannt. Gegenüber einer in einen
+     Link gehüllten Kachel bleiben so die Auszeichnung als <article> und ein
+     sinnvoller Linktext für Vorlesesoftware erhalten — angekündigt wird der
+     Projektname, nicht "Details ansehen". */
+  .project-card--link{position:relative;}
+  .project-card-link{color:inherit;text-decoration:none;}
+  .project-card-link::after{content:'';position:absolute;inset:0;z-index:1;}
+  .project-card--link:hover .project-card-link{color:var(--accent-3);}
+  .project-mehr{
+    display:inline-flex;align-items:center;gap:.3rem;margin-top:.7rem;
+    font-size:.82rem;font-weight:700;color:var(--accent-3);
+  }
+  .project-mehr svg{width:13px;height:13px;transition:transform .15s ease-out;}
+  .project-card--link:hover .project-mehr svg{@apply motion-safe:translate-x-0.5;}
+
+  /* Projekte ohne eigene Kachel im Raster */
+  .weitere-projekte{margin-top:2.6rem;padding-top:2rem;border-top:1px solid var(--border);}
+  .weitere-projekte h2{font-size:1.05rem;font-weight:800;margin:0 0 .5rem;}
+  .weitere-projekte > p{margin:0 0 1.1rem;font-size:.92rem;line-height:1.6;color:var(--text-muted);max-width:70ch;}
+  .weitere-projekte ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:.6rem;}
+  .weitere-projekte a{
+    display:flex;align-items:center;justify-content:space-between;gap:.8rem;
+    padding:.8rem 1rem;border:1px solid var(--border);border-radius:8px;
+    background:var(--surface-raised);text-decoration:none;color:var(--text);
+    font-size:.9rem;font-weight:600;line-height:1.4;
+    transition-property:transform,border-color,box-shadow;
+    @apply duration-150 ease-out;
+  }
+  .weitere-projekte a:hover{border-color:var(--accent-3);box-shadow:var(--shadow-hover);@apply motion-safe:-translate-y-0.5;}
+  .weitere-projekte svg{width:15px;height:15px;flex:none;color:var(--accent-3);}
+
+  /* "Details ansehen" an den Fuß der Kachel binden, damit der Hinweis in einer
+     Reihe auf gleicher Höhe steht — unabhängig von der Textlänge. */
+  .project-card--link{display:flex;flex-direction:column;}
+  .project-card--link .project-body{display:flex;flex-direction:column;flex:1;}
+  .project-card--link .project-mehr{margin-top:auto;padding-top:.7rem;}
+
+  /* Die Kopfzeile klebt oben; Sprungziele brauchen deshalb Abstand, sonst
+     verschwindet die Überschrift darunter. */
+  [id]{scroll-margin-top:96px;}
