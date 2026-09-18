@@ -41,5 +41,47 @@ export const GA_MEASUREMENT_ID = '';
 
 export const analyticsEnabled = GA_MEASUREMENT_ID.length > 0;
 
+/**
+ * Token für Cloudflare Web Analytics.
+ *
+ * Cloudflare misst cookielos: Es werden keine Informationen auf dem Endgerät
+ * gespeichert oder ausgelesen, es entstehen keine Nutzungsprofile und kein
+ * geräteübergreifendes Wiedererkennen. Eine Einwilligung nach § 25 Abs. 1 TDDDG
+ * ist deshalb nicht erforderlich — dieser Dienst läuft ohne Cookie-Banner.
+ *
+ * Den Token findet man im Cloudflare-Dashboard unter Analytics & Logs → Web
+ * Analytics → Manage site → JS snippet; es ist die Zeichenkette hinter "token".
+ *
+ * Achtung: Für Pages-Projekte lässt sich Web Analytics im Dashboard auch mit
+ * einem Schalter aktivieren, wobei Cloudflare das Skript selbst einfügt. Beides
+ * gleichzeitig führt zu doppelter Zählung — entweder der Schalter oder dieser
+ * Token, nicht beides.
+ */
+export const CF_BEACON_TOKEN = '';
+
+/**
+ * Auf true setzen, wenn Web Analytics stattdessen im Cloudflare-Dashboard über
+ * den Schalter des Pages-Projekts aktiviert wurde.
+ *
+ * In diesem Fall fügt Cloudflare das Messskript selbst ein, ohne dass hier ein
+ * Token steht. Die Datenschutzerklärung würde die Seite dann fälschlich als
+ * trackingfrei beschreiben — dieser Schalter verhindert genau das: Er schaltet
+ * den Cloudflare-Abschnitt im Rechtstext frei, ohne ein zweites Messskript
+ * einzubinden.
+ */
+export const CF_ANALYTICS_VIA_DASHBOARD = false;
+
+/** Bindet diese Seite das Messskript selbst ein? Nur dann, wenn ein Token
+ *  hinterlegt ist — bei der Dashboard-Variante fügt Cloudflare es selbst ein. */
+export const cloudflareBeaconInline = CF_BEACON_TOKEN.length > 0;
+
+/** Läuft Cloudflare Web Analytics überhaupt — gleich auf welchem Weg?
+ *  Steuert die Darstellung in der Datenschutzerklärung. */
+export const cloudflareAnalyticsEnabled =
+  cloudflareBeaconInline || CF_ANALYTICS_VIA_DASHBOARD;
+
+/** Läuft überhaupt irgendeine Form der Reichweitenmessung? */
+export const anyAnalyticsEnabled = analyticsEnabled || cloudflareAnalyticsEnabled;
+
 /** Datum der letzten inhaltlichen Änderung der Rechtstexte. */
 export const legalLastUpdated = '16. September 2026';

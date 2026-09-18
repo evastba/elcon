@@ -699,3 +699,16 @@ html, body { overflow-x: clip; }
     .marquee-track{animation:none;transform:none;}
     .marquee{overflow-x:auto;}
   }
+
+  /* Einrichtungshinweis — erscheint nur in der lokalen Entwicklung */
+  .setup-hinweis{
+    position:fixed;left:12px;bottom:12px;z-index:400;max-width:min(92vw,420px);
+    background:var(--surface);border:1px solid var(--accent-2);border-left-width:4px;
+    border-radius:6px;padding:.8rem 1rem;box-shadow:var(--shadow);
+    font-size:.8rem;line-height:1.5;color:var(--text-muted);
+  }
+  .setup-hinweis strong{display:block;color:var(--text);margin-bottom:.35rem;font-size:.82rem;}
+  .setup-hinweis ul{margin:0;padding-left:1.1rem;list-style:disc;}
+  .setup-hinweis li{margin:.25rem 0;}
+  .setup-hinweis p{margin:.5rem 0 0;font-size:.75rem;}
+  .setup-hinweis code{background:var(--surface-alt);border:1px solid var(--border);border-radius:3px;padding:.05em .35em;}
