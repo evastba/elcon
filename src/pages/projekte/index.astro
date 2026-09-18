@@ -1,7 +1,13 @@
 ---
 import { Image, getImage } from 'astro:assets';
-import BaseLayout from '../layouts/BaseLayout.astro';
-import { asset } from '../lib/assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { asset } from '../../lib/assets';
+import { PROJEKTDETAILS } from '../../data/projekte';
+
+/* Für einige dokumentierte Projekte gibt es keine Kachel im Raster oben.
+   Ohne diesen Block wären ihre Detailseiten von der Übersicht aus nicht
+   erreichbar. */
+const ohneKachel = PROJEKTDETAILS.filter((p) => !p.kachel);
 
 /* Die Großansicht der Referenzschreiben wird erst im Browser gesetzt und kann
    deshalb nicht über die <Image>-Komponente laufen. getImage() erzeugt die
@@ -87,44 +93,48 @@ const vollbild: Record<string, string> = Object.fromEntries(
             <p>Elektrotechnische Anpassungen im Zuge der Umstellung des VW-Werks Emden auf die Elektrofahrzeug-Fertigung.</p>
           </div>
         </article>
-        <article class="project-card" data-category="planung">
+        <article class="project-card project-card--link" data-category="planung">
           <div class="project-art-wrap project-art-wrap--logo">
             <div class="project-logo project-logo--large"><div class="project-logo-chip project-logo-chip--large"><Image src={asset("/assets/logos/nordstream.png")} alt="Nord Stream Logo" /></div></div>
           </div>
           <div class="project-body">
-            <h3>Nord Stream Gaspipeline, Ostsee</h3>
+            <h3><a class="project-card-link" href="/projekte/nord-stream-2011/">Nord Stream Gaspipeline, Ostsee</a></h3>
             <span class="project-meta">Ostsee · Planung &amp; Betrieb</span>
             <p>Verlegung von Spezialkabeln und Anschlussarbeiten für die Ostsee-Pipeline (2011); seit der Inbetriebnahme im November 2011 zusätzlich Wartung und Betrieb.</p>
+            <span class="project-mehr">Details ansehen <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
           </div>
         </article>
-        <article class="project-card" data-category="planung">
+        <article class="project-card project-card--link" data-category="planung">
           <div class="project-art-wrap project-art-wrap--logo">
             <div class="project-logo project-logo--large"><div class="project-logo-chip project-logo-chip--large"><Image src={asset("/assets/logos/nordstream2.png")} alt="Nord Stream 2 Logo" /></div></div>
           </div>
           <div class="project-body">
-            <h3>Nord Stream 2 Gaspipeline, Ostsee</h3>
+            <h3><a class="project-card-link" href="/projekte/nord-stream-2-seit-2018/">Nord Stream 2 Gaspipeline, Ostsee</a></h3>
             <span class="project-meta">Ostsee · Planung &amp; Betrieb</span>
             <p>ELT-Technik für das Offshore-Gaspipeline-Projekt Nord Stream 2, seit 2018 — Fortführung der Offshore-Kompetenz aus dem Vorgängerprojekt.</p>
+            <span class="project-mehr">Details ansehen <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
           </div>
         </article>
-        <article class="project-card" data-category="msr">
+        <article class="project-card project-card--link" data-category="msr">
           <div class="project-art-wrap project-art-wrap--logo">
             <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/auswaertiges-amt.png")} alt="Auswärtiges Amt Logo" /></div></div>
           </div>
           <div class="project-body">
-            <h3>Deutsche Botschaft, Kiew</h3>
+            <h3><a class="project-card-link" href="/projekte/deutsche-botschaft-kiew-2005/">Deutsche Botschaft, Kiew</a></h3>
             <span class="project-meta">Ukraine · Sicherheits- &amp; Zutrittstechnik</span>
             <p>Gebäude- und Sicherheitstechnik für die Deutsche Botschaft in Kiew (2005) — mit erhöhten Sicherheitsanforderungen gemäß den verschärften Protokollen nach dem 11. September.</p>
+            <span class="project-mehr">Details ansehen <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
           </div>
         </article>
-        <article class="project-card" data-category="hkls">
+        <article class="project-card project-card--link" data-category="hkls">
           <div class="project-art-wrap project-art-wrap--logo">
             <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/siemens.png")} alt="Siemens Logo" /></div></div>
           </div>
           <div class="project-body">
-            <h3>Brauerei Almaty Sosnadar</h3>
+            <h3><a class="project-card-link" href="/projekte/brauerei-almaty-sosnadar-2006/">Brauerei Almaty Sosnadar</a></h3>
             <span class="project-meta">Kasachstan · HKLS &amp; Prozesssteuerung</span>
             <p>Prozesssteuerung mit Siemens-SIMATIC-Technik (2003) sowie Versorgungstechnik für den Brauereistandort Almaty (2006) — umgesetzt bei laufendem Produktionsbetrieb.</p>
+            <span class="project-mehr">Details ansehen <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
           </div>
         </article>
         <article class="project-card" data-category="elektro">
@@ -177,14 +187,15 @@ const vollbild: Record<string, string> = Object.fromEntries(
             <p>Technische Gebäudeausrüstung für ein weiteres SOS-Kinderdorf in Äthiopien — Fortsetzung des sozialen Engagements in Ostafrika.</p>
           </div>
         </article>
-        <article class="project-card" data-category="msr">
+        <article class="project-card project-card--link" data-category="msr">
           <div class="project-art-wrap project-art-wrap--logo">
             <div class="project-logo project-logo--large"><div class="project-logo-chip project-logo-chip--large"><Image src={asset("/assets/logos/schweiz-konsulat.png")} alt="Schweizerische Eidgenossenschaft Logo" /></div></div>
           </div>
           <div class="project-body">
-            <h3>Schweizer Botschaft, Kiew</h3>
+            <h3><a class="project-card-link" href="/projekte/schweizer-botschaft-kiew-2005/">Schweizer Botschaft, Kiew</a></h3>
             <span class="project-meta">Ukraine · Sicherheits- &amp; Zutrittstechnik</span>
             <p>Gesamte Haustechnik für den Neubau der Schweizer Botschaft in Kiew (2005) — termingerecht in nur 11 Monaten Bauzeit realisiert.</p>
+            <span class="project-mehr">Details ansehen <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
           </div>
         </article>
         <article class="project-card" data-category="msr">
@@ -197,34 +208,37 @@ const vollbild: Record<string, string> = Object.fromEntries(
             <p>Sicherheits- und Zutrittstechnik für die Schweizer Botschaft in Chișinău — Teil einer Reihe diplomatischer Projekte in Osteuropa.</p>
           </div>
         </article>
-        <article class="project-card" data-category="elektro">
+        <article class="project-card project-card--link" data-category="elektro">
           <div class="project-art-wrap project-art-wrap--logo">
             <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/porsche.png")} alt="Porsche Logo" /></div></div>
           </div>
           <div class="project-body">
-            <h3>Neubau Porsche-Zentrum, Moskau</h3>
+            <h3><a class="project-card-link" href="/projekte/porsche-zentrum-moskau-2006/">Neubau Porsche-Zentrum, Moskau</a></h3>
             <span class="project-meta">Russland · Elektrotechnik</span>
             <p>Komplette Elektrotechnik für den Neubau des Porsche-Zentrums in Moskau (2006) — großzügige Ausstellungsflächen, anspruchsvoller Showroom, repräsentative Ausstattung.</p>
+            <span class="project-mehr">Details ansehen <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
           </div>
         </article>
-        <article class="project-card" data-category="elektro">
+        <article class="project-card project-card--link" data-category="elektro">
           <div class="project-art-wrap project-art-wrap--logo">
             <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/gm.png")} alt="General Motors Logo" /></div></div>
           </div>
           <div class="project-body">
-            <h3>GM Headquarters, Moskau</h3>
+            <h3><a class="project-card-link" href="/projekte/general-motors-hauptquartier-moskau-2008/">GM Headquarters, Moskau</a></h3>
             <span class="project-meta">Russland · Elektrotechnik</span>
             <p>Komplettausbau der 9. und 10. Etage (Nordturm) der GM-Unternehmenszentrale — rund 4.500 m² Bürofläche, Elektro-, Beleuchtungs- und Sicherheitstechnik aus einer Hand (2008).</p>
+            <span class="project-mehr">Details ansehen <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
           </div>
         </article>
-        <article class="project-card" data-category="hkls">
+        <article class="project-card project-card--link" data-category="hkls">
           <div class="project-art-wrap project-art-wrap--logo">
             <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/selgros.png")} alt="Selgros Logo" /></div></div>
           </div>
           <div class="project-body">
-            <h3>Selgros Cash &amp; Carry, Kotelniki</h3>
+            <h3><a class="project-card-link" href="/projekte/selgros-einkaufsmaerkte-2008/">Selgros Cash &amp; Carry, Kotelniki</a></h3>
             <span class="project-meta">Russland · HKLS &amp; Elektrotechnik</span>
             <p>Technische Gebäudeausrüstung für den Großmarkt-Neubau in Kotelniki (2008) — Heizung, Klima, Lüftung und Elektrotechnik im Zusammenspiel.</p>
+            <span class="project-mehr">Details ansehen <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
           </div>
         </article>
         <article class="project-card" data-category="hkls">
@@ -247,34 +261,37 @@ const vollbild: Record<string, string> = Object.fromEntries(
             <p>Versorgungstechnik für einen weiteren internationalen Brauereistandort in St. Petersburg (2006).</p>
           </div>
         </article>
-        <article class="project-card" data-category="msr">
+        <article class="project-card project-card--link" data-category="msr">
           <div class="project-art-wrap project-art-wrap--logo">
             <div class="project-logo project-logo--large"><div class="project-logo-chip project-logo-chip--large"><Image src={asset("/assets/logos/schweiz-konsulat.png")} alt="Schweizerische Eidgenossenschaft Logo" /></div></div>
           </div>
           <div class="project-body">
-            <h3>Schweizer Konsulat, St. Petersburg</h3>
+            <h3><a class="project-card-link" href="/projekte/schweizer-konsulat-st-petersburg-2006/">Schweizer Konsulat, St. Petersburg</a></h3>
             <span class="project-meta">Russland · Sicherheits- &amp; Zutrittstechnik</span>
             <p>Sicherheits- und Elektrotechnik für das Schweizer Konsulat in St. Petersburg (2006) — Beleuchtung, Schalter und Steckdosen, IT-Infrastruktur sowie Schleusensteuerung.</p>
+            <span class="project-mehr">Details ansehen <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
           </div>
         </article>
-        <article class="project-card" data-category="elektro">
+        <article class="project-card project-card--link" data-category="elektro">
           <div class="project-art-wrap project-art-wrap--logo">
             <div class="project-logo project-logo--large"><div class="project-logo-chip project-logo-chip--large"><Image src={asset("/assets/logos/schweiz-konsulat.png")} alt="Schweizerische Eidgenossenschaft Logo" /></div></div>
           </div>
           <div class="project-body">
-            <h3>Schweizer Botschaft, Moskau</h3>
+            <h3><a class="project-card-link" href="/projekte/schweizer-botschaft-moskau-2005/">Schweizer Botschaft, Moskau</a></h3>
             <span class="project-meta">Russland · Elektrotechnik &amp; IT</span>
             <p>Elektrotechnik und IT-Infrastruktur für die Renovierung der Visastelle der Schweizer Botschaft in Moskau (2005) — im selben Jahr wie das Kiewer Botschaftsprojekt.</p>
+            <span class="project-mehr">Details ansehen <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
           </div>
         </article>
-        <article class="project-card" data-category="elektro">
+        <article class="project-card project-card--link" data-category="elektro">
           <div class="project-art-wrap project-art-wrap--logo">
             <div class="project-logo project-logo--large"><div class="project-logo-chip project-logo-chip--large"><Image src={asset("/assets/logos/continental.png")} alt="Continental Logo" /></div></div>
           </div>
           <div class="project-body">
-            <h3>Continental Automotive Systems, Kaluga</h3>
+            <h3><a class="project-card-link" href="/projekte/continental-automotive-kaluga-2011/">Continental Automotive Systems, Kaluga</a></h3>
             <span class="project-meta">Russland · Elektrotechnik</span>
             <p>Ausbau und Instandhaltung der Elektrotechnik im laufenden Fertigungsbetrieb, seit 2011.</p>
+            <span class="project-mehr">Details ansehen <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
           </div>
         </article>
         <article class="project-card" data-category="elektro">
@@ -287,34 +304,37 @@ const vollbild: Record<string, string> = Object.fromEntries(
             <p>Elektrotechnische Ausrüstung für einen weiteren Continental-Standort in Moskau (2004), ergänzend zum späteren Werk in Kaluga.</p>
           </div>
         </article>
-        <article class="project-card" data-category="netzwerk">
+        <article class="project-card project-card--link" data-category="netzwerk">
           <div class="project-art-wrap project-art-wrap--logo">
             <div class="project-logo"><div class="project-logo-chip project-logo-chip--sm"><Image src={asset("/assets/logos/volkswagen.png")} alt="Volkswagen Logo" /></div></div>
           </div>
           <div class="project-body">
-            <h3>Volkswagen-Werk, Kaluga</h3>
+            <h3><a class="project-card-link" href="/projekte/vw-werk-kaluga-2008/">Volkswagen-Werk, Kaluga</a></h3>
             <span class="project-meta">Russland · Netzwerk- &amp; Dateninstallation</span>
             <p>Fernmelde- und Dateninstallation für das neu errichtete VW-Automobilwerk in Kaluga (2008–2009) — von der Planung bis zur Inbetriebnahme.</p>
+            <span class="project-mehr">Details ansehen <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
           </div>
         </article>
-        <article class="project-card" data-category="elektro">
+        <article class="project-card project-card--link" data-category="elektro">
           <div class="project-art-wrap project-art-wrap--logo">
             <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/benteler.png")} alt="Benteler Logo" /></div></div>
           </div>
           <div class="project-body">
-            <h3>Benteler Automobiltechnik, Kaluga</h3>
+            <h3><a class="project-card-link" href="/projekte/benteler-kaluga-2011/">Benteler Automobiltechnik, Kaluga</a></h3>
             <span class="project-meta">Russland · Elektrotechnik</span>
             <p>Elektrotechnische Ausrüstung für die Betriebsstätte des Fahrwerkskomponenten-Herstellers Benteler in Kaluga (2011).</p>
+            <span class="project-mehr">Details ansehen <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
           </div>
         </article>
-        <article class="project-card" data-category="hkls">
+        <article class="project-card project-card--link" data-category="hkls">
           <div class="project-art-wrap project-art-wrap--logo">
             <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/ambassador-hotel.png")} alt="Ambassador Hotel Logo" /></div></div>
           </div>
           <div class="project-body">
-            <h3>Ambassador Hotel &amp; Boardinghouse, Kaluga</h3>
+            <h3><a class="project-card-link" href="/projekte/ambassador-hotel-kaluga-2008/">Ambassador Hotel &amp; Boardinghouse, Kaluga</a></h3>
             <span class="project-meta">Russland · Haustechnik &amp; Elektrotechnik</span>
             <p>Technische Gebäudeausrüstung für den 18.000 m² großen Hotel- und Boardinghouse-Komplex in Kaluga (2008) — inklusive Wellnessbereich.</p>
+            <span class="project-mehr">Details ansehen <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
           </div>
         </article>
         <article class="project-card" data-category="hkls">
@@ -327,14 +347,15 @@ const vollbild: Record<string, string> = Object.fromEntries(
             <p>Heizungs-, Klima- und Elektrotechnik für internationale Hotelstandorte in Moskau.</p>
           </div>
         </article>
-        <article class="project-card" data-category="elektro">
+        <article class="project-card project-card--link" data-category="elektro">
           <div class="project-art-wrap project-art-wrap--logo">
             <div class="project-logo"><div class="project-logo-chip"><Image src={asset("/assets/logos/billa.png")} alt="BILLA Logo" /></div></div>
           </div>
           <div class="project-body">
-            <h3>BILLA Einkaufsmärkte, Moskau</h3>
+            <h3><a class="project-card-link" href="/projekte/billa-einkaufsmaerkte-moskau/">BILLA Einkaufsmärkte, Moskau</a></h3>
             <span class="project-meta">Russland · Elektrotechnik (21 Standorte)</span>
             <p>Elektrotechnische Ausrüstung für 21 BILLA-Einkaufsmärkte im Großraum Moskau.</p>
+            <span class="project-mehr">Details ansehen <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
           </div>
         </article>
         <article class="project-card" data-category="elektro">
@@ -458,6 +479,24 @@ const vollbild: Record<string, string> = Object.fromEntries(
           </div>
         </article>
       </div>
+
+      {ohneKachel.length > 0 && (
+        <div class="weitere-projekte">
+          <h2>Weitere dokumentierte Projekte</h2>
+          <p>Zu diesen Vorhaben liegen ausführliche Angaben vor, sie sind im Raster oben jedoch nicht als Kachel enthalten.</p>
+          <ul>
+            {ohneKachel.map((p) => (
+              <li>
+                <a href={`/projekte/${p.slug}/`}>
+                  <span>{p.titel}</span>
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
 
       <div class="reference-directory" id="refVerzeichnis">
 
@@ -705,7 +744,7 @@ const vollbild: Record<string, string> = Object.fromEntries(
 </div>
 
 <script>
-  import { trackEvent } from '../scripts/track';
+  import { trackEvent } from '../../scripts/track';
 
   /* Filterleiste der Projektübersicht */
   document.querySelectorAll('.filter-chip').forEach(function(btn){
