@@ -69,7 +69,7 @@ export const CF_BEACON_TOKEN = '';
  * den Cloudflare-Abschnitt im Rechtstext frei, ohne ein zweites Messskript
  * einzubinden.
  */
-export const CF_ANALYTICS_VIA_DASHBOARD = false;
+export const CF_ANALYTICS_VIA_DASHBOARD = true;
 
 /** Bindet diese Seite das Messskript selbst ein? Nur dann, wenn ein Token
  *  hinterlegt ist — bei der Dashboard-Variante fügt Cloudflare es selbst ein. */
