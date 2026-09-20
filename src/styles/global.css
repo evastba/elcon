@@ -780,3 +780,8 @@ html, body { overflow-x: clip; }
   /* Die Kopfzeile klebt oben; Sprungziele brauchen deshalb Abstand, sonst
      verschwindet die Überschrift darunter. */
   [id]{scroll-margin-top:96px;}
+
+  /* Anschrift im Seitenfuß, unter dem Logo */
+  .footer-adresse{
+    font-style:normal;color:var(--text-muted);font-size:.88rem;line-height:1.7;margin:0;
+  }

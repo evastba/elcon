@@ -18,9 +18,11 @@ const links = [
         <Image src={logoIcon} class="hex-mark" style="width:30px;height:30px;" alt="ELCON Icon" />
         <span class="brand-word" style="font-size:1.05rem;">ELCON</span>
       </a>
-      <p style="color:var(--text-muted);font-size:.88rem;max-width:32ch;line-height:1.6;">
-        Generalunternehmer für technische Gebäudeausrüstung — Elektro, HKLS, MSR &amp; Automation aus einer Hand.
-      </p>
+      <address class="footer-adresse">
+        {company.street}<br />
+        {company.zip} {company.city}<br />
+        {company.country}
+      </address>
     </div>
     <div>
       <h4>Navigation</h4>
@@ -39,6 +41,5 @@ const links = [
   </div>
   <div class="wrap footer-bottom">
     <span>© 2026 {company.name}</span>
-    <span>{company.street} · {company.zip} {company.city} · {company.country}</span>
   </div>
 </footer>
