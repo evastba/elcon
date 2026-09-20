@@ -131,7 +131,7 @@ export const PROJEKTREFERENZEN: Projektreferenz[] = [
     verifiziert: true,
     logoFreigabe: 'freigegeben',
     textFreigabe: 'freigegeben',
-    hervorgehoben: false,
+    hervorgehoben: true,
     quelle: 'Bestandswebsite www.elcon-led.com (Kachel ohne Detailseite)',
   },
   {
@@ -160,7 +160,7 @@ export const PROJEKTREFERENZEN: Projektreferenz[] = [
     verifiziert: true,
     logoFreigabe: 'freigegeben',
     textFreigabe: 'freigegeben',
-    hervorgehoben: false,
+    hervorgehoben: true,
     quelle: 'Bestandswebsite www.elcon-led.com (Kachel ohne Detailseite)',
   },
   {
@@ -305,7 +305,7 @@ export const PROJEKTREFERENZEN: Projektreferenz[] = [
     verifiziert: true,
     logoFreigabe: 'freigegeben',
     textFreigabe: 'freigegeben',
-    hervorgehoben: false,
+    hervorgehoben: true,
     quelle: 'Bestandswebsite www.elcon-led.com (Kachel ohne Detailseite)',
   },
   {
@@ -1738,6 +1738,22 @@ export const referenzenNachTyp = [
   ...sichtbareReferenzen.filter((r) => !istHistorisch(r)),
   ...sichtbareReferenzen.filter(istHistorisch),
 ];
+
+/**
+ * Referenzen für den Startseitenabschnitt "Aktuelle Projekte".
+ *
+ * Verlangt: nicht historisch, geprüft, textlich freigegeben und ausdrücklich
+ * für die Startseite markiert. Die Markierung ist das letzte Kriterium mit
+ * Absicht — ohne sie entscheidet die Reihenfolge in der Datei darüber, was
+ * an prominentester Stelle steht.
+ */
+export const startseitenReferenzen = PROJEKTREFERENZEN.filter(
+  (r) =>
+    r.hervorgehoben &&
+    r.referenzTyp !== 'historisch' &&
+    r.status === 'verified' &&
+    r.textFreigabe === 'freigegeben',
+).slice(0, 3);
 
 /** Slugs, die im Leistungsfinder als Ergebnis erscheinen dürfen. */
 export const freigegebeneSlugs = new Set(

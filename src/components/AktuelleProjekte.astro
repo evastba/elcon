@@ -1,0 +1,77 @@
+---
+import { Image } from 'astro:assets';
+import { asset } from '../lib/assets';
+import { getLang, pfad } from '../i18n/ui';
+import { STARTSEITE } from '../i18n/startseite';
+import { startseitenReferenzen } from '../data/referenzen';
+
+/* Drei aktuelle Referenzen an prominenter Stelle.
+ *
+ * Die Auswahl kommt aus data/referenzen.ts und verlangt dort Prüfung,
+ * Textfreigabe, eine nicht-historische Einstufung und eine ausdrückliche
+ * Markierung für die Startseite. Historische Russland- und Nord-Stream-
+ * Projekte können hier deshalb nicht erscheinen.
+ *
+ * Liegt keine Referenz vor, entfällt der Abschnitt vollständig — ein leerer
+ * Kasten wäre schlechter als keiner.
+ */
+const lang = getLang(Astro.url);
+const t = STARTSEITE[lang].projekte;
+const projekte = pfad('/projekte/', lang);
+const basis = lang === 'de' ? '/projekte/' : '/en/projects/';
+
+/* Zeigt eine der drei Kacheln keine Detailseite, steht der Hinweis darunter
+   einmal für den ganzen Abschnitt statt an jeder Karte. */
+const alleOhneDetail = startseitenReferenzen.length > 0 && startseitenReferenzen.every((r) => !r.slug);
+---
+
+{startseitenReferenzen.length > 0 && (
+  <section class="aktuelle-projekte" id="aktuelle-projekte">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">{t.eyebrow}</p>
+        <h2>{t.titel}</h2>
+        <p>{t.intro}</p>
+      </div>
+
+      <div class="aktuell-grid">
+        {startseitenReferenzen.map((r) => {
+          const titel = lang === 'de' ? r.projektname : r.projektnameEn;
+          const text = lang === 'de' ? r.kurzText : r.kurzTextEn;
+          const land = lang === 'de' ? r.land : r.landEn;
+          const ort = [r.ort, land].filter(Boolean).join(', ');
+          const logo = r.logoFreigabe !== 'abgelehnt' ? r.logos[0] : undefined;
+          return (
+            <article class:list={['aktuell-karte', r.slug && 'aktuell-karte--link']}>
+              {logo && (
+                <div class="aktuell-logo">
+                  <Image src={asset(`/assets/logos/${logo.datei}`)} alt={lang === 'de' ? logo.alt : logo.altEn} loading="lazy" />
+                </div>
+              )}
+              <div class="aktuell-body">
+                <h3>
+                  {r.slug
+                    ? <a class="aktuell-link" href={`${basis}${r.slug}/`}>{titel}</a>
+                    : titel}
+                </h3>
+                <ul class="aktuell-daten">
+                  {ort && <li>{ort}</li>}
+                  {r.zeitraum && <li>{r.zeitraum}</li>}
+                  {r.organisation && <li>{r.organisation}</li>}
+                </ul>
+                <p class="aktuell-text" set:html={text} />
+                {!r.slug && <span class="aktuell-marke">{t.kurzreferenz}</span>}
+              </div>
+            </article>
+          );
+        })}
+      </div>
+
+      {alleOhneDetail && <p class="aktuell-hinweis">{t.ohneDetail}</p>}
+
+      <div class="hero-ctas aktuell-alle">
+        <a class="cta-btn ghost" href={projekte}>{t.alle}</a>
+      </div>
+    </div>
+  </section>
+)}
