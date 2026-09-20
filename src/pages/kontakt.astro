@@ -6,7 +6,7 @@ import { company } from '../config';
 <BaseLayout title="Kontakt" description="Projektanfrage an die ELCON LED GmbH — Bauernstr. 34, 31275 Lehrte. Telefon, E-Mail, WhatsApp und Anfrageformular.">
 
   <section id="kontakt" class="contact">
-    <div class="wrap">
+    <div class="wrap kontakt-raster">
       <div class="contact-info">
         <p class="eyebrow">Kontakt</p>
         <h1 style="font-size:clamp(1.6rem,3vw,2.1rem);font-weight:800;margin:0 0 1rem;">Projekt anfragen</h1>
@@ -111,18 +111,31 @@ import { company } from '../config';
               <dd><a href="https://wa.me/4951757716116" target="_blank" rel="noopener">Nachricht schreiben</a></dd>
             </div>
             <div>
-              <dt>Anschrift</dt>
-              <dd>
-                {company.street}<br />
-                {company.zip} {company.city}<br />
-                <a
-                  href={`https://www.openstreetmap.org/search?query=${encodeURIComponent(`${company.street}, ${company.zip} ${company.city}`)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >Auf der Karte ansehen</a>
-              </dd>
+              <dt>Telefax</dt>
+              <dd>{company.fax}</dd>
             </div>
           </dl>
+        </div>
+
+        <div>
+          <h2>Anschrift</h2>
+          <address class="kontakt-anschrift">
+            {company.name}<br />
+            {company.street}<br />
+            {company.zip} {company.city}<br />
+            {company.country}
+          </address>
+          <p class="kontakt-karte">
+            <a
+              href={`https://www.openstreetmap.org/search?query=${encodeURIComponent(`${company.street}, ${company.zip} ${company.city}`)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >Auf der Karte ansehen</a>
+          </p>
+          <p class="kontakt-hinweis">
+            Unterlagen wie Leistungsverzeichnisse oder Pläne senden Sie am besten
+            per E-Mail — sie erreichen uns dort am schnellsten.
+          </p>
         </div>
       </div>
     </div>

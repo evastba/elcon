@@ -489,7 +489,10 @@ html, body { overflow-x: clip; }
   .vision-card p{margin:0;line-height:1.6;font-size:.98rem;color:#DCE7E6;}
 
   /* Kontakt */
-  .contact .wrap{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(2rem,5vw,4rem);}
+  /* Nur der obere Bereich (Angaben + Formular) ist zweispaltig. Zuvor galt die
+     Regel für jeden .wrap im Abschnitt, wodurch der Hinweisbereich darunter in
+     der schmalen linken Spalte landete statt über die volle Breite zu laufen. */
+  .contact .kontakt-raster{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(2rem,5vw,4rem);}
   .contact-info h3{font-size:1.1rem;font-weight:700;margin:1.6rem 0 .5rem;}
   .contact-info h3:first-child{margin-top:0;}
   .contact-info a{text-decoration:none;color:var(--text);}
@@ -802,7 +805,7 @@ html, body { overflow-x: clip; }
 
   /* Kontaktseite: Hilfestellung und Kontaktwege unter dem Formular */
   .kontakt-hilfe{
-    display:grid;grid-template-columns:1.3fr 1fr;gap:clamp(2rem,5vw,4rem);
+    display:grid;grid-template-columns:1.15fr 1fr 1fr;gap:clamp(1.8rem,4vw,3.2rem);
     margin-top:3.4rem;padding-top:2.6rem;border-top:1px solid var(--border);
   }
   .kontakt-hilfe h2{font-size:1.1rem;font-weight:800;margin:0 0 .8rem;}
@@ -821,7 +824,10 @@ html, body { overflow-x: clip; }
 
   .pflicht{color:var(--accent-2);}
 
-  @media (max-width:900px){
+  @media (max-width:1050px){
+    .kontakt-hilfe{grid-template-columns:1fr 1fr;}
+  }
+  @media (max-width:720px){
     .kontakt-hilfe{grid-template-columns:1fr;gap:2rem;}
   }
 
@@ -855,3 +861,8 @@ html, body { overflow-x: clip; }
     /* Der Cookie-Hinweis liegt sonst unter der Leiste */
     .cookie-banner{bottom:4.6rem;}
   }
+
+  .kontakt-anschrift{font-style:normal;font-size:.94rem;line-height:1.75;color:var(--text);margin:0;}
+  .kontakt-karte{margin:.9rem 0 0;font-size:.9rem;}
+  .kontakt-karte a{color:var(--accent-3);text-decoration:none;border-bottom:1px solid currentColor;}
+  .kontakt-hinweis{margin:1.3rem 0 0;font-size:.88rem;line-height:1.6;color:var(--text-muted);}
