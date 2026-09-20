@@ -176,6 +176,27 @@ export interface Ansprechpartner {
  */
 export const ansprechpartner: Ansprechpartner[] = [
   {
+    id: 'geisler',
+    vorname: 'Lisa',
+    nachname: 'Geisler',
+    funktion: 'Projektassistenz',
+    funktionEn: 'Project Assistant',
+    bereich: null,
+    bereichEn: null,
+    /* Kein eigener Durchwahlanschluss bekannt — es gilt die Zentrale. */
+    telefon: company.phone,
+    telefonHref: company.phoneHref,
+    email: company.email,
+    /* Kein freigegebenes Foto vorhanden; die Komponente setzt die Initialen. */
+    foto: null,
+    sprachen: [],
+    aufKontaktseite: true,
+    imFooter: false,
+    leistungsbereiche: [],
+    aktiv: true,
+    veroeffentlichungsfreigabe: true,
+  },
+  {
     id: 'deiters',
     vorname: 'Klaus-Jürgen',
     nachname: 'Deiters',
@@ -190,27 +211,6 @@ export const ansprechpartner: Ansprechpartner[] = [
     email: null,
     /* Kein freigegebenes Foto vorhanden. Die Komponente setzt dann die
        Initialen; ein KI-erzeugtes Portrait kommt nicht in Frage. */
-    foto: null,
-    sprachen: [],
-    aufKontaktseite: true,
-    imFooter: false,
-    leistungsbereiche: [],
-    aktiv: true,
-    veroeffentlichungsfreigabe: true,
-  },
-  {
-    id: 'geisler',
-    vorname: 'Lisa',
-    nachname: 'Geisler',
-    funktion: 'Projektassistenz',
-    funktionEn: 'Project Assistant',
-    bereich: null,
-    bereichEn: null,
-    /* Kein eigener Durchwahlanschluss bekannt — es gilt die Zentrale. */
-    telefon: company.phone,
-    telefonHref: company.phoneHref,
-    email: company.email,
-    /* Kein freigegebenes Foto vorhanden; die Komponente setzt die Initialen. */
     foto: null,
     sprachen: [],
     aufKontaktseite: true,
