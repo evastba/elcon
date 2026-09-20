@@ -456,9 +456,15 @@ html, body { overflow-x: clip; }
     list-style:none;cursor:default;display:flex;align-items:center;justify-content:space-between;
   }
   .footer-gruppe summary::-webkit-details-marker{display:none;}
-  .footer-gruppe summary h2{
+  /* Die Spaltenüberschriften sind unterschiedlich lang; "Unternehmen &
+     Projekte" bricht um, "Kontakt" nicht. Ohne feste Höhe begännen die
+     Listen darunter auf verschiedenen Linien. Zwei Zeilen Platz reichen für
+     alle drei, deutsch wie englisch. */
+  .footer-gruppe summary h2,
+  .footer-kontakt h2{
     margin:0;font-size:.82rem;font-weight:700;letter-spacing:.08em;
     text-transform:uppercase;color:var(--text);
+    line-height:1.3;min-height:2.6em;
   }
   .footer-gruppe summary::after{
     content:"";width:9px;height:9px;flex:none;display:none;
@@ -469,16 +475,21 @@ html, body { overflow-x: clip; }
   .footer-gruppe ul{list-style:none;margin:.9rem 0 0;padding:0;display:flex;flex-direction:column;gap:.5rem;}
   .footer-gruppe a{font-size:.92rem;line-height:1.45;}
 
-  .footer-kontakt h2{
-    margin:0 0 .9rem;font-size:.82rem;font-weight:700;letter-spacing:.08em;
-    text-transform:uppercase;color:var(--text);
-  }
-  .footer-wege{list-style:none;margin:0 0 1.2rem;padding:0;display:flex;flex-direction:column;gap:.7rem;}
-  .footer-wege li{display:flex;flex-direction:column;gap:.1rem;}
+  /* Kein zusätzlicher Abstand: Die Überschriften haben durch ihre feste Höhe
+     bereits Luft nach unten, und die Linklisten der Nachbarspalten setzen
+     unmittelbar darunter an. */
+  .footer-kontakt h2{margin-bottom:0;}
+  /* Die Kontaktspalte war der Fremdkörper der Fußzeile: gesperrte
+     Versalien über halbfett gesetzten Angaben, beides in anderen Graden als
+     die Linklisten daneben. Jetzt dieselbe Schriftgröße wie dort, keine
+     Auszeichnung; die Beschriftung steht gedämpft, der Wert in Textfarbe. */
+  .footer-wege{list-style:none;margin:.9rem 0 1.2rem;padding:0;display:flex;flex-direction:column;gap:.6rem;}
+  .footer-wege li{display:flex;flex-direction:column;gap:.05rem;}
   .footer-wege span{
-    font-size:.72rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--text-muted);
+    font-size:.92rem;font-weight:400;letter-spacing:0;text-transform:none;
+    color:var(--text-muted);line-height:1.45;
   }
-  .footer-wege a{font-size:.98rem;font-weight:600;overflow-wrap:anywhere;}
+  .footer-wege a{font-size:.92rem;font-weight:400;line-height:1.45;overflow-wrap:anywhere;}
   /* Der Knopf stand direkt an den Kontaktangaben und war mit 16 Pixeln
      größer gesetzt als jeder andere Text der Fußzeile (Links 14,7 px). Jetzt
      rückt er ab und ordnet sich in die Größenstufen ein. */
@@ -500,9 +511,12 @@ html, body { overflow-x: clip; }
        rechtlichen Verweise liegen außerhalb und bleiben immer sichtbar. */
     .footer-gruppe{border-top:1px solid var(--border);padding-block:.2rem;}
     .footer-gruppe summary{cursor:pointer;padding-block:.85rem;min-height:44px;}
+    .footer-gruppe summary h2,
+    .footer-kontakt h2{min-height:0;}
     .footer-gruppe summary::after{display:block;transform:rotate(45deg);}
     .footer-gruppe[open] summary::after{transform:rotate(-135deg);}
     .footer-gruppe ul{margin:0 0 1rem;gap:.7rem;}
+    .footer-wege{margin-top:.6rem;}
     .footer-gruppe a{display:inline-block;padding-block:.15rem;}
     .footer-kontakt{border-top:1px solid var(--border);padding-top:1.2rem;}
     /* Auf dem Telefon volle Breite und wieder 44 Pixel hoch, damit das
@@ -1129,8 +1143,8 @@ html, body { overflow-x: clip; }
 
   footer.site{border-top:1px solid var(--border);background:var(--surface-alt);}
   .footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1.1fr;gap:2.4rem;align-items:start;padding-block:2.6rem;}
-  .footer-grid h4{font-size:.82rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);margin:0 0 .8rem;}
-  .footer-grid ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.55rem;font-size:.9rem;}
+  /* Die Listenabstände stehen bei den Spalten selbst (.footer-gruppe,
+     .footer-wege). Hier nur, was für alle gilt. */
   .footer-grid a{text-decoration:none;color:var(--text-muted);}
   .footer-grid a:hover{color:var(--accent-3);}
   .footer-bottom{border-top:1px solid var(--border);padding-block:1.2rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:.8rem;font-size:.8rem;color:var(--text-muted);}

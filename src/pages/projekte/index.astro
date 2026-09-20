@@ -350,7 +350,6 @@ const ersteHistorische = referenzenNachTyp.findIndex(istHistorisch);
             data-punkt-vorlage="Schreiben {nr} anzeigen"
             hidden
           ></div>
-          <p class="tc-status" id="tcStatus" role="status" aria-live="polite" data-vorlage="Schreiben {nr} von {gesamt}" hidden></p>
         </div>
       </div>
     </div>
@@ -587,7 +586,7 @@ const ersteHistorische = referenzenNachTyp.findIndex(istHistorisch);
     }
 
     function aktualisiereSteuerung(){
-      if(!dots || !stand) return;
+      if(!dots) return;
       var neuVermessen = passePolsterAn();
       bauePunkte();
       var n = neuVermessen ? merker : aktuellerIndex();
@@ -606,10 +605,14 @@ const ersteHistorische = referenzenNachTyp.findIndex(istHistorisch);
       if(prevBtn) prevBtn.disabled = n === 0;
       if(nextBtn) nextBtn.disabled = n >= gesamt - 1;
       dots.hidden = gesamt <= 1;
-      stand.hidden = gesamt <= 1;
-      stand.textContent = (stand.dataset.vorlage || '')
-        .replace('{nr}', String(n + 1))
-        .replace('{gesamt}', String(gesamt));
+      /* Die Zählung "Schreiben x von y" ist entfallen; die Punkte zeigen die
+         Position. Für Vorlesesoftware steht sie weiter am jeweiligen Punkt. */
+      if(stand){
+        stand.hidden = gesamt <= 1;
+        stand.textContent = (stand.dataset.vorlage || '')
+          .replace('{nr}', String(n + 1))
+          .replace('{gesamt}', String(gesamt));
+      }
 
       if(aktuellFeld){
         aktuellFeld.hidden = false;

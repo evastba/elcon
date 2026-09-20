@@ -100,6 +100,15 @@ export interface Projektreferenz {
   logoFreigabe: Freigabe;
   textFreigabe: Freigabe;
   hervorgehoben: boolean;
+  /**
+   * Feste Position innerhalb der nicht-historischen Referenzen, 1 = ganz vorn.
+   *
+   * Ohne diese Angabe entscheidet die Reihenfolge in der Datei, welche
+   * Projekte in der ersten Reihe stehen. Die Trennung zu den historischen
+   * Referenzen bleibt davon unberührt — festgesetzt wird nur innerhalb der
+   * vorderen Gruppe.
+   */
+  reihenfolge?: number;
   /** Woher die Angaben stammen. */
   quelle: string | null;
 }
@@ -107,6 +116,7 @@ export interface Projektreferenz {
 export const PROJEKTREFERENZEN: Projektreferenz[] = [
   {
     id: 'audi-werk-ingolstadt-umbau',
+    reihenfolge: 1,
     organisation: 'Audi AG',
     projektname: 'Audi-Werk Ingolstadt, Umbau',
     projektnameEn: 'Audi plant Ingolstadt, conversion',
@@ -136,6 +146,7 @@ export const PROJEKTREFERENZEN: Projektreferenz[] = [
   },
   {
     id: 'vw-werk-emden-umbau-elektrofahrzeug',
+    reihenfolge: 2,
     organisation: 'Volkswagen AG',
     projektname: 'VW-Werk Emden, Umbau Elektrofahrzeug',
     projektnameEn: 'VW plant Emden, conversion for electric vehicles',
@@ -368,9 +379,10 @@ export const PROJEKTREFERENZEN: Projektreferenz[] = [
   },
   {
     id: 'sos-kinderdorf-tansania',
+    reihenfolge: 4,
     organisation: 'SOS-Kinderdorf International',
     projektname: 'SOS-Kinderdorf, Tansania',
-    projektnameEn: 'SOS Children&#8217;s Village, Tanzania',
+    projektnameEn: 'SOS Children’s Village, Tanzania',
     land: 'Tansania',
     landEn: 'Tanzania',
     ort: null,
@@ -382,11 +394,11 @@ export const PROJEKTREFERENZEN: Projektreferenz[] = [
     metaZeile: 'Tansania · Haustechnik &amp; Energieversorgung',
     metaZeileEn: 'Tanzania · Building services &amp; power supply',
     kurzText: 'Sanitär-, Energie- und Gebäudetechnik für ein SOS-Kinderdorf in Ostafrika — robuste Lösungen für den Betrieb abseits stabiler Versorgungsnetze.',
-    kurzTextEn: 'Plumbing, power and building services for an SOS Children&#8217;s Village in East Africa — robust solutions for operating away from reliable utility networks.',
+    kurzTextEn: 'Plumbing, power and building services for an SOS Children’s Village in East Africa — robust solutions for operating away from reliable utility networks.',
     darstellung: 'logo-gross',
     textPlatte: null,
     textPlatteEn: null,
-    logos: [{ datei: 'sos-kinderdorf.png', alt: 'SOS-Kinderdorf International Logo', altEn: 'SOS Children&#8217;s Villages International logo' }],
+    logos: [{ datei: 'sos-kinderdorf.png', alt: 'SOS-Kinderdorf International Logo', altEn: 'SOS Children’s Villages International logo' }],
     slug: null,
     status: 'verified',
     verifiziert: true,
@@ -399,7 +411,7 @@ export const PROJEKTREFERENZEN: Projektreferenz[] = [
     id: 'sos-kinderdorf-aethiopien',
     organisation: 'SOS-Kinderdorf International',
     projektname: 'SOS-Kinderdorf, Äthiopien',
-    projektnameEn: 'SOS Children&#8217;s Village, Ethiopia',
+    projektnameEn: 'SOS Children’s Village, Ethiopia',
     land: 'Äthiopien',
     landEn: 'Ethiopia',
     ort: null,
@@ -411,11 +423,11 @@ export const PROJEKTREFERENZEN: Projektreferenz[] = [
     metaZeile: 'Äthiopien · Haustechnik &amp; Energieversorgung',
     metaZeileEn: 'Ethiopia · Building services &amp; power supply',
     kurzText: 'Technische Gebäudeausrüstung für ein weiteres SOS-Kinderdorf in Äthiopien — Fortsetzung des sozialen Engagements in Ostafrika.',
-    kurzTextEn: 'Building services engineering for a further SOS Children&#8217;s Village in Ethiopia — continuing our social commitment in East Africa.',
+    kurzTextEn: 'Building services engineering for a further SOS Children’s Village in Ethiopia — continuing our social commitment in East Africa.',
     darstellung: 'logo-gross',
     textPlatte: null,
     textPlatteEn: null,
-    logos: [{ datei: 'sos-kinderdorf.png', alt: 'SOS-Kinderdorf International Logo', altEn: 'SOS Children&#8217;s Villages International logo' }],
+    logos: [{ datei: 'sos-kinderdorf.png', alt: 'SOS-Kinderdorf International Logo', altEn: 'SOS Children’s Villages International logo' }],
     slug: null,
     status: 'verified',
     verifiziert: true,
@@ -1035,6 +1047,7 @@ export const PROJEKTREFERENZEN: Projektreferenz[] = [
   },
   {
     id: 'hochtief-gewerbebau',
+    reihenfolge: 3,
     organisation: 'HOCHTIEF',
     projektname: 'HOCHTIEF, Gewerbebau',
     projektnameEn: 'HOCHTIEF, commercial construction',
@@ -1107,7 +1120,7 @@ export const PROJEKTREFERENZEN: Projektreferenz[] = [
     metaZeile: 'Öffentliche Auftraggeber · Haustechnik',
     metaZeileEn: 'Public sector · Building services',
     kurzText: 'Technische Gebäudeausrüstung für ein Reha-Zentrum von CARE International — Teil des sozialen Engagements neben den SOS-Kinderdorf-Projekten.',
-    kurzTextEn: 'Building services engineering for a CARE International rehabilitation centre — part of our social commitment alongside the SOS Children&#8217;s Village projects.',
+    kurzTextEn: 'Building services engineering for a CARE International rehabilitation centre — part of our social commitment alongside the SOS Children’s Village projects.',
     darstellung: 'logo',
     textPlatte: null,
     textPlatteEn: null,
@@ -1764,8 +1777,13 @@ export const istHistorisch = (r: Projektreferenz) => r.referenzTyp === 'historis
  * dann die historischen. Innerhalb der Gruppen bleibt die bisherige
  * Reihenfolge erhalten.
  */
+/* Innerhalb der nicht-historischen Referenzen stehen festgesetzte Projekte
+   vorn; die übrigen behalten ihre Reihenfolge aus der Datei. */
+const aktuell = sichtbareReferenzen.filter((r) => !istHistorisch(r));
+
 export const referenzenNachTyp = [
-  ...sichtbareReferenzen.filter((r) => !istHistorisch(r)),
+  ...aktuell.filter((r) => r.reihenfolge).sort((a, b) => (a.reihenfolge as number) - (b.reihenfolge as number)),
+  ...aktuell.filter((r) => !r.reihenfolge),
   ...sichtbareReferenzen.filter(istHistorisch),
 ];
 

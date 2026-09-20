@@ -193,7 +193,7 @@ export const UI: Record<Lang, UiTexte> = {
         { href: '/leistungen/#anlagentechnik', label: 'Brandschutz und Sicherheitstechnik' },
         { href: '/leistungen/#leistungsfelder', label: 'Projektmanagement und Consulting' },
       ],
-      unternehmen: 'Unternehmen und Projekte',
+      unternehmen: 'Unternehmen & Projekte',
       unternehmenLinks: [
         { href: '/unternehmen/', label: 'Unternehmen' },
         { href: '/#aktuelle-projekte', label: 'Aktuelle Projekte' },
@@ -305,7 +305,7 @@ export const UI: Record<Lang, UiTexte> = {
         { href: '/en/services/#anlagentechnik', label: 'Fire protection and security systems' },
         { href: '/en/services/#leistungsfelder', label: 'Project management and consulting' },
       ],
-      unternehmen: 'Company and projects',
+      unternehmen: 'Company & projects',
       unternehmenLinks: [
         { href: '/en/company/', label: 'Company' },
         { href: '/en/#aktuelle-projekte', label: 'Current projects' },
