@@ -1636,10 +1636,21 @@ export const REFERENZSCHREIBEN: Referenzschreiben[] = [
  * Kundenlogos der Laufschrift
  * ---------------------------------------------------------------------- */
 
+/** Branchengruppe — bestimmt die Reihenfolge in der Laufschrift. */
+export type Logogruppe =
+  | 'automobil'
+  | 'hotellerie'
+  | 'oeffentlich'
+  | 'konsum'
+  | 'industrie'
+  | 'bau'
+  | 'finanzen';
+
 export interface Kundenlogo {
   name: string;
   /** Dateiname in src/assets/logos. */
   datei: string;
+  gruppe: Logogruppe;
   /** Optisch größer setzen, weil die Marke sonst zu klein wirkt. */
   gross: boolean;
   /** Markenrechtliche Freigabe zur Verwendung auf dieser Website. */
@@ -1657,39 +1668,58 @@ export interface Kundenlogo {
  * Nord Stream und Nord Stream 2 sind auf ausdrücklichen Wunsch des
  * Auftraggebers nicht mehr Teil der Laufschrift. Die Projekte selbst bleiben
  * in PROJEKTREFERENZEN als historische Referenzen erhalten.
+ *
+ * Die Reihenfolge folgt Branchen, nicht dem Zufall: Automobil, Hotellerie,
+ * öffentliche Auftraggeber, Konsumgüter, Industrie, Bau, Finanzen. Innerhalb
+ * einer Gruppe stehen die bekanntesten Marken vorn, damit das Band nicht mit
+ * einem unbekannten Namen beginnt. Das Feld `gruppe` hält die Zuordnung fest;
+ * wer ein Logo ergänzt, sieht daran, wo es hingehört.
  */
 export const KUNDENLOGOS: Kundenlogo[] = [
-  { name: 'Volkswagen', datei: 'volkswagen.png', gross: true, freigabe: 'freigegeben', status: 'verified' },
-  { name: 'Porsche', datei: 'porsche.png', gross: true, freigabe: 'freigegeben', status: 'verified' },
-  { name: 'Heineken', datei: 'heineken.png', gross: true, freigabe: 'freigegeben', status: 'verified' },
-  { name: 'Continental', datei: 'continental.png', gross: false, freigabe: 'freigegeben', status: 'verified' },
-  { name: 'Selgros', datei: 'selgros.png', gross: false, freigabe: 'freigegeben', status: 'verified' },
-  { name: 'Auswärtiges Amt', datei: 'auswaertiges-amt.png', gross: false, freigabe: 'freigegeben', status: 'verified' },
-  { name: 'Hilton', datei: 'hilton.png', gross: false, freigabe: 'freigegeben', status: 'verified' },
-  { name: 'Siemens', datei: 'siemens.png', gross: false, freigabe: 'freigegeben', status: 'verified' },
-  { name: 'thyssenkrupp', datei: 'thyssenkrupp.png', gross: false, freigabe: 'freigegeben', status: 'verified' },
-  { name: 'Johnson & Johnson', datei: 'johnson-johnson.png', gross: false, freigabe: 'freigegeben', status: 'verified' },
-  { name: 'SOS-Kinderdorf International', datei: 'sos-kinderdorf.png', gross: false, freigabe: 'freigegeben', status: 'verified' },
-  { name: 'General Motors', datei: 'gm.png', gross: false, freigabe: 'freigegeben', status: 'verified' },
-  { name: 'Hyatt', datei: 'hyatt.png', gross: false, freigabe: 'freigegeben', status: 'verified' },
-  { name: 'AB InBev', datei: 'inbev.png', gross: false, freigabe: 'freigegeben', status: 'verified' },
-  { name: 'Ambassador Hotel', datei: 'ambassador-hotel.png', gross: false, freigabe: 'freigegeben', status: 'verified' },
-  { name: 'Audi', datei: 'audi.png', gross: false, freigabe: 'freigegeben', status: 'verified' },
-  { name: 'Benteler', datei: 'benteler.png', gross: false, freigabe: 'freigegeben', status: 'verified' },
-  { name: 'BILLA', datei: 'billa.png', gross: false, freigabe: 'freigegeben', status: 'verified' },
-  { name: 'Schweizerische Eidgenossenschaft', datei: 'schweiz-konsulat.png', gross: false, freigabe: 'freigegeben', status: 'verified' },
-  { name: 'СтройСервис', datei: 'stroyservis.png', gross: false, freigabe: 'freigegeben', status: 'verified' },
-  { name: 'Aeroflot-Bank', datei: 'aeroflot-bank.png', gross: false, freigabe: 'freigegeben', status: 'verified' },
-  { name: 'Care International', datei: 'care.png', gross: false, freigabe: 'freigegeben', status: 'verified' },
-  { name: 'Bautech', datei: 'bautech.png', gross: false, freigabe: 'freigegeben', status: 'verified' },
-  { name: 'Botschaft der Europäischen Union', datei: 'eu.png', gross: false, freigabe: 'freigegeben', status: 'verified' },
-  { name: 'OSZE', datei: 'osce.png', gross: false, freigabe: 'freigegeben', status: 'verified' },
-  { name: 'Mitsubishi', datei: 'mitsubishi.png', gross: false, freigabe: 'freigegeben', status: 'verified' },
-  { name: 'Bau Grund AG', datei: 'baugrund.png', gross: false, freigabe: 'freigegeben', status: 'verified' },
-  { name: 'Philipp Holzmann AG', datei: 'philipp-holzmann.png', gross: false, freigabe: 'freigegeben', status: 'verified' },
-  { name: 'HOCHTIEF', datei: 'hochtief.png', gross: false, freigabe: 'freigegeben', status: 'verified' },
-  { name: 'Hoffmann-La Roche', datei: 'roche.png', gross: false, freigabe: 'freigegeben', status: 'verified' },
-  { name: 'STREIF', datei: 'streif.png', gross: false, freigabe: 'freigegeben', status: 'verified' },
+  /* Automobil und Zulieferer */
+  { name: 'Volkswagen', datei: 'volkswagen.png', gross: true, gruppe: 'automobil', freigabe: 'freigegeben', status: 'verified' },
+  { name: 'Audi', datei: 'audi.png', gross: false, gruppe: 'automobil', freigabe: 'freigegeben', status: 'verified' },
+  { name: 'Porsche', datei: 'porsche.png', gross: true, gruppe: 'automobil', freigabe: 'freigegeben', status: 'verified' },
+  { name: 'General Motors', datei: 'gm.png', gross: false, gruppe: 'automobil', freigabe: 'freigegeben', status: 'verified' },
+  { name: 'Mitsubishi', datei: 'mitsubishi.png', gross: false, gruppe: 'automobil', freigabe: 'freigegeben', status: 'verified' },
+  { name: 'Continental', datei: 'continental.png', gross: false, gruppe: 'automobil', freigabe: 'freigegeben', status: 'verified' },
+  { name: 'Benteler', datei: 'benteler.png', gross: false, gruppe: 'automobil', freigabe: 'freigegeben', status: 'verified' },
+
+  /* Hotellerie */
+  { name: 'Hilton', datei: 'hilton.png', gross: false, gruppe: 'hotellerie', freigabe: 'freigegeben', status: 'verified' },
+  { name: 'Hyatt', datei: 'hyatt.png', gross: false, gruppe: 'hotellerie', freigabe: 'freigegeben', status: 'verified' },
+  { name: 'Ambassador Hotel', datei: 'ambassador-hotel.png', gross: false, gruppe: 'hotellerie', freigabe: 'freigegeben', status: 'verified' },
+
+  /* Öffentliche Auftraggeber und Institutionen */
+  { name: 'Auswärtiges Amt', datei: 'auswaertiges-amt.png', gross: false, gruppe: 'oeffentlich', freigabe: 'freigegeben', status: 'verified' },
+  { name: 'Schweizerische Eidgenossenschaft', datei: 'schweiz-konsulat.png', gross: false, gruppe: 'oeffentlich', freigabe: 'freigegeben', status: 'verified' },
+  { name: 'Botschaft der Europäischen Union', datei: 'eu.png', gross: false, gruppe: 'oeffentlich', freigabe: 'freigegeben', status: 'verified' },
+  { name: 'OSZE', datei: 'osce.png', gross: false, gruppe: 'oeffentlich', freigabe: 'freigegeben', status: 'verified' },
+  { name: 'SOS-Kinderdorf International', datei: 'sos-kinderdorf.png', gross: false, gruppe: 'oeffentlich', freigabe: 'freigegeben', status: 'verified' },
+  { name: 'Care International', datei: 'care.png', gross: false, gruppe: 'oeffentlich', freigabe: 'freigegeben', status: 'verified' },
+
+  /* Konsumgüter und Handel */
+  { name: 'Heineken', datei: 'heineken.png', gross: true, gruppe: 'konsum', freigabe: 'freigegeben', status: 'verified' },
+  { name: 'AB InBev', datei: 'inbev.png', gross: false, gruppe: 'konsum', freigabe: 'freigegeben', status: 'verified' },
+  { name: 'BILLA', datei: 'billa.png', gross: false, gruppe: 'konsum', freigabe: 'freigegeben', status: 'verified' },
+  { name: 'Selgros', datei: 'selgros.png', gross: false, gruppe: 'konsum', freigabe: 'freigegeben', status: 'verified' },
+
+  /* Industrie, Technik und Gesundheit */
+  { name: 'Siemens', datei: 'siemens.png', gross: false, gruppe: 'industrie', freigabe: 'freigegeben', status: 'verified' },
+  { name: 'thyssenkrupp', datei: 'thyssenkrupp.png', gross: false, gruppe: 'industrie', freigabe: 'freigegeben', status: 'verified' },
+  { name: 'Johnson & Johnson', datei: 'johnson-johnson.png', gross: false, gruppe: 'industrie', freigabe: 'freigegeben', status: 'verified' },
+  { name: 'Hoffmann-La Roche', datei: 'roche.png', gross: false, gruppe: 'industrie', freigabe: 'freigegeben', status: 'verified' },
+
+  /* Bau und Immobilien */
+  { name: 'HOCHTIEF', datei: 'hochtief.png', gross: false, gruppe: 'bau', freigabe: 'freigegeben', status: 'verified' },
+  { name: 'Philipp Holzmann AG', datei: 'philipp-holzmann.png', gross: false, gruppe: 'bau', freigabe: 'freigegeben', status: 'verified' },
+  { name: 'Bau Grund AG', datei: 'baugrund.png', gross: false, gruppe: 'bau', freigabe: 'freigegeben', status: 'verified' },
+  { name: 'Bautech', datei: 'bautech.png', gross: false, gruppe: 'bau', freigabe: 'freigegeben', status: 'verified' },
+  { name: 'STREIF', datei: 'streif.png', gross: false, gruppe: 'bau', freigabe: 'freigegeben', status: 'verified' },
+  { name: 'СтройСервис', datei: 'stroyservis.png', gross: false, gruppe: 'bau', freigabe: 'freigegeben', status: 'verified' },
+
+  /* Finanzen */
+  { name: 'Aeroflot-Bank', datei: 'aeroflot-bank.png', gross: false, gruppe: 'finanzen', freigabe: 'freigegeben', status: 'verified' },
 ];
 
 /* ---------------------------------------------------------------------- *
