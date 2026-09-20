@@ -1,32 +1,28 @@
 ---
 import { Image } from 'astro:assets';
 import logoIcon from '../assets/logo-icon-v2.png';
+import { getLang, UI, anderePfad } from '../i18n/ui';
 
 /* Die Navigation markiert die aktive Seite serverseitig. Astro.url.pathname
    endet je nach Aufruf mit oder ohne Schrägstrich, deshalb wird normalisiert. */
 const path = Astro.url.pathname.replace(/\/+$/, '') || '/';
 
-const links = [
-  { href: '/leistungen/', label: 'Leistungen' },
-  {
-    href: '/projekte/',
-    label: 'Projekte',
-    sub: [
-      { href: '/projekte/#generalunternehmer', label: 'Ausgewählte Projekte' },
-      { href: '/projekte/#refVerzeichnis', label: 'Kundenübersicht' },
-      { href: '/projekte/#kundenfeedback', label: 'Kundenfeedback' },
-    ],
-  },
-  { href: '/unternehmen/', label: 'Unternehmen' },
-  { href: '/kontakt/', label: 'Kontakt' },
-];
+const lang = getLang(Astro.url);
+const t = UI[lang];
+const links = t.nav;
+
+/* Ziel des Sprachumschalters: dieselbe Seite in der anderen Sprache. Früher
+   stand hier ein Schalter, der nur eine Hinweismeldung auslöste — jetzt gibt es
+   beide Fassungen, also führt er auch dorthin. */
+const zielDe = anderePfad(Astro.url.pathname, 'de');
+const zielEn = anderePfad(Astro.url.pathname, 'en');
 
 const isActive = (href: string) => path === href.replace(/\/+$/, '');
 ---
 
 <header class="site">
   <div class="wrap nav-row">
-    <a href="/" class="brand" aria-label="ELCON — zur Startseite">
+    <a href={lang === 'de' ? '/' : '/en/'} class="brand" aria-label={t.zurStartseite}>
       <Image src={logoIcon} class="hex-mark" alt="ELCON Icon" loading="eager" />
       <span class="brand-text">
         <span class="brand-word">ELCON</span>
@@ -35,11 +31,11 @@ const isActive = (href: string) => path === href.replace(/\/+$/, '');
     </a>
 
     <input type="checkbox" id="menuToggle" class="menu-toggle">
-    <label for="menuToggle" class="menu-toggle-label" aria-label="Menü öffnen">
+    <label for="menuToggle" class="menu-toggle-label" aria-label={t.menueOeffnen}>
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><path d="M2 5h16M2 10h16M2 15h16"/></svg>
     </label>
 
-    <nav class="primary" aria-label="Hauptnavigation">
+    <nav class="primary" aria-label={t.navLabel}>
       {links.map((link) => link.sub ? (
         <div class="nav-drop">
           <a
@@ -58,31 +54,27 @@ const isActive = (href: string) => path === href.replace(/\/+$/, '');
           aria-current={isActive(link.href) ? 'page' : undefined}
         >{link.label}</a>
       ))}
-      <div class="lang-toggle" role="group" aria-label="Sprache">
-        <button type="button" data-lang="de" aria-pressed="true">DE</button>
-        <button type="button" data-lang="en" aria-pressed="false">EN</button>
+      <div class="lang-toggle" role="group" aria-label={lang === 'de' ? 'Sprache' : 'Language'}>
+        <a
+          href={zielDe}
+          hreflang="de"
+          lang="de"
+          class:list={{ 'is-active': lang === 'de' }}
+          aria-current={lang === 'de' ? 'true' : undefined}
+        >DE</a>
+        <a
+          href={zielEn}
+          hreflang="en"
+          lang="en"
+          class:list={{ 'is-active': lang === 'en' }}
+          aria-current={lang === 'en' ? 'true' : undefined}
+        >EN</a>
       </div>
     </nav>
   </div>
 </header>
 
 <script>
-  import { showToast } from '../scripts/toast';
-
-  /* Sprachumschalter. Die englische Fassung existiert noch nicht; der Schalter
-     sagt das offen, statt ins Leere zu führen. */
-  document.querySelectorAll<HTMLButtonElement>('.lang-toggle button').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const group = btn.closest('.lang-toggle');
-      group?.querySelectorAll('button').forEach((b) => {
-        b.setAttribute('aria-pressed', String(b === btn));
-      });
-      if (btn.dataset.lang === 'en') {
-        showToast('Die vollständige englische Version wird in der nächsten Ausbaustufe ergänzt.');
-      }
-    });
-  });
-
   /* Mobiles Menü nach einem Klick schließen — beim Wechsel auf eine andere
      Seite lädt das Dokument zwar neu, bei Ankerlinks innerhalb der Seite
      bliebe das Panel sonst offen stehen. */

@@ -1,0 +1,125 @@
+---
+import LegalLayout from '../../layouts/LegalLayout.astro';
+import { company } from '../../config';
+
+const missing = [
+  !company.managingDirectors && 'Authorised managing directors',
+  !company.registerCourt && 'Register court',
+  !company.registerNumber && 'Commercial register number',
+  !company.vatId && 'VAT identification number',
+].filter(Boolean) as string[];
+---
+
+<LegalLayout
+  title="Legal notice"
+  description="Legal notice of ELCON LED GmbH — provider identification pursuant to section 5 of the German Digital Services Act (DDG)."
+>
+  <p class="legal-missing">
+    This page is an English courtesy translation of the German legal notice. In
+    the event of any discrepancy, the
+    <a href="/impressum/" hreflang="de" lang="de">German version</a> prevails.
+  </p>
+
+  {missing.length > 0 && (
+    <aside class="legal-todo" role="note">
+      <strong>Still to be added before going live</strong>
+      <p>
+        The following mandatory details under section 5 DDG are not yet available and
+        need to be entered in <code>src/config.ts</code>:
+      </p>
+      <ul>
+        {missing.map((item) => <li>{item}</li>)}
+      </ul>
+    </aside>
+  )}
+
+  <h2>Details pursuant to section 5 DDG</h2>
+  <p>
+    {company.name}<br />
+    {company.street}<br />
+    {company.zip} {company.city}<br />
+    Germany
+  </p>
+
+  <h2>Represented by</h2>
+  {company.managingDirectors ? (
+    <p>{company.managingDirectors.join(', ')}</p>
+  ) : (
+    <p class="legal-missing">Details of the authorised managing directors are still outstanding.</p>
+  )}
+
+  <h2>Contact</h2>
+  <p>
+    Phone: <a href={`tel:${company.phoneHref}`}>{company.phone}</a><br />
+    Fax: {company.fax}<br />
+    Email: <a href={`mailto:${company.email}`}>{company.email}</a>
+  </p>
+
+  <h2>Register entry</h2>
+  {company.registerCourt && company.registerNumber ? (
+    <p>
+      Register court: {company.registerCourt}<br />
+      Register number: {company.registerNumber}
+    </p>
+  ) : (
+    <p class="legal-missing">Details of the commercial register entry are still outstanding.</p>
+  )}
+
+  <h2>VAT identification number</h2>
+  {company.vatId ? (
+    <p>Pursuant to section 27a of the German VAT Act: {company.vatId}</p>
+  ) : (
+    <p class="legal-missing">The VAT identification number is still outstanding.</p>
+  )}
+
+  {company.chamber && (
+    <>
+      <h2>Chamber membership</h2>
+      <p>{company.chamber}</p>
+    </>
+  )}
+
+  <h2>Consumer dispute resolution</h2>
+  <p>
+    We are neither willing nor obliged to take part in dispute resolution proceedings before a
+    consumer arbitration board.
+  </p>
+
+  <h2>Liability for content</h2>
+  <p>
+    As a service provider we are responsible for our own content on these pages under the general
+    laws, in accordance with section 7(1) DDG. Under sections 8 to 10 DDG, however, we as a service
+    provider are not obliged to monitor transmitted or stored third-party information, or to
+    investigate circumstances that indicate unlawful activity. Obligations to remove or block the
+    use of information under the general laws remain unaffected. Liability in this respect is only
+    possible from the point in time at which we become aware of a specific infringement. Should we
+    become aware of any such infringements, we will remove the content concerned without delay.
+  </p>
+
+  <h2>Liability for links</h2>
+  <p>
+    Our website contains links to external third-party websites over whose content we have no
+    influence. We therefore cannot accept any responsibility for such third-party content. The
+    respective provider or operator of the linked pages is always responsible for their content. The
+    linked pages were checked for possible legal infringements at the time they were linked; no
+    unlawful content was apparent at that time. Should we become aware of any legal infringements,
+    we will remove such links without delay.
+  </p>
+
+  <h2>Copyright</h2>
+  <p>
+    The content and works created by the site operators on these pages are subject to German
+    copyright law. Reproduction, adaptation, distribution and any form of exploitation beyond the
+    limits of copyright require the written consent of the respective author or creator. Downloads
+    and copies of this page are permitted for private, non-commercial use only. Where the content on
+    this page was not created by the operator, the copyrights of third parties are respected. In
+    particular, third-party content is identified as such.
+  </p>
+
+  <h2>Image credits</h2>
+  <p>
+    The company logos used on this website are trademarks of their respective proprietors and are
+    used solely to identify projects we have delivered. Individual images were created with the help
+    of generative AI and are marked as such on the image concerned.
+  </p>
+</LegalLayout>

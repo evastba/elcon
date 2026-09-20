@@ -1,0 +1,75 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { asset } from '../../lib/assets';
+---
+
+<BaseLayout title="Company" description="ELCON LED GmbH: main contractor for building services engineering with 30+ years of experience — dependable, personal, from a single source.">
+
+  <section id="companyPage" style="padding-top:2.2rem;">
+    <div class="wrap">
+      <a href="/en/" class="subpage-back">← Back to the home page</a>
+      <div class="section-head" style="max-width:none;">
+        <p class="eyebrow">Company</p>
+        <h1>Dependable. Personal. From a single source.</h1>
+        <p>Grown out of the electrical contracting business founded by Wilhelm Deiters in 1953, ELCON has operated as an independent company since 1993 — today, as ELCON LED GmbH, part of the Deiters group.</p>
+      </div>
+
+      <div class="company-showcase">
+        <div class="company-art">
+          <Image src={asset("/assets/unternehmen/team-planung.jpg")} alt="Two ELCON engineers discussing a systems drawing in front of the building services plant" />
+          <span class="ai-badge"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.7 5.3L19 9l-5.3 1.7L12 16l-1.7-5.3L5 9l5.3-1.7L12 2z"/><path d="M19 14l.85 2.15L22 17l-2.15.85L19 20l-.85-2.15L16 17l2.15-.85L19 14z"/></svg>AI generated</span>
+          <div class="company-art-overlay"></div>
+          <blockquote class="leitbild">“We are the dependable main contractor for building services engineering — we design, build and look after electrical, heating, air conditioning, ventilation, plumbing and automation systems from a single source, personally and with many years of experience.”</blockquote>
+        </div>
+      </div>
+
+      <p class="values-lead">This is what we stand for — and what our clients confirm:</p>
+      <div class="values">
+        <div class="value-chip">
+          <span class="value-icon" style="background:var(--ink);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 5-3.2 8.5-7 10-3.8-1.5-7-5-7-10V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg>
+          </span>
+          <div><h4>Trust &amp; dependability</h4><p>Commitments are kept and projects are looked after reliably.</p></div>
+        </div>
+        <div class="value-chip">
+          <span class="value-icon" style="background:var(--accent-3);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="2.6"/><path d="M4 19c0-3 2.5-5 5-5s5 2 5 5"/><circle cx="17" cy="7" r="2"/><path d="M15 12c2 0 4.5 1.6 4.5 4.5"/></svg>
+          </span>
+          <div><h4>Closeness to clients &amp; expertise</h4><p>Named contacts with specialist knowledge across every trade.</p></div>
+        </div>
+        <div class="value-chip">
+          <span class="value-icon" style="background:var(--accent-2);">
+            <svg viewBox="0 0 24 24" fill="#fff" stroke="none"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg>
+          </span>
+          <div><h4>Pace &amp; pragmatism</h4><p>Fast, straightforward delivery.</p></div>
+        </div>
+        <div class="value-chip">
+          <span class="value-icon" style="background:var(--accent);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19c0-8 5-14 14-14 0 9-6 14-14 14z"/><path d="M5 19c2-5 5-8 9-10"/></svg>
+          </span>
+          <div><h4>Energy efficiency</h4><p>Measurable improvement as a core part of what we promise.</p></div>
+        </div>
+      </div>
+
+      <div class="section-head" style="margin-top:3rem;margin-bottom:1.4rem;max-width:none;">
+        <p class="eyebrow">Philosophy</p>
+        <h2>Principles of our company philosophy</h2>
+      </div>
+      <div class="philosophy-card">
+        <p class="values-lead">Quality and closeness to our clients:</p>
+        <ul class="philosophy-list">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>A flexible, project-specific range of services without costly standing overheads</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Pragmatic delivery on the basis of clear contractual terms</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Consistently high quality despite rising cost pressure</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Close contact with clients, and active listening when they explain what they have in mind</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Proposing cost-effective, tailor-made solutions</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Reliable fulfilment of contractual obligations</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>A readiness to make exceptional efforts and to work under extreme conditions</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Decentralised operating units under central management, offering maximum closeness to the client</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>

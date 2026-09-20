@@ -1,6 +1,7 @@
 ---
 import BaseLayout from './BaseLayout.astro';
-import { legalLastUpdated } from '../config';
+import { legalLastUpdated, legalLastUpdatedEn } from '../config';
+import { getLang, UI } from '../i18n/ui';
 
 interface Props {
   title: string;
@@ -11,19 +12,23 @@ interface Props {
 
 const { title, description, heading } = Astro.props;
 const pageHeading = heading ?? title;
+
+const lang = getLang(Astro.url);
+const t = UI[lang];
+const stand = lang === 'de' ? legalLastUpdated : legalLastUpdatedEn;
 ---
 
 <BaseLayout title={title} description={description}>
   <div class="legal-page">
     <div class="wrap">
-      <nav class="legal-breadcrumb" aria-label="Brotkrumennavigation">
-        <a href="/">Startseite</a>
+      <nav class="legal-breadcrumb" aria-label={t.brotkrumen}>
+        <a href={lang === 'de' ? '/' : '/en/'}>{t.startseite}</a>
         <span aria-hidden="true">/</span>
         <span aria-current="page">{pageHeading}</span>
       </nav>
 
       <h1>{pageHeading}</h1>
-      <p class="legal-updated">Stand: {legalLastUpdated}</p>
+      <p class="legal-updated">{t.stand}: {stand}</p>
 
       <div class="legal-prose">
         <slot />

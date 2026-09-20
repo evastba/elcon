@@ -129,11 +129,18 @@ html, body { overflow-x: clip; }
   nav.primary a:hover{color:var(--text);border-color:var(--accent-3);}
 
   .lang-toggle{display:flex;gap:.35rem;font-size:.78rem;font-weight:600;align-items:center;}
-  .lang-toggle button{
+  /* Der Umschalter besteht seit der englischen Fassung aus echten Verweisen
+     auf die jeweils andere Sprachversion, nicht mehr aus Schaltflächen. */
+  /* Höher gewichtet als `nav.primary a`, weil der Umschalter im selben
+     Navigationsbereich steht und dessen Unterstrich sonst gewönne. */
+  nav.primary .lang-toggle a{
     background:none;border:1px solid var(--border);color:var(--text-muted);
     padding:.25rem .55rem;border-radius:4px;cursor:pointer;font:inherit;
+    text-decoration:none;line-height:1.2;
   }
-  .lang-toggle button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff;}
+  nav.primary .lang-toggle a.is-active{background:var(--ink);border-color:var(--ink);color:#fff;}
+  nav.primary .lang-toggle a:hover{border-color:var(--accent-3);color:var(--accent-3);}
+  nav.primary .lang-toggle a.is-active:hover{color:#fff;border-color:var(--ink);}
 
   .cta-btn{
     display:inline-flex;align-items:center;gap:.5rem;
@@ -661,14 +668,14 @@ html, body { overflow-x: clip; }
 
 
   .tc-nav,
-  .lang-toggle button{
+  .lang-toggle a{
     @apply duration-150 ease-out;
     transition-property:transform,background-color,border-color,color;
   }
   .tc-nav:hover,
-  .lang-toggle button:hover{ @apply motion-safe:scale-[1.02]; }
+  .lang-toggle a:hover{ @apply motion-safe:scale-[1.02]; }
   .tc-nav:active,
-  .lang-toggle button:active{ @apply motion-safe:scale-[0.98]; }
+  .lang-toggle a:active{ @apply motion-safe:scale-[0.98]; }
 
   /* --- Links -------------------------------------------------------------- */
   nav.primary a,

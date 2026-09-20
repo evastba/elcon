@@ -85,3 +85,6 @@ export const anyAnalyticsEnabled = analyticsEnabled || cloudflareAnalyticsEnable
 
 /** Datum der letzten inhaltlichen Änderung der Rechtstexte. */
 export const legalLastUpdated = '16. September 2026';
+
+/** Dasselbe Datum für die englische Fassung der Rechtstexte. */
+export const legalLastUpdatedEn = '16 September 2026';

@@ -1,0 +1,259 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { company } from '../../config';
+
+/* Das versteckte Feld "lang" im Formular ist eine Sprachkennung für den
+   Posteingang: Das Anfrageformular steht in beiden Sprachen, die Nachricht
+   landet aber in demselben Postfach. So ist beim Öffnen sofort erkennbar, in
+   welcher Sprache geantwortet werden sollte. */
+---
+
+<BaseLayout title="Contact" description="Send a project enquiry to ELCON LED GmbH — Bauernstr. 34, 31275 Lehrte, Germany. Phone, email, WhatsApp and enquiry form.">
+
+  <section id="contact" class="contact">
+    <div class="wrap kontakt-raster">
+      <div class="contact-info">
+        <p class="eyebrow">Contact</p>
+        <h1 style="font-size:clamp(1.6rem,3vw,2.1rem);font-weight:800;margin:0 0 1rem;">Enquire about a project</h1>
+        <p style="color:var(--text-muted);line-height:1.6;max-width:42ch;">Tell us about your project — we will come back to you with a dedicated point of contact.</p>
+        <h3>{company.name}</h3>
+        <ul class="contact-list">
+          <li>{company.street}</li>
+          <li>{company.zip} {company.city}</li>
+          <li>Germany</li>
+          <li>Phone: <a href={`tel:${company.phoneHref}`}>{company.phone}</a></li>
+          <li>Fax: {company.fax}</li>
+          <li><a href={`mailto:${company.email}`}>{company.email}</a></li>
+        </ul>
+        <a class="whatsapp-link" href="https://wa.me/4951757716116" target="_blank" rel="noopener">
+          <span class="whatsapp-badge" aria-hidden="true">
+            <svg viewBox="0 0 32 32"><path fill="#25D366" d="M16.004 0C7.164 0 0 7.163 0 16c0 2.82.738 5.566 2.14 7.982L0 32l8.223-2.13A15.94 15.94 0 0016.004 32C24.84 32 32 24.837 32 16S24.84 0 16.004 0z"/><path fill="#fff" d="M24.14 19.13c-.406-.203-2.4-1.184-2.773-1.32-.372-.136-.643-.203-.914.204-.27.406-1.05 1.32-1.287 1.59-.237.27-.474.305-.88.102-.406-.204-1.715-.632-3.267-2.017-1.208-1.077-2.024-2.407-2.261-2.813-.237-.406-.025-.626.178-.828.183-.183.406-.474.61-.712.202-.237.27-.406.405-.677.135-.27.068-.508-.034-.712-.102-.203-.914-2.202-1.252-3.016-.33-.792-.665-.685-.914-.698-.237-.012-.508-.014-.78-.014-.27 0-.71.101-1.082.508-.372.406-1.42 1.388-1.42 3.387 0 1.998 1.454 3.929 1.657 4.2.203.27 2.862 4.37 6.933 6.13.969.418 1.724.668 2.313.855.972.31 1.856.266 2.556.161.78-.116 2.4-.981 2.738-1.928.338-.948.338-1.76.237-1.929-.101-.169-.372-.27-.778-.474z"/></svg>
+          </span>
+          <span>Message us directly on WhatsApp</span>
+        </a>
+      </div>
+      <form class="request" id="requestForm">
+        <input type="hidden" name="lang" value="en">
+        <div class="form-row">
+          <div class="field">
+            <label for="fname">Name <span class="pflicht" aria-hidden="true">*</span></label>
+            <input id="fname" name="name" type="text" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label for="fcompany">Company</label>
+            <input id="fcompany" name="company" type="text" autocomplete="organization">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label for="fmail">Email <span class="pflicht" aria-hidden="true">*</span></label>
+            <input id="fmail" name="email" type="email" autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label for="fphone">Phone</label>
+            <input id="fphone" name="phone" type="tel" autocomplete="tel">
+          </div>
+        </div>
+        <div class="field">
+          <label for="flocation">Project location</label>
+          <input id="flocation" name="location" type="text" placeholder="Town or region">
+        </div>
+        <div class="field">
+          <label for="fmsg">Project description <span class="pflicht" aria-hidden="true">*</span></label>
+          <textarea id="fmsg" name="message" required></textarea>
+        </div>
+        <div class="field">
+          <label for="ffiles">Attach documents</label>
+          <div class="upload" id="uploadFeld">
+            <input
+              id="ffiles"
+              name="files"
+              type="file"
+              multiple
+              accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png,.zip,.dwg,.dxf,.ifc"
+            >
+            <p class="upload-text">
+              <strong>Choose files</strong> or drag them here
+            </p>
+          </div>
+          <ul class="upload-liste" id="uploadListe" hidden></ul>
+        </div>
+
+        <button type="submit" class="cta-btn primary" style="justify-content:center;">Send enquiry</button>
+        <p class="form-status" id="formStatus" role="status" aria-live="polite" hidden></p>
+        <p class="form-note">
+          With documents attached, the enquiry goes straight to us. Without
+          attachments, your email program opens with a prepared message to {company.email}.
+        </p>
+
+        <p class="form-direkt">
+          Prefer to write directly?
+          <a href={`mailto:${company.email}`}>{company.email}</a>
+        </p>
+      </form>
+    </div>
+
+    <div class="wrap">
+      <div class="kontakt-hilfe">
+        <div class="kontakt-hilfe-kopf">
+          <h2>What helps us with your enquiry</h2>
+          <p>The more we know about your project, the more solid our response will be. It helps to tell us about:</p>
+          <ul>
+            <li><strong>the type of building</strong> — a new build, a conversion during ongoing operation, or a refurbishment of an existing building</li>
+            <li><strong>the trades</strong> you want to award, and whether we should take them on as a bundle</li>
+            <li><strong>the location</strong> and the planned timescale</li>
+            <li><strong>the stage</strong> — a first idea, a design in progress, or a completed tender</li>
+            <li><strong>the documents available</strong>, such as a bill of quantities, drawings or surveys</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+<script>
+  import { trackEvent } from '../../scripts/track';
+
+  const MAX_GESAMT = 15 * 1024 * 1024; // 15 MB
+
+  const form = document.getElementById('requestForm') as HTMLFormElement;
+
+  /* Kommt der Besucher aus dem Leistungsfinder, steht seine Auswahl in der
+     Adresse. Sie wird in die Projektbeschreibung übernommen, damit er nicht
+     wiederholen muss, was er dort schon beantwortet hat. Der Cursor landet
+     hinter dem vorbereiteten Text. */
+  {
+    const p = new URLSearchParams(location.search);
+    const art = p.get('art');
+    const gewerke = p.get('gewerke');
+    const phase = p.get('phase');
+
+    if (art || gewerke || phase) {
+      const zeilen = [
+        art && `Project: ${art}`,
+        gewerke && `Trades: ${gewerke}`,
+        phase && `Stage: ${phase}`,
+      ].filter(Boolean);
+
+      const feld = document.getElementById('fmsg') as HTMLTextAreaElement;
+      feld.value = zeilen.join('\n') + '\n\n';
+      feld.focus();
+      feld.setSelectionRange(feld.value.length, feld.value.length);
+    }
+  }
+
+  const feld = document.getElementById('uploadFeld') as HTMLElement;
+  const eingabe = document.getElementById('ffiles') as HTMLInputElement;
+  const liste = document.getElementById('uploadListe') as HTMLUListElement;
+  const status = document.getElementById('formStatus') as HTMLParagraphElement;
+
+  /* Der Browser lässt FileList nicht bearbeiten. Um einzelne Dateien wieder
+     entfernen zu können, wird die Auswahl hier geführt und über ein
+     DataTransfer-Objekt in das Eingabefeld zurückgeschrieben. */
+  let dateien: File[] = [];
+
+  const lesbar = (bytes: number) =>
+    bytes >= 1024 * 1024 ? (bytes / 1024 / 1024).toFixed(1) + ' MB' : Math.max(1, Math.round(bytes / 1024)) + ' kB';
+
+  function melde(text: string, art: 'fehler' | 'erfolg' | null) {
+    if (!art) { status.hidden = true; return; }
+    status.textContent = text;
+    status.className = 'form-status ' + (art === 'fehler' ? 'ist-fehler' : 'ist-erfolg');
+    status.hidden = false;
+  }
+
+  function uebernehmen() {
+    const dt = new DataTransfer();
+    dateien.forEach((f) => dt.items.add(f));
+    eingabe.files = dt.files;
+
+    liste.innerHTML = '';
+    liste.hidden = dateien.length === 0;
+    feld.classList.toggle('is-bereit', dateien.length > 0);
+
+    dateien.forEach((f, i) => {
+      const li = document.createElement('li');
+      const name = document.createElement('span');
+      name.className = 'datei-name';
+      name.textContent = f.name;
+      const groesse = document.createElement('span');
+      groesse.className = 'datei-groesse';
+      groesse.textContent = lesbar(f.size);
+      const weg = document.createElement('button');
+      weg.type = 'button';
+      weg.setAttribute('aria-label', 'Remove ' + f.name);
+      weg.textContent = '✕';
+      weg.addEventListener('click', () => { dateien.splice(i, 1); uebernehmen(); });
+      li.append(name, groesse, weg);
+      liste.appendChild(li);
+    });
+
+    const gesamt = dateien.reduce((s, f) => s + f.size, 0);
+    if (gesamt > MAX_GESAMT) {
+      melde(`Your files add up to ${lesbar(gesamt)} — the limit is 15 MB. Please remove a file or send it separately by email.`, 'fehler');
+    } else {
+      melde('', null);
+    }
+  }
+
+  eingabe.addEventListener('change', () => {
+    dateien = dateien.concat(Array.from(eingabe.files || []));
+    uebernehmen();
+  });
+
+  ['dragenter', 'dragover'].forEach((e) =>
+    feld.addEventListener(e, (ev) => { ev.preventDefault(); feld.classList.add('is-bereit'); }));
+  ['dragleave', 'drop'].forEach((e) =>
+    feld.addEventListener(e, (ev) => { ev.preventDefault(); if (e === 'dragleave') feld.classList.remove('is-bereit'); }));
+  feld.addEventListener('drop', (ev: DragEvent) => {
+    dateien = dateien.concat(Array.from(ev.dataTransfer?.files || []));
+    uebernehmen();
+  });
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const f = e.target as HTMLFormElement;
+
+    const gesamt = dateien.reduce((s, d) => s + d.size, 0);
+    if (gesamt > MAX_GESAMT) return;
+
+    trackEvent('anfrage_abgesendet', { anhaenge: dateien.length, sprache: 'en' });
+
+    /* Mit Anhängen führt kein Weg über das E-Mail-Programm — mailto kann keine
+       Dateien mitnehmen. Die Anfrage geht dann an den Endpunkt der Seite. */
+    if (dateien.length > 0) {
+      const knopf = f.querySelector('button[type="submit"]') as HTMLButtonElement;
+      knopf.disabled = true;
+      melde('Sending your enquiry …', 'erfolg');
+      try {
+        const antwort = await fetch('/api/anfrage', { method: 'POST', body: new FormData(f) });
+        if (!antwort.ok) throw new Error(String(antwort.status));
+        f.reset();
+        dateien = [];
+        uebernehmen();
+        melde('Thank you — we have received your enquiry and will get back to you.', 'erfolg');
+      } catch {
+        melde('Sending failed. Please write to us directly at info@elcon-led.com and attach your documents there.', 'fehler');
+      } finally {
+        knopf.disabled = false;
+      }
+      return;
+    }
+
+    /* Ohne Anhänge bleibt es beim bewährten Weg über das E-Mail-Programm. */
+    const zeilen = [
+      ['Name', (f.name as unknown as HTMLInputElement).value],
+      ['Company', (f.company as unknown as HTMLInputElement).value],
+      ['Email', (f.email as unknown as HTMLInputElement).value],
+      ['Phone', (f.phone as unknown as HTMLInputElement).value],
+      ['Location', (f.location as unknown as HTMLInputElement).value],
+    ].filter(([, wert]) => wert && wert.trim())
+     .map(([bez, wert]) => bez + ': ' + wert.trim());
+
+    const betreff = encodeURIComponent('Project enquiry via the website');
+    const text = encodeURIComponent(zeilen.join('\n') + '\n\n' + (f.message as unknown as HTMLTextAreaElement).value);
+    window.location.href = 'mailto:info@elcon-led.com?subject=' + betreff + '&body=' + text;
+  });
+</script>
+
+</BaseLayout>

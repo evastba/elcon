@@ -1,14 +1,18 @@
 ---
 import { analyticsEnabled, GA_MEASUREMENT_ID } from '../config';
+import { getLang, UI, pfad } from '../i18n/ui';
+
+const lang = getLang(Astro.url);
+const t = UI[lang].cookie;
 ---
 
 {analyticsEnabled && (
-<div class="cookie-banner" id="cookieBanner" hidden role="dialog" aria-live="polite" aria-label="Cookie-Einstellungen">
+<div class="cookie-banner" id="cookieBanner" hidden role="dialog" aria-live="polite" aria-label={t.label}>
   <div class="cookie-banner-inner">
-    <p>Diese Website verwendet Cookies bzw. vergleichbare Technologien, um die Nutzung der Seite anonymisiert auszuwerten und sie so zu verbessern. Sie können der Analyse zustimmen oder sie ablehnen. Details finden Sie in unserer <a href="/datenschutz/">Datenschutzerklärung</a>.</p>
+    <p>{t.text}<a href={pfad('/datenschutz/', lang)}>{t.textLinkText}</a>.</p>
     <div class="cookie-banner-actions">
-      <button type="button" class="cta-btn ghost" id="cookieDecline">Ablehnen</button>
-      <button type="button" class="cta-btn primary" id="cookieAccept">Akzeptieren</button>
+      <button type="button" class="cta-btn ghost" id="cookieDecline">{t.ablehnen}</button>
+      <button type="button" class="cta-btn primary" id="cookieAccept">{t.akzeptieren}</button>
     </div>
   </div>
 </div>

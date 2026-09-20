@@ -3,6 +3,14 @@ export interface Projektfeld {
   value: string;
 }
 
+/** Übersetzte Textbestandteile eines Projekts für die englische Fassung. */
+export interface ProjektdetailEn {
+  titel: string;
+  kachel?: string;
+  absaetze: string[];
+  felder: Projektfeld[];
+}
+
 export interface Projektdetail {
   /** Adresse der Detailseite: /projekte/<slug>/ */
   slug: string;
@@ -15,6 +23,12 @@ export interface Projektdetail {
   bilder?: string[];
   /** Herkunft der Angaben auf der bisherigen Unternehmenswebsite. */
   quelle: string;
+  /**
+   * Englische Fassung der Texte, unter /en/projects/<slug>/ ausgegeben.
+   * Wird aus ÜBERSETZUNGEN zusammengeführt — Slug, Bilder und Quelle gelten
+   * für beide Sprachen und stehen deshalb nur einmal oben.
+   */
+  en?: ProjektdetailEn;
 }
 
 /**
@@ -26,7 +40,7 @@ export interface Projektdetail {
  * Tippfehler. Inhaltlich ist nichts verändert. Fotos liegen nur für das Nord-Stream-Projekt 2011
  * vor — die übrigen Quellseiten enthalten keine.
  */
-export const PROJEKTDETAILS: Projektdetail[] = [
+const PROJEKTE: Projektdetail[] = [
   {
     slug: 'nord-stream-2011',
     titel: 'Nord Stream - ELCON liefert ELT-Technik für Offshore Gaspipeline, 2011',
@@ -388,3 +402,331 @@ export const PROJEKTDETAILS: Projektdetail[] = [
     quelle: 'https://www.elcon-led.com/n/53/74/villa-rublowskoe-schosse-moskau-2005',
   },
 ];
+
+/**
+ * Englische Fassung der Projekttexte, nach Slug zugeordnet.
+ *
+ * Bewusst getrennt von den deutschen Angaben gehalten: Slug, Bildnamen und
+ * Quellenangabe gelten für beide Sprachen und stehen deshalb nur einmal oben.
+ * Übersetzt wurden Titel, Fließtext und die Beschriftungen der Datenfelder;
+ * Eigennamen, Beträge und Zeiträume bleiben unverändert. Die Vorlagen sind
+ * teils in flüchtigem Deutsch verfasst — die Übersetzung gibt die Aussage
+ * wieder, ohne Angaben hinzuzufügen, die im Original nicht stehen.
+ */
+const UEBERSETZUNGEN: Record<string, ProjektdetailEn> = {
+  'nord-stream-2011': {
+    titel: 'Nord Stream — ELCON supplies electrical engineering for an offshore gas pipeline, 2011',
+    kachel: 'Nord Stream gas pipeline, Baltic Sea',
+    absaetze: [
+      'During construction of the Nord Stream pipeline from Russia to Germany, ELCON was entrusted with laying special cables and connecting all measuring points and devices, among other tasks. Testing and commissioning were also part of the contract. Decades of experience with projects in the Russian Federation proved a considerable advantage here.',
+      'The Nord Stream pipeline is an offshore gas pipeline consisting of two strings, each 1,224 kilometres long, running along the bed of the Baltic Sea. The route runs from Portovaya Bay near Vyborg, Russia, to the German Baltic coast at Lubmin near Greifswald, Mecklenburg-Western Pomerania, connecting the European Union directly with some of the world’s largest natural gas reserves in Russia.',
+    ],
+    felder: [
+      { label: 'Project', value: 'Offshore gas pipeline from Vyborg, Russia, to Greifswald, Germany' },
+      { label: 'Client', value: 'Nord Stream AG' },
+      { label: 'Scope of work', value: 'ELCON was commissioned with the electrical works on this project.\nThe following services were carried out:\n- laying the conduits for the cables\n- laying 170 km of steel-armoured cable\n- fabrication and installation of explosion-proof designs\n- connection of all measuring points\n- connection of all devices\n- testing\n- commissioning' },
+      { label: 'Particular challenges', value: 'A period of approximately 7 months was available for delivery. The work was carried out in shifts, 24 hours a day, 7 days a week. 160 workers were deployed on the project.' },
+      { label: 'Staff', value: '160 ELCON employees and 4 ELCON project managers were deployed on this project.' },
+    ],
+  },
+  'nord-stream-2-seit-2018': {
+    titel: 'Nord Stream 2, since 2018',
+    kachel: 'Nord Stream 2 gas pipeline, Baltic Sea',
+    absaetze: [
+      'ELCON supplies electrical engineering for the offshore gas pipeline project “Nord Stream 2”',
+      'As already during construction of the Nord Stream 1 pipeline in 2011, ELCON LED is also involved in the construction of the Nord Stream 2 pipeline. Here too, ELCON was entrusted with laying special cables and connecting all measuring points and devices, among other tasks.',
+      'Decades of experience with projects in the Russian Federation, together with the work on the Nord Stream 1 project, are a considerable advantage here.',
+      'The Nord Stream pipeline is an offshore gas pipeline consisting of two strings, each 1,300 kilometres long, running along the bed of the Baltic Sea. The route runs from Ust-Luga, Russia, to the German Baltic coast at Lubmin near Greifswald, Mecklenburg-Western Pomerania, and here too connects the European Union directly with some of the world’s largest natural gas reserves in Russia.',
+      'Project: offshore gas pipeline from Ust-Luga, Russia, to Lubmin, Germany',
+    ],
+    felder: [],
+  },
+  'nord-stream-wartung-seit-2012': {
+    titel: 'Nord Stream I — servicing and maintenance since 2012',
+    absaetze: [
+      'Following the successful commissioning of the Nord Stream pipeline (Nord Stream I) in November 2011 — a project in which ELCON LED was entrusted with laying special cables, designing and installing electrical systems and connecting electrical measuring points and devices — the installation is now in operation.',
+      'Since 2012, ELCON LED has been responsible for servicing and maintaining the operating systems.',
+    ],
+    felder: [],
+  },
+  'deutsche-botschaft-kiew-2005': {
+    titel: 'German Embassy in Kyiv, 2005',
+    kachel: 'German Embassy, Kyiv',
+    absaetze: [
+      'Building services: after the Al-Qaeda terrorist attacks of 11 September 2001 on the World Trade Center in New York City and the Pentagon in Arlington, Virginia, in which more than 3,000 people were killed, the security concepts of embassies had to be revised and improved.\nIn this context, ELCON brought the electrical installations, the building services and the security systems up to the latest state of the art in security technology.',
+      'New security building for the visa section',
+      'All electrical, mechanical and security systems',
+      'After 11 September, the security concept for embassies was revised. In a confined space we created a very high security standard and implemented it within a short time, without disrupting ongoing operations.',
+    ],
+    felder: [
+      { label: 'Project', value: 'German Embassy in Kyiv' },
+      { label: 'Description', value: 'New security building for the visa section' },
+      { label: 'Start of construction', value: '2005' },
+      { label: 'Construction period', value: 'approx. 6 months' },
+      { label: 'Client', value: 'German Federal Foreign Office' },
+      { label: 'Main contractor', value: 'Bautech' },
+      { label: 'ELCON scope', value: 'All electrical, mechanical and security systems' },
+      { label: 'Particular challenges', value: 'After 11 September, the security concept for embassies was revised. In a confined space we created a very high security standard and implemented it within a short time, without disrupting ongoing operations.' },
+    ],
+  },
+  'brauerei-almaty-sosnadar-2006': {
+    titel: 'Almaty Sosnadar brewery, 2006',
+    kachel: 'Almaty Sosnadar brewery',
+    absaetze: [],
+    felder: [
+      { label: 'Project', value: 'Almaty Sosnadar brewery' },
+      { label: 'Commission', value: 'Electrical design: Almaty Sosnadar brewery' },
+      { label: 'Start of construction', value: 'January 2006' },
+      { label: 'Client', value: 'Huppmann' },
+      { label: 'Main contractor', value: 'Huppmann' },
+      { label: 'Particular challenges', value: 'The brewery could not be shut down. Production continued throughout.' },
+    ],
+  },
+  'schweizer-botschaft-kiew-2005': {
+    titel: 'Swiss Embassy in Kyiv, 2005',
+    kachel: 'Swiss Embassy, Kyiv',
+    absaetze: [
+      'All electrical and mechanical services (heating, air conditioning, ventilation, plumbing) newly installed. All installations are carried out to the latest standard in building services engineering.',
+      'All building services as technical main contractor.',
+      'An old detached building was completely refurbished and brought up to a high technical standard, with a security airlock, visa section, embassy and ambassador’s residence. ELCON also supplied all mechanical services components.',
+    ],
+    felder: [
+      { label: 'Project', value: 'Swiss Embassy in Kyiv' },
+      { label: 'Description', value: 'All electrical and mechanical services (heating, air conditioning, ventilation, plumbing) newly installed. All installations are carried out to the latest standard in building services engineering.' },
+      { label: 'Start of construction', value: 'September 2005' },
+      { label: 'Construction period', value: '11 months' },
+      { label: 'Client', value: 'Switzerland' },
+      { label: 'Main contractor', value: 'Lei AG' },
+      { label: 'ELCON scope', value: 'All building services as technical main contractor.' },
+      { label: 'Installation period', value: '8 months' },
+      { label: 'Particular challenges', value: 'An old detached building was completely refurbished and brought up to a high technical standard, with a security airlock, visa section, embassy and ambassador’s residence. ELCON also supplied all mechanical services components.' },
+    ],
+  },
+  'porsche-zentrum-moskau-2006': {
+    titel: 'Porsche centre in Moscow, 2006',
+    kachel: 'New Porsche centre, Moscow',
+    absaetze: [
+      'New Porsche car centre in Moscow\nGenerous exhibition areas, a sophisticated showroom and prestigious fittings are the hallmarks of the Porsche car centre in Moscow. ELCON is responsible here for delivering the complete building services, accounting for 3.5 million euros of the total project volume of approximately 10 million euros.',
+    ],
+    felder: [
+      { label: 'Project', value: 'Porsche centre in Moscow' },
+      { label: 'Description', value: 'New Porsche car centre in Moscow' },
+      { label: 'Project volume', value: 'approx. 10 million euros\nELCON share 3.5 million euros' },
+      { label: 'Start of construction', value: 'May 2006' },
+      { label: 'Construction period', value: '12 months' },
+      { label: 'Client', value: 'Unger Stahlbau' },
+      { label: 'Main contractor', value: 'Unger Stahlbau' },
+      { label: 'ELCON scope', value: 'Delivery of the building services' },
+      { label: 'Installation period', value: '12 months' },
+    ],
+  },
+  'general-motors-hauptquartier-moskau-2008': {
+    titel: 'General Motors headquarters, Moscow, 2008',
+    kachel: 'GM headquarters, Moscow',
+    absaetze: [
+      'Complete fit-out of the 9th and 10th floors of the Northern Tower, with a usable area of approximately 4,500 m².',
+      'This project created the new General Motors headquarters, with high-quality office units in the new International Business Center in the Moscow City district.\nThe scope of work covered the complete fit-out of the 9th and 10th floors of the Northern Tower, with a usable area of approximately 4,500 m².',
+      'The new headquarters was handed over to General Motors on the agreed date.',
+    ],
+    felder: [
+      { label: 'Project', value: 'General Motors headquarters Moscow, Northern Tower, Moscow City' },
+      { label: 'Client', value: 'General Motors Auto' },
+      { label: 'Construction volume', value: '4.5 million euros' },
+      { label: 'Construction period', value: '3 months' },
+      { label: 'Scope of work', value: 'This project created the new General Motors headquarters, with high-quality office units in the new International Business Center in the Moscow City district.\nThe scope of work covered the complete fit-out of the 9th and 10th floors of the Northern Tower, with a usable area of approximately 4,500 m².\nThe following services were carried out:\n- drywall construction and suspended ceilings\n- raised flooring\n- painting and plastering\n- internal doors, glass partitions and fitted furniture\n- electrical installations\n- ventilation systems\n- air conditioning\n- sanitary installations\n- solar shading\n- fire alarm system\n- gas extinguishing systems' },
+      { label: 'Particular challenges', value: 'A period of 3 months was available for delivery. Because of the short construction time, the work was carried out in shifts around the clock. At peak times, up to 175 workers were active on the project.' },
+    ],
+  },
+  'selgros-einkaufsmaerkte-2008': {
+    titel: 'SELGROS: building services for SELGROS cash and carry stores in Russia, 2008',
+    kachel: 'Selgros Cash & Carry, Kotelniki',
+    absaetze: [
+      'For SELGROS Cash & Carry, Russia is a vast market with a great deal of potential. The first SELGROS store opened as early as December 2008 in Kotelniki near Moscow, and numerous further stores in various cities followed. As an experienced building services contractor with years of experience in Russia, ELCON LED planned, engineered and installed the building services for the new stores in Moscow, Kazan in Tatarstan on the Volga, Ryazan, Volgograd and Rostov-on-Don.',
+    ],
+    felder: [],
+  },
+  'schweizer-konsulat-st-petersburg-2006': {
+    titel: 'Swiss Consulate in St Petersburg, 2006',
+    kachel: 'Swiss Consulate, St Petersburg',
+    absaetze: [
+      'Swiss mission in St Petersburg',
+      'All security systems, lighting, switches, socket outlets, IT infrastructure, airlock control and more.',
+      'Completely renewing all electrical installations in an old building within a very short time.',
+    ],
+    felder: [
+      { label: 'Project', value: 'Swiss mission in St Petersburg' },
+      { label: 'Start of construction', value: 'March 2006' },
+      { label: 'Construction period', value: 'March to July 2006' },
+      { label: 'Client', value: 'Swiss Confederation' },
+      { label: 'Main contractor', value: 'Lei AG' },
+      { label: 'ELCON scope', value: 'All security systems, lighting, switches, socket outlets, IT infrastructure, airlock control and more.' },
+      { label: 'Installation period', value: 'approx. 3 months' },
+      { label: 'Particular challenges', value: 'Completely renewing all electrical installations in an old building within a very short time.' },
+    ],
+  },
+  'schweizer-botschaft-moskau-2005': {
+    titel: 'Swiss Embassy in Moscow, 2005',
+    kachel: 'Swiss Embassy, Moscow',
+    absaetze: [
+      'Approx. 600,000 euros\nELCON share 100,000 euros',
+      'Design and delivery of the electrical installations and the computer network',
+    ],
+    felder: [
+      { label: 'Project', value: 'Swiss Embassy in Moscow' },
+      { label: 'Description', value: 'Refurbishment of the visa section' },
+      { label: 'Project volume', value: 'approx. 600,000 euros\nELCON share 100,000 euros' },
+      { label: 'Start of construction', value: 'June 2005' },
+      { label: 'Construction period', value: '5 months' },
+      { label: 'Client', value: 'Lei AG' },
+      { label: 'Main contractor', value: 'Lei AG' },
+      { label: 'ELCON scope', value: 'Design and delivery of the electrical installations and the computer network' },
+      { label: 'Installation period', value: '5 months' },
+    ],
+  },
+  'continental-automotive-kaluga-2011': {
+    titel: 'Production facilities, Continental Automotive Systems Rus, 2011',
+    kachel: 'Continental Automotive Systems, Kaluga',
+    absaetze: [
+      'Expansion and maintenance of the production facilities in Kaluga — at its Kaluga automotive production site, Continental is investing in expanding facilities that mainly produce engine control units, but also components for fuel supply and injection systems. On this project, ELCON was entrusted with wide-ranging tasks in construction management, technical servicing, maintenance, repair and renewal.',
+      '- multilingual project documentation',
+    ],
+    felder: [
+      { label: 'Project', value: 'Expansion, refurbishment and maintenance of the production facilities' },
+      { label: 'Client', value: 'Continental Automotive Systems Rus' },
+      { label: 'Scope of work', value: 'On this project, in addition to the works to be carried out in the individual trades, ELCON took on construction management for all building measures.\nThe following services were carried out:\n- turnkey services for all of the areas listed\n- construction management for all building measures,\ne.g. windows, doors, painting, wall works.\n\nWorks carried out in the following areas:\n- heating systems\n- air conditioning\n- ventilation systems\n- sanitary installations, bathrooms, tiling\n- electrical engineering\n- network technology\n- IT installations with raised flooring, servers, hardware, software\n- installation of cleanroom workstations\n- purification and softening of the water for circuit board production\n- 90% of materials procured from Germany\n- logistics\n- multilingual project documentation' },
+      { label: 'Particular challenges', value: 'Installing the cleanroom workstations and treating the water for circuit board production call for specialist knowledge and specialist equipment.' },
+    ],
+  },
+  'vw-werk-kaluga-2008': {
+    titel: 'Volkswagen plant in Kaluga, Russia, 2008–2009',
+    kachel: 'Volkswagen plant, Kaluga',
+    absaetze: [
+      'Telecommunications and data installations at the Volkswagen plant',
+      'Kaluga lies in the centre of the European part of Russia, around 160 kilometres south-west of Moscow. It is regarded as an important research and industrial city and is the seat of the Kaluga regional government. The new Volkswagen plant was built here over recent years in two construction phases; ELCON was commissioned with the telecommunications and data installations.',
+    ],
+    felder: [
+      { label: 'Category', value: 'Industry/commerce' },
+      { label: 'Project', value: 'New assembly and production plant in Kaluga, Russia’s emerging automotive centre.\nPlanned annual capacity from 2009: up to 150,000 vehicles. Through Volkswagen’s co-investment in the service and supplier industries, a total of around 10,000 new jobs are being created.' },
+      { label: 'Description', value: 'Telecommunications and data installations at the Volkswagen plant in Kaluga, “Grabtsevo” technology park' },
+      { label: 'Project volume', value: 'more than 500 million euros, of which approx. 3 million euros is the ELCON contract' },
+      { label: 'ELCON start on site', value: 'March 2008' },
+      { label: 'Construction period', value: '2 construction phases — until December 2009' },
+      { label: 'Client', value: 'Volkswagen Russia' },
+      { label: 'Main contractor', value: 'Volkswagen' },
+      { label: 'ELCON scope', value: 'Delivery of telecommunications and data installations\n- complete installation of the server rooms\n- air conditioning of the server rooms' },
+      { label: 'Specialists involved', value: '3' },
+      { label: 'Fitters involved', value: '35' },
+    ],
+  },
+  'benteler-kaluga-2011': {
+    titel: 'Benteler Automobiltechnik production site in Kaluga, 2011',
+    kachel: 'Benteler Automobiltechnik, Kaluga',
+    absaetze: [
+      'Electrical engineering for an automotive supplier',
+    ],
+    felder: [
+      { label: 'Project', value: 'New production site in Kaluga with a paint line and press shop, next to the existing plant' },
+      { label: 'Client', value: 'Benteler Automobiltechnik' },
+      { label: 'Start of construction', value: 'April/May 2011' },
+      { label: 'ELCON construction period', value: '7 months' },
+      { label: 'Scope of work', value: 'On this project, ELCON was responsible for electrical engineering, network technology and the installation of the power and low-voltage signal networks.\nThe following services were carried out:\n- electrical engineering\n- network technology\n- IT installations\n- power network and connections\n- low-voltage signal network and connections\n- materials procurement\n- logistics\n- project documentation in Russian and English' },
+      { label: 'Particular challenges', value: 'A period of approximately 7 months was available for delivery.' },
+    ],
+  },
+  'ambassador-hotel-kaluga-2008': {
+    titel: 'Ambassador — hotel and boarding house in Kaluga, Russia, 2008',
+    kachel: 'Ambassador hotel & boarding house, Kaluga',
+    absaetze: [
+      'A large hotel complex with an adjoining boarding house and a sports and wellness area has been built in Kaluga on 18,000 m².\nOn this major project, ELCON was entrusted with the building services and the electrical installations.',
+      'On a 9,000 m² site, a hotel is being built with a total of 138 rooms in comfort, premium and deluxe categories, plus 2 suites. The rooms are spread across 4 storeys with a total area of more than 5,600 m².',
+      'Added to this is a generous public area with a foyer, restaurant, bar and meeting rooms, as well as a fitness area on the ground floor and around 100 parking spaces outside.',
+      'The double rooms measure 18 m² in the comfort category, 22 m² in the premium category and 25 m² in the deluxe category. The accessible double rooms also measure 25 m². The suites offer a generous 55 m².',
+      'The associated boarding house is being built on an area of 7,500 m². It houses 51 two- and three-room apartments of 38 m² and 50 m² respectively, and 23 studios of approximately 25 m². The ground floor will contain communal areas such as club rooms and shops, along with 67 parking spaces outside.',
+      'Opposite, the sports bar occupies a 1,500 m² site and comprises bar, club and wellness areas with an outdoor terrace, playground and sauna garden.',
+    ],
+    felder: [],
+  },
+  'billa-einkaufsmaerkte-moskau': {
+    titel: 'BILLA supermarkets, Moscow',
+    kachel: 'BILLA supermarkets, Moscow',
+    absaetze: [
+      'Supermarkets: BILLA, Moscow — together with the Russian holding company Marta, Rewe is establishing the BILLA supermarket network in order to be present at a total of 21 locations in the food discount sector in the Moscow region. On this project, ELCON is responsible for the design and delivery of all building services.',
+      'In July 2004, the Rewe Group began opening up the Russian market. A supermarket chain is being built up in the Russian Federation as part of a joint venture with the Marta Group of Moscow. Over the next three to five years, the two companies will jointly invest half a billion dollars in this project. Seventeen BILLA supermarkets have already opened. The stores offer a comprehensive range of food on sales areas of up to 2,500 square metres. Rewe sees good prospects for the BILLA supermarket format, particularly in quality local food supply, amid growing competition with other retail formats and with national and international competitors on the Russian market.',
+    ],
+    felder: [],
+  },
+  'schubbeize-lipetsk-2006': {
+    titel: 'Pickling line in Lipetsk, Russia, 2006',
+    absaetze: [
+      'Electrical installations for a pickling line in Lipetsk, Russia. Medium-voltage switchgear, transformers, control cabinets and more.',
+    ],
+    felder: [
+      { label: 'Project', value: 'Pickling line in Lipetsk' },
+      { label: 'Description', value: 'Pickling plant' },
+      { label: 'Project volume', value: 'approx. €360,000' },
+      { label: 'Start of construction', value: 'October 2006' },
+      { label: 'Construction period', value: 'until March 2007 as per the construction schedule' },
+      { label: 'ELCON scope', value: 'Installation of the medium-voltage equipment, transformers and control cabinets, plus all electrical engineering' },
+      { label: 'Installation period', value: 'approx. 6 months' },
+      { label: 'Particular challenges', value: 'The other parts of the plant continue in operation and must not be disrupted.' },
+    ],
+  },
+  'ziegelwerk-kiprewo-2006': {
+    titel: 'Brickworks in Kiprevo, Russia, 2006',
+    absaetze: [],
+    felder: [
+      { label: 'Description', value: 'New brick production plant' },
+      { label: 'Project volume', value: '40 million euros' },
+      { label: 'ELCON share', value: '13.5 million euros' },
+      { label: 'Start of construction', value: 'April 2006' },
+      { label: 'Construction period', value: '2 years' },
+      { label: 'Client', value: 'Wienerberger' },
+      { label: 'ELCON scope', value: 'Design and delivery of the power supply including the transformer station and lighting' },
+      { label: 'Installation period', value: '8 months' },
+    ],
+  },
+  'villa-benilux-2006': {
+    titel: 'Villa Benilux, 2006',
+    absaetze: [
+      'Complete design of all building services including low-voltage systems, swimming pool technology and the entire rainwater drainage system across the site, with deep shafts.',
+      'As there is a shortage of electrical power in this residential area, we are designing in a combined heat and power unit and a control system that optimises energy consumption. Energy-saving luminaires and appliances with high efficiency and a long service life are being installed.',
+    ],
+    felder: [
+      { label: 'Project', value: 'Villa Benilux' },
+      { label: 'Description', value: 'New prestigious villa with a pool landscape, arena and approximately 1,600 m² of living space' },
+      { label: 'Client', value: 'Elit Stroj' },
+      { label: 'Main contractor', value: 'ELCON LED' },
+      { label: 'ELCON scope', value: 'Complete design of all building services including low-voltage systems, swimming pool technology and the entire rainwater drainage system across the site, with deep shafts.' },
+      { label: 'Particular challenges', value: 'As there is a shortage of electrical power in this residential area, we are designing in a combined heat and power unit and a control system that optimises energy consumption. Energy-saving luminaires and appliances with high efficiency and a long service life are being installed.' },
+    ],
+  },
+  'villa-rublowskoe-schosse-moskau-2005': {
+    titel: 'Villa on Rublyovskoye Shosse, Moscow, 2005',
+    absaetze: [
+      'approx. 10 million euros\nELCON share 1.2 million euros',
+      'Design and delivery of all technical installations',
+    ],
+    felder: [
+      { label: 'Project', value: 'Private villa' },
+      { label: 'Description', value: 'New build' },
+      { label: 'Project volume', value: 'approx. 10 million euros\nELCON share 1.2 million euros' },
+      { label: 'Start of construction', value: 'September 2005' },
+      { label: 'Construction period', value: '2 years' },
+      { label: 'Client', value: 'Elit-Stroj' },
+      { label: 'Main contractor', value: 'Elit-Stroj' },
+      { label: 'ELCON scope', value: 'Design and delivery of all technical installations' },
+      { label: 'Installation period', value: '12 months' },
+    ],
+  },
+};
+
+/**
+ * Deutsche Angaben mit ihrer englischen Fassung zusammengeführt.
+ *
+ * Fehlt eine Übersetzung, bleibt `en` leer; die englischen Seiten fallen dann
+ * sichtbar auf den deutschen Text zurück, statt einen leeren Eintrag zu zeigen.
+ */
+export const PROJEKTDETAILS: Projektdetail[] = PROJEKTE.map((p) => ({
+  ...p,
+  en: UEBERSETZUNGEN[p.slug],
+}));

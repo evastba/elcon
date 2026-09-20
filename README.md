@@ -23,6 +23,45 @@ elcon-astro/
 └── tailwind.config.mjs        Tailwind-Konfiguration (Farbpalette gespiegelt)
 ```
 
+## Zweisprachigkeit (Deutsch / Englisch)
+
+Die Seite gibt es vollständig in beiden Sprachen. Die deutsche Fassung liegt
+unter `/`, die englische unter `/en/`:
+
+| Deutsch          | Englisch         |
+| ---------------- | ---------------- |
+| `/`              | `/en/`           |
+| `/leistungen/`   | `/en/services/`  |
+| `/projekte/`     | `/en/projects/`  |
+| `/unternehmen/`  | `/en/company/`   |
+| `/kontakt/`      | `/en/contact/`   |
+| `/impressum/`    | `/en/imprint/`   |
+| `/datenschutz/`  | `/en/privacy/`   |
+
+Projektdetailseiten tragen in beiden Sprachen denselben Slug, also etwa
+`/projekte/nord-stream-2011/` und `/en/projects/nord-stream-2011/`.
+
+Wo was gepflegt wird:
+
+- **`src/i18n/ui.ts`** — Bausteine, die auf jeder Seite vorkommen (Navigation,
+  Fußzeile, Beschriftungen des Leistungsfinders, Cookie-Hinweis) sowie die
+  Zuordnung der Seitenpaare. Wer eine neue Seite anlegt, trägt sie dort in
+  `SEITENPAARE` ein — daraus entstehen Sprachumschalter und `hreflang`-Angaben.
+- **`src/pages/…`** und **`src/pages/en/…`** — die Fließtexte je Sprache.
+- **`src/data/projekte.ts`** — Projekttexte; die englische Fassung steht in
+  `UEBERSETZUNGEN`, zugeordnet über den Slug.
+- **`src/data/finder.ts`** — Auswahlmöglichkeiten des Leistungsfinders, mit
+  `label`/`labelEn` nebeneinander.
+
+Welche Sprache gilt, wird nicht durchgereicht, sondern an der Adresse
+abgelesen (`getLang` in `src/i18n/ui.ts`). Komponenten brauchen deshalb keine
+zusätzliche Eigenschaft, und eine vergessene Weitergabe kann keine halb
+übersetzte Seite erzeugen.
+
+Anfragen aus dem englischen Formular tragen ein verstecktes Feld `lang=en`; der
+Endpunkt in `functions/api/anfrage.js` vermerkt das in der E-Mail, damit in der
+richtigen Sprache geantwortet wird.
+
 ## Voraussetzungen
 
 - [Node.js](https://nodejs.org) Version 18 oder neuer
@@ -49,7 +88,9 @@ Build-Befehl `npm run build`, Ausgabe-Ordner `dist`.
 
 - Kundenlogos: aktuell Beispiel-/Platzhalter-Grafiken, echte Logo-Dateien vom
   jeweiligen Kunden einholen bzw. Nutzungsrechte klären.
-- Kontaktformular sendet aktuell per `mailto:` (kein Server-Backend).
+- Kontaktformular sendet ohne Anhänge per `mailto:`; mit Anhängen über die
+  Cloudflare-Function `functions/api/anfrage.js` (dafür sind die dort
+  beschriebenen Umgebungsvariablen nötig).
 - Rechtstexte (Impressum, Datenschutzerklärung) fehlen noch.
 - Cookie-Consent-Banner nutzt eine Platzhalter-Property-ID für Analytics —
   vor Livegang durch die echte ID ersetzen.

@@ -2,19 +2,23 @@
 import { Image } from 'astro:assets';
 import logoIcon from '../assets/logo-icon-v2.png';
 import { company, analyticsEnabled } from '../config';
+import { getLang, UI, pfad } from '../i18n/ui';
 
-const links = [
-  { href: '/leistungen/', label: 'Leistungen' },
-  { href: '/projekte/', label: 'Projekte' },
-  { href: '/unternehmen/', label: 'Unternehmen' },
-  { href: '/kontakt/', label: 'Kontakt' },
-];
+const lang = getLang(Astro.url);
+const t = UI[lang];
+
+/* Dieselben Ziele wie in der Kopfnavigation, ohne die Untereinträge. */
+const links = t.nav.map((l) => ({ href: l.href, label: l.label }));
+
+/* Das Land steht in der Stammdatendatei auf Deutsch; in der englischen Fassung
+   wäre "Deutschland" in einer sonst englischen Anschrift ein Fremdkörper. */
+const land = lang === 'de' ? company.country : 'Germany';
 ---
 
 <footer class="site">
   <div class="wrap footer-grid">
     <div>
-      <a href="/" class="brand">
+      <a href={lang === 'de' ? '/' : '/en/'} class="brand">
         <Image src={logoIcon} class="hex-mark" alt="ELCON Icon" />
         <span class="brand-text">
           <span class="brand-word">ELCON</span>
@@ -25,11 +29,11 @@ const links = [
       <address class="footer-adresse">
         {company.street}<br />
         {company.zip} {company.city}<br />
-        {company.country}
+        {land}
       </address>
     </div>
     <div>
-      <h4>Navigation</h4>
+      <h4>{t.footerNavTitel}</h4>
       <ul>
         {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
       </ul>
@@ -37,10 +41,10 @@ const links = [
   </div>
   <div class="wrap footer-bottom">
     <span>© 2026 {company.name}</span>
-    <nav class="footer-rechtliches" aria-label="Rechtliches">
-      <a href="/impressum/">Impressum</a>
-      <a href="/datenschutz/">Datenschutz</a>
-      {analyticsEnabled && <a href="#" id="cookieSettingsLink">Cookie-Einstellungen</a>}
+    <nav class="footer-rechtliches" aria-label={t.footerRechtliches}>
+      <a href={pfad('/impressum/', lang)}>{t.impressum}</a>
+      <a href={pfad('/datenschutz/', lang)}>{t.datenschutz}</a>
+      {analyticsEnabled && <a href="#" id="cookieSettingsLink">{t.cookieEinstellungen}</a>}
     </nav>
   </div>
 </footer>

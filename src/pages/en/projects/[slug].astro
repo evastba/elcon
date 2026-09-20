@@ -1,0 +1,146 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { PROJEKTDETAILS, type Projektdetail } from '../../../data/projekte';
+
+export function getStaticPaths() {
+  return PROJEKTDETAILS.map((projekt) => ({
+    params: { slug: projekt.slug },
+    props: { projekt },
+  }));
+}
+
+interface Props {
+  projekt: Projektdetail;
+}
+
+const { projekt } = Astro.props;
+
+/* Englische Texte, soweit vorhanden. Fehlt eine Übersetzung, stehen hier die
+   deutschen Angaben — eine leere Seite wäre für den Besucher schlechter als
+   ein Text in der falschen Sprache. */
+const titel = projekt.en?.titel ?? projekt.titel;
+const kachel = projekt.en?.kachel ?? projekt.kachel;
+const absaetze = projekt.en?.absaetze ?? projekt.absaetze;
+const felder = projekt.en?.felder ?? projekt.felder;
+
+/* Fotos liegen nur für einzelne Projekte vor. Der Glob lädt die Metadaten
+   aller vorhandenen; fehlt eine Datei, entfällt die Galerie stillschweigend. */
+const fotoModule = import.meta.glob<{ default: ImageMetadata }>(
+  '../../../assets/projekte/*.{jpg,jpeg,png}',
+  { eager: true },
+);
+
+const fotos = (projekt.bilder ?? [])
+  .map((datei) => fotoModule[`../../../assets/projekte/${datei}`]?.default)
+  .filter(Boolean) as ImageMetadata[];
+
+/* Dachzeile über der Überschrift: der Auftraggeber, sofern bekannt. Er ordnet
+   das Projekt sofort ein, ohne dass man den Fließtext lesen muss. */
+const auftraggeber = felder.find((f) => /^client$/i.test(f.label))?.value.split('\n')[0];
+
+/* Der erste Absatz führt als Vorspann in das Projekt ein, die übrigen bilden
+   den Fließtext. */
+const [vorspann, ...weitereAbsaetze] = absaetze;
+
+/* Kurzbeschreibung für Suchmaschinen — siehe die deutsche Fassung dieser
+   Seite: Zeilenumbrüche innerhalb eines Absatzes trennen auf den Quellseiten
+   oft zwei Aussagen ohne Satzzeichen, daraus wird hier ein Punkt. */
+const saubern = (t: string) =>
+  t
+    .split('\n')
+    .map((zeile) => zeile.trim())
+    .filter(Boolean)
+    .map((zeile, i, alle) => (i < alle.length - 1 && !/[.!?:,;]$/.test(zeile) ? zeile + '.' : zeile))
+    .join(' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+const rohText = absaetze.length > 0
+  ? absaetze
+      .map(saubern)
+      .map((t) => (/[.!?:]$/.test(t) ? t : t + '.'))
+      .join(' ')
+  : felder
+      .map((f) => `${saubern(f.label)}: ${saubern(f.value)}`)
+      .join(' · ');
+
+function kuerzen(text: string, max = 155): string {
+  if (text.length <= max) return text;
+  const schnitt = text.slice(0, max - 1);
+  const letzteLuecke = schnitt.lastIndexOf(' ');
+  return (letzteLuecke > max * 0.6 ? schnitt.slice(0, letzteLuecke) : schnitt).replace(/[.,;:\s-]+$/, '') + '…';
+}
+
+const beschreibungMeta = kuerzen(rohText);
+
+/* Für den Browsertitel die kurze Bezeichnung der Kachel verwenden, sofern es
+   eine gibt; die Originaltitel sind teils über 60 Zeichen lang und würden in
+   Suchergebnissen abgeschnitten. */
+const seitentitel = kachel ?? kuerzen(titel, 52);
+---
+
+<BaseLayout title={seitentitel} description={beschreibungMeta} ogType="article">
+  <section class="projekt-detail">
+    <div class="wrap">
+      <a href="/en/projects/" class="subpage-back">← Back to all projects</a>
+
+      <div class="projekt-layout">
+        <div class="projekt-text">
+          <header class="projekt-kopf">
+            {auftraggeber && <p class="eyebrow">{auftraggeber}</p>}
+            <h1>{titel}</h1>
+            {vorspann && (
+              <p class="projekt-vorspann">
+                {vorspann.split('\n').map((zeile, i) => i === 0 ? zeile : <><br />{zeile}</>)}
+              </p>
+            )}
+          </header>
+
+          {weitereAbsaetze.map((a) => (
+            <p>{a.split('\n').map((zeile, i) => i === 0 ? zeile : <><br />{zeile}</>)}</p>
+          ))}
+          {absaetze.length === 0 && felder.length === 0 && (
+            <p>No further information is currently available for this project.</p>
+          )}
+        </div>
+
+        {felder.length > 0 && (
+          <aside class="projekt-daten" aria-label="Project data">
+            <h2>Project data</h2>
+            <dl>
+              {felder.map((f) => (
+                <div class="projekt-datenzeile">
+                  <dt>{f.label}</dt>
+                  <dd>{f.value.split('\n').map((zeile, i) => i === 0 ? zeile : <><br />{zeile}</>)}</dd>
+                </div>
+              ))}
+            </dl>
+          </aside>
+        )}
+      </div>
+
+      {fotos.length > 0 && (
+        <section class="projekt-galerie" aria-label="Project photos">
+          <h2>Photos from the project</h2>
+          <div class="projekt-galerie-grid">
+            {fotos.map((foto, i) => (
+              <figure>
+                <Image src={foto} alt={`${titel} — photo ${i + 1} of ${fotos.length}`} widths={[400, 800]} sizes="(max-width: 700px) 100vw, 360px" loading="lazy" />
+              </figure>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <p class="projekt-quelle">
+        Information taken from <a href={projekt.quelle} target="_blank" rel="noopener noreferrer">elcon-led.com</a>.
+      </p>
+
+      <div class="hero-ctas" style="margin-top:2rem;">
+        <a class="cta-btn primary" href="/en/contact/">Enquire about a similar project</a>
+        <a class="cta-btn ghost" href="/en/projects/">More projects</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

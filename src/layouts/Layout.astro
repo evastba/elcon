@@ -2,6 +2,7 @@
 import { getImage } from 'astro:assets';
 import ogBild from '../assets/og-vorschau.png';
 import { company } from '../config';
+import { getLang, UI, anderePfad } from '../i18n/ui';
 import '../styles/global.css';
 
 interface Props {
@@ -13,9 +14,25 @@ interface Props {
   ogType?: 'website' | 'article';
 }
 
+const lang = getLang(Astro.url);
+const t = UI[lang];
+
+const standard = {
+  de: {
+    title: 'ELCON — Generalunternehmer für technische Gebäudeausrüstung',
+    description:
+      'Generalunternehmer für technische Gebäudeausrüstung: Elektro-, Heizungs-, Klima-, Lüftungs-, Sanitär- und Automatisierungstechnik aus einer Hand.',
+  },
+  en: {
+    title: 'ELCON — main contractor for building services engineering',
+    description:
+      'Main contractor for building services engineering: electrical, heating, air conditioning, ventilation, plumbing and automation systems from a single source.',
+  },
+}[lang];
+
 const {
-  title = 'ELCON — Generalunternehmer für technische Gebäudeausrüstung',
-  description = 'Generalunternehmer für technische Gebäudeausrüstung: Elektro-, Heizungs-, Klima-, Lüftungs-, Sanitär- und Automatisierungstechnik aus einer Hand.',
+  title = standard.title,
+  description = standard.description,
   ogImage,
   ogType = 'website',
 } = Astro.props;
@@ -25,6 +42,13 @@ const {
    die Seite nicht erreichbar ist, verweisen Canonical und Vorschau ins Leere —
    deshalb ist der Wert dort ausdrücklich kommentiert. */
 const kanonisch = new URL(Astro.url.pathname, Astro.site).href;
+
+/* Sprachalternativen. Beide Fassungen verweisen wechselseitig aufeinander;
+   x-default zeigt auf die deutsche Fassung, weil sie die Hauptfassung ist. */
+const pfadDe = anderePfad(Astro.url.pathname, 'de');
+const pfadEn = anderePfad(Astro.url.pathname, 'en');
+const alternativDe = new URL(pfadDe, Astro.site).href;
+const alternativEn = new URL(pfadEn, Astro.site).href;
 
 const vorschau = await getImage({ src: ogImage ?? ogBild, format: 'png', width: 1200 });
 const vorschauUrl = new URL(vorschau.src, Astro.site).href;
@@ -51,18 +75,21 @@ const organisation = {
 ---
 
 <!doctype html>
-<html lang="de">
+<html lang={t.htmlLang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={kanonisch} />
+    <link rel="alternate" hreflang="de" href={alternativDe} />
+    <link rel="alternate" hreflang="en" href={alternativEn} />
+    <link rel="alternate" hreflang="x-default" href={alternativDe} />
     <link rel="icon" type="image/png" href="/assets/logo-icon.png" />
 
     <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content="ELCON LED GmbH" />
-    <meta property="og:locale" content="de_DE" />
+    <meta property="og:locale" content={t.ogLocale} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={kanonisch} />

@@ -1,37 +1,65 @@
 ---
 import { PROJEKTARTEN, GEWERKE, PHASEN } from '../data/finder';
 import { PROJEKTDETAILS } from '../data/projekte';
+import { getLang, UI, pfad } from '../i18n/ui';
 
 /* Der Finder führt in drei Schritten zur Anfrage. Die Auswahl bleibt im
    Browser; übergeben wird nur das Ergebnis an das Anfrageformular, über
    Parameter in der Adresse. Ohne JavaScript bleibt der Abschnitt stumm —
    deshalb steht darunter immer der direkte Weg zum Formular. */
 
+const lang = getLang(Astro.url);
+const t = UI[lang].finder;
+const kontaktPfad = pfad('/kontakt/', lang);
+const projektBasis = lang === 'de' ? '/projekte/' : '/en/projects/';
+
 /* Titel der Referenzprojekte für die Ergebnisanzeige bereitstellen. */
 const projektTitel = Object.fromEntries(
-  PROJEKTDETAILS.map((p) => [p.slug, p.kachel ?? p.titel]),
+  PROJEKTDETAILS.map((p) =>
+    lang === 'de'
+      ? [p.slug, p.kachel ?? p.titel]
+      : [p.slug, p.en?.kachel ?? p.en?.titel ?? p.kachel ?? p.titel],
+  ),
 );
+
+const arten = PROJEKTARTEN.map((a) => ({
+  id: a.id,
+  label: lang === 'de' ? a.label : a.labelEn,
+  beschreibung: lang === 'de' ? a.beschreibung : a.beschreibungEn,
+}));
+const gewerke = GEWERKE.map((g) => ({
+  id: g.id,
+  label: lang === 'de' ? g.label : g.labelEn,
+  beschreibung: lang === 'de' ? g.beschreibung : g.beschreibungEn,
+  leistungsbereich: g.leistungsbereich,
+  projekte: g.projekte,
+}));
+const phasen = PHASEN.map((p) => ({
+  id: p.id,
+  label: lang === 'de' ? p.label : p.labelEn,
+  beschreibung: lang === 'de' ? p.beschreibung : p.beschreibungEn,
+}));
 ---
 
 <section class="finder" id="leistungsfinder" aria-labelledby="finderTitel">
   <div class="wrap">
     <div class="section-head" style="margin-bottom:1.6rem;">
-      <p class="eyebrow">In drei Schritten zur Anfrage</p>
-      <h2 id="finderTitel">Welche Leistung brauchen Sie?</h2>
-      <p>Sagen Sie uns kurz, worum es geht — wir zeigen Ihnen passende Referenzen und bereiten Ihre Anfrage vor.</p>
+      <p class="eyebrow">{t.eyebrow}</p>
+      <h2 id="finderTitel">{t.titel}</h2>
+      <p>{t.intro}</p>
     </div>
 
     <div class="finder-box" data-finder>
       <ol class="finder-fortschritt" aria-hidden="true">
-        <li data-punkt="1" class="ist-aktiv">Vorhaben</li>
-        <li data-punkt="2">Gewerke</li>
-        <li data-punkt="3">Stand</li>
+        <li data-punkt="1" class="ist-aktiv">{t.fortschritt[0]}</li>
+        <li data-punkt="2">{t.fortschritt[1]}</li>
+        <li data-punkt="3">{t.fortschritt[2]}</li>
       </ol>
 
       <fieldset class="finder-schritt" data-schritt="1">
-        <legend>Um was für ein Vorhaben geht es?</legend>
+        <legend>{t.frage1}</legend>
         <div class="finder-auswahl">
-          {PROJEKTARTEN.map((a) => (
+          {arten.map((a) => (
             <label class="finder-option">
               <input type="radio" name="art" value={a.id} />
               <span class="finder-option-titel">{a.label}</span>
@@ -42,9 +70,9 @@ const projektTitel = Object.fromEntries(
       </fieldset>
 
       <fieldset class="finder-schritt" data-schritt="2" hidden>
-        <legend>Welche Gewerke sollen wir übernehmen?</legend>
+        <legend>{t.frage2}</legend>
         <div class="finder-auswahl">
-          {GEWERKE.map((g) => (
+          {gewerke.map((g) => (
             <label class="finder-option">
               <input type="checkbox" name="gewerk" value={g.id} data-bereich={g.leistungsbereich} data-projekte={g.projekte.join(',')} />
               <span class="finder-option-titel">{g.label}</span>
@@ -55,9 +83,9 @@ const projektTitel = Object.fromEntries(
       </fieldset>
 
       <fieldset class="finder-schritt" data-schritt="3" hidden>
-        <legend>Wie weit ist das Vorhaben?</legend>
+        <legend>{t.frage3}</legend>
         <div class="finder-auswahl">
-          {PHASEN.map((p) => (
+          {phasen.map((p) => (
             <label class="finder-option">
               <input type="radio" name="phase" value={p.id} />
               <span class="finder-option-titel">{p.label}</span>
@@ -68,28 +96,28 @@ const projektTitel = Object.fromEntries(
       </fieldset>
 
       <div class="finder-ergebnis" data-ergebnis hidden>
-        <h3>Das passt zu Ihrem Vorhaben</h3>
+        <h3>{t.ergebnisTitel}</h3>
         <p class="finder-zusammenfassung" data-zusammenfassung></p>
         <div class="finder-referenzen" data-referenzen></div>
         <div class="hero-ctas" style="margin-top:1.6rem;">
-          <a class="cta-btn primary" data-anfrage href="/kontakt/">Anfrage vorbereiten</a>
-          <button type="button" class="cta-btn ghost" data-neu>Von vorn beginnen</button>
+          <a class="cta-btn primary" data-anfrage href={kontaktPfad}>{t.anfrageVorbereiten}</a>
+          <button type="button" class="cta-btn ghost" data-neu>{t.vonVorn}</button>
         </div>
       </div>
 
       <div class="finder-steuerung" data-steuerung>
-        <button type="button" class="cta-btn ghost" data-zurueck hidden>Zurück</button>
-        <button type="button" class="cta-btn primary" data-weiter disabled>Weiter</button>
+        <button type="button" class="cta-btn ghost" data-zurueck hidden>{t.zurueck}</button>
+        <button type="button" class="cta-btn primary" data-weiter disabled>{t.weiter}</button>
       </div>
     </div>
 
     <p class="finder-direkt">
-      Lieber gleich schreiben? <a href="/kontakt/">Direkt zum Anfrageformular</a>
+      {t.direkt} <a href={kontaktPfad}>{t.direktLink}</a>
     </p>
   </div>
 </section>
 
-<script define:vars={{ projektTitel }}>
+<script define:vars={{ projektTitel, kontaktPfad, projektBasis, weiterText: t.weiter, ergebnisText: t.ergebnisAnzeigen }}>
   document.querySelectorAll('[data-finder]').forEach(function(box){
     var schritte = Array.prototype.slice.call(box.querySelectorAll('.finder-schritt'));
     var punkte = Array.prototype.slice.call(box.querySelectorAll('[data-punkt]'));
@@ -108,7 +136,7 @@ const projektTitel = Object.fromEntries(
                    : aktuell === 1 ? auswahl('art').length > 0
                    : auswahl('phase').length > 0;
       weiter.disabled = !gewaehlt;
-      weiter.textContent = aktuell === 3 ? 'Ergebnis anzeigen' : 'Weiter';
+      weiter.textContent = aktuell === 3 ? ergebnisText : weiterText;
     }
 
     function zeige(n){
@@ -151,7 +179,7 @@ const projektTitel = Object.fromEntries(
       slugs.forEach(function(s){
         var a = document.createElement('a');
         a.className = 'finder-referenz';
-        a.href = '/projekte/' + s + '/';
+        a.href = projektBasis + s + '/';
         a.textContent = projektTitel[s] || s;
         ziel.appendChild(a);
       });
@@ -163,7 +191,7 @@ const projektTitel = Object.fromEntries(
         gewerke: gewerkTexte.join(', '),
         phase: phaseText,
       });
-      box.querySelector('[data-anfrage]').href = '/kontakt/?' + params.toString();
+      box.querySelector('[data-anfrage]').href = kontaktPfad + '?' + params.toString();
 
       schritte.forEach(function(s){ s.hidden = true; });
       steuerung.hidden = true;

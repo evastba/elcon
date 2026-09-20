@@ -71,12 +71,18 @@ export async function onRequestPost({ request, env }) {
     return Response.json({ fehler: 'Ein Dateityp ist nicht zugelassen.' }, { status: 415 });
   }
 
+  /* Das Anfrageformular steht in zwei Sprachen, die Nachricht landet aber in
+     demselben Postfach. Das versteckte Feld "lang" hält fest, aus welcher
+     Fassung die Anfrage kam, damit in der richtigen Sprache geantwortet wird. */
+  const sprache = daten.get('lang') === 'en' ? 'Englisch' : 'Deutsch';
+
   const felder = [
     ['Name', name],
     ['Unternehmen', text(daten.get('company'))],
     ['E-Mail', email],
     ['Telefon', text(daten.get('phone'))],
     ['Standort', text(daten.get('location'))],
+    ['Sprache der Anfrage', sprache],
   ].filter(([, wert]) => wert);
 
   const html =

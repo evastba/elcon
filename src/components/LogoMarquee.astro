@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import { CLIENTS } from '../data/clients';
+import { useUi } from '../i18n/ui';
 
 /* Die Laufschrift wurde bisher im Browser per innerHTML aufgebaut. Serverseitig
    gerendert laufen die Logos durch die Bildpipeline (WebP, Maße im Markup) und
@@ -20,10 +21,12 @@ const logos = CLIENTS.map((c) => ({
 }));
 
 const doubled = [...logos, ...logos];
+
+const t = useUi(Astro.url);
 ---
 
 <div class="trust-block" style="margin-bottom:1.4rem;">
-  <h3>Vertrauen von Unternehmen und Institutionen</h3>
+  <h3>{t.marqueeTitel}</h3>
   <div class="marquee">
     <div class="marquee-track" aria-hidden="true">
       {doubled.map((c) => c.image ? (

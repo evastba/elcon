@@ -5,6 +5,7 @@ import Footer from '../components/Footer.astro';
 import CookieConsent from '../components/CookieConsent.astro';
 import CloudflareAnalytics from '../components/CloudflareAnalytics.astro';
 import KontaktLeiste from '../components/KontaktLeiste.astro';
+import { useUi } from '../i18n/ui';
 
 interface Props {
   /** Seitentitel ohne Firmenzusatz; der wird hier angehängt. */
@@ -12,17 +13,20 @@ interface Props {
   description: string;
   /** Titel unverändert übernehmen (für die Startseite). */
   rawTitle?: boolean;
+  /** Seitentyp für Open Graph; Projektseiten sind "article". */
+  ogType?: 'website' | 'article';
 }
 
-const { title, description, rawTitle = false } = Astro.props;
+const { title, description, rawTitle = false, ogType } = Astro.props;
+const t = useUi(Astro.url);
 /* Google zeigt etwa 60 Zeichen. Der Markenzusatz bleibt deshalb kurz — der
    vollständige Claim stand zuvor in jedem Titel und verbrauchte allein 30
    Zeichen, sodass bei Projektseiten der eigentliche Titel abgeschnitten wurde. */
 const fullTitle = rawTitle ? title : `${title} — ELCON`;
 ---
 
-<Layout title={fullTitle} description={description}>
-  <a href="#main" class="skip-link">Zum Inhalt springen</a>
+<Layout title={fullTitle} description={description} ogType={ogType}>
+  <a href="#main" class="skip-link">{t.zumInhalt}</a>
 
   <Header />
 
