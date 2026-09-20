@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { company } from '../config';
 ---
 
 <BaseLayout title="Kontakt" description="Projektanfrage an die ELCON LED GmbH — Bauernstr. 34, 31275 Lehrte. Telefon, E-Mail, WhatsApp und Anfrageformular.">
@@ -15,7 +16,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           <li>Bauernstr. 34, 31275 Lehrte (OT Immensen)</li>
           <li>Telefon: <a href="tel:+4951757716116">+49 (0) 5175 - 77 16 116</a></li>
           <li>Fax: 01512425</li>
-          <li><a href="mailto:info@elcon-led.com">info@elcon-led.com</a></li>
+          <li><a href={`mailto:${company.email}`}>{company.email}</a></li>
         </ul>
         <a class="whatsapp-link" href="https://wa.me/4951757716116" target="_blank" rel="noopener">
           <span class="whatsapp-badge" aria-hidden="true">
@@ -50,7 +51,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           <textarea id="fmsg" name="message" required></textarea>
         </div>
         <button type="submit" class="cta-btn primary" style="justify-content:center;">Anfrage senden</button>
-        <p class="form-note">Öffnet aktuell Ihr E-Mail-Programm mit vorausgefüllter Nachricht an info@elcon-led.com — eine direkte Formular-Anbindung folgt mit dem CMS.</p>
+        <p class="form-note">Öffnet aktuell Ihr E-Mail-Programm mit vorausgefüllter Nachricht an {company.email} — eine direkte Formular-Anbindung folgt mit dem CMS.</p>
+
+        <p class="form-direkt">
+          Lieber direkt schreiben?
+          <a href={`mailto:${company.email}`}>{company.email}</a>
+        </p>
       </form>
     </div>
   </section>
