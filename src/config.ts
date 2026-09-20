@@ -151,42 +151,20 @@ export interface Ansprechpartner {
 /**
  * Reale Ansprechpartner der ELCON LED GmbH.
  *
- * Bewusst leer: Es liegen keine belegten Namen, Funktionen oder Durchwahlen
- * vor. Erfundene Personen wären auf einer Unternehmenswebsite eine
- * Falschangabe, deshalb bleibt die Liste leer, bis echte Daten vorliegen —
- * die Kontaktseite zeigt dann die allgemeinen Unternehmensdaten.
+ * Bewusst leer: Für den deutschen Standort liegen keine belegten Namen,
+ * Funktionen oder Durchwahlen vor. Erfundene Personen wären auf einer
+ * Unternehmenswebsite eine Falschangabe, deshalb bleibt die Liste leer, bis
+ * echte Daten vorliegen — die Kontaktseite zeigt solange die allgemeinen
+ * Unternehmensdaten.
+ *
+ * Die auf www.elcon-led.com genannte Büroleitung des Moskauer Büros ist hier
+ * bewusst nicht hinterlegt: Nach Auskunft des Auftraggebers bestehen keine
+ * laufenden Projekte in oder mit russischer Beteiligung mehr.
  *
  * Gepflegt wird die Liste ausschließlich hier. Ein Eintrag erscheint erst,
  * wenn `aktiv` und `veroeffentlichungsfreigabe` beide auf `true` stehen.
  */
-export const ansprechpartner: Ansprechpartner[] = [
-  /*
-   * Aus der Kontaktseite von www.elcon-led.com übernommen. Die Person ist
-   * real und dort mit Durchwahl veröffentlicht — eine Zustimmung zur
-   * Veröffentlichung auf der neuen Website ist damit aber nicht erteilt.
-   * `veroeffentlichungsfreigabe` steht deshalb auf false; der Datensatz wird
-   * nicht ausgegeben. Siehe LIVEGANG_CHECKLISTE.md, Abschnitt 11.
-   */
-  {
-    id: 'tsyplenkova',
-    vorname: 'Olga',
-    nachname: 'Tsyplenkova',
-    funktion: 'Büroleitung',
-    funktionEn: 'Office Manager',
-    bereich: null,
-    bereichEn: null,
-    telefon: '+7 916 020 77 36',
-    telefonHref: '+79160207736',
-    email: null,
-    foto: null,
-    sprachen: ['ru', 'de'],
-    aufKontaktseite: false,
-    imFooter: false,
-    leistungsbereiche: [],
-    aktiv: false,
-    veroeffentlichungsfreigabe: false,
-  },
-];
+export const ansprechpartner: Ansprechpartner[] = [];
 
 /** Ansprechpartner, die tatsächlich ausgegeben werden dürfen. */
 export const sichtbareAnsprechpartner = ansprechpartner.filter(
