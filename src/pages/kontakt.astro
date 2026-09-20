@@ -67,11 +67,32 @@ import { company } from '../config';
           <label for="fmsg">Projektbeschreibung <span class="pflicht" aria-hidden="true">*</span></label>
           <textarea id="fmsg" name="message" required></textarea>
         </div>
+        <div class="field">
+          <label for="ffiles">Unterlagen anhängen</label>
+          <div class="upload" id="uploadFeld">
+            <input
+              id="ffiles"
+              name="files"
+              type="file"
+              multiple
+              accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png,.zip,.dwg,.dxf,.ifc"
+              aria-describedby="uploadHinweis"
+            >
+            <p class="upload-text">
+              <strong>Dateien auswählen</strong> oder hierher ziehen
+            </p>
+            <p class="upload-formate" id="uploadHinweis">
+              Leistungsverzeichnis, Pläne, Fotos · PDF, Office, Bilder, ZIP, DWG/DXF/IFC · zusammen bis 15 MB
+            </p>
+          </div>
+          <ul class="upload-liste" id="uploadListe" hidden></ul>
+        </div>
+
         <button type="submit" class="cta-btn primary" style="justify-content:center;">Anfrage senden</button>
+        <p class="form-status" id="formStatus" role="status" aria-live="polite" hidden></p>
         <p class="form-note">
-          Öffnet Ihr E-Mail-Programm mit vorausgefüllter Nachricht an {company.email}.
-          Pläne, Leistungsverzeichnisse oder Fotos hängen Sie dort direkt an — eine
-          Anbindung mit Datei-Upload folgt.
+          Mit Unterlagen geht die Anfrage direkt an uns. Ohne Anhänge öffnet sich
+          Ihr E-Mail-Programm mit vorausgefüllter Nachricht an {company.email}.
         </p>
 
         <p class="form-direkt">
@@ -83,7 +104,7 @@ import { company } from '../config';
 
     <div class="wrap">
       <div class="kontakt-hilfe">
-        <div>
+        <div class="kontakt-hilfe-kopf">
           <h2>Was uns bei Ihrer Anfrage hilft</h2>
           <p>Je genauer wir Ihr Vorhaben kennen, desto belastbarer fällt unsere Rückmeldung aus. Hilfreich sind Angaben zu:</p>
           <ul>
@@ -95,48 +116,6 @@ import { company } from '../config';
           </ul>
         </div>
 
-        <div>
-          <h2>Wege zu uns</h2>
-          <dl class="kontakt-wege">
-            <div>
-              <dt>Telefon</dt>
-              <dd><a href={`tel:${company.phoneHref}`}>{company.phone}</a></dd>
-            </div>
-            <div>
-              <dt>E-Mail</dt>
-              <dd><a href={`mailto:${company.email}`}>{company.email}</a></dd>
-            </div>
-            <div>
-              <dt>WhatsApp</dt>
-              <dd><a href="https://wa.me/4951757716116" target="_blank" rel="noopener">Nachricht schreiben</a></dd>
-            </div>
-            <div>
-              <dt>Telefax</dt>
-              <dd>{company.fax}</dd>
-            </div>
-          </dl>
-        </div>
-
-        <div>
-          <h2>Anschrift</h2>
-          <address class="kontakt-anschrift">
-            {company.name}<br />
-            {company.street}<br />
-            {company.zip} {company.city}<br />
-            {company.country}
-          </address>
-          <p class="kontakt-karte">
-            <a
-              href={`https://www.openstreetmap.org/search?query=${encodeURIComponent(`${company.street}, ${company.zip} ${company.city}`)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >Auf der Karte ansehen</a>
-          </p>
-          <p class="kontakt-hinweis">
-            Unterlagen wie Leistungsverzeichnisse oder Pläne senden Sie am besten
-            per E-Mail — sie erreichen uns dort am schnellsten.
-          </p>
-        </div>
       </div>
     </div>
   </section>
@@ -144,27 +123,124 @@ import { company } from '../config';
 <script>
   import { trackEvent } from '../scripts/track';
 
-  document.getElementById('requestForm').addEventListener('submit', function(e){
-    e.preventDefault();
-    var f = e.target;
-    trackEvent('anfrage_abgesendet', { leistungsbereich: f.topic.value });
-    var subject = encodeURIComponent('Projektanfrage: ' + (f.topic.value || 'ELCON'));
-    /* Leere Felder weglassen, damit die Nachricht nicht mit Platzhaltern
-       beginnt. */
-    var zeilen = [
-      ['Name', f.name.value],
-      ['Unternehmen', f.company.value],
-      ['E-Mail', f.email.value],
-      ['Telefon', f.phone.value],
-      ['Leistungsbereich', f.topic.value],
-      ['Standort', f.location.value],
-    ].filter(function(z){ return z[1] && z[1].trim(); })
-     .map(function(z){ return z[0] + ': ' + z[1].trim(); });
+  const MAX_GESAMT = 15 * 1024 * 1024; // 15 MB
 
-    var body = encodeURIComponent(
-      zeilen.join('\n') + '\n\n' + f.message.value
-    );
-    window.location.href = 'mailto:info@elcon-led.com?subject=' + subject + '&body=' + body;
+  const form = document.getElementById('requestForm') as HTMLFormElement;
+  const feld = document.getElementById('uploadFeld') as HTMLElement;
+  const eingabe = document.getElementById('ffiles') as HTMLInputElement;
+  const liste = document.getElementById('uploadListe') as HTMLUListElement;
+  const status = document.getElementById('formStatus') as HTMLParagraphElement;
+
+  /* Der Browser lässt FileList nicht bearbeiten. Um einzelne Dateien wieder
+     entfernen zu können, wird die Auswahl hier geführt und über ein
+     DataTransfer-Objekt in das Eingabefeld zurückgeschrieben. */
+  let dateien: File[] = [];
+
+  const lesbar = (bytes: number) =>
+    bytes >= 1024 * 1024 ? (bytes / 1024 / 1024).toFixed(1) + ' MB' : Math.max(1, Math.round(bytes / 1024)) + ' kB';
+
+  function melde(text: string, art: 'fehler' | 'erfolg' | null) {
+    if (!art) { status.hidden = true; return; }
+    status.textContent = text;
+    status.className = 'form-status ' + (art === 'fehler' ? 'ist-fehler' : 'ist-erfolg');
+    status.hidden = false;
+  }
+
+  function uebernehmen() {
+    const dt = new DataTransfer();
+    dateien.forEach((f) => dt.items.add(f));
+    eingabe.files = dt.files;
+
+    liste.innerHTML = '';
+    liste.hidden = dateien.length === 0;
+    feld.classList.toggle('is-bereit', dateien.length > 0);
+
+    dateien.forEach((f, i) => {
+      const li = document.createElement('li');
+      const name = document.createElement('span');
+      name.className = 'datei-name';
+      name.textContent = f.name;
+      const groesse = document.createElement('span');
+      groesse.className = 'datei-groesse';
+      groesse.textContent = lesbar(f.size);
+      const weg = document.createElement('button');
+      weg.type = 'button';
+      weg.setAttribute('aria-label', f.name + ' entfernen');
+      weg.textContent = '\u2715';
+      weg.addEventListener('click', () => { dateien.splice(i, 1); uebernehmen(); });
+      li.append(name, groesse, weg);
+      liste.appendChild(li);
+    });
+
+    const gesamt = dateien.reduce((s, f) => s + f.size, 0);
+    if (gesamt > MAX_GESAMT) {
+      melde(`Die Dateien sind zusammen ${lesbar(gesamt)} groß — möglich sind 15 MB. Bitte entfernen Sie eine Datei oder senden Sie sie separat per E-Mail.`, 'fehler');
+    } else {
+      melde('', null);
+    }
+  }
+
+  eingabe.addEventListener('change', () => {
+    dateien = dateien.concat(Array.from(eingabe.files || []));
+    uebernehmen();
+  });
+
+  ['dragenter', 'dragover'].forEach((e) =>
+    feld.addEventListener(e, (ev) => { ev.preventDefault(); feld.classList.add('is-bereit'); }));
+  ['dragleave', 'drop'].forEach((e) =>
+    feld.addEventListener(e, (ev) => { ev.preventDefault(); if (e === 'dragleave') feld.classList.remove('is-bereit'); }));
+  feld.addEventListener('drop', (ev: DragEvent) => {
+    dateien = dateien.concat(Array.from(ev.dataTransfer?.files || []));
+    uebernehmen();
+  });
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const f = e.target as HTMLFormElement;
+
+    const gesamt = dateien.reduce((s, d) => s + d.size, 0);
+    if (gesamt > MAX_GESAMT) return;
+
+    trackEvent('anfrage_abgesendet', {
+      leistungsbereich: (f.topic as HTMLSelectElement).value,
+      anhaenge: dateien.length,
+    });
+
+    /* Mit Anhängen führt kein Weg über das E-Mail-Programm — mailto kann keine
+       Dateien mitnehmen. Die Anfrage geht dann an den Endpunkt der Seite. */
+    if (dateien.length > 0) {
+      const knopf = f.querySelector('button[type="submit"]') as HTMLButtonElement;
+      knopf.disabled = true;
+      melde('Anfrage wird gesendet …', 'erfolg');
+      try {
+        const antwort = await fetch('/api/anfrage', { method: 'POST', body: new FormData(f) });
+        if (!antwort.ok) throw new Error(String(antwort.status));
+        f.reset();
+        dateien = [];
+        uebernehmen();
+        melde('Vielen Dank — Ihre Anfrage ist bei uns eingegangen. Wir melden uns zurück.', 'erfolg');
+      } catch {
+        melde('Der Versand ist fehlgeschlagen. Bitte schreiben Sie uns direkt an info@elcon-led.com und hängen Sie Ihre Unterlagen dort an.', 'fehler');
+      } finally {
+        knopf.disabled = false;
+      }
+      return;
+    }
+
+    /* Ohne Anhänge bleibt es beim bewährten Weg über das E-Mail-Programm. */
+    const zeilen = [
+      ['Name', (f.name as unknown as HTMLInputElement).value],
+      ['Unternehmen', (f.company as unknown as HTMLInputElement).value],
+      ['E-Mail', (f.email as unknown as HTMLInputElement).value],
+      ['Telefon', (f.phone as unknown as HTMLInputElement).value],
+      ['Leistungsbereich', (f.topic as HTMLSelectElement).value],
+      ['Standort', (f.location as unknown as HTMLInputElement).value],
+    ].filter(([, wert]) => wert && wert.trim())
+     .map(([bez, wert]) => bez + ': ' + wert.trim());
+
+    const betreff = encodeURIComponent('Projektanfrage: ' + ((f.topic as HTMLSelectElement).value || 'ELCON'));
+    const text = encodeURIComponent(zeilen.join('\n') + '\n\n' + (f.message as unknown as HTMLTextAreaElement).value);
+    window.location.href = 'mailto:info@elcon-led.com?subject=' + betreff + '&body=' + text;
   });
 </script>
 
