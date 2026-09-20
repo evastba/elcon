@@ -19,10 +19,6 @@ const lang = getLang(Astro.url);
 const t = STARTSEITE[lang].projekte;
 const projekte = pfad('/projekte/', lang);
 const basis = lang === 'de' ? '/projekte/' : '/en/projects/';
-
-/* Zeigt eine der drei Kacheln keine Detailseite, steht der Hinweis darunter
-   einmal für den ganzen Abschnitt statt an jeder Karte. */
-const alleOhneDetail = startseitenReferenzen.length > 0 && startseitenReferenzen.every((r) => !r.slug);
 ---
 
 {startseitenReferenzen.length > 0 && (
@@ -66,8 +62,6 @@ const alleOhneDetail = startseitenReferenzen.length > 0 && startseitenReferenzen
           );
         })}
       </div>
-
-      {alleOhneDetail && <p class="aktuell-hinweis">{t.ohneDetail}</p>}
 
       <div class="hero-ctas aktuell-alle">
         <a class="cta-btn ghost" href={projekte}>{t.alle}</a>

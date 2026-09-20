@@ -61,8 +61,6 @@ export interface Startseite {
     intro: string;
     alle: string;
     kurzreferenz: string;
-    /** Hinweis, wenn zu den Projekten noch keine Detailseite vorliegt. */
-    ohneDetail: string;
   };
   warum: { eyebrow: string; titel: string; intro: string; vorteile: Vorteil[] };
   ablauf: { eyebrow: string; titel: string; schritte: Schritt[]; cta: string };
@@ -72,7 +70,6 @@ export interface Startseite {
     titel: string;
     text: string;
     cta: string;
-    vertrauen: string;
     telefonLabel: string;
     emailLabel: string;
   };
@@ -144,8 +141,6 @@ export const STARTSEITE: Record<'de' | 'en', Startseite> = {
         'Ausgewählte Projekte zeigen, wie ELCON technische Anforderungen in Industrie, Produktion und anspruchsvollen Bestandsumgebungen umsetzt.',
       alle: 'Alle Referenzprojekte ansehen',
       kurzreferenz: 'Kurzreferenz',
-      ohneDetail:
-        'Zu diesen Projekten liegt derzeit keine Detailseite vor. Angaben zu Zeitraum und Leistungsumfang erhalten Sie auf Anfrage.',
     },
     warum: {
       eyebrow: 'Warum ELCON?',
@@ -211,7 +206,6 @@ export const STARTSEITE: Record<'de' | 'en', Startseite> = {
       text:
         'Ob Neubau, Modernisierung oder technische Anpassung im laufenden Betrieb: Beschreiben Sie uns kurz Ihr Vorhaben. Wir prüfen die Anforderungen und melden uns mit einem festen Ansprechpartner zurück.',
       cta: 'Projekt besprechen',
-      vertrauen: 'Persönliche Rückmeldung durch einen festen Ansprechpartner.',
       telefonLabel: 'Telefon',
       emailLabel: 'E-Mail',
     },
@@ -282,8 +276,6 @@ export const STARTSEITE: Record<'de' | 'en', Startseite> = {
         'Selected projects show how ELCON delivers technical requirements in industry, production and demanding existing-building environments.',
       alle: 'View all reference projects',
       kurzreferenz: 'Short reference',
-      ohneDetail:
-        'No detail page is currently available for these projects. Information on periods and scope of work is available on request.',
     },
     warum: {
       eyebrow: 'Why ELCON?',
@@ -349,7 +341,6 @@ export const STARTSEITE: Record<'de' | 'en', Startseite> = {
       text:
         'Whether a new build, a modernisation or a technical adaptation during ongoing operation: tell us briefly what you have in mind. We will review the requirements and come back to you with a dedicated contact.',
       cta: 'Discuss your project',
-      vertrauen: 'A personal response from a dedicated contact.',
       telefonLabel: 'Phone',
       emailLabel: 'Email',
     },

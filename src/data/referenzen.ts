@@ -171,7 +171,7 @@ export const PROJEKTREFERENZEN: Projektreferenz[] = [
     verifiziert: true,
     logoFreigabe: 'freigegeben',
     textFreigabe: 'freigegeben',
-    hervorgehoben: true,
+    hervorgehoben: false,
     quelle: 'Bestandswebsite www.elcon-led.com (Kachel ohne Detailseite)',
   },
   {
@@ -1072,7 +1072,7 @@ export const PROJEKTREFERENZEN: Projektreferenz[] = [
     verifiziert: true,
     logoFreigabe: 'freigegeben',
     textFreigabe: 'freigegeben',
-    hervorgehoben: false,
+    hervorgehoben: true,
     quelle: 'Bestandswebsite www.elcon-led.com (Kachel ohne Detailseite)',
   },
   {

@@ -1,5 +1,5 @@
 ---
-import { company, sichtbareAnsprechpartner } from '../config';
+import { company } from '../config';
 import { getLang, pfad } from '../i18n/ui';
 import { STARTSEITE } from '../i18n/startseite';
 
@@ -9,7 +9,6 @@ import { STARTSEITE } from '../i18n/startseite';
 const lang = getLang(Astro.url);
 const t = STARTSEITE[lang].abschluss;
 const kontakt = pfad('/kontakt/', lang);
-const person = sichtbareAnsprechpartner.find((p) => p.aufKontaktseite);
 ---
 
 <section class="abschluss-cta">
@@ -18,7 +17,6 @@ const person = sichtbareAnsprechpartner.find((p) => p.aufKontaktseite);
       <div class="abschluss-text">
         <h2>{t.titel}</h2>
         <p>{t.text}</p>
-        {person && <p class="abschluss-vertrauen">{t.vertrauen}</p>}
       </div>
       <div class="abschluss-aktion">
         <a class="cta-btn primary" href={kontakt}>{t.cta}</a>
