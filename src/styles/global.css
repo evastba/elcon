@@ -1163,6 +1163,10 @@ html, body { overflow-x: clip; }
     background:var(--surface);color:var(--text);
   }
   .field textarea{resize:vertical;min-height:110px;}
+  /* Die Vorbelegung ist ein Platzhalter: sie verschwindet beim ersten
+     Zeichen und wird nicht mitgesendet. opacity, weil Firefox den
+     Platzhalter sonst zusaetzlich aufhellt. */
+  .field ::placeholder{color:var(--text-leise);opacity:1;}
   .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
 
   footer.site{border-top:1px solid var(--border);background:var(--surface-alt);}

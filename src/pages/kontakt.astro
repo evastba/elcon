@@ -56,7 +56,14 @@ import Ansprechpartner from '../components/Ansprechpartner.astro';
         </div>
         <div class="field field-beschreibung">
           <label for="fmsg">Projektbeschreibung <span class="pflicht" aria-hidden="true">*</span></label>
-          <textarea id="fmsg" name="message" required></textarea>
+          <textarea
+            id="fmsg"
+            name="message"
+            required
+            lang="de"
+            spellcheck="true"
+            placeholder={"Ziel des Vorhabens\nArt des Gebäudes / Projektes\nGewerke"}
+          ></textarea>
         </div>
         <div class="field">
           <label for="ffiles">Unterlagen anhängen</label>
