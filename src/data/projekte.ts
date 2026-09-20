@@ -360,7 +360,6 @@ export const PROJEKTDETAILS: Projektdetail[] = [
     felder: [
       { label: 'Projekt', value: 'Villa Benilux' },
       { label: 'Beschreibung', value: 'Neubau einer repräsentativen Villa mit einer Poollandschaft, Arena und ca. 1.600 m² Wohnfläche' },
-      { label: 'Projektvolumen', value: 'vertraulich' },
       { label: 'Auftraggeber', value: 'Fa. Elit Stroj' },
       { label: 'Generalunternehmer', value: 'ELCON LED' },
       { label: 'ELCON Auftrag', value: 'Komplette Planung der gesamten Haustechnik inkl. Schwachstrom, Schwimmbadtechnik und der gesamten Regenwasserentwässerung auf dem Gelände mit tiefen Schächten.' },

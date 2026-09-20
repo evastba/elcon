@@ -293,14 +293,6 @@ html, body { overflow-x: clip; }
       padding:.3rem 0 0 1rem;background:none;min-width:0;
     }
   }
-  .filter-row{display:flex;flex-wrap:wrap;gap:.6rem;margin-bottom:2.2rem;}
-  .filter-chip{
-    font:inherit;font-size:.85rem;font-weight:600;padding:.5rem 1.05rem;border-radius:999px;
-    border:1px solid var(--border);background:var(--surface);color:var(--text-muted);cursor:pointer;
-    transition:border-color .15s ease,color .15s ease;
-  }
-  .filter-chip:hover{border-color:var(--accent-3);color:var(--text);}
-  .filter-chip.is-active{background:var(--ink);border-color:var(--ink);color:#fff;}
   .project-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:1rem;margin-bottom:3rem;}
   .reference-directory{border-top:1px solid var(--border);padding-top:1.8rem;}
 
@@ -664,12 +656,6 @@ html, body { overflow-x: clip; }
     box-shadow:none;
   }
 
-  .filter-chip{
-    @apply duration-150 ease-out;
-    transition-property:transform,background-color,border-color,color;
-  }
-  .filter-chip:hover{ @apply motion-safe:scale-[1.02]; }
-  .filter-chip:active{ @apply motion-safe:scale-[0.98]; }
 
   .tc-nav,
   .lang-toggle button{
