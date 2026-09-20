@@ -479,7 +479,14 @@ html, body { overflow-x: clip; }
     font-size:.72rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--text-muted);
   }
   .footer-wege a{font-size:.98rem;font-weight:600;overflow-wrap:anywhere;}
-  .footer-cta{justify-content:center;}
+  /* Der Knopf stand direkt an den Kontaktangaben und war mit 16 Pixeln
+     größer gesetzt als jeder andere Text der Fußzeile (Links 14,7 px). Jetzt
+     rückt er ab und ordnet sich in die Größenstufen ein. */
+  .footer-cta{
+    align-self:flex-start;margin-top:1.5rem;
+    font-size:.88rem;font-weight:600;padding:.55rem 1.15rem;
+    justify-content:center;
+  }
 
   @media (max-width:900px){
     .footer-grid{grid-template-columns:1fr 1fr;gap:2rem;}
@@ -498,7 +505,9 @@ html, body { overflow-x: clip; }
     .footer-gruppe ul{margin:0 0 1rem;gap:.7rem;}
     .footer-gruppe a{display:inline-block;padding-block:.15rem;}
     .footer-kontakt{border-top:1px solid var(--border);padding-top:1.2rem;}
-    .footer-cta{width:100%;}
+    /* Auf dem Telefon volle Breite und wieder 44 Pixel hoch, damit das
+       Tippziel groß genug bleibt. */
+    .footer-cta{width:100%;padding:.72rem 1.15rem;}
   }
   @media (prefers-reduced-motion: reduce){
     .footer-gruppe summary::after{transition:none;}
