@@ -47,21 +47,9 @@ import { company } from '../config';
             <input id="fphone" name="phone" type="tel" autocomplete="tel">
           </div>
         </div>
-        <div class="form-row">
-          <div class="field">
-            <label for="ftopic">Leistungsbereich</label>
-            <select id="ftopic" name="topic">
-              <option>Elektrotechnik</option>
-              <option>Heizung, Klima, Lüftung, Sanitär</option>
-              <option>MSR- &amp; Automatisierungstechnik</option>
-              <option>Netzwerktechnik &amp; IT</option>
-              <option>Planung &amp; Betrieb / Sonstiges</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="flocation">Standort des Projekts</label>
-            <input id="flocation" name="location" type="text" placeholder="Ort oder Region">
-          </div>
+        <div class="field">
+          <label for="flocation">Standort des Projekts</label>
+          <input id="flocation" name="location" type="text" placeholder="Ort oder Region">
         </div>
         <div class="field">
           <label for="fmsg">Projektbeschreibung <span class="pflicht" aria-hidden="true">*</span></label>
@@ -76,13 +64,9 @@ import { company } from '../config';
               type="file"
               multiple
               accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png,.zip,.dwg,.dxf,.ifc"
-              aria-describedby="uploadHinweis"
             >
             <p class="upload-text">
               <strong>Dateien auswählen</strong> oder hierher ziehen
-            </p>
-            <p class="upload-formate" id="uploadHinweis">
-              Leistungsverzeichnis, Pläne, Fotos · PDF, Office, Bilder, ZIP, DWG/DXF/IFC · zusammen bis 15 MB
             </p>
           </div>
           <ul class="upload-liste" id="uploadListe" hidden></ul>
@@ -126,6 +110,31 @@ import { company } from '../config';
   const MAX_GESAMT = 15 * 1024 * 1024; // 15 MB
 
   const form = document.getElementById('requestForm') as HTMLFormElement;
+
+  /* Kommt der Besucher aus dem Leistungsfinder, steht seine Auswahl in der
+     Adresse. Sie wird in die Projektbeschreibung übernommen, damit er nicht
+     wiederholen muss, was er dort schon beantwortet hat. Der Cursor landet
+     hinter dem vorbereiteten Text. */
+  {
+    const p = new URLSearchParams(location.search);
+    const art = p.get('art');
+    const gewerke = p.get('gewerke');
+    const phase = p.get('phase');
+
+    if (art || gewerke || phase) {
+      const zeilen = [
+        art && `Vorhaben: ${art}`,
+        gewerke && `Gewerke: ${gewerke}`,
+        phase && `Stand: ${phase}`,
+      ].filter(Boolean);
+
+      const feld = document.getElementById('fmsg') as HTMLTextAreaElement;
+      feld.value = zeilen.join('\n') + '\n\n';
+      feld.focus();
+      feld.setSelectionRange(feld.value.length, feld.value.length);
+    }
+  }
+
   const feld = document.getElementById('uploadFeld') as HTMLElement;
   const eingabe = document.getElementById('ffiles') as HTMLInputElement;
   const liste = document.getElementById('uploadListe') as HTMLUListElement;
@@ -201,10 +210,7 @@ import { company } from '../config';
     const gesamt = dateien.reduce((s, d) => s + d.size, 0);
     if (gesamt > MAX_GESAMT) return;
 
-    trackEvent('anfrage_abgesendet', {
-      leistungsbereich: (f.topic as HTMLSelectElement).value,
-      anhaenge: dateien.length,
-    });
+    trackEvent('anfrage_abgesendet', { anhaenge: dateien.length });
 
     /* Mit Anhängen führt kein Weg über das E-Mail-Programm — mailto kann keine
        Dateien mitnehmen. Die Anfrage geht dann an den Endpunkt der Seite. */
@@ -233,12 +239,11 @@ import { company } from '../config';
       ['Unternehmen', (f.company as unknown as HTMLInputElement).value],
       ['E-Mail', (f.email as unknown as HTMLInputElement).value],
       ['Telefon', (f.phone as unknown as HTMLInputElement).value],
-      ['Leistungsbereich', (f.topic as HTMLSelectElement).value],
       ['Standort', (f.location as unknown as HTMLInputElement).value],
     ].filter(([, wert]) => wert && wert.trim())
      .map(([bez, wert]) => bez + ': ' + wert.trim());
 
-    const betreff = encodeURIComponent('Projektanfrage: ' + ((f.topic as HTMLSelectElement).value || 'ELCON'));
+    const betreff = encodeURIComponent('Projektanfrage über die Website');
     const text = encodeURIComponent(zeilen.join('\n') + '\n\n' + (f.message as unknown as HTMLTextAreaElement).value);
     window.location.href = 'mailto:info@elcon-led.com?subject=' + betreff + '&body=' + text;
   });

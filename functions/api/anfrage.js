@@ -76,7 +76,6 @@ export async function onRequestPost({ request, env }) {
     ['Unternehmen', text(daten.get('company'))],
     ['E-Mail', email],
     ['Telefon', text(daten.get('phone'))],
-    ['Leistungsbereich', text(daten.get('topic'))],
     ['Standort', text(daten.get('location'))],
   ].filter(([, wert]) => wert);
 
@@ -105,7 +104,7 @@ export async function onRequestPost({ request, env }) {
       from: env.ANFRAGE_VON || 'website@elcon-led.com',
       to: [env.ANFRAGE_AN || 'info@elcon-led.com'],
       reply_to: email,
-      subject: `Projektanfrage: ${text(daten.get('topic')) || 'ELCON'} — ${name}`,
+      subject: `Projektanfrage über die Website — ${name}`,
       html,
       attachments: anhaenge,
     }),

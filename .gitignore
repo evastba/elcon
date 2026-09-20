@@ -31,3 +31,8 @@ Thumbs.db
 !.vscode/extensions.json
 .idea/
 *.swp
+
+# macOS-Dubletten. Auf diesem Rechner legt ein Dienst Kopien mit dem Zusatz
+# " 2" an (" 3" usw.). Sie sind byteweise identisch, würden aber mitversioniert
+# und bei jedem Build zusätzlich verarbeitet.
+* [0-9].*

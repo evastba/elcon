@@ -882,7 +882,6 @@ html, body { overflow-x: clip; }
   }
   .upload-text{margin:0;font-size:.92rem;color:var(--text-muted);}
   .upload-text strong{color:var(--accent-3);font-weight:700;}
-  .upload-formate{margin:.45rem 0 0;font-size:.78rem;line-height:1.5;color:var(--text-muted);}
 
   .upload-liste{list-style:none;margin:.7rem 0 0;padding:0;display:flex;flex-direction:column;gap:.4rem;}
   .upload-liste[hidden]{display:none;}
@@ -902,3 +901,81 @@ html, body { overflow-x: clip; }
   .form-status[hidden]{display:none;}
   .form-status.ist-fehler{background:#FDF2E9;border:1px solid var(--accent-2);color:var(--text);}
   .form-status.ist-erfolg{background:var(--accent-soft);border:1px solid var(--accent);color:var(--text);}
+
+  /* ===== Leistungsfinder ==================================================== */
+  .finder{background:var(--surface-alt);}
+  .finder-box{
+    background:var(--surface-raised);border:1px solid var(--border);border-radius:14px;
+    padding:clamp(1.4rem,3vw,2.2rem);box-shadow:var(--shadow);
+  }
+
+  .finder-fortschritt{
+    list-style:none;display:flex;flex-wrap:wrap;gap:.5rem 1.6rem;margin:0 0 1.6rem;padding:0 0 1.2rem;
+    border-bottom:1px solid var(--border);counter-reset:schritt;
+  }
+  .finder-fortschritt li{
+    counter-increment:schritt;display:flex;align-items:center;gap:.5rem;
+    font-size:.84rem;font-weight:600;color:var(--text-muted);
+  }
+  .finder-fortschritt li::before{
+    content:counter(schritt);display:flex;align-items:center;justify-content:center;
+    width:22px;height:22px;border-radius:50%;flex:none;
+    background:var(--surface-alt);border:1px solid var(--border);
+    font-size:.74rem;font-weight:700;
+    transition-property:background-color,border-color,color;
+    @apply duration-150 ease-out;
+  }
+  .finder-fortschritt li.ist-aktiv{color:var(--text);}
+  .finder-fortschritt li.ist-aktiv::before{background:var(--accent-3);border-color:var(--accent-3);color:#fff;}
+
+  .finder-schritt{border:0;margin:0;padding:0;}
+  .finder-schritt legend{font-size:1.05rem;font-weight:800;color:var(--text);margin-bottom:1rem;padding:0;}
+  .finder-auswahl{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:.7rem;}
+
+  .finder-option{
+    position:relative;display:block;cursor:pointer;
+    border:1.5px solid var(--border);border-radius:10px;padding:.9rem 1rem;
+    background:var(--surface);
+    transition-property:transform,border-color,box-shadow,background-color;
+    @apply duration-150 ease-out;
+  }
+  .finder-option:hover{border-color:var(--accent-3);@apply motion-safe:-translate-y-0.5;}
+  .finder-option input{position:absolute;opacity:0;width:0;height:0;}
+  .finder-option:has(input:checked){border-color:var(--accent-3);background:var(--accent-soft);}
+  .finder-option:has(input:focus-visible){outline:2px solid var(--accent-3);outline-offset:2px;}
+  .finder-option-titel{display:block;font-weight:700;font-size:.95rem;color:var(--text);margin-bottom:.2rem;}
+  .finder-option-text{display:block;font-size:.83rem;line-height:1.5;color:var(--text-muted);}
+
+  .finder-steuerung{display:flex;gap:.7rem;justify-content:flex-end;margin-top:1.6rem;}
+  /* display:flex überstimmt sonst Tailwinds [hidden]{display:none} — bei
+     gleicher Spezifität gewinnt die spätere Regel. Ohne diese Zeile blieben
+     Steuerung und Auswahlfelder im Ergebnis sichtbar. */
+  .finder-steuerung[hidden],
+  .finder-auswahl[hidden],
+  .finder-referenzen[hidden]{display:none;}
+  .finder-steuerung [hidden]{display:none;}
+  .finder-steuerung button:disabled{opacity:.45;cursor:not-allowed;}
+
+  .finder-ergebnis h3{font-size:1.1rem;font-weight:800;margin:0 0 .5rem;}
+  .finder-zusammenfassung{
+    margin:0 0 1.2rem;font-size:.95rem;color:var(--accent-3);font-weight:600;
+  }
+  .finder-referenzen{display:flex;flex-wrap:wrap;gap:.6rem;}
+  .finder-referenz{
+    display:inline-flex;align-items:center;gap:.4rem;
+    padding:.55rem .9rem;border:1px solid var(--border);border-radius:999px;
+    background:var(--surface);font-size:.88rem;font-weight:600;
+    color:var(--text);text-decoration:none;
+    transition-property:transform,border-color,color;
+    @apply duration-150 ease-out;
+  }
+  .finder-referenz::after{content:'→';color:var(--accent-3);}
+  .finder-referenz:hover{border-color:var(--accent-3);color:var(--accent-3);@apply motion-safe:-translate-y-0.5;}
+
+  .finder-direkt{margin:1.2rem 0 0;font-size:.9rem;color:var(--text-muted);text-align:center;}
+  .finder-direkt a{color:var(--accent-3);}
+
+  @media (max-width:600px){
+    .finder-steuerung{flex-direction:column-reverse;}
+    .finder-steuerung .cta-btn{justify-content:center;}
+  }

@@ -1,0 +1,187 @@
+---
+import { PROJEKTARTEN, GEWERKE, PHASEN } from '../data/finder';
+import { PROJEKTDETAILS } from '../data/projekte';
+
+/* Der Finder führt in drei Schritten zur Anfrage. Die Auswahl bleibt im
+   Browser; übergeben wird nur das Ergebnis an das Anfrageformular, über
+   Parameter in der Adresse. Ohne JavaScript bleibt der Abschnitt stumm —
+   deshalb steht darunter immer der direkte Weg zum Formular. */
+
+/* Titel der Referenzprojekte für die Ergebnisanzeige bereitstellen. */
+const projektTitel = Object.fromEntries(
+  PROJEKTDETAILS.map((p) => [p.slug, p.kachel ?? p.titel]),
+);
+---
+
+<section class="finder" id="leistungsfinder" aria-labelledby="finderTitel">
+  <div class="wrap">
+    <div class="section-head" style="margin-bottom:1.6rem;">
+      <p class="eyebrow">In drei Schritten zur Anfrage</p>
+      <h2 id="finderTitel">Welche Leistung brauchen Sie?</h2>
+      <p>Sagen Sie uns kurz, worum es geht — wir zeigen Ihnen passende Referenzen und bereiten Ihre Anfrage vor.</p>
+    </div>
+
+    <div class="finder-box" data-finder>
+      <ol class="finder-fortschritt" aria-hidden="true">
+        <li data-punkt="1" class="ist-aktiv">Vorhaben</li>
+        <li data-punkt="2">Gewerke</li>
+        <li data-punkt="3">Stand</li>
+      </ol>
+
+      <fieldset class="finder-schritt" data-schritt="1">
+        <legend>Um was für ein Vorhaben geht es?</legend>
+        <div class="finder-auswahl">
+          {PROJEKTARTEN.map((a) => (
+            <label class="finder-option">
+              <input type="radio" name="art" value={a.id} />
+              <span class="finder-option-titel">{a.label}</span>
+              <span class="finder-option-text">{a.beschreibung}</span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
+
+      <fieldset class="finder-schritt" data-schritt="2" hidden>
+        <legend>Welche Gewerke sollen wir übernehmen?</legend>
+        <div class="finder-auswahl">
+          {GEWERKE.map((g) => (
+            <label class="finder-option">
+              <input type="checkbox" name="gewerk" value={g.id} data-bereich={g.leistungsbereich} data-projekte={g.projekte.join(',')} />
+              <span class="finder-option-titel">{g.label}</span>
+              <span class="finder-option-text">{g.beschreibung}</span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
+
+      <fieldset class="finder-schritt" data-schritt="3" hidden>
+        <legend>Wie weit ist das Vorhaben?</legend>
+        <div class="finder-auswahl">
+          {PHASEN.map((p) => (
+            <label class="finder-option">
+              <input type="radio" name="phase" value={p.id} />
+              <span class="finder-option-titel">{p.label}</span>
+              <span class="finder-option-text">{p.beschreibung}</span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
+
+      <div class="finder-ergebnis" data-ergebnis hidden>
+        <h3>Das passt zu Ihrem Vorhaben</h3>
+        <p class="finder-zusammenfassung" data-zusammenfassung></p>
+        <div class="finder-referenzen" data-referenzen></div>
+        <div class="hero-ctas" style="margin-top:1.6rem;">
+          <a class="cta-btn primary" data-anfrage href="/kontakt/">Anfrage vorbereiten</a>
+          <button type="button" class="cta-btn ghost" data-neu>Von vorn beginnen</button>
+        </div>
+      </div>
+
+      <div class="finder-steuerung" data-steuerung>
+        <button type="button" class="cta-btn ghost" data-zurueck hidden>Zurück</button>
+        <button type="button" class="cta-btn primary" data-weiter disabled>Weiter</button>
+      </div>
+    </div>
+
+    <p class="finder-direkt">
+      Lieber gleich schreiben? <a href="/kontakt/">Direkt zum Anfrageformular</a>
+    </p>
+  </div>
+</section>
+
+<script define:vars={{ projektTitel }}>
+  document.querySelectorAll('[data-finder]').forEach(function(box){
+    var schritte = Array.prototype.slice.call(box.querySelectorAll('.finder-schritt'));
+    var punkte = Array.prototype.slice.call(box.querySelectorAll('[data-punkt]'));
+    var ergebnis = box.querySelector('[data-ergebnis]');
+    var steuerung = box.querySelector('[data-steuerung]');
+    var weiter = box.querySelector('[data-weiter]');
+    var zurueck = box.querySelector('[data-zurueck]');
+    var aktuell = 1;
+
+    function auswahl(name){
+      return Array.prototype.slice.call(box.querySelectorAll('input[name="' + name + '"]:checked'));
+    }
+
+    function pruefe(){
+      var gewaehlt = aktuell === 2 ? auswahl('gewerk').length > 0
+                   : aktuell === 1 ? auswahl('art').length > 0
+                   : auswahl('phase').length > 0;
+      weiter.disabled = !gewaehlt;
+      weiter.textContent = aktuell === 3 ? 'Ergebnis anzeigen' : 'Weiter';
+    }
+
+    function zeige(n){
+      aktuell = n;
+      schritte.forEach(function(s){ s.hidden = Number(s.dataset.schritt) !== n; });
+      punkte.forEach(function(p){ p.classList.toggle('ist-aktiv', Number(p.dataset.punkt) <= n); });
+      zurueck.hidden = n === 1;
+      pruefe();
+    }
+
+    box.addEventListener('change', pruefe);
+
+    zurueck.addEventListener('click', function(){ if(aktuell > 1) zeige(aktuell - 1); });
+
+    weiter.addEventListener('click', function(){
+      if(aktuell < 3){ zeige(aktuell + 1); return; }
+
+      var art = auswahl('art')[0];
+      var phase = auswahl('phase')[0];
+      var gewerke = auswahl('gewerk');
+
+      var artText = art.closest('label').querySelector('.finder-option-titel').textContent;
+      var phaseText = phase.closest('label').querySelector('.finder-option-titel').textContent;
+      var gewerkTexte = gewerke.map(function(g){ return g.closest('label').querySelector('.finder-option-titel').textContent; });
+
+      box.querySelector('[data-zusammenfassung]').textContent =
+        artText + ' · ' + gewerkTexte.join(', ') + ' · ' + phaseText;
+
+      /* Referenzen der gewählten Gewerke, ohne Dopplungen, höchstens drei. */
+      var slugs = [];
+      gewerke.forEach(function(g){
+        (g.dataset.projekte || '').split(',').forEach(function(s){
+          if(s && slugs.indexOf(s) === -1) slugs.push(s);
+        });
+      });
+      slugs = slugs.slice(0, 3);
+
+      var ziel = box.querySelector('[data-referenzen]');
+      ziel.innerHTML = '';
+      slugs.forEach(function(s){
+        var a = document.createElement('a');
+        a.className = 'finder-referenz';
+        a.href = '/projekte/' + s + '/';
+        a.textContent = projektTitel[s] || s;
+        ziel.appendChild(a);
+      });
+
+      /* Ergebnis an das Formular übergeben; dort füllt es die
+         Projektbeschreibung vor. */
+      var params = new URLSearchParams({
+        art: artText,
+        gewerke: gewerkTexte.join(', '),
+        phase: phaseText,
+      });
+      box.querySelector('[data-anfrage]').href = '/kontakt/?' + params.toString();
+
+      schritte.forEach(function(s){ s.hidden = true; });
+      steuerung.hidden = true;
+      ergebnis.hidden = false;
+      punkte.forEach(function(p){ p.classList.add('ist-aktiv'); });
+
+      document.dispatchEvent(new CustomEvent('elcon:track', {
+        detail: { name: 'leistungsfinder_ergebnis', params: { art: artText, gewerke: gewerkTexte.join(', '), phase: phaseText } },
+      }));
+    });
+
+    box.querySelector('[data-neu]').addEventListener('click', function(){
+      box.querySelectorAll('input').forEach(function(i){ i.checked = false; });
+      ergebnis.hidden = true;
+      steuerung.hidden = false;
+      zeige(1);
+    });
+
+    zeige(1);
+  });
+</script>
