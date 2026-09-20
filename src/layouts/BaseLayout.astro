@@ -4,6 +4,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import CookieConsent from '../components/CookieConsent.astro';
 import CloudflareAnalytics from '../components/CloudflareAnalytics.astro';
+import KontaktLeiste from '../components/KontaktLeiste.astro';
 
 interface Props {
   /** Seitentitel ohne Firmenzusatz; der wird hier angehängt. */
@@ -29,6 +30,8 @@ const fullTitle = rawTitle ? title : `${title} — ELCON Connected Engineering`;
   <Footer />
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <KontaktLeiste />
 
   <CookieConsent />
   <CloudflareAnalytics />

@@ -51,10 +51,10 @@ const vollbild: Record<string, string> = Object.fromEntries(
       </div>
 
       <div class="stat-strip" style="margin-bottom:2.6rem;">
-        <div><span class="stat-num">60+</span><span class="stat-label">realisierte Projekte</span></div>
+        <div><span class="stat-num" data-zaehler="60" data-suffix="+">60+</span><span class="stat-label">realisierte Projekte</span></div>
         <div><span class="stat-num">1993</span><span class="stat-label">gegründet als ELCON LED GmbH</span></div>
         <div><span class="stat-num">Alle</span><span class="stat-label">Gewerke aus einer Hand</span></div>
-        <div><span class="stat-num">3</span><span class="stat-label">Kontinente mit Projekterfahrung</span></div>
+        <div><span class="stat-num" data-zaehler="3">3</span><span class="stat-label">Kontinente mit Projekterfahrung</span></div>
       </div>
 
 
@@ -778,6 +778,51 @@ const vollbild: Record<string, string> = Object.fromEntries(
   import { trackEvent } from '../../scripts/track';
 
   /* Filterleiste der Projektübersicht */
+  /* Kennzahlen zählen beim Erscheinen hoch.
+
+     Der Endwert steht im Markup, die Animation überschreibt ihn nur
+     vorübergehend — ohne JavaScript oder bei abgebrochenem Skript bleibt die
+     richtige Zahl stehen. Bei reduzierter Bewegung im Betriebssystem wird gar
+     nicht animiert, die Zahl steht sofort. Die Jahreszahl 1993 und die Angabe
+     "Alle" sind bewusst ausgenommen: Eine hochzählende Jahreszahl wirkt wie
+     ein Fehler. */
+  (function(){
+    var felder = document.querySelectorAll('[data-zaehler]');
+    if(!felder.length) return;
+
+    var reduziert = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduziert || !('IntersectionObserver' in window)) return;
+
+    function zaehle(el){
+      var ziel = parseInt(el.dataset.zaehler, 10);
+      var suffix = el.dataset.suffix || '';
+      if(isNaN(ziel)) return;
+      var dauer = 1100;
+      var start = null;
+
+      function schritt(zeit){
+        if(start === null) start = zeit;
+        var anteil = Math.min((zeit - start) / dauer, 1);
+        /* ease-out: schnell anlaufen, sanft auslaufen */
+        var wert = Math.round(ziel * (1 - Math.pow(1 - anteil, 3)));
+        el.textContent = wert + (anteil === 1 ? suffix : '');
+        if(anteil < 1) requestAnimationFrame(schritt);
+      }
+      el.textContent = '0';
+      requestAnimationFrame(schritt);
+    }
+
+    var beobachter = new IntersectionObserver(function(eintraege){
+      eintraege.forEach(function(e){
+        if(!e.isIntersecting) return;
+        beobachter.unobserve(e.target);
+        zaehle(e.target);
+      });
+    }, { threshold: 0.6 });
+
+    felder.forEach(function(el){ beobachter.observe(el); });
+  })();
+
   /* Projektraster: zunächst nur die erste Reihe zeigen.
 
      Wie viele Kacheln eine Reihe fasst, hängt von der Fensterbreite ab (sechs,

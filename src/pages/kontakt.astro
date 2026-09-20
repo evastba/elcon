@@ -29,36 +29,102 @@ import { company } from '../config';
       <form class="request" id="requestForm">
         <div class="form-row">
           <div class="field">
-            <label for="fname">Name</label>
+            <label for="fname">Name <span class="pflicht" aria-hidden="true">*</span></label>
             <input id="fname" name="name" type="text" autocomplete="name" required>
           </div>
           <div class="field">
-            <label for="fmail">E-Mail</label>
+            <label for="fcompany">Unternehmen</label>
+            <input id="fcompany" name="company" type="text" autocomplete="organization">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label for="fmail">E-Mail <span class="pflicht" aria-hidden="true">*</span></label>
             <input id="fmail" name="email" type="email" autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label for="fphone">Telefon</label>
+            <input id="fphone" name="phone" type="tel" autocomplete="tel">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label for="ftopic">Leistungsbereich</label>
+            <select id="ftopic" name="topic">
+              <option>Elektrotechnik</option>
+              <option>Heizung, Klima, Lüftung, Sanitär</option>
+              <option>MSR- &amp; Automatisierungstechnik</option>
+              <option>Netzwerktechnik &amp; IT</option>
+              <option>Planung &amp; Betrieb / Sonstiges</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="flocation">Standort des Projekts</label>
+            <input id="flocation" name="location" type="text" placeholder="Ort oder Region">
           </div>
         </div>
         <div class="field">
-          <label for="ftopic">Leistungsbereich</label>
-          <select id="ftopic" name="topic">
-            <option>Elektrotechnik</option>
-            <option>Heizung, Klima, Lüftung, Sanitär</option>
-            <option>MSR- &amp; Automatisierungstechnik</option>
-            <option>Netzwerktechnik &amp; IT</option>
-            <option>Planung &amp; Betrieb / Sonstiges</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="fmsg">Projektbeschreibung</label>
+          <label for="fmsg">Projektbeschreibung <span class="pflicht" aria-hidden="true">*</span></label>
           <textarea id="fmsg" name="message" required></textarea>
         </div>
         <button type="submit" class="cta-btn primary" style="justify-content:center;">Anfrage senden</button>
-        <p class="form-note">Öffnet aktuell Ihr E-Mail-Programm mit vorausgefüllter Nachricht an {company.email} — eine direkte Formular-Anbindung folgt mit dem CMS.</p>
+        <p class="form-note">
+          Öffnet Ihr E-Mail-Programm mit vorausgefüllter Nachricht an {company.email}.
+          Pläne, Leistungsverzeichnisse oder Fotos hängen Sie dort direkt an — eine
+          Anbindung mit Datei-Upload folgt.
+        </p>
 
         <p class="form-direkt">
           Lieber direkt schreiben?
           <a href={`mailto:${company.email}`}>{company.email}</a>
         </p>
       </form>
+    </div>
+
+    <div class="wrap">
+      <div class="kontakt-hilfe">
+        <div>
+          <h2>Was uns bei Ihrer Anfrage hilft</h2>
+          <p>Je genauer wir Ihr Vorhaben kennen, desto belastbarer fällt unsere Rückmeldung aus. Hilfreich sind Angaben zu:</p>
+          <ul>
+            <li><strong>Art des Gebäudes</strong> — Neubau, Umbau im laufenden Betrieb oder Sanierung im Bestand</li>
+            <li><strong>Gewerken</strong>, die Sie vergeben möchten, und ob wir sie gebündelt übernehmen sollen</li>
+            <li><strong>Standort</strong> und geplantem Zeitrahmen</li>
+            <li><strong>Leistungsphase</strong> — erste Idee, laufende Planung oder fertige Ausschreibung</li>
+            <li><strong>vorhandenen Unterlagen</strong> wie Leistungsverzeichnis, Plänen oder Bestandsaufnahmen</li>
+          </ul>
+        </div>
+
+        <div>
+          <h2>Wege zu uns</h2>
+          <dl class="kontakt-wege">
+            <div>
+              <dt>Telefon</dt>
+              <dd><a href={`tel:${company.phoneHref}`}>{company.phone}</a></dd>
+            </div>
+            <div>
+              <dt>E-Mail</dt>
+              <dd><a href={`mailto:${company.email}`}>{company.email}</a></dd>
+            </div>
+            <div>
+              <dt>WhatsApp</dt>
+              <dd><a href="https://wa.me/4951757716116" target="_blank" rel="noopener">Nachricht schreiben</a></dd>
+            </div>
+            <div>
+              <dt>Anschrift</dt>
+              <dd>
+                {company.street}<br />
+                {company.zip} {company.city}<br />
+                <a
+                  href={`https://www.openstreetmap.org/search?query=${encodeURIComponent(`${company.street}, ${company.zip} ${company.city}`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >Auf der Karte ansehen</a>
+              </dd>
+            </div>
+          </dl>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -70,11 +136,20 @@ import { company } from '../config';
     var f = e.target;
     trackEvent('anfrage_abgesendet', { leistungsbereich: f.topic.value });
     var subject = encodeURIComponent('Projektanfrage: ' + (f.topic.value || 'ELCON'));
+    /* Leere Felder weglassen, damit die Nachricht nicht mit Platzhaltern
+       beginnt. */
+    var zeilen = [
+      ['Name', f.name.value],
+      ['Unternehmen', f.company.value],
+      ['E-Mail', f.email.value],
+      ['Telefon', f.phone.value],
+      ['Leistungsbereich', f.topic.value],
+      ['Standort', f.location.value],
+    ].filter(function(z){ return z[1] && z[1].trim(); })
+     .map(function(z){ return z[0] + ': ' + z[1].trim(); });
+
     var body = encodeURIComponent(
-      'Name: ' + f.name.value + '\n' +
-      'E-Mail: ' + f.email.value + '\n' +
-      'Leistungsbereich: ' + f.topic.value + '\n\n' +
-      f.message.value
+      zeilen.join('\n') + '\n\n' + f.message.value
     );
     window.location.href = 'mailto:info@elcon-led.com?subject=' + subject + '&body=' + body;
   });
