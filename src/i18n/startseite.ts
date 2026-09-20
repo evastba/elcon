@@ -66,13 +66,6 @@ export interface Startseite {
   ablauf: { eyebrow: string; titel: string; schritte: Schritt[]; cta: string };
   finder: { eyebrow: string; titel: string; intro: string };
   unternehmen: { eyebrow: string; titel: string; text: string; link: string };
-  abschluss: {
-    titel: string;
-    text: string;
-    cta: string;
-    telefonLabel: string;
-    emailLabel: string;
-  };
 }
 
 export const STARTSEITE: Record<'de' | 'en', Startseite> = {
@@ -201,14 +194,6 @@ export const STARTSEITE: Record<'de' | 'en', Startseite> = {
         'Die ELCON LED GmbH ist seit 1993 eigenständig tätig und hat ihren Sitz in Lehrte bei Hannover. Auftraggeber erhalten einen festen Kontakt, der technische und organisatorische Schnittstellen zusammenführt — statt für jedes Gewerk einen anderen.',
       link: 'Mehr über ELCON erfahren',
     },
-    abschluss: {
-      titel: 'Lassen Sie uns über Ihr Projekt sprechen.',
-      text:
-        'Ob Neubau, Modernisierung oder technische Anpassung im laufenden Betrieb: Beschreiben Sie uns kurz Ihr Vorhaben. Wir prüfen die Anforderungen und melden uns mit einem festen Ansprechpartner zurück.',
-      cta: 'Projekt besprechen',
-      telefonLabel: 'Telefon',
-      emailLabel: 'E-Mail',
-    },
   },
 
   en: {
@@ -335,14 +320,6 @@ export const STARTSEITE: Record<'de' | 'en', Startseite> = {
       text:
         'ELCON LED GmbH has operated independently since 1993 and is based in Lehrte near Hannover. Clients get one dedicated contact who brings the technical and organisational interfaces together — rather than a different one for every trade.',
       link: 'More about ELCON',
-    },
-    abschluss: {
-      titel: 'Let us talk about your project.',
-      text:
-        'Whether a new build, a modernisation or a technical adaptation during ongoing operation: tell us briefly what you have in mind. We will review the requirements and come back to you with a dedicated contact.',
-      cta: 'Discuss your project',
-      telefonLabel: 'Phone',
-      emailLabel: 'Email',
     },
   },
 };

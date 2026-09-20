@@ -7,7 +7,6 @@ import AktuelleProjekte from '../../components/AktuelleProjekte.astro';
 import WarumElcon from '../../components/WarumElcon.astro';
 import Projektablauf from '../../components/Projektablauf.astro';
 import Leistungsfinder from '../../components/Leistungsfinder.astro';
-import AbschlussCta from '../../components/AbschlussCta.astro';
 import Ansprechpartner from '../../components/Ansprechpartner.astro';
 import { asset } from '../../lib/assets';
 import { getLang, pfad } from '../../i18n/ui';
@@ -17,7 +16,11 @@ import { STARTSEITE } from '../../i18n/startseite';
    1 Einstieg und Positionierung · 2 Vertrauen (Laufschrift und Kennzahlen) ·
    3 Kompetenzfelder ·
    4 aktuelle Referenzen · 5 Unterscheidungsmerkmale · 6 Projektablauf ·
-   7 Leistungsfinder · 8 Unternehmen und Ansprechpartner · 9 Abschluss.
+   7 Leistungsfinder · 8 Unternehmen und Ansprechpartner.
+
+   Ein eigener Abschlussbereich mit "Projekt besprechen" stand hier zuvor;
+   er ist entfallen, weil die Fußzeile unmittelbar darunter denselben Knopf
+   trägt.
 
    Die Logo-Laufschrift steht bewusst nicht im Einstieg: Sie belegt Vertrauen,
    beantwortet aber keine der Fragen, die ein Besucher zuerst hat. Sie sitzt
@@ -76,7 +79,5 @@ const projekte = pfad('/projekte/', lang);
       </div>
     </div>
   </section>
-
-  <AbschlussCta />
 
 </BaseLayout>
