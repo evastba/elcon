@@ -113,7 +113,8 @@ export const BILDREGISTER: Bildeintrag[] = [
     art: 'ki-technik',
     beleg:
       kiTechnik +
-      ' Wird auf Entscheidung des Auftraggebers ohne Hinweis am Bild gezeigt: generisches Gebäude ohne Personen und ohne Bezug auf ein konkretes Projekt. Abgedeckt durch den Sammelnachweis im Impressum.',
+      ' Wird auf Entscheidung des Auftraggebers ohne Hinweis am Bild gezeigt: generisches Gebäude ohne Personen und ohne Bezug auf ein konkretes Projekt. Abgedeckt durch den Sammelnachweis im Impressum.' +
+      ' Fotografisch nachbearbeitet (scripts/bild-retusche.mjs): Farbe zurückgenommen, Tiefen angehoben, Randabschattung, weiche Ecken, Korn. Unbearbeitete Fassung: hero-building.png.',
     verwendet: true,
     einsatzort: 'Startseite, Einstieg',
     bezug: 'Unternehmensdarstellung',

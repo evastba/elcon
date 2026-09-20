@@ -163,7 +163,7 @@ export const STARTSEITE: Record<'de' | 'en', Startseite> = {
         },
         {
           titel: 'Internationale Projekterfahrung',
-          text: 'Mehrsprachige Projektdokumentation und interkulturelle Erfahrung aus der Unternehmensgeschichte, heute mit fester Verankerung in Deutschland.',
+          text: 'Mehrsprachige Projektdokumentation und interkulturelle Erfahrung aus Vorhaben in Europa, Zentralasien und Ostafrika — heute von Deutschland aus, mit Planungen bis nach Südostasien.',
           icon: 'international',
         },
       ],
@@ -290,7 +290,7 @@ export const STARTSEITE: Record<'de' | 'en', Startseite> = {
         },
         {
           titel: 'International project experience',
-          text: 'Multilingual project documentation and cross-cultural experience from our corporate history, today with a firm base in Germany.',
+          text: 'Multilingual project documentation and cross-cultural experience from projects in Europe, Central Asia and East Africa — today from a base in Germany, with planning reaching into South-East Asia.',
           icon: 'international',
         },
       ],
