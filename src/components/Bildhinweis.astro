@@ -1,0 +1,31 @@
+---
+import { useUi } from '../i18n/ui';
+
+/* Kennzeichnung KI-generierter Motive.
+ *
+ * Steht bewusst unter dem Bild und nicht als Overlay darauf: Ein Hinweis, der
+ * über dem Motiv liegt, verdeckt es und wird auf kleinen Bildschirmen schnell
+ * unleserlich. Er ist außerdem von Anfang an sichtbar und nicht erst nach
+ * einem Klick oder beim Überfahren — sonst wäre die Transparenzpflicht aus
+ * Art. 50 EU AI Act nicht erfüllt.
+ *
+ * `art` wählt den Wortlaut:
+ *   symbolisch — fotorealistisches Motiv ohne Personen
+ *   personen   — Motiv mit dargestellten Personen oder Arbeitsabläufen
+ *   projekt    — Motiv im Umfeld eines konkreten Referenzprojekts
+ *   abschnitt  — gemeinsame Kennzeichnung mehrerer Motive eines Abschnitts
+ */
+
+interface Props {
+  art: 'symbolisch' | 'personen' | 'projekt' | 'abschnitt';
+  /** Zusätzliche Klasse für die Platzierung im jeweiligen Layout. */
+  class?: string;
+}
+
+const { art, class: klasse } = Astro.props;
+const t = useUi(Astro.url);
+const text = t.bildhinweis[art];
+const block = art === 'abschnitt';
+---
+
+<p class:list={[block ? 'bildhinweis-block' : 'bildhinweis', klasse]}>{text}</p>

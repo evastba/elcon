@@ -120,6 +120,15 @@ export interface UiTexte {
     direktLink: string;
   };
   marqueeTitel: string;
+  /** Einordnung abgeschlossener Projekte der Unternehmenshistorie. */
+  historisch: { ueberschrift: string; hinweis: string; kurz: string };
+  /** Kennzeichnung KI-generierter Motive, je nach Nutzungskontext. */
+  bildhinweis: {
+    symbolisch: string;
+    personen: string;
+    projekt: string;
+    abschnitt: string;
+  };
   cookie: {
     label: string;
     text: string;
@@ -180,6 +189,21 @@ export const UI: Record<Lang, UiTexte> = {
       direktLink: 'Direkt zum Anfrageformular',
     },
     marqueeTitel: 'Vertrauen von Unternehmen und Institutionen',
+    historisch: {
+      ueberschrift: 'Projektbeispiele aus der Unternehmenshistorie',
+      hinweis:
+        'Historisches Referenzprojekt aus der internationalen Unternehmensgeschichte von ELCON. Die Angaben beziehen sich auf den jeweils genannten Ausführungszeitraum und stellen keine Aussage über eine gegenwärtige Tätigkeit oder Geschäftsbeziehung dar.',
+      kurz: 'Historisches Referenzprojekt',
+    },
+    bildhinweis: {
+      symbolisch: 'Symbolische Visualisierung – KI-generiert.',
+      personen:
+        'KI-generierte Visualisierung; keine Aufnahme eines konkreten ELCON-Projekts oder tatsächlicher ELCON-Mitarbeitender.',
+      projekt:
+        'Symbolische KI-Visualisierung – keine Aufnahme des beschriebenen Referenzprojekts.',
+      abschnitt:
+        'Die in diesem Abschnitt verwendeten Motive sind KI-generierte Visualisierungen und dienen der beispielhaften Darstellung der Leistungsbereiche. Sie zeigen keine konkreten Referenzprojekte oder tatsächlichen ELCON-Mitarbeitenden.',
+    },
     cookie: {
       label: 'Cookie-Einstellungen',
       text: 'Diese Website verwendet Cookies bzw. vergleichbare Technologien, um die Nutzung der Seite anonymisiert auszuwerten und sie so zu verbessern. Sie können der Analyse zustimmen oder sie ablehnen. Details finden Sie in unserer ',
@@ -238,6 +262,21 @@ export const UI: Record<Lang, UiTexte> = {
       direktLink: 'Go directly to the enquiry form',
     },
     marqueeTitel: 'Trusted by companies and institutions',
+    historisch: {
+      ueberschrift: 'Project examples from our corporate history',
+      hinweis:
+        'Historical reference project from ELCON\u2019s international corporate history. The information relates to the stated period of execution and does not indicate any current activity or ongoing business relationship.',
+      kurz: 'Historical reference project',
+    },
+    bildhinweis: {
+      symbolisch: 'Symbolic visualisation – AI-generated.',
+      personen:
+        'AI-generated visualisation; not an image of a specific ELCON project or actual ELCON employees.',
+      projekt:
+        'Symbolic AI-generated visualisation – not an image of the referenced project.',
+      abschnitt:
+        'The images used in this section are AI-generated visualisations and serve to illustrate our areas of expertise. They do not depict specific reference projects or actual ELCON employees.',
+    },
     cookie: {
       label: 'Cookie settings',
       text: 'This website uses cookies and comparable technologies to analyse how the site is used, on an anonymised basis, and to improve it. You can accept or decline this analysis. Details are set out in our ',

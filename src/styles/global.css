@@ -115,7 +115,12 @@ html, body { overflow-x: clip; }
     --marke-abstand:.3rem;
     --marke-unterzeile:.72rem;
     --marke-hoehe:calc(var(--marke-wort) + var(--marke-abstand) + var(--marke-unterzeile));
-    --kopfhoehe:calc(var(--marke-hoehe) + 1.8rem + 1px);
+    /* Das Zeichen steht eine Spur über den Namensblock hinaus. Genau bündig
+       wirkt es neben der kräftigen Wortmarke optisch etwas zu klein — ein
+       üblicher Ausgleich, der die Ableitung aber nicht aufgibt. */
+    --marke-ueberstand:1.12;
+    --marke-zeichenhoehe:calc(var(--marke-hoehe) * var(--marke-ueberstand));
+    --kopfhoehe:calc(var(--marke-zeichenhoehe) + 1.8rem + 1px);
   }
   header.site{
     position:sticky;top:0;z-index:100;
@@ -133,7 +138,7 @@ html, body { overflow-x: clip; }
   /* Das Zeichen schließt oben und unten mit dem Namensblock ab; die Breite folgt
      dem Seitenverhältnis der Datei (450×495). Zuvor stand hier ein Quadrat, das
      das Sechseck um rund ein Zehntel in die Breite zog. */
-  .hex-mark{height:var(--marke-hoehe);width:auto;flex:none;}
+  .hex-mark{height:var(--marke-zeichenhoehe);width:auto;flex:none;}
   .brand-text{display:flex;flex-direction:column;line-height:1;}
   .brand-word{font-weight:800;font-size:var(--marke-wort);letter-spacing:.01em;color:var(--text);}
   .brand-tagline{font-size:var(--marke-unterzeile);font-weight:600;letter-spacing:.11em;text-transform:uppercase;color:var(--accent-3);margin-top:var(--marke-abstand);}
@@ -201,19 +206,26 @@ html, body { overflow-x: clip; }
   .hero-ctas{display:flex;gap:.9rem;flex-wrap:wrap;margin-bottom:2.2rem;}
   .hero-art{position:relative;border-radius:14px;overflow:hidden;box-shadow:var(--shadow);}
   .hero-art img{width:100%;height:100%;display:block;object-fit:cover;aspect-ratio:4/3;}
-  .hero-art-note{
-    position:absolute;bottom:12px;left:12px;padding:.3rem .6rem;border-radius:5px;
-    background:rgba(15,45,58,.55);backdrop-filter:blur(2px);
-    font-size:.68rem;font-weight:500;color:rgba(255,255,255,.85);letter-spacing:.01em;
+  /* Kennzeichnung KI-generierter Motive.
+
+     Das frühere Overlay "AI generated" lag mit 0.46rem Schriftgröße direkt auf
+     dem Bild — zu klein zum Lesen und zugleich ein sichtbarer Fremdkörper im
+     Motiv. Der Hinweis steht jetzt darunter im Fließtext: dauerhaft sichtbar,
+     im Kontrast von --text-muted auf Weiß gut lesbar (rund 7,6:1) und ohne
+     Eingriff in die Bildfläche. */
+  .bildhinweis{
+    margin:.55rem 0 0;font-size:.8rem;line-height:1.55;color:var(--text-muted);
+    max-width:74ch;
   }
-  .ai-badge{
-    position:absolute;bottom:7px;right:7px;display:flex;align-items:center;gap:.16rem;
-    font-size:.46rem;font-weight:500;color:rgba(255,255,255,.95);letter-spacing:.01em;
-    text-shadow:0 1px 3px rgba(0,0,0,.7),0 0 8px rgba(0,0,0,.4);
-    filter:drop-shadow(0 1px 2px rgba(0,0,0,.5));
-    white-space:nowrap;z-index:2;pointer-events:none;
+  /* Gemeinsame Kennzeichnung mehrerer Motive am Anfang eines Abschnitts. */
+  .bildhinweis-block{
+    margin:0 0 1.8rem;padding:.55rem 0 .55rem 1rem;
+    border-left:3px solid var(--border);
+    font-size:.84rem;line-height:1.6;color:var(--text-muted);max-width:78ch;
   }
-  .ai-badge svg{width:7px;height:7px;flex:none;}
+  /* Steht der Hinweis unter einem randlosen Kasten, rückt er näher heran. */
+  .company-showcase + .bildhinweis,
+  .ref-stage + .bildhinweis{margin-top:-1rem;margin-bottom:1.8rem;}
 
   .stat-strip{
     display:grid;grid-template-columns:repeat(4,1fr);
@@ -688,14 +700,16 @@ html, body { overflow-x: clip; }
   .legal-prose code{font-size:.9em;background:var(--surface-alt);border:1px solid var(--border);border-radius:4px;padding:.1em .4em;}
 
   /* Sichtbarer Hinweis auf noch fehlende Pflichtangaben */
-  .legal-todo{
-    border:1px solid var(--accent-2);border-left-width:4px;border-radius:6px;
-    background:var(--surface-alt);padding:1rem 1.2rem;margin:0 0 2rem;
+  /* Sachlicher Vorspann eines Rechtstexts — etwa der Hinweis, dass die
+     englische Fassung eine Übersetzung ist. Zurückhaltend gesetzt: Es ist
+     eine Einordnung für den Leser, keine Warnung.
+     Der frühere Kasten für noch fehlende Pflichtangaben ist entfallen;
+     offene Punkte stehen jetzt in LIVEGANG_CHECKLISTE.md und nicht mehr auf
+     der veröffentlichten Seite. */
+  .legal-hinweis{
+    border-left:3px solid var(--border);padding:.2rem 0 .2rem 1rem;
+    margin:0 0 2rem;font-size:.9rem;line-height:1.65;color:var(--text-muted);
   }
-  .legal-todo strong{display:block;color:var(--text);margin-bottom:.4rem;}
-  .legal-todo p{margin:0 0 .5rem;font-size:.9rem;line-height:1.6;color:var(--text-muted);}
-  .legal-todo ul{margin:0;padding-left:1.2rem;font-size:.9rem;color:var(--text-muted);list-style:disc;}
-  .legal-missing{font-style:italic;}
 
   /* ===== Hover-Zustände =====================================================
 

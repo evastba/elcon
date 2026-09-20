@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import LogoMarquee from '../components/LogoMarquee.astro';
 import { asset } from '../lib/assets';
+import Bildhinweis from '../components/Bildhinweis.astro';
 import { company } from '../config';
 
 /* Die Gewerke stehen ausführlich auf /leistungen/. Hier nur die Namen als
@@ -36,9 +37,11 @@ const gewerke = [
           <a class="cta-btn ghost" href="/kontakt/">Projekt anfragen</a>
         </div>
       </div>
-      <div class="hero-art">
-        <Image src={asset("/assets/hero-building.jpg")} alt="Modernes Firmengebäude mit technischer Gebäudeausrüstung" loading="eager" fetchpriority="high" />
-        <span class="ai-badge"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.7 5.3L19 9l-5.3 1.7L12 16l-1.7-5.3L5 9l5.3-1.7L12 2z"/><path d="M19 14l.85 2.15L22 17l-2.15.85L19 20l-.85-2.15L16 17l2.15-.85L19 14z"/></svg>AI generated</span>
+      <div class="hero-medien">
+        <div class="hero-art">
+          <Image src={asset("/assets/hero-building.jpg")} alt="Modernes Firmengebäude mit technischer Gebäudeausrüstung" loading="eager" fetchpriority="high" />
+        </div>
+        <Bildhinweis art="symbolisch" />
       </div>
     </div>
     <div class="wrap">

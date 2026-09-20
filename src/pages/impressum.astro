@@ -1,32 +1,25 @@
 ---
 import LegalLayout from '../layouts/LegalLayout.astro';
-import { company } from '../config';
+import { company, fehlendePflichtangaben, geschaeftsfuehrungLabel } from '../config';
 
-const missing = [
-  !company.managingDirectors && 'Vertretungsberechtigte Geschäftsführung',
-  !company.registerCourt && 'Registergericht',
-  !company.registerNumber && 'Handelsregisternummer',
-  !company.vatId && 'Umsatzsteuer-Identifikationsnummer',
-].filter(Boolean) as string[];
+/* Fehlende Pflichtangaben gehören nicht als Hinweiskasten auf die
+   veröffentlichte Seite — sie stehen in LIVEGANG_CHECKLISTE.md. Damit die
+   Lücke im Alltag trotzdem auffällt, meldet der Build sie im Protokoll. */
+if (fehlendePflichtangaben.length > 0) {
+  console.warn(
+    '\n[Impressum] Pflichtangaben nach § 5 DDG fehlen noch in src/config.ts:\n' +
+      fehlendePflichtangaben.map((a) => `  - ${a.de} (${a.feld})`).join('\n') +
+      '\n  Siehe LIVEGANG_CHECKLISTE.md, Abschnitt 1.\n',
+  );
+}
+
+const gf = company.managingDirectors;
 ---
 
 <LegalLayout
   title="Impressum"
   description="Impressum der ELCON LED GmbH — Anbieterkennzeichnung nach § 5 DDG."
 >
-  {missing.length > 0 && (
-    <aside class="legal-todo" role="note">
-      <strong>Noch zu ergänzen vor dem Livegang</strong>
-      <p>
-        Die folgenden Pflichtangaben nach § 5 DDG liegen noch nicht vor und sind in
-        <code>src/config.ts</code> einzutragen:
-      </p>
-      <ul>
-        {missing.map((item) => <li>{item}</li>)}
-      </ul>
-    </aside>
-  )}
-
   <h2>Angaben gemäß § 5 DDG</h2>
   <p>
     {company.name}<br />
@@ -35,11 +28,11 @@ const missing = [
     {company.country}
   </p>
 
-  <h2>Vertreten durch</h2>
-  {company.managingDirectors ? (
-    <p>{company.managingDirectors.join(', ')}</p>
-  ) : (
-    <p class="legal-missing">Angabe der vertretungsberechtigten Geschäftsführung ausstehend.</p>
+  {gf && gf.length > 0 && (
+    <>
+      <h2>Vertreten durch</h2>
+      <p>{geschaeftsfuehrungLabel(gf.length, 'de')}: {gf.join(', ')}</p>
+    </>
   )}
 
   <h2>Kontakt</h2>
@@ -49,27 +42,41 @@ const missing = [
     E-Mail: <a href={`mailto:${company.email}`}>{company.email}</a>
   </p>
 
-  <h2>Registereintrag</h2>
-  {company.registerCourt && company.registerNumber ? (
-    <p>
-      Registergericht: {company.registerCourt}<br />
-      Registernummer: {company.registerNumber}
-    </p>
-  ) : (
-    <p class="legal-missing">Angaben zum Handelsregistereintrag ausstehend.</p>
+  {company.registerCourt && company.registerNumber && (
+    <>
+      <h2>Registereintrag</h2>
+      <p>
+        Registergericht: {company.registerCourt}<br />
+        Registernummer: {company.registerNumber}
+      </p>
+    </>
   )}
 
-  <h2>Umsatzsteuer-Identifikationsnummer</h2>
-  {company.vatId ? (
-    <p>Gemäß § 27 a Umsatzsteuergesetz: {company.vatId}</p>
-  ) : (
-    <p class="legal-missing">Umsatzsteuer-Identifikationsnummer ausstehend.</p>
+  {company.vatId && (
+    <>
+      <h2>Umsatzsteuer-Identifikationsnummer</h2>
+      <p>Gemäß § 27a Umsatzsteuergesetz: {company.vatId}</p>
+    </>
   )}
 
   {company.chamber && (
     <>
-      <h2>Kammerzugehörigkeit</h2>
+      <h2>Zuständige Kammer bzw. Aufsichtsbehörde</h2>
       <p>{company.chamber}</p>
+    </>
+  )}
+
+  {company.professionalTitle && (
+    <>
+      <h2>Berufsbezeichnung</h2>
+      <p>{company.professionalTitle}</p>
+    </>
+  )}
+
+  {company.contentResponsible && (
+    <>
+      <h2>Inhaltlich verantwortlich</h2>
+      <p>{company.contentResponsible}</p>
     </>
   )}
 
@@ -115,8 +122,15 @@ const missing = [
 
   <h2>Bildnachweise</h2>
   <p>
+    Die Website verwendet neben eigenen Aufnahmen, Projektunterlagen und Unternehmenslogos auch
+    KI-generierte Visualisierungen. Diese dienen der illustrativen Darstellung von
+    Leistungsbereichen und zeigen — sofern nicht ausdrücklich anders bezeichnet — keine konkreten
+    Kundenprojekte, tatsächlichen Projektstandorte oder Mitarbeitenden der ELCON LED GmbH.
+    KI-generierte beziehungsweise digital bearbeitete Motive werden im jeweiligen Nutzungskontext
+    entsprechend kenntlich gemacht.
+  </p>
+  <p>
     Die auf dieser Website verwendeten Firmenlogos sind Marken der jeweiligen Rechteinhaber und
-    werden ausschließlich zur Kennzeichnung realisierter Projekte verwendet. Einzelne Motive wurden
-    mithilfe generativer KI erstellt und sind an der jeweiligen Abbildung als solche gekennzeichnet.
+    werden ausschließlich zur Kennzeichnung realisierter Projekte verwendet.
   </p>
 </LegalLayout>

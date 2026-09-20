@@ -2,6 +2,7 @@
 import { Image, getImage } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { asset } from '../../lib/assets';
+import Bildhinweis from '../../components/Bildhinweis.astro';
 
 /* Die Großansicht der Referenzschreiben wird erst im Browser gesetzt und kann
    deshalb nicht über die <Image>-Komponente laufen. getImage() erzeugt die
@@ -545,12 +546,13 @@ const vollbild: Record<string, string> = Object.fromEntries(
           <div class="ref-stage">
             <!-- Platzhalter-Bild: vorhandenes Projekt-Stock-Asset (bereits im Leistungen-Bereich verwendet). Bildrechte für den finalen Produktiveinsatz separat prüfen; bei Bedarf gegen ein reales ELCON-Projektfoto austauschen. -->
             <Image src={asset("/assets/offer/technik-msr.jpg")} width="900" height="519" alt="Technische Gebäudeausrüstung in einer Gewerbeimmobilie — Schaltschrank mit Gebäudeleittechnik" />
-            <span class="ai-badge"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.7 5.3L19 9l-5.3 1.7L12 16l-1.7-5.3L5 9l5.3-1.7L12 2z"/><path d="M19 14l.85 2.15L22 17l-2.15.85L19 20l-.85-2.15L16 17l2.15-.85L19 14z"/></svg>AI generated</span>
+            
             <div class="ref-stage-overlay"></div>
             <div class="ref-stage-content wrap">
               <h2>Erfahrung, die Vertrauen schafft</h2>
             </div>
           </div>
+          <Bildhinweis art="projekt" />
 
         </section>
 
@@ -785,7 +787,6 @@ const vollbild: Record<string, string> = Object.fromEntries(
       </div>
     </div>
   </section>
-</div>
 
 <div class="tc-lightbox" id="tcLightbox" hidden role="dialog" aria-modal="true" aria-label="Referenzschreiben, vergrößerte Ansicht">
   <button type="button" class="tc-lb-close" id="tcLbClose" aria-label="Schließen">&#10005;</button>
