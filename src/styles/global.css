@@ -197,7 +197,12 @@ html, body { overflow-x: clip; }
   .eyebrow-plain::before{display:none;}
 
   section{padding-block:clamp(3.2rem,6vw,5.5rem);}
-  .section-head{max-width:640px;margin-bottom:2.6rem;}
+  /* Ohne Breitenbegrenzung: Abschnittsueberschriften sollen in einer Zeile
+     stehen und der Umbruch der Einleitung soll so weit rechts liegen wie die
+     Spalte es zulaesst. Die 640px, die hier standen, brachen kurze
+     Ueberschriften unnoetig um und liessen die Zeilen weit vor dem rechten
+     Rand enden. */
+  .section-head{margin-bottom:2.6rem;}
   /* Seit der Umstellung auf eigenstaendige Seiten traegt die erste Ueberschrift
      eines Abschnittskopfs h1; die Auszeichnung bleibt unveraendert. */
   .section-head h1,
@@ -1091,7 +1096,9 @@ html, body { overflow-x: clip; }
   .philosophy-list li svg{flex:none;width:19px;height:19px;margin-top:.16rem;stroke:var(--accent-3);}
   @media (max-width:700px){ .philosophy-list{grid-template-columns:1fr;} .philosophy-card{padding:1.4rem 1.3rem 1.6rem;} }
   .value-chip{display:flex;gap:.85rem;align-items:flex-start;background:var(--surface-raised);border:1px solid var(--border);border-radius:8px;padding:1.1rem 1.2rem;}
-  .value-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex:none;}
+  /* Eine einzige Akzentfarbe fuer alle vier Flaechen. Zuvor trug jede Kachel
+     eine andere Farbe, was ohne inhaltliche Bedeutung unruhig wirkte. */
+  .value-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex:none;background:var(--accent-3);}
   .value-icon svg{width:20px;height:20px;}
   .value-chip h4{margin:0 0 .3rem;font-size:.95rem;font-weight:700;}
   .value-chip p{margin:0;font-size:.83rem;color:var(--text-muted);line-height:1.5;}
@@ -1133,8 +1140,13 @@ html, body { overflow-x: clip; }
   .whatsapp-badge svg{width:32px;height:32px;display:block;}
   form.request{
     background:var(--surface-raised);border:1px solid var(--border);border-radius:10px;
-    padding:1.8rem;display:flex;flex-direction:column;gap:1rem;
+    padding:1.8rem;display:flex;flex-direction:column;gap:1.3rem;
   }
+  /* Der Kasten wird vom Raster auf die Hoehe der linken Spalte gezogen. Ohne
+     diese Regel sammelte sich die Differenz als Leerflaeche unter dem
+     Absendeknopf; so nimmt stattdessen das Beschreibungsfeld sie auf. */
+  form.request .field-beschreibung{flex:1 1 auto;}
+  form.request .field-beschreibung textarea{flex:1 1 auto;}
   .field{display:flex;flex-direction:column;gap:.4rem;}
   .field label{font-size:.82rem;font-weight:600;color:var(--text-muted);}
   .field input,.field select,.field textarea{
@@ -1143,7 +1155,6 @@ html, body { overflow-x: clip; }
   }
   .field textarea{resize:vertical;min-height:110px;}
   .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
-  .form-note{font-size:.78rem;color:var(--text-muted);margin:0;}
 
   footer.site{border-top:1px solid var(--border);background:var(--surface-alt);}
   .footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1.1fr;gap:2.4rem;align-items:start;padding-block:2.6rem;}
@@ -1455,16 +1466,6 @@ html, body { overflow-x: clip; }
 
   /* Direkter Weg unter dem Anfrageformular — für alle, die lieber selbst
      schreiben, als ein Formular auszufüllen. */
-  .form-direkt{
-    margin:1.1rem 0 0;padding-top:1.1rem;border-top:1px solid var(--border);
-    font-size:.92rem;color:var(--text-muted);
-  }
-  .form-direkt a{
-    display:inline-block;margin-left:.3rem;font-weight:700;
-    color:var(--accent-3);text-decoration:none;
-    border-bottom:1px solid currentColor;
-  }
-  .form-direkt a:hover{color:var(--ink);}
 
   /* Kontaktseite: Hilfestellung und Kontaktwege unter dem Formular */
   /* Ein Block über die volle Breite; die Aufzählung selbst läuft mehrspaltig,

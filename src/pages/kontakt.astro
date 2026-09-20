@@ -54,7 +54,7 @@ import Ansprechpartner from '../components/Ansprechpartner.astro';
           <label for="flocation">Standort des Projekts</label>
           <input id="flocation" name="location" type="text" placeholder="Ort oder Region">
         </div>
-        <div class="field">
+        <div class="field field-beschreibung">
           <label for="fmsg">Projektbeschreibung <span class="pflicht" aria-hidden="true">*</span></label>
           <textarea id="fmsg" name="message" required></textarea>
         </div>
@@ -77,15 +77,6 @@ import Ansprechpartner from '../components/Ansprechpartner.astro';
 
         <button type="submit" class="cta-btn primary" style="justify-content:center;">Anfrage senden</button>
         <p class="form-status" id="formStatus" role="status" aria-live="polite" hidden></p>
-        <p class="form-note">
-          Mit Unterlagen geht die Anfrage direkt an uns. Ohne Anhänge öffnet sich
-          Ihr E-Mail-Programm mit vorausgefüllter Nachricht an {company.email}.
-        </p>
-
-        <p class="form-direkt">
-          Lieber direkt schreiben?
-          <a href={`mailto:${company.email}`}>{company.email}</a>
-        </p>
       </form>
     </div>
 

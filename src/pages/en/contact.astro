@@ -61,7 +61,7 @@ import Ansprechpartner from '../../components/Ansprechpartner.astro';
           <label for="flocation">Project location</label>
           <input id="flocation" name="location" type="text" placeholder="Town or region">
         </div>
-        <div class="field">
+        <div class="field field-beschreibung">
           <label for="fmsg">Project description <span class="pflicht" aria-hidden="true">*</span></label>
           <textarea id="fmsg" name="message" required></textarea>
         </div>
@@ -84,15 +84,6 @@ import Ansprechpartner from '../../components/Ansprechpartner.astro';
 
         <button type="submit" class="cta-btn primary" style="justify-content:center;">Send enquiry</button>
         <p class="form-status" id="formStatus" role="status" aria-live="polite" hidden></p>
-        <p class="form-note">
-          With documents attached, the enquiry goes straight to us. Without
-          attachments, your email program opens with a prepared message to {company.email}.
-        </p>
-
-        <p class="form-direkt">
-          Prefer to write directly?
-          <a href={`mailto:${company.email}`}>{company.email}</a>
-        </p>
       </form>
     </div>
 

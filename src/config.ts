@@ -183,12 +183,34 @@ export const ansprechpartner: Ansprechpartner[] = [
     funktionEn: 'Managing Director',
     bereich: null,
     bereichEn: null,
+    /* Die Erreichbarkeit laeuft ueber die Projektassistenz; an der
+       Geschaeftsfuehrung stehen deshalb bewusst keine Kontaktdaten. */
+    telefon: null,
+    telefonHref: null,
+    email: null,
+    /* Kein freigegebenes Foto vorhanden. Die Komponente setzt dann die
+       Initialen; ein KI-erzeugtes Portrait kommt nicht in Frage. */
+    foto: null,
+    sprachen: [],
+    aufKontaktseite: true,
+    imFooter: false,
+    leistungsbereiche: [],
+    aktiv: true,
+    veroeffentlichungsfreigabe: true,
+  },
+  {
+    id: 'geisler',
+    vorname: 'Lisa',
+    nachname: 'Geisler',
+    funktion: 'Projektassistenz',
+    funktionEn: 'Project Assistant',
+    bereich: null,
+    bereichEn: null,
     /* Kein eigener Durchwahlanschluss bekannt — es gilt die Zentrale. */
     telefon: company.phone,
     telefonHref: company.phoneHref,
     email: company.email,
-    /* Kein freigegebenes Foto vorhanden. Die Komponente setzt dann die
-       Initialen; ein KI-erzeugtes Portrait kommt nicht in Frage. */
+    /* Kein freigegebenes Foto vorhanden; die Komponente setzt die Initialen. */
     foto: null,
     sprachen: [],
     aufKontaktseite: true,
