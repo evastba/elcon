@@ -1,15 +1,53 @@
 ---
+import { getImage } from 'astro:assets';
+import ogBild from '../assets/og-vorschau.png';
+import { company } from '../config';
 import '../styles/global.css';
 
 interface Props {
   title?: string;
   description?: string;
+  /** Abweichendes Vorschaubild für geteilte Links, sonst das Standardmotiv. */
+  ogImage?: ImageMetadata;
+  /** Seitentyp für Open Graph; Projektseiten sind "article". */
+  ogType?: 'website' | 'article';
 }
 
 const {
-  title = 'ELCON Connected Engineering',
+  title = 'ELCON — Generalunternehmer für technische Gebäudeausrüstung',
   description = 'Generalunternehmer für technische Gebäudeausrüstung: Elektro-, Heizungs-, Klima-, Lüftungs-, Sanitär- und Automatisierungstechnik aus einer Hand.',
+  ogImage,
+  ogType = 'website',
 } = Astro.props;
+
+/* Absolute Adressen. Suchmaschinen und soziale Netzwerke verlangen sie; sie
+   entstehen aus `site` in astro.config.mjs. Steht dort eine Adresse, unter der
+   die Seite nicht erreichbar ist, verweisen Canonical und Vorschau ins Leere —
+   deshalb ist der Wert dort ausdrücklich kommentiert. */
+const kanonisch = new URL(Astro.url.pathname, Astro.site).href;
+
+const vorschau = await getImage({ src: ogImage ?? ogBild, format: 'png', width: 1200 });
+const vorschauUrl = new URL(vorschau.src, Astro.site).href;
+
+/* Strukturierte Angaben zum Unternehmen. Suchmaschinen können daraus einen
+   Eintrag mit Anschrift und Rufnummer bilden. */
+const organisation = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: company.name,
+  url: Astro.site?.href,
+  logo: new URL(vorschau.src, Astro.site).href,
+  email: company.email,
+  telephone: company.phone,
+  faxNumber: company.fax,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: company.street,
+    postalCode: company.zip,
+    addressLocality: company.city,
+    addressCountry: 'DE',
+  },
+};
 ---
 
 <!doctype html>
@@ -17,15 +55,34 @@ const {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>{title}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={kanonisch} />
     <link rel="icon" type="image/png" href="/assets/logo-icon.png" />
+
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content="ELCON LED GmbH" />
+    <meta property="og:locale" content="de_DE" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={kanonisch} />
+    <meta property="og:image" content={vorschauUrl} />
+    <meta property="og:image:width" content={String(vorschau.attributes.width ?? 1200)} />
+    <meta property="og:image:height" content={String(vorschau.attributes.height ?? 630)} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={vorschauUrl} />
+
     <!-- Schriften werden selbst gehostet (siehe public/fonts und die
          @font-face-Regeln in src/styles/global.css). Dadurch entsteht beim
          Seitenaufruf keine Verbindung zu Google-Servern. Vorgeladen wird nur
          das latin-Subset, das den sichtbaren Text der Seite abdeckt. -->
     <link rel="preload" href="/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <title>{title}</title>
+
+    <script type="application/ld+json" set:html={JSON.stringify(organisation)} is:inline />
   </head>
   <body>
     <slot />
