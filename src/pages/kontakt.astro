@@ -11,11 +11,12 @@ import { company } from '../config';
         <p class="eyebrow">Kontakt</p>
         <h1 style="font-size:clamp(1.6rem,3vw,2.1rem);font-weight:800;margin:0 0 1rem;">Projekt anfragen</h1>
         <p style="color:var(--text-muted);line-height:1.6;max-width:42ch;">Schildern Sie uns Ihr Vorhaben — wir melden uns mit einem festen Ansprechpartner zurück.</p>
-        <h3>ELCON LED GmbH</h3>
+        <h3>{company.name}</h3>
         <ul class="contact-list">
-          <li>Bauernstr. 34, 31275 Lehrte (OT Immensen)</li>
-          <li>Telefon: <a href="tel:+4951757716116">+49 (0) 5175 - 77 16 116</a></li>
-          <li>Fax: 01512425</li>
+          <li>{company.street}</li>
+          <li>{company.zip} {company.city}</li>
+          <li>Telefon: <a href={`tel:${company.phoneHref}`}>{company.phone}</a></li>
+          <li>Fax: {company.fax}</li>
           <li><a href={`mailto:${company.email}`}>{company.email}</a></li>
         </ul>
         <a class="whatsapp-link" href="https://wa.me/4951757716116" target="_blank" rel="noopener">
