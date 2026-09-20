@@ -645,7 +645,7 @@ const vollbild: Record<string, string> = Object.fromEntries(
           <p>Dankschreiben und Empfehlungen von Kunden, Geschäftspartnern und Institutionen aus mehr als zwei Jahrzehnten — ein Ausschnitt aus dem ELCON-Archiv. Zum Vergrößern anklicken.</p>
         </div>
         <div class="tc-viewport">
-          <button type="button" class="tc-nav tc-prev" id="tcPrev" aria-label="Vorherige Seite">&#8249;</button>
+          <button type="button" class="tc-nav tc-prev" id="tcPrev" aria-label="Vorheriges Schreiben">&#8249;</button>
           <div class="tc-track" id="tcTrack">
             <figure class="tc-slide" data-index="0">
               <button type="button" class="tc-thumb" data-full={vollbild["/assets/testimonials/expo2000-hannover-2000.jpg"]} data-sender="EXPO 2000 Hannover GmbH" data-date="31. Oktober 2000" aria-label="Vergrößern: EXPO 2000 Hannover GmbH, 31. Oktober 2000">
@@ -768,18 +768,19 @@ const vollbild: Record<string, string> = Object.fromEntries(
               <figcaption><strong>Merten GmbH & Co. KG</strong><span>15. Februar 2006</span></figcaption>
             </figure>
           </div>
-          <button type="button" class="tc-nav tc-next" id="tcNext" aria-label="Nächste Seite">&#8250;</button>
+          <button type="button" class="tc-nav tc-next" id="tcNext" aria-label="Nächstes Schreiben">&#8250;</button>
         </div>
         <div class="tc-steuerung">
+          <p class="tc-aktuell" id="tcAktuell" hidden><strong></strong><span></span></p>
           <div
             class="tc-dots"
             id="tcDots"
             role="group"
-            aria-label="Seitenwahl"
-            data-punkt-vorlage="Seite {seite} anzeigen"
+            aria-label="Auswahl der Schreiben"
+            data-punkt-vorlage="Schreiben {nr} anzeigen"
             hidden
           ></div>
-          <p class="tc-status" id="tcStatus" role="status" aria-live="polite" data-vorlage="Seite {seite} von {gesamt}" hidden></p>
+          <p class="tc-status" id="tcStatus" role="status" aria-live="polite" data-vorlage="Schreiben {nr} von {gesamt}" hidden></p>
         </div>
       </div>
     </div>
@@ -935,105 +936,109 @@ const vollbild: Record<string, string> = Object.fromEntries(
 
     var dots = document.getElementById('tcDots');
     var stand = document.getElementById('tcStatus');
+    var aktuellFeld = document.getElementById('tcAktuell');
 
     function abstand(){
       var stil = getComputedStyle(track);
       return parseFloat(stil.columnGap || stil.gap || 0) || 0;
     }
-    function schrittweite(){
+    function kachelbreite(){
       var slide = track.querySelector('.tc-slide');
-      if(!slide) return 200;
-      return slide.getBoundingClientRect().width + abstand();
+      return slide ? slide.getBoundingClientRect().width : 200;
+    }
+    function schrittweite(){
+      return kachelbreite() + abstand();
     }
 
-    /* Geblättert wird seitenweise, nicht um eine feste Zahl Kacheln: Wie viele
-       nebeneinander passen, hängt von der Fensterbreite ab. Statt eine Zahl
-       anzunehmen, wird sie hier ausgerechnet — dieselbe Überlegung wie beim
-       Projektraster weiter oben.
+    /* Damit auch das erste und das letzte Schreiben in die Mitte rücken
+       können, braucht das Band links und rechts ein Polster von einer halben
+       Sichtbreite. Als Prozentwert ginge das nicht: Prozente beziehen sich bei
+       padding auf das Elternelement, nicht auf das Band selbst.
 
-       Die Kacheln teilen sich die Breite anschließend genau auf (siehe die
-       Regel zu --tc-spalten in global.css). Ohne das endete eine Seite mitten
-       in einer angeschnittenen Kachel, was dem Begriff "Seite" widerspricht. */
-    function passeSpaltenAn(){
-      var stil = getComputedStyle(track);
-      var basis = parseFloat(stil.getPropertyValue('--tc-basis')) || 180;
-      var l = abstand();
-      var innen = track.clientWidth - parseFloat(stil.paddingLeft || 0) - parseFloat(stil.paddingRight || 0);
-      var spalten = Math.max(1, Math.min(thumbs.length, Math.floor((innen + l) / (basis + l))));
-      if(track.dataset.spalten === String(spalten)) return false;
+       Mit diesem Polster liegt das Schreiben Nr. i genau dann in der Mitte,
+       wenn der Bildlauf bei i * Schrittweite steht — darauf bauen alle
+       folgenden Rechnungen auf. */
+    /* Welches Schreiben in der Mitte steht, wird sonst aus dem Bildlauf
+       zurückgerechnet. Beim Wechsel der Fensterbreite geht das schief: Die
+       Kacheln haben dann schon die neue Breite, der Bildlauf steht aber noch
+       auf dem alten Wert, und die Rechnung landet ein Schreiben daneben.
+       Deshalb wird die Position hier gemerkt und nach einem Größenwechsel
+       daraus wiederhergestellt. */
+    var merker = 0;
 
-      /* Beim Wechsel der Spaltenzahl soll das zuerst sichtbare Schreiben
-         sichtbar bleiben, statt dass das Band an den Anfang zurückspringt. */
-      var ersteKachel = Math.round(track.scrollLeft / schrittweite());
-      track.style.setProperty('--tc-spalten', String(spalten));
-      track.dataset.spalten = String(spalten);
-      track.scrollTo({ left: Math.floor(ersteKachel / spalten) * spalten * schrittweite(), behavior: 'auto' });
+    function passePolsterAn(){
+      var polster = Math.max(0, Math.round((track.clientWidth - kachelbreite()) / 2));
+      var mass = polster + ':' + Math.round(kachelbreite());
+      if(track.dataset.mass === mass) return false;
+      track.dataset.mass = mass;
+      track.style.setProperty('--tc-polster', polster + 'px');
+      /* Erst jetzt auf Fokusansicht umschalten: Vorher stünde die Mitte noch
+         nicht fest und es wäre kurz alles unscharf. */
+      track.dataset.fokus = '';
+      zeige(merker, 'auto');
       return true;
     }
 
-    function proSeite(){
-      return Number(track.dataset.spalten) || Math.max(1, Math.floor((track.clientWidth + 2) / schrittweite()));
+    function aktuellerIndex(){
+      var i = Math.round(track.scrollLeft / schrittweite());
+      return Math.min(thumbs.length - 1, Math.max(0, i));
     }
-    function seitenAnzahl(){
-      return Math.max(1, Math.ceil(thumbs.length / proSeite()));
-    }
-    function seitenbreite(){
-      return proSeite() * schrittweite();
-    }
-    function aktuelleSeite(){
-      var rest = track.scrollWidth - track.clientWidth;
-      if(rest <= 2) return 0;
-      /* Die letzte Seite ist meist nur teilweise gefüllt; der Bildlauf bleibt
-         dann vor ihrem rechnerischen Anfang stehen. Wer ganz rechts angekommen
-         ist, ist auf der letzten Seite — unabhängig vom errechneten Wert. */
-      if(track.scrollLeft >= rest - 4) return seitenAnzahl() - 1;
-      return Math.min(seitenAnzahl() - 1, Math.round(track.scrollLeft / seitenbreite()));
-    }
-    function zeigeSeite(n){
-      track.scrollTo({ left: n * seitenbreite(), behavior: 'smooth' });
+    function zeige(i, art){
+      track.scrollTo({ left: i * schrittweite(), behavior: art || 'smooth' });
     }
 
     function machPunkt(i){
       var b = document.createElement('button');
       b.type = 'button';
       b.className = 'tc-dot';
-      b.setAttribute('aria-label', (dots.dataset.punktVorlage || '{seite}').replace('{seite}', String(i + 1)));
-      b.addEventListener('click', function(){ zeigeSeite(i); });
+      b.setAttribute('aria-label', (dots.dataset.punktVorlage || '{nr}').replace('{nr}', String(i + 1)));
+      b.addEventListener('click', function(){ zeige(i); });
       return b;
     }
 
-    /* Die Punkte werden erst hier erzeugt: Ihre Zahl ergibt sich aus dem
-       Layout und ändert sich mit der Fensterbreite. Im Markup stehen sie
-       deshalb verborgen — ohne JavaScript bleibt das Band schlicht scrollbar,
-       statt eine Steuerung anzubieten, die nichts tut. */
+    /* Die Punkte entstehen erst hier. Im Markup stehen sie verborgen — ohne
+       JavaScript bleibt das Band schlicht scrollbar, statt eine Steuerung
+       anzubieten, die nichts tut. */
     function bauePunkte(){
-      var anzahl = seitenAnzahl();
-      if(dots.childElementCount === anzahl) return;
+      if(dots.childElementCount === thumbs.length) return;
       dots.textContent = '';
-      for(var i = 0; i < anzahl; i++) dots.appendChild(machPunkt(i));
+      for(var i = 0; i < thumbs.length; i++) dots.appendChild(machPunkt(i));
     }
 
     function aktualisiereSteuerung(){
       if(!dots || !stand) return;
-      passeSpaltenAn();
+      var neuVermessen = passePolsterAn();
       bauePunkte();
-      var n = aktuelleSeite();
-      var gesamt = seitenAnzahl();
+      var n = neuVermessen ? merker : aktuellerIndex();
+      merker = n;
+      var gesamt = thumbs.length;
+
+      thumbs.forEach(function(t, i){
+        var slide = t.closest('.tc-slide');
+        if(slide) slide.classList.toggle('is-mitte', i === n);
+      });
       Array.prototype.forEach.call(dots.children, function(b, i){
         if(i === n) b.setAttribute('aria-current', 'true');
         else b.removeAttribute('aria-current');
       });
+
       if(prevBtn) prevBtn.disabled = n === 0;
       if(nextBtn) nextBtn.disabled = n >= gesamt - 1;
       dots.hidden = gesamt <= 1;
       stand.hidden = gesamt <= 1;
       stand.textContent = (stand.dataset.vorlage || '')
-        .replace('{seite}', String(n + 1))
+        .replace('{nr}', String(n + 1))
         .replace('{gesamt}', String(gesamt));
+
+      if(aktuellFeld){
+        aktuellFeld.hidden = false;
+        aktuellFeld.querySelector('strong').textContent = thumbs[n].dataset.sender || '';
+        aktuellFeld.querySelector('span').textContent = thumbs[n].dataset.date || '';
+      }
     }
 
-    if(prevBtn) prevBtn.addEventListener('click', function(){ zeigeSeite(Math.max(0, aktuelleSeite() - 1)); });
-    if(nextBtn) nextBtn.addEventListener('click', function(){ zeigeSeite(Math.min(seitenAnzahl() - 1, aktuelleSeite() + 1)); });
+    if(prevBtn) prevBtn.addEventListener('click', function(){ zeige(Math.max(0, aktuellerIndex() - 1)); });
+    if(nextBtn) nextBtn.addEventListener('click', function(){ zeige(Math.min(thumbs.length - 1, aktuellerIndex() + 1)); });
 
     /* Wischen auf dem Telefon und Scrollen mit der Tastatur bewegen das Band
        ebenfalls — die Anzeige muss dem folgen, nicht nur den Pfeilen. */

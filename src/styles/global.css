@@ -345,26 +345,52 @@ html, body { overflow-x: clip; }
   .testimonial-carousel{border-top:1px solid var(--border);padding-top:2.6rem;margin-top:2.8rem;}
   .tc-viewport{position:relative;display:flex;align-items:center;gap:.7rem;}
   .tc-track{
-    --tc-abstand:1.3rem;
-    /* Wunschbreite einer Kachel. Wie viele davon nebeneinander passen, rechnet
-       das Skript aus; die Zahl steht danach in --tc-spalten. */
-    --tc-basis:180px;
+    --tc-abstand:1.6rem;
+    /* Breite einer Kachel im Textfluss. Die mittlere wird darüber hinaus
+       vergrößert, die übrigen verkleinert — beides über transform, damit beim
+       Weiterblättern nichts umbricht und die Schrittweite gleich bleibt. */
+    --tc-kachel:clamp(210px,32vw,300px);
+    --tc-hoehe:calc(var(--tc-kachel) * 1269 / 900);
+    --tc-mitte:1.42;
+    --tc-rand:.72;
     display:flex;gap:var(--tc-abstand);overflow-x:auto;scroll-snap-type:x mandatory;
-    padding:.25rem .15rem 1.1rem;scroll-behavior:smooth;
+    padding:.25rem var(--tc-polster,.15rem) 1.1rem;scroll-behavior:smooth;
   }
   .tc-track::-webkit-scrollbar{height:6px;}
   .tc-track::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px;}
-  .tc-slide{flex:none;width:var(--tc-basis);margin:0;scroll-snap-align:start;}
-  /* Sobald die Spaltenzahl feststeht, teilen sich die Kacheln die Breite genau
-     auf. Eine Seite endet dadurch immer an einer Kachelkante statt mitten in
-     einer — ohne Skript bleibt es bei der Wunschbreite und freiem Scrollen. */
-  .tc-track[data-spalten] .tc-slide{
-    width:calc((100% - (var(--tc-spalten) - 1) * var(--tc-abstand)) / var(--tc-spalten));
+  .tc-slide{flex:none;width:var(--tc-kachel);margin:0;scroll-snap-align:center;}
+
+  /* Fokusansicht: nur das mittlere Schreiben groß und scharf, die Nachbarn
+     kleiner und leicht unscharf. Sie wird erst zugeschaltet, wenn das Skript
+     die Mitte bestimmt hat — ohne JavaScript wäre sonst jedes Schreiben
+     unscharf, und das wäre schlechter als ein schlichtes scharfes Band. */
+  .tc-track[data-fokus] .tc-slide{
+    height:calc(var(--tc-hoehe) * var(--tc-mitte));
+    display:flex;align-items:center;
   }
+  .tc-track[data-fokus] .tc-slide figcaption{display:none;}
+  .tc-track[data-fokus] .tc-thumb{
+    transform:scale(var(--tc-rand));
+    filter:blur(2.5px) saturate(.75);
+    opacity:.6;
+  }
+  .tc-track[data-fokus] .tc-slide.is-mitte{z-index:2;}
+  .tc-track[data-fokus] .tc-slide.is-mitte .tc-thumb{
+    transform:scale(var(--tc-mitte));
+    filter:none;opacity:1;
+    box-shadow:0 26px 50px -22px rgba(15,32,48,.45);
+  }
+  /* Der Anheb-Effekt beim Überfahren käme dem Maßstab in die Quere; in der
+     Fokusansicht wächst die Kachel stattdessen ein wenig. */
+  .tc-track[data-fokus] .tc-thumb:hover{transform:scale(var(--tc-rand));}
+  .tc-track[data-fokus] .tc-slide.is-mitte .tc-thumb:hover{
+    transform:scale(calc(var(--tc-mitte) * 1.015));
+  }
+
   .tc-thumb{
     display:block;width:100%;aspect-ratio:900/1269;padding:0;margin:0;border:1px solid var(--border);
     border-radius:6px;overflow:hidden;background:var(--surface-raised);cursor:zoom-in;box-shadow:var(--shadow);
-    transition:transform .15s ease,border-color .15s ease;
+    transition:transform .35s ease,filter .35s ease,opacity .35s ease,border-color .15s ease;
   }
   .tc-thumb:hover{border-color:var(--accent-3);}
   .tc-thumb:hover{@apply motion-safe:-translate-y-0.5;}
@@ -403,10 +429,18 @@ html, body { overflow-x: clip; }
   }
   .tc-dot:hover::before{border-color:var(--accent-3);}
   .tc-dot[aria-current="true"]::before{background:var(--accent-3);border-color:var(--accent-3);}
+  /* In der Fokusansicht sind die Bildunterschriften am Band ausgeblendet —
+     wer steht in der Mitte, steht dafür einmal darunter. */
+  .tc-aktuell{
+    margin:0;text-align:center;display:flex;flex-direction:column;gap:.15rem;
+    min-height:2.6rem;justify-content:center;
+  }
+  .tc-aktuell strong{font-size:.95rem;font-weight:700;color:var(--text);line-height:1.35;}
+  .tc-aktuell span{font-size:.82rem;color:var(--text-muted);}
   .tc-status{margin:0;font-size:.76rem;color:var(--text-muted);}
 
   @media (max-width:640px){
-    .tc-track{--tc-basis:150px;}
+    .tc-track{--tc-kachel:min(54vw,210px);--tc-mitte:1.3;--tc-rand:.78;}
     .tc-nav{display:none;}
   }
 
@@ -735,8 +769,9 @@ html, body { overflow-x: clip; }
     .marquee-track{animation:none;transform:none;}
     .marquee{overflow-x:auto;}
     /* Das Karussell blättert sonst weich durch; bei dieser Einstellung
-       springt es direkt auf die neue Seite. */
+       springt es direkt auf das nächste Schreiben, ohne Größenwechsel. */
     .tc-track{scroll-behavior:auto;}
+    .tc-thumb{transition:none;}
   }
 
 
