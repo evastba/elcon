@@ -609,6 +609,49 @@ html, body { overflow-x: clip; }
     .nav-row{gap:.8rem;}
   }
 
+  /* --- Google-Bewertungen --------------------------------------------------
+     Stehen unter den Dankschreiben. Die Sterne sind Inline-SVG statt
+     Schriftzeichen: Vorlesesoftware liest sonst je nach Zeichensatz
+     "schwarzer Stern" fünfmal vor. Die Bewertung steht deshalb einmal als
+     aria-label am Element. */
+  .bewertungen{border-top:1px solid var(--border);margin-top:2.6rem;padding-top:2.2rem;}
+  .bewertungen-kopf{margin-bottom:1.6rem;}
+  .bewertungen-kopf h3{margin:0 0 .6rem;font-size:1.1rem;font-weight:800;color:var(--text);}
+  .bewertungen-schnitt{display:flex;align-items:center;gap:.6rem;margin:0 0 .5rem;flex-wrap:wrap;}
+  .bewertungen-note{font-family:'Manrope',sans-serif;font-weight:800;font-size:1.5rem;color:var(--text);}
+  .bewertungen-sterne{display:inline-flex;gap:.12rem;}
+  .bewertungen-anzahl{font-size:.86rem;color:var(--text-muted);}
+  .bewertungen-intro{margin:0;font-size:.94rem;line-height:1.6;color:var(--text-muted);max-width:66ch;}
+
+  .stern{width:17px;height:17px;fill:var(--border);flex:none;}
+  .stern.ist-voll{fill:var(--accent-2);}
+
+  .bewertungen-liste{
+    list-style:none;margin:0;padding:0;
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.1rem;
+  }
+  .bewertung{
+    border:1px solid var(--border);border-radius:12px;background:var(--surface-raised);
+    padding:1.1rem 1.2rem;display:flex;flex-direction:column;
+  }
+  .bewertung-sterne{display:flex;gap:.12rem;margin:0 0 .6rem;}
+  .bewertung blockquote{
+    margin:0 0 .9rem;padding:0;border:0;font-size:.94rem;line-height:1.6;color:var(--text);
+  }
+  .bewertung-quelle{
+    margin:auto 0 0;display:flex;flex-wrap:wrap;gap:.2rem .6rem;
+    font-size:.84rem;color:var(--text-muted);
+  }
+  .bewertung-autor{font-weight:700;color:var(--text);}
+  .bewertungen-link{margin:1.2rem 0 0;font-size:.92rem;}
+  .bewertungen-hinweis{
+    margin:.7rem 0 0;font-size:.8rem;line-height:1.55;color:var(--text-leise);max-width:80ch;
+  }
+  @media (max-width:640px){
+    .bewertungen{margin-top:2rem;padding-top:1.8rem;}
+    .bewertungen-liste{grid-template-columns:1fr;}
+  }
+
   /* Ansprechpartner.
 
      Ohne freigegebenes Foto stehen die Initialen auf einer Farbfläche. Das

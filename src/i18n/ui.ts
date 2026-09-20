@@ -131,6 +131,15 @@ export interface UiTexte {
     direktLink: string;
   };
   marqueeTitel: string;
+  /** Google-Bewertungen. */
+  bewertungen: {
+    titel: string;
+    intro: string;
+    von: string;
+    sterne: string;
+    profil: string;
+    quelle: string;
+  };
   /** Ansprechpartner-Komponente. */
   kontaktperson: { eyebrow: string; titel: string; anrufen: string; schreiben: string; sprachen: string };
   /** Einordnung abgeschlossener Projekte der Unternehmenshistorie. */
@@ -224,6 +233,14 @@ export const UI: Record<Lang, UiTexte> = {
       direktLink: 'Direkt zum Anfrageformular',
     },
     marqueeTitel: 'Vertrauen von Unternehmen und Institutionen',
+    bewertungen: {
+      titel: 'Bewertungen bei Google',
+      intro: 'Was Auftraggeber öffentlich über die Zusammenarbeit schreiben.',
+      von: 'von',
+      sterne: 'von 5 Sternen',
+      profil: 'Alle Bewertungen bei Google ansehen',
+      quelle: 'Quelle: Google-Unternehmensprofil. Die Bewertungen werden beim Erstellen der Seite abgerufen; beim Aufruf dieser Seite entsteht keine Verbindung zu Google.',
+    },
     kontaktperson: {
       eyebrow: 'Ihr Ansprechpartner',
       titel: 'Wer Ihre Anfrage entgegennimmt',
@@ -328,6 +345,14 @@ export const UI: Record<Lang, UiTexte> = {
       direktLink: 'Go directly to the enquiry form',
     },
     marqueeTitel: 'Trusted by companies and institutions',
+    bewertungen: {
+      titel: 'Reviews on Google',
+      intro: 'What clients write publicly about working with us.',
+      von: 'by',
+      sterne: 'out of 5 stars',
+      profil: 'See all reviews on Google',
+      quelle: 'Source: Google Business Profile. The reviews are retrieved when the site is built; visiting this page does not establish any connection to Google.',
+    },
     kontaktperson: {
       eyebrow: 'Your contact',
       titel: 'Who will handle your enquiry',
