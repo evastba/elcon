@@ -2,7 +2,7 @@
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { asset } from '../lib/assets';
-import Bildhinweis from '../components/Bildhinweis.astro';
+import KiMarke from '../components/KiMarke.astro';
 ---
 
 <BaseLayout title="Unternehmen" description="Die ELCON LED GmbH: Generalunternehmer für technische Gebäudeausrüstung mit 30+ Jahren Erfahrung — verlässlich, persönlich, aus einer Hand.">
@@ -20,11 +20,11 @@ import Bildhinweis from '../components/Bildhinweis.astro';
         <div class="company-art">
           <Image src={asset("/assets/unternehmen/team-planung.jpg")} alt="Zwei Techniker besprechen einen Anlagenplan vor technischer Gebäudeausrüstung" />
           
+          <KiMarke />
           <div class="company-art-overlay"></div>
           <blockquote class="leitbild">„Wir sind der verlässliche Generalunternehmer für technische Gebäudeausrüstung — wir planen, bauen und betreuen Elektro-, Heizungs-, Klima-, Lüftungs-, Sanitär- und Automatisierungstechnik aus einer Hand, persönlich und mit langjähriger Erfahrung.“</blockquote>
         </div>
       </div>
-      <Bildhinweis art="personen" />
 
       <p class="values-lead">Dafür stehen wir – das bestätigen auch unsere Kunden:</p>
       <div class="values">

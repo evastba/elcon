@@ -2,7 +2,7 @@
 import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { asset } from '../../lib/assets';
-import Bildhinweis from '../../components/Bildhinweis.astro';
+import KiMarke from '../../components/KiMarke.astro';
 ---
 
 <BaseLayout title="Company" description="ELCON LED GmbH: main contractor for building services engineering with 30+ years of experience — dependable, personal, from a single source.">
@@ -20,11 +20,11 @@ import Bildhinweis from '../../components/Bildhinweis.astro';
         <div class="company-art">
           <Image src={asset("/assets/unternehmen/team-planung.jpg")} alt="Two engineers discussing a systems drawing in front of building services plant" />
           
+          <KiMarke />
           <div class="company-art-overlay"></div>
           <blockquote class="leitbild">“We are the dependable main contractor for building services engineering — we design, build and look after electrical, heating, air conditioning, ventilation, plumbing and automation systems from a single source, personally and with many years of experience.”</blockquote>
         </div>
       </div>
-      <Bildhinweis art="personen" />
 
       <p class="values-lead">This is what we stand for — and what our clients confirm:</p>
       <div class="values">
