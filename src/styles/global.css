@@ -267,8 +267,10 @@ html, body { overflow-x: clip; }
   }
 
   /* --- Logo-Laufschrift als Vertrauensbeleg ------------------------------- */
-  .vertrauensband{padding-block:0 2.4rem;}
-  .vertrauensband .trust-block{margin-bottom:0;}
+  /* Die Laufschrift sitzt im Vertrauensabschnitt zwischen Überschrift und
+     Kennzahlen. Ihre eigene Trennlinie entfällt dort — die Kennzahlen bringen
+     ihre eigene mit, zwei übereinander wirkten wie ein Fehler. */
+  .kennzahlen-band .trust-block{border-top:none;padding-top:0;margin-bottom:1.6rem;}
 
   /* --- Kompetenzfelder ---------------------------------------------------- */
   .kompetenz-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;}
@@ -407,7 +409,6 @@ html, body { overflow-x: clip; }
     .kennzahlen-titel{margin-bottom:.9rem;font-size:1rem;}
     .kennzahlen{grid-template-columns:repeat(2,1fr);gap:1.1rem;padding-block:1.2rem;}
     .kennzahlen-band .wrap{padding-block:1.2rem;}
-    .vertrauensband{padding-block:1rem 1.8rem;}
     .kompetenz-grid,
     .aktuell-grid,
     .ablauf-schritte{grid-template-columns:1fr;}
@@ -560,6 +561,7 @@ html, body { overflow-x: clip; }
     /* Die Laufschrift ist auf dem Telefon der am wenigsten tragende
        Abschnitt — sie wird schmaler, nicht entfernt. */
     .marquee-logo img{max-height:34px;}
+    .kennzahlen-band .trust-block{margin-bottom:1.1rem;}
 
     /* Karteninnenabstände zurücknehmen — bei gestapelten Karten summiert sich
        jeder Rand dreifach. */

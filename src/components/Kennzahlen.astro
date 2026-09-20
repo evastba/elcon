@@ -1,8 +1,14 @@
 ---
 import { getLang, UI } from '../i18n/ui';
 import { STARTSEITE } from '../i18n/startseite';
+import LogoMarquee from './LogoMarquee.astro';
 
-/* Vertrauenskennzahlen direkt unter dem Einstieg.
+/* Vertrauensabschnitt direkt unter dem Einstieg: Überschrift, Logo-Laufschrift,
+ * Kennzahlen.
+ *
+ * Die drei gehören zusammen — sie beantworten dieselbe Frage („kann man denen
+ * etwas zutrauen?") und stehen deshalb unter einer Überschrift statt in
+ * getrennten Abschnitten.
  *
  * Höchstens vier, alle aus dem vorhandenen Datenbestand belegt. Die Jahreszahl
  * 1993 wird bewusst nicht hochgezählt — eine laufende Jahreszahl wirkt wie ein
@@ -20,6 +26,9 @@ const titel = UI[lang].marqueeTitel;
 <section class="kennzahlen-band" aria-labelledby="vertrauenTitel">
   <div class="wrap">
     <h2 class="kennzahlen-titel" id="vertrauenTitel">{titel}</h2>
+
+    <LogoMarquee zeigeTitel={false} />
+
     <dl class="kennzahlen">
       {t.werte.map((k) => (
         <div class="kennzahl">

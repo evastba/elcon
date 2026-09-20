@@ -1,7 +1,6 @@
 ---
 import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import LogoMarquee from '../../components/LogoMarquee.astro';
 import Kennzahlen from '../../components/Kennzahlen.astro';
 import Kompetenzfelder from '../../components/Kompetenzfelder.astro';
 import AktuelleProjekte from '../../components/AktuelleProjekte.astro';
@@ -15,13 +14,15 @@ import { getLang, pfad } from '../../i18n/ui';
 import { STARTSEITE } from '../../i18n/startseite';
 
 /* Reihenfolge der Abschnitte — jeder hat eine eigene Aufgabe:
-   1 Einstieg und Positionierung · 2 Vertrauenskennzahlen · 3 Kompetenzfelder ·
+   1 Einstieg und Positionierung · 2 Vertrauen (Laufschrift und Kennzahlen) ·
+   3 Kompetenzfelder ·
    4 aktuelle Referenzen · 5 Unterscheidungsmerkmale · 6 Projektablauf ·
    7 Leistungsfinder · 8 Unternehmen und Ansprechpartner · 9 Abschluss.
 
    Die Logo-Laufschrift steht bewusst nicht im Einstieg: Sie belegt Vertrauen,
-   beantwortet aber keine der Fragen, die ein Besucher zuerst hat. Sie folgt
-   deshalb auf die Kennzahlen. */
+   beantwortet aber keine der Fragen, die ein Besucher zuerst hat. Sie sitzt
+   deshalb im Vertrauensabschnitt, gemeinsam mit den Kennzahlen unter einer
+   Überschrift. */
 
 const lang = getLang(Astro.url);
 const t = STARTSEITE[lang];
@@ -50,12 +51,6 @@ const projekte = pfad('/projekte/', lang);
   </section>
 
   <Kennzahlen />
-
-  <section class="vertrauensband">
-    <div class="wrap">
-      <LogoMarquee zeigeTitel={false} />
-    </div>
-  </section>
 
   <Kompetenzfelder />
 
