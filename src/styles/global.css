@@ -700,6 +700,16 @@ html, body { overflow-x: clip; }
   .kontaktperson-wege a:hover{color:var(--accent-3);text-decoration:underline;}
   .kontaktperson-sprachen{color:var(--text-muted);font-size:.85rem;}
 
+  /* Im Unternehmensabschnitt folgt der Verweis auf die Unternehmensseite
+     unmittelbar auf die Ansprechpartnerkarte. Ohne Abstand klebte er an
+     deren Rahmen. Die Angabe steht an der Karte, nicht am Knopf: Liegt kein
+     freigegebener Ansprechpartner vor, entfällt die Karte — und mit ihr der
+     Abstand, statt eine Lücke zu hinterlassen. */
+  .unternehmen-teaser .kontaktpersonen{margin-bottom:2.2rem;}
+  @media (max-width:640px){
+    .unternehmen-teaser .kontaktpersonen{margin-bottom:1.6rem;}
+  }
+
   /* Kennzeichnung in der Bildecke.
 
      Rund zehn Pixel statt der früheren sieben und mit eigenem Verlauf
