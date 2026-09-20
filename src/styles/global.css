@@ -51,6 +51,10 @@ html, body { overflow-x: clip; }
     --offwhite:#F7F9F8;
     --hellgrau:#E5E8E8;
     --anthrazit:#4D5A61;
+    /* Neutrales Grau für zurückhaltende Beschriftungen. Bewusst nicht heller:
+       Bei 4,57:1 auf der getönten Fläche ist die Grenze der Lesbarkeit nach
+       WCAG AA erreicht, ein hellerer Ton wäre nicht mehr zulässig. */
+    --grau-dezent:#6B7378;
     --ink:#0F2D3A;
     --green:#2E7D32;
     --orange:#FF7A00;
@@ -62,6 +66,7 @@ html, body { overflow-x: clip; }
     --border:var(--hellgrau);
     --text:var(--ink);
     --text-muted:var(--anthrazit);
+    --text-leise:var(--grau-dezent);
     --accent:var(--green);
     --accent-ink:#FFFFFF;
     --accent-soft:#E7F2E8;
@@ -210,6 +215,15 @@ html, body { overflow-x: clip; }
   .hero h1{font-size:clamp(1.7rem,3vw,2.4rem);line-height:1.2;font-weight:800;margin:0 0 1.8rem;letter-spacing:-.01em;}
   .hero p.lead{font-size:1rem;line-height:1.6;color:var(--text-muted);max-width:48ch;margin:0 0 1.6rem;}
   .hero-ctas{display:flex;gap:.9rem;flex-wrap:wrap;margin-bottom:2.2rem;}
+  /* Die beiden Knöpfe im Einstieg sind gleich breit, unabhängig von der Länge
+     ihrer Beschriftung. Zwei 1fr-Spalten in einem Raster der Breite
+     max-content nehmen beide die Breite des längeren Knopfes an — ohne feste
+     Pixelwerte, die bei einer Textänderung wieder nicht passen würden. */
+  .hero .hero-ctas{
+    display:grid;grid-template-columns:repeat(2,1fr);
+    width:max-content;max-width:100%;
+  }
+  .hero .hero-ctas .cta-btn{justify-content:center;}
   .hero-art{position:relative;border-radius:14px;overflow:hidden;box-shadow:var(--shadow);}
   .hero-art img{width:100%;height:100%;display:block;object-fit:cover;aspect-ratio:4/3;}
   /* Trennt die abgeschlossenen Projekte der Unternehmenshistorie von den
@@ -252,9 +266,11 @@ html, body { overflow-x: clip; }
   .kennzahlen-band .wrap{padding-block:.4rem 1.8rem;}
   /* Überschrift des Vertrauensabschnitts — sie gilt für die Kennzahlen und
      die Logo-Laufschrift darunter gemeinsam. */
+  /* Zurückhaltend gesetzt: Die Zeile ordnet den Abschnitt ein und soll der
+     Hauptüberschrift des Einstiegs nicht den Rang ablaufen. */
   .kennzahlen-titel{
-    margin:0 0 2.2rem;font-size:clamp(1.05rem,2vw,1.25rem);font-weight:500;
-    color:var(--text);letter-spacing:0;text-align:center;
+    margin:0 0 2.2rem;font-size:clamp(.95rem,1.7vw,1.125rem);font-weight:500;
+    color:var(--text-leise);letter-spacing:0;text-align:center;
   }
   .kennzahlen{
     display:grid;grid-template-columns:repeat(4,1fr);gap:1.4rem;margin:0;
@@ -410,7 +426,7 @@ html, body { overflow-x: clip; }
   }
   @media (max-width:640px){
     .hero-vertrauen{margin:0 0 1.4rem;font-size:.86rem;}
-    .kennzahlen-titel{margin-bottom:1.8rem;font-size:1rem;}
+    .kennzahlen-titel{margin-bottom:1.8rem;font-size:.95rem;}
     .kennzahlen{grid-template-columns:repeat(2,1fr);gap:1.1rem;padding-block:1.2rem;}
     .kennzahlen-band .wrap{padding-block:.2rem 1.2rem;}
     .kompetenz-grid,
@@ -426,6 +442,7 @@ html, body { overflow-x: clip; }
        bleibt das Tippziel auch mit dem Daumen sicher zu treffen. */
     .hero-ctas{gap:.7rem;}
     .hero-ctas .cta-btn{width:100%;justify-content:center;}
+    .hero .hero-ctas{grid-template-columns:1fr;width:100%;}
     .abschluss-aktion{width:100%;}
     .abschluss-aktion .cta-btn{width:100%;justify-content:center;}
   }
@@ -965,7 +982,9 @@ html, body { overflow-x: clip; }
   .trust-block{border-top:1px solid var(--border);padding-top:2.6rem;}
   .trust-block h3{font-size:.85rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin:0 0 1.4rem;text-align:center;}
   .marquee{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);}
-  .marquee-track{display:flex;gap:5.2rem;width:max-content;animation:scroll-left 40s linear infinite;align-items:center;}
+  /* Umlaufdauer: 40s waren die Ausgangsgeschwindigkeit; 40 % langsamer
+     bedeutet dieselbe Strecke in 40 / 0,6 ≈ 67 Sekunden. */
+  .marquee-track{display:flex;gap:5.2rem;width:max-content;animation:scroll-left 67s linear infinite;align-items:center;}
   .marquee-logo{
     display:flex;align-items:center;justify-content:center;flex:none;
     height:64px;
