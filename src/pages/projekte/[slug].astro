@@ -35,9 +35,46 @@ const auftraggeber = projekt.felder.find((f) => /auftraggeber/i.test(f.label))?.
    den Fließtext. */
 const [vorspann, ...weitereAbsaetze] = projekt.absaetze;
 
-/* Kurzbeschreibung für Suchmaschinen: erster Fließtext, auf Satzgrenze gekürzt. */
-const rohText = projekt.absaetze.join(' ') || projekt.felder.map((f) => f.value).join(' ');
-const beschreibungMeta = rohText.length > 155 ? rohText.slice(0, 152).trimEnd() + '…' : rohText;
+/* Kurzbeschreibung für Suchmaschinen.
+
+   Die Quelltexte enthalten Zeilenumbrüche; unverändert übernommen landeten
+   sie als rohe Umbrüche im description-Attribut und wurden in Suchergebnissen
+   abgeschnitten dargestellt. Deshalb wird jeder Weißraum auf ein einzelnes
+   Leerzeichen normalisiert und an einer Wortgrenze gekürzt, nicht mitten im
+   Wort. */
+/* Zeilenumbrüche innerhalb eines Absatzes trennen auf den Quellseiten oft
+   zwei Aussagen ohne Satzzeichen. Für die Meta-Beschreibung wird daraus ein
+   Punkt, sonst stießen die Sätze unvermittelt aneinander. */
+const saubern = (t: string) =>
+  t
+    .split('\n')
+    .map((zeile) => zeile.trim())
+    .filter(Boolean)
+    .map((zeile, i, alle) => (i < alle.length - 1 && !/[.!?:,;]$/.test(zeile) ? zeile + '.' : zeile))
+    .join(' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+/* Fließtext bevorzugen. Fehlt er, werden die Datenfelder mit ihrer
+   Beschriftung gesetzt — ohne sie ergäben die aneinandergereihten Werte
+   ("40 Mio Euro 13,5 Mio Euro April 2006") keinen lesbaren Satz. */
+const rohText = projekt.absaetze.length > 0
+  ? projekt.absaetze
+      .map(saubern)
+      .map((t) => (/[.!?:]$/.test(t) ? t : t + '.'))
+      .join(' ')
+  : projekt.felder
+      .map((f) => `${saubern(f.label)}: ${saubern(f.value)}`)
+      .join(' · ');
+
+function kuerzen(text: string, max = 155): string {
+  if (text.length <= max) return text;
+  const schnitt = text.slice(0, max - 1);
+  const letzteLuecke = schnitt.lastIndexOf(' ');
+  return (letzteLuecke > max * 0.6 ? schnitt.slice(0, letzteLuecke) : schnitt).replace(/[.,;:\s-]+$/, '') + '…';
+}
+
+const beschreibungMeta = kuerzen(rohText);
 ---
 
 <BaseLayout title={projekt.titel} description={beschreibungMeta}>

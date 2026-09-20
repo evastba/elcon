@@ -20,9 +20,10 @@ export interface Projektdetail {
 /**
  * Projektdetails, übernommen von www.elcon-led.com.
  *
- * Texte und Datenfelder stammen unverändert von den dortigen Projektseiten;
- * lediglich Verweise auf die Bildergalerie der alten Seite wurden entfernt, da
- * es sie hier nicht gibt. Fotos liegen nur für das Nord-Stream-Projekt 2011
+ * Texte und Datenfelder stammen von den dortigen Projektseiten. Angepasst
+ * wurden ausschließlich: Verweise auf die Bildergalerie der alten Seite, die es
+ * hier nicht gibt, sowie vier Wörter in alter Rechtschreibung und zwei
+ * Tippfehler. Inhaltlich ist nichts verändert. Fotos liegen nur für das Nord-Stream-Projekt 2011
  * vor — die übrigen Quellseiten enthalten keine.
  */
 export const PROJEKTDETAILS: Projektdetail[] = [
@@ -37,7 +38,7 @@ export const PROJEKTDETAILS: Projektdetail[] = [
     felder: [
       { label: 'Bauvorhaben', value: 'Offshore Gasleitung von Wyborg/Russland nach Greifswald/Deutschland' },
       { label: 'Auftraggeber', value: 'Nord Stream AG' },
-      { label: 'Leistungsumfang', value: 'Im Rahmen dieses Projektes war ELCON mit ELT - Arbeiten beauftragt:\nFolgende Leistungen wurden ausgeführt:\n- Verlegung der Rohre für die Kabel\n- Verlegung von 170 km stahlarmiertem Kabel\n- Verarbeitung und Verlegung explosionsgeschützter Ausführung\n- Anschluß sämtlicher Meßpunkte\n- Anschluß aller Geräte\n- Testen\n- Kommissionierung' },
+      { label: 'Leistungsumfang', value: 'Im Rahmen dieses Projektes war ELCON mit ELT - Arbeiten beauftragt:\nFolgende Leistungen wurden ausgeführt:\n- Verlegung der Rohre für die Kabel\n- Verlegung von 170 km stahlarmiertem Kabel\n- Verarbeitung und Verlegung explosionsgeschützter Ausführung\n- Anschluss sämtlicher Messpunkte\n- Anschluss aller Geräte\n- Testen\n- Kommissionierung' },
       { label: 'Besonderheiten', value: 'Für die Leistungserbringung stand ein Zeitraum von ca 7 Monaten zur Verfügung. Die Arbeiten wurde im Schichtbetrieb 24 Stunden täglich bei 7 Tage die Woche ausgeführt. Dabei wurden 160 Arbeitskräfte am Bauvorhaben eingesetzt.' },
       { label: 'Mitarbeiter', value: 'Für dieses Projekt wurden 160 ELCON-Mitarbeiter und 4 ELCON Projektleiter eingesetzt.' },
     ],
@@ -72,7 +73,7 @@ export const PROJEKTDETAILS: Projektdetail[] = [
     slug: 'nord-stream-wartung-seit-2012',
     titel: 'Nord Stream I - Wartung und Instandhaltung seit 2012',
     absaetze: [
-      'Nach erfolgreicher Inbetriebnahme der Nord-Stream-Pipeline (Nordstream I) im November 2011, bei der ELCON LED mit der Verlegung von Spezialkabeln und der Planung und Installation von elektrotechnischen Anlagen, sowie dem Anschluß elektrischer Meßpunkte und Geräte betraut war, ist die Anlage nun in Betrieb.',
+      'Nach erfolgreicher Inbetriebnahme der Nord-Stream-Pipeline (Nordstream I) im November 2011, bei der ELCON LED mit der Verlegung von Spezialkabeln und der Planung und Installation von elektrotechnischen Anlagen, sowie dem Anschluss elektrischer Messpunkte und Geräte betraut war, ist die Anlage nun in Betrieb.',
       'Seit 2012 ist ELCON LED für die Wartung und Instandhaltung der laufenden Anlagen verantwortlich.',
     ],
     felder: [
@@ -293,7 +294,7 @@ export const PROJEKTDETAILS: Projektdetail[] = [
     kachel: 'Ambassador Hotel & Boardinghouse, Kaluga',
     absaetze: [
       'Auf 18.000 m² ist in Kaluga ein riesiger Hotelkomplex mit angegliedertem Boardinghouse und Sport- und Wellnessbereich entstanden.\nELCON war bei diesem Großprojekt mit Gebäudetechnik und elektrischen Installationen betraut.',
-      'Auf einem 9000 m² großen Grundstück wird ein Hotel mit insgesamt 138 Zimmern in Komfort-, Premium-, oder Delux Standard, sowie mit 2 Suiten errichtet. Die Räume sind auf 4 Geschosse mit einer Gesamtfläche von über 5600 m² verteilt.\n\nHinzu kommt ein großzügiger öffentlicher Bereich mit Foyer, Restaurant, Bar und Besprechungsräumen, sowie Fitneßbereich im EG und ca. 100 Stellplätze im Außenbereich.',
+      'Auf einem 9000 m² großen Grundstück wird ein Hotel mit insgesamt 138 Zimmern in Komfort-, Premium-, oder Delux Standard, sowie mit 2 Suiten errichtet. Die Räume sind auf 4 Geschosse mit einer Gesamtfläche von über 5600 m² verteilt.\n\nHinzu kommt ein großzügiger öffentlicher Bereich mit Foyer, Restaurant, Bar und Besprechungsräumen, sowie Fitnessbereich im EG und ca. 100 Stellplätze im Außenbereich.',
       'Die Doppelzimmer haben in der Komfortklasse 18 m², in der Premiumklasse 22 m² und in der Deluxklasse 25 m². Ebenfalls die behinderten- gerecht augestatteten DZ haben 25 m². Die Suiten bieten großzügige 55 m² .',
       'Auf einer Fläche von 7500m² entsteht das dazu gehörige Boardinghouse. Hier sind 51 zwei- und drei Zimmer Wohnungen mit 38 m² bzw. 50 m² und 23 Studios mit ca. 25 m² untergebracht. Im EG wird es Gemeinschaftsflächen, wie z. B. Club-Räume und Shops geben, sowie 67 Einstellplätze im Außenbereich.',
       'Die gegenüber liegende Sports Bar umfasst auf einem Grundstück von 1500 m² Bar-, Club- und Wellness - Bereich mit Freisitz, Spielplatz und Saunagarten.',
@@ -318,14 +319,14 @@ export const PROJEKTDETAILS: Projektdetail[] = [
     slug: 'schubbeize-lipetsk-2006',
     titel: 'Schubbeize in Lipetsk, Russland 2006',
     absaetze: [
-      'Elektrotechnische Anlagen für eine Schubbeize in Lipetsk, Rußland. Mittelspannungsanlagentechnik, Trafos, Schaltschränke usw.',
+      'Elektrotechnische Anlagen für eine Schubbeize in Lipetsk, Russland. Mittelspannungsanlagentechnik, Trafos, Schaltschränke usw.',
     ],
     felder: [
       { label: 'Projekt', value: 'Schubbeize in Lipetsk' },
       { label: 'Beschreibung', value: 'Beizanlage' },
       { label: 'Projektvolumen', value: 'ca. 360.000 €' },
       { label: 'Baubeginn', value: 'Oktober 2006' },
-      { label: 'Bauzeit', value: 'lt. Bauzeitenpan bis März 2007' },
+      { label: 'Bauzeit', value: 'lt. Bauzeitenplan bis März 2007' },
       { label: 'Elcon Auftrag', value: 'Installation der Mittelspannung, Trafos, Schaltschränke, sowie der gesamten Elektrotechnik' },
       { label: 'Monatagedauer', value: 'ca. 6 Monate' },
       { label: 'Besonderheiten', value: 'Der Betrieb der anderen Anlagenteile läuft weiter und darf nicht gestört werden.' },
@@ -358,7 +359,7 @@ export const PROJEKTDETAILS: Projektdetail[] = [
     ],
     felder: [
       { label: 'Projekt', value: 'Villa Benilux' },
-      { label: 'Beschreibung', value: 'Neubau ener repräsentativen Villa mit einer Poollandschaft, Arena und ca. 1.600 m² Wohnfläche' },
+      { label: 'Beschreibung', value: 'Neubau einer repräsentativen Villa mit einer Poollandschaft, Arena und ca. 1.600 m² Wohnfläche' },
       { label: 'Projektvolumen', value: 'vertraulich' },
       { label: 'Auftraggeber', value: 'Fa. Elit Stroj' },
       { label: 'Generalunternehmer', value: 'ELCON LED' },
