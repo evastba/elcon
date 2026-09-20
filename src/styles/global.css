@@ -120,7 +120,9 @@ html, body { overflow-x: clip; }
        üblicher Ausgleich, der die Ableitung aber nicht aufgibt. */
     --marke-ueberstand:1.12;
     --marke-zeichenhoehe:calc(var(--marke-hoehe) * var(--marke-ueberstand));
-    --kopfhoehe:calc(var(--marke-zeichenhoehe) + 1.8rem + 1px);
+    /* Das höhere der beiden bestimmt die Zeile: das Zeichen oder der
+       44 Pixel hohe Menüknopf auf schmalen Bildschirmen. */
+    --kopfhoehe:calc(max(var(--marke-zeichenhoehe), 44px) + 1.8rem + 1px);
   }
   header.site{
     position:sticky;top:0;z-index:100;
@@ -428,9 +430,6 @@ html, body { overflow-x: clip; }
      sind <details>-Elemente — auf breiten Bildschirmen dauerhaft offen, auf
      schmalen einklappbar, damit die Fußzeile das Seitenende nicht dominiert.
      Die rechtlichen Verweise stehen außerhalb und bleiben immer sichtbar. */
-  .footer-positionierung{
-    margin:.9rem 0 1rem;font-size:.9rem;line-height:1.6;color:var(--text-muted);max-width:34ch;
-  }
   .footer-gruppe summary{
     list-style:none;cursor:default;display:flex;align-items:center;justify-content:space-between;
   }
@@ -467,8 +466,7 @@ html, body { overflow-x: clip; }
   @media (max-width:640px){
     .footer-grid{grid-template-columns:1fr;gap:1.2rem;padding-block:2rem;}
     .footer-marke{grid-column:auto;}
-    .footer-positionierung{max-width:none;}
-    /* Auf schmalen Bildschirmen sind die Linkgruppen zusammengeklappt: Die
+      /* Auf schmalen Bildschirmen sind die Linkgruppen zusammengeklappt: Die
        Fußzeile bleibt kurz, die Ziele sind mit einem Tipp erreichbar. Die
        rechtlichen Verweise liegen außerhalb und bleiben immer sichtbar. */
     .footer-gruppe{border-top:1px solid var(--border);padding-block:.2rem;}
@@ -482,6 +480,110 @@ html, body { overflow-x: clip; }
   }
   @media (prefers-reduced-motion: reduce){
     .footer-gruppe summary::after{transition:none;}
+  }
+
+  /* --- Accordion der Anlagentechnik ---------------------------------------
+     Native <details>/<summary>. Die Klickfläche umfasst die ganze Zeile, ist
+     mindestens 52 Pixel hoch und damit auch mit dem Daumen sicher zu treffen.
+     Das Zeichen rechts ist ein Winkel, der sich beim Öffnen dreht — bei
+     reduzierter Bewegung ohne Übergang. */
+  .anlagentechnik{margin-top:3rem;}
+  .akkordeon{
+    border-top:1px solid var(--border);
+    border-radius:0;
+  }
+  .akkordeon-gruppe{border-bottom:1px solid var(--border);}
+  .akkordeon-gruppe summary{
+    list-style:none;cursor:pointer;
+    display:flex;align-items:center;justify-content:space-between;gap:1rem;
+    min-height:52px;padding:.9rem .2rem;
+  }
+  .akkordeon-gruppe summary::-webkit-details-marker{display:none;}
+  .akkordeon-titel{
+    font-family:'Manrope',sans-serif;font-weight:800;font-size:1.02rem;
+    line-height:1.35;color:var(--text);
+  }
+  .akkordeon-gruppe summary:hover .akkordeon-titel{color:var(--accent-3);}
+  .akkordeon-zeichen{
+    flex:none;width:10px;height:10px;margin-right:.35rem;
+    border-right:2px solid var(--accent-3);border-bottom:2px solid var(--accent-3);
+    transform:rotate(45deg);transform-origin:60% 60%;
+    transition:transform .18s ease-out;
+  }
+  .akkordeon-gruppe[open] .akkordeon-zeichen{transform:rotate(-135deg);}
+  .akkordeon-inhalt{padding:0 .2rem 1.3rem;max-width:80ch;}
+  .akkordeon-einleitung{
+    margin:0 0 .8rem;font-size:.95rem;line-height:1.6;color:var(--text-muted);
+  }
+  .akkordeon-inhalt ul{
+    list-style:none;margin:0;padding:0;
+    display:grid;grid-template-columns:repeat(2,1fr);gap:.45rem 1.6rem;
+  }
+  .akkordeon-inhalt li{
+    position:relative;padding-left:1.1rem;
+    font-size:.95rem;line-height:1.55;color:var(--text);
+  }
+  .akkordeon-inhalt li::before{
+    content:"";position:absolute;left:0;top:.62em;
+    width:6px;height:6px;background:var(--accent-3);
+    clip-path:polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%);
+  }
+  @media (max-width:640px){
+    .anlagentechnik{margin-top:2.2rem;}
+    .akkordeon-titel{font-size:.96rem;}
+    .akkordeon-inhalt ul{grid-template-columns:1fr;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .akkordeon-zeichen{transition:none;}
+  }
+
+  /* --- Abstände und Schriftgrößen auf schmalen Bildschirmen ---------------
+     Auf dem Telefon zahlt jeder Abschnitt doppelt: Die Polsterung oben und
+     unten summiert sich über zehn Abschnitte zu rund tausend Pixeln reiner
+     Leerfläche. Sie wird hier zurückgenommen, ohne dass die Abschnitte
+     ineinanderlaufen. Zugleich steigen die kleinsten Schriftgrößen auf
+     mindestens 13 Pixel. */
+  @media (max-width:640px){
+    section{padding-block:2.5rem;}
+    .section-head{margin-bottom:1.6rem;}
+    .eyebrow{font-size:.82rem;margin-bottom:.7rem;}
+    .hero{padding-top:2rem;}
+    .hero .eyebrow{margin-bottom:1.2rem;}
+    .hero h1{margin-bottom:1rem;}
+    .hero p.lead{margin-bottom:1.2rem;font-size:1rem;}
+    .tc-status{font-size:.8rem;}
+    .bildhinweis{font-size:.84rem;}
+    .kennzahl-label{font-size:.85rem;}
+    .aktuell-daten{font-size:.86rem;}
+    .project-meta{font-size:.84rem;}
+    .footer-bottom{padding-block:1.2rem;}
+    /* Die Laufschrift ist auf dem Telefon der am wenigsten tragende
+       Abschnitt — sie wird schmaler, nicht entfernt. */
+    .marquee-logo img{max-height:34px;}
+
+    /* Karteninnenabstände zurücknehmen — bei gestapelten Karten summiert sich
+       jeder Rand dreifach. */
+    .kompetenz-karte{padding:1.2rem 1.2rem 1.1rem;}
+    .kompetenz-karte h3{margin-top:.8rem;}
+    .kompetenz-begriffe{margin-bottom:1rem;gap:.3rem;}
+    .kompetenz-begriffe li{font-size:.78rem;padding:.2rem .5rem;}
+    .aktuell-body{padding:1rem 1.1rem 1.1rem;}
+    .ablauf-schritt{padding-top:.3rem;}
+    .ablauf-nummer{margin:.7rem 0 .35rem;}
+    .warum-icon{width:38px;height:38px;}
+
+    /* Tippziele der Kopfzeile auf 44 Pixel bringen. */
+    nav.primary .lang-toggle a{min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:center;}
+  }
+  @media (max-width:360px){
+    .hero h1{font-size:1.5rem;}
+    /* Bei 320 Pixeln passen Marke und Menüknopf sonst nicht nebeneinander:
+       Die Unterzeile bricht um, die Kopfzeile wächst, und das ausklappende
+       Menü beginnt hinter ihr. Unterzeile und Abstand werden deshalb
+       schmaler — die Kopfhöhe folgt der Ableitung von selbst. */
+    :root{--marke-unterzeile:.62rem;}
+    .brand-tagline{letter-spacing:.05em;white-space:nowrap;}
+    .nav-row{gap:.8rem;}
   }
 
   /* Ansprechpartner.
@@ -777,6 +879,10 @@ html, body { overflow-x: clip; }
 
   @media (max-width:640px){
     .tc-track{--tc-kachel:min(54vw,210px);--tc-mitte:1.3;--tc-rand:.78;}
+    /* Auf dem Telefon sind die Punkte die einzige Steuerung neben dem
+       Wischen — sie brauchen entsprechend Platz. */
+    .tc-dot{width:44px;height:44px;}
+    .tc-dots{gap:0;}
     .tc-nav{display:none;}
   }
 
@@ -970,13 +1076,14 @@ html, body { overflow-x: clip; }
   }
   .toast.show{transform:translate(-50%,0);}
 
+  /* 44 Pixel, damit die Schaltfläche mit dem Daumen sicher zu treffen ist. */
   .menu-toggle-label{
-    display:none;width:40px;height:40px;border:1px solid var(--border);border-radius:5px;
+    display:none;width:44px;height:44px;border:1px solid var(--border);border-radius:5px;
     align-items:center;justify-content:center;cursor:pointer;flex:none;
   }
   @media (max-width:900px){
     nav.primary{
-      position:fixed;inset:64px 0 0 0;background:var(--surface);flex-direction:column;
+      position:fixed;inset:var(--kopfhoehe) 0 0 0;background:var(--surface);flex-direction:column;
       padding:2rem 1.5rem;gap:1.4rem;transform:translateX(100%);transition:transform .25s ease;
       border-top:1px solid var(--border);
     }

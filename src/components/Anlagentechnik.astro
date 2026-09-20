@@ -1,0 +1,64 @@
+---
+import { ANLAGENGRUPPEN } from '../data/anlagentechnik';
+import { getLang } from '../i18n/ui';
+
+/* Technische Details als Accordion.
+ *
+ * Umgesetzt mit nativen <details>/<summary>: Sie sind ohne JavaScript
+ * bedienbar, mit der Tastatur erreichbar und die Inhalte stehen immer im
+ * HTML — auch Suchmaschinen lesen sie. Eine nachgebaute Lösung mit
+ * aria-expanded hätte hier nichts besser gemacht, aber JavaScript zur
+ * Voraussetzung.
+ *
+ * Standardmäßig ist nur die erste Gruppe offen. Mehrere dürfen gleichzeitig
+ * offen sein (kein `name`-Attribut): Wer zwei Gruppen vergleichen will, soll
+ * das können, ohne die erste wieder zu verlieren.
+ */
+const lang = getLang(Astro.url);
+const t = lang === 'de'
+  ? { titel: 'Abgedeckte Anlagentechnik im Detail', intro: 'Von der Mittelspannungsschaltanlage bis zur Gebäudeautomation — die technische Bandbreite, die wir planen, bauen und betreuen. Bereich anklicken zum Aufklappen.' }
+  : { titel: 'Systems we cover in detail', intro: 'From medium-voltage switchgear to building automation — the technical range we design, build and maintain. Select a group to expand it.' };
+---
+
+<div class="anlagentechnik" id="anlagentechnik">
+  <div class="techscope-head">
+    <h2>{t.titel}</h2>
+    <p>{t.intro}</p>
+  </div>
+
+  <div class="akkordeon">
+    {ANLAGENGRUPPEN.map((g, i) => (
+      <details class="akkordeon-gruppe" id={g.id} open={i === 0}>
+        <summary>
+          <span class="akkordeon-titel">{lang === 'de' ? g.titel : g.titelEn}</span>
+          <span class="akkordeon-zeichen" aria-hidden="true"></span>
+        </summary>
+        <div class="akkordeon-inhalt">
+          <p class="akkordeon-einleitung">{lang === 'de' ? g.einleitung : g.einleitungEn}</p>
+          <ul>
+            {(lang === 'de' ? g.punkte : g.punkteEn).map((p) => <li>{p}</li>)}
+          </ul>
+        </div>
+      </details>
+    ))}
+  </div>
+</div>
+
+<script>
+  /* Wird eine Gruppe direkt angesprungen — etwa aus der Fußzeile —, soll sie
+     offen sein. Ohne das landet der Besucher auf einer zugeklappten
+     Überschrift und sieht nicht, wonach er gesucht hat. */
+  (function () {
+    function oeffneAusAdresse() {
+      var id = location.hash.slice(1);
+      if (!id) return;
+      var el = document.getElementById(id);
+      if (el && el.tagName === 'DETAILS') {
+        el.open = true;
+        el.scrollIntoView({ block: 'start', behavior: 'auto' });
+      }
+    }
+    oeffneAusAdresse();
+    window.addEventListener('hashchange', oeffneAusAdresse);
+  })();
+</script>

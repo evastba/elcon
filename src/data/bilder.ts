@@ -57,35 +57,55 @@ export interface Bildeintrag {
   beleg: string;
   /** Wird das Motiv derzeit auf der Website verwendet? */
   verwendet: boolean;
+  /** Wo es steht, sofern verwendet. */
+  einsatzort: string | null;
+  /** Zugehöriges Projekt oder Leistungsfeld. */
+  bezug: string | null;
+  /** Urheber oder Rechteinhaber, soweit bekannt. */
+  rechteinhaber: string | null;
+  /** Darf das Motiv verwendet werden? */
+  nutzungsfreigabe: Bildfreigabe;
+  /** Darf es öffentlich gezeigt werden? */
+  veroeffentlichungsfreigabe: Bildfreigabe;
   /** Empfehlung, das Motiv durch eine reale Aufnahme zu ersetzen. */
   ersatzEmpfohlen: boolean;
+  /**
+   * Dringlichkeit des Ersatzes, 1 (höchste) bis 6.
+   * Reihenfolge: aktuelle deutsche Referenzen, aktuelle Projektdetailseiten,
+   * Unternehmens- und Teambereich, Leistungsseite, historische
+   * Projektdetailseiten, dekorative Bereiche.
+   */
+  ersatzPrioritaet: 1 | 2 | 3 | 4 | 5 | 6 | null;
 }
+
+/** Freigabestand eines Motivs. */
+export type Bildfreigabe = 'erteilt' | 'offen' | 'entfaellt';
 
 const kiPerson = 'Bisher mit dem Overlay "AI generated" gekennzeichnet; keine Aufnahmemetadaten. Zeigt Personen.';
 const kiTechnik = 'Bisher mit dem Overlay "AI generated" gekennzeichnet; keine Aufnahmemetadaten.';
 
 export const BILDREGISTER: Bildeintrag[] = [
   /* --- Reale Aufnahmen ------------------------------------------------- */
-  { datei: 'projekte/nord-stream-elcon-liefert-elt-te-01.jpg', art: 'echt', beleg: 'EXIF: Canon PowerShot A520, Adobe Photoshop CS3.', verwendet: true, ersatzEmpfohlen: false },
-  { datei: 'projekte/nord-stream-elcon-liefert-elt-te-02.jpg', art: 'echt', beleg: 'EXIF: Canon EOS-1D Mark III, Adobe Photoshop CS3.', verwendet: true, ersatzEmpfohlen: false },
-  { datei: 'projekte/nord-stream-elcon-liefert-elt-te-03.jpg', art: 'echt', beleg: 'EXIF: Canon EOS-1D Mark III, Adobe Photoshop CS3.', verwendet: true, ersatzEmpfohlen: false },
-  { datei: 'projekte/nord-stream-elcon-liefert-elt-te-04.jpg', art: 'echt', beleg: 'EXIF: Canon EOS-1D Mark III, Adobe Photoshop CS3.', verwendet: true, ersatzEmpfohlen: false },
-  { datei: 'projekte/nord-stream-elcon-liefert-elt-te-05.jpg', art: 'echt', beleg: 'EXIF: Canon EOS-1D Mark III, Adobe Photoshop CS3.', verwendet: true, ersatzEmpfohlen: false },
-  { datei: 'projekte/nord-stream-elcon-liefert-elt-te-06.jpg', art: 'echt', beleg: 'EXIF: Canon EOS-1D Mark III, Adobe Photoshop CS3.', verwendet: true, ersatzEmpfohlen: false },
-  { datei: 'projekte/nord-stream-elcon-liefert-elt-te-07.jpg', art: 'echt', beleg: 'EXIF: Olympus uD800/S800.', verwendet: true, ersatzEmpfohlen: false },
-  { datei: 'projekte/nord-stream-elcon-liefert-elt-te-08.jpg', art: 'ungeklaert', beleg: 'Teil derselben Bildserie, trägt aber keine Aufnahmemetadaten — Herkunft nicht unabhängig belegt.', verwendet: true, ersatzEmpfohlen: false },
+  { datei: 'projekte/nord-stream-elcon-liefert-elt-te-01.jpg', art: 'echt', beleg: 'EXIF: Canon PowerShot A520, Adobe Photoshop CS3.', verwendet: true, ersatzEmpfohlen: false, einsatzort: 'Projektdetailseite Nord Stream 2011, Galerie', bezug: 'Nord Stream, Ostsee, 2011', rechteinhaber: 'ELCON LED GmbH (Firmenarchiv)', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: null },
+  { datei: 'projekte/nord-stream-elcon-liefert-elt-te-02.jpg', art: 'echt', beleg: 'EXIF: Canon EOS-1D Mark III, Adobe Photoshop CS3.', verwendet: true, ersatzEmpfohlen: false, einsatzort: 'Projektdetailseite Nord Stream 2011, Galerie', bezug: 'Nord Stream, Ostsee, 2011', rechteinhaber: 'ELCON LED GmbH (Firmenarchiv)', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: null },
+  { datei: 'projekte/nord-stream-elcon-liefert-elt-te-03.jpg', art: 'echt', beleg: 'EXIF: Canon EOS-1D Mark III, Adobe Photoshop CS3.', verwendet: true, ersatzEmpfohlen: false, einsatzort: 'Projektdetailseite Nord Stream 2011, Galerie', bezug: 'Nord Stream, Ostsee, 2011', rechteinhaber: 'ELCON LED GmbH (Firmenarchiv)', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: null },
+  { datei: 'projekte/nord-stream-elcon-liefert-elt-te-04.jpg', art: 'echt', beleg: 'EXIF: Canon EOS-1D Mark III, Adobe Photoshop CS3.', verwendet: true, ersatzEmpfohlen: false, einsatzort: 'Projektdetailseite Nord Stream 2011, Galerie', bezug: 'Nord Stream, Ostsee, 2011', rechteinhaber: 'ELCON LED GmbH (Firmenarchiv)', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: null },
+  { datei: 'projekte/nord-stream-elcon-liefert-elt-te-05.jpg', art: 'echt', beleg: 'EXIF: Canon EOS-1D Mark III, Adobe Photoshop CS3.', verwendet: true, ersatzEmpfohlen: false, einsatzort: 'Projektdetailseite Nord Stream 2011, Galerie', bezug: 'Nord Stream, Ostsee, 2011', rechteinhaber: 'ELCON LED GmbH (Firmenarchiv)', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: null },
+  { datei: 'projekte/nord-stream-elcon-liefert-elt-te-06.jpg', art: 'echt', beleg: 'EXIF: Canon EOS-1D Mark III, Adobe Photoshop CS3.', verwendet: true, ersatzEmpfohlen: false, einsatzort: 'Projektdetailseite Nord Stream 2011, Galerie', bezug: 'Nord Stream, Ostsee, 2011', rechteinhaber: 'ELCON LED GmbH (Firmenarchiv)', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: null },
+  { datei: 'projekte/nord-stream-elcon-liefert-elt-te-07.jpg', art: 'echt', beleg: 'EXIF: Olympus uD800/S800.', verwendet: true, ersatzEmpfohlen: false, einsatzort: 'Projektdetailseite Nord Stream 2011, Galerie', bezug: 'Nord Stream, Ostsee, 2011', rechteinhaber: 'ELCON LED GmbH (Firmenarchiv)', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: null },
+  { datei: 'projekte/nord-stream-elcon-liefert-elt-te-08.jpg', art: 'ungeklaert', beleg: 'Teil derselben Bildserie, trägt aber keine Aufnahmemetadaten — Herkunft nicht unabhängig belegt.', verwendet: true, ersatzEmpfohlen: false, einsatzort: 'Projektdetailseite Nord Stream 2011, Galerie', bezug: 'Nord Stream, Ostsee, 2011', rechteinhaber: null, nutzungsfreigabe: 'offen', veroeffentlichungsfreigabe: 'offen', ersatzPrioritaet: null },
 
   /* --- Fotorealistische KI-Motive mit Personen -------------------------- */
-  { datei: 'leistungen/baustelle-messung.jpg', art: 'ki-personen', beleg: kiPerson, verwendet: true, ersatzEmpfohlen: true },
-  { datei: 'leistungen/beratung-anlage.jpg', art: 'ki-personen', beleg: kiPerson, verwendet: true, ersatzEmpfohlen: true },
-  { datei: 'leistungen/hebebuehne-verkabelung.jpg', art: 'ki-personen', beleg: kiPerson, verwendet: true, ersatzEmpfohlen: true },
-  { datei: 'leistungen/kommunikationssysteme-rack.jpg', art: 'ki-personen', beleg: kiPerson, verwendet: true, ersatzEmpfohlen: true },
-  { datei: 'leistungen/mittelspannung-schneider.jpg', art: 'ki-personen', beleg: kiPerson, verwendet: true, ersatzEmpfohlen: true },
-  { datei: 'leistungen/msr-handheld.jpg', art: 'ki-personen', beleg: kiPerson, verwendet: true, ersatzEmpfohlen: true },
-  { datei: 'leistungen/planbesprechung-baustelle.jpg', art: 'ki-personen', beleg: kiPerson, verwendet: true, ersatzEmpfohlen: true },
-  { datei: 'leistungen/team-montage.jpg', art: 'ki-personen', beleg: kiPerson, verwendet: true, ersatzEmpfohlen: true },
-  { datei: 'leistungen/thermografie.jpg', art: 'ki-personen', beleg: kiPerson, verwendet: true, ersatzEmpfohlen: true },
-  { datei: 'unternehmen/team-planung.jpg', art: 'ki-personen', beleg: kiPerson + ' Steht im Unternehmensabschnitt und könnte als ELCON-Team gelesen werden.', verwendet: true, ersatzEmpfohlen: true },
+  { datei: 'leistungen/baustelle-messung.jpg', art: 'ki-personen', beleg: kiPerson, verwendet: false, ersatzEmpfohlen: true, einsatzort: null, bezug: 'Leistungsfeld Gebäudeautomation', rechteinhaber: 'KI-Erzeugnis, Auftraggeber', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: 4 },
+  { datei: 'leistungen/beratung-anlage.jpg', art: 'ki-personen', beleg: kiPerson, verwendet: true, ersatzEmpfohlen: true, einsatzort: 'Leistungsseite, Lebenszyklus-Band', bezug: 'Leistungsfeld Wartung und Betrieb', rechteinhaber: 'KI-Erzeugnis, Auftraggeber', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: 4 },
+  { datei: 'leistungen/hebebuehne-verkabelung.jpg', art: 'ki-personen', beleg: kiPerson, verwendet: false, ersatzEmpfohlen: true, einsatzort: null, bezug: 'Leistungsfeld Niederspannung', rechteinhaber: 'KI-Erzeugnis, Auftraggeber', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: 4 },
+  { datei: 'leistungen/kommunikationssysteme-rack.jpg', art: 'ki-personen', beleg: kiPerson, verwendet: false, ersatzEmpfohlen: true, einsatzort: null, bezug: 'Leistungsfeld Kommunikationstechnik', rechteinhaber: 'KI-Erzeugnis, Auftraggeber', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: 4 },
+  { datei: 'leistungen/mittelspannung-schneider.jpg', art: 'ki-personen', beleg: kiPerson, verwendet: false, ersatzEmpfohlen: true, einsatzort: null, bezug: 'Leistungsfeld Mittelspannung', rechteinhaber: 'KI-Erzeugnis, Auftraggeber', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: 4 },
+  { datei: 'leistungen/msr-handheld.jpg', art: 'ki-personen', beleg: kiPerson, verwendet: true, ersatzEmpfohlen: true, einsatzort: 'Leistungsseite, Leistungsfelder', bezug: 'Leistungsfeld MSR-Technik', rechteinhaber: 'KI-Erzeugnis, Auftraggeber', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: 4 },
+  { datei: 'leistungen/planbesprechung-baustelle.jpg', art: 'ki-personen', beleg: kiPerson, verwendet: true, ersatzEmpfohlen: true, einsatzort: 'Leistungsseite, Projektphase 01', bezug: 'Leistungsfeld Projektierung', rechteinhaber: 'KI-Erzeugnis, Auftraggeber', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: 4 },
+  { datei: 'leistungen/team-montage.jpg', art: 'ki-personen', beleg: kiPerson, verwendet: true, ersatzEmpfohlen: true, einsatzort: 'Leistungsseite, Projektphase 02', bezug: 'Leistungsfeld Montage', rechteinhaber: 'KI-Erzeugnis, Auftraggeber', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: 4 },
+  { datei: 'leistungen/thermografie.jpg', art: 'ki-personen', beleg: kiPerson, verwendet: true, ersatzEmpfohlen: true, einsatzort: 'Leistungsseite, Projektphase 03', bezug: 'Leistungsfeld Wartung', rechteinhaber: 'KI-Erzeugnis, Auftraggeber', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: 4 },
+  { datei: 'unternehmen/team-planung.jpg', art: 'ki-personen', beleg: kiPerson + ' Steht im Unternehmensabschnitt und könnte als ELCON-Team gelesen werden.', verwendet: true, ersatzEmpfohlen: true, einsatzort: 'Unternehmensseite, Leitbild-Band', bezug: 'Unternehmensdarstellung', rechteinhaber: 'KI-Erzeugnis, Auftraggeber', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: 3 },
 
   /* --- Fotorealistische KI-Motive ohne Personen ------------------------- */
   {
@@ -95,9 +115,15 @@ export const BILDREGISTER: Bildeintrag[] = [
       kiTechnik +
       ' Wird auf Entscheidung des Auftraggebers ohne Hinweis am Bild gezeigt: generisches Gebäude ohne Personen und ohne Bezug auf ein konkretes Projekt. Abgedeckt durch den Sammelnachweis im Impressum.',
     verwendet: true,
+    einsatzort: 'Startseite, Einstieg',
+    bezug: 'Unternehmensdarstellung',
+    rechteinhaber: 'KI-Erzeugnis, Auftraggeber',
+    nutzungsfreigabe: 'erteilt',
+    veroeffentlichungsfreigabe: 'erteilt',
     ersatzEmpfohlen: true,
+    ersatzPrioritaet: 6,
   },
-  { datei: 'leistungen/kabeltrasse.jpg', art: 'ki-technik', beleg: kiTechnik, verwendet: true, ersatzEmpfohlen: false },
+  { datei: 'leistungen/kabeltrasse.jpg', art: 'ki-technik', beleg: kiTechnik, verwendet: true, ersatzEmpfohlen: false, einsatzort: 'Leistungsseite, Leistungsfelder', bezug: 'Leistungsfeld Netzwerktechnik', rechteinhaber: 'KI-Erzeugnis, Auftraggeber', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: 4 },
 
   /* --- KI-Motiv im Referenzumfeld --------------------------------------- */
   {
@@ -105,18 +131,24 @@ export const BILDREGISTER: Bildeintrag[] = [
     art: 'ki-projekt',
     beleg: kiTechnik + ' Steht im Referenzbereich der Projektübersicht und könnte als Projektnachweis gelesen werden.',
     verwendet: true,
+    einsatzort: 'Projektübersicht, Referenzband',
+    bezug: 'Referenzbereich allgemein',
+    rechteinhaber: 'KI-Erzeugnis, Auftraggeber',
+    nutzungsfreigabe: 'erteilt',
+    veroeffentlichungsfreigabe: 'erteilt',
     ersatzEmpfohlen: true,
+    ersatzPrioritaet: 2,
   },
 
   /* --- Derzeit nicht verwendet, Herkunft nicht belegt -------------------- */
-  { datei: 'hero-building.png', art: 'ki-technik', beleg: 'PNG-Fassung desselben Motivs wie hero-building.jpg.', verwendet: false, ersatzEmpfohlen: false },
-  { datei: 'offer/atrium.jpg', art: 'ungeklaert', beleg: 'Keine Metadaten, keine bisherige Kennzeichnung, derzeit nicht eingebunden.', verwendet: false, ersatzEmpfohlen: false },
-  { datei: 'offer/pv-dach.jpg', art: 'ungeklaert', beleg: 'Keine Metadaten, keine bisherige Kennzeichnung, derzeit nicht eingebunden.', verwendet: false, ersatzEmpfohlen: false },
-  { datei: 'unternehmen/tga-gebaeudetechnik.png', art: 'ungeklaert', beleg: 'Keine Metadaten, derzeit nicht eingebunden.', verwendet: false, ersatzEmpfohlen: false },
+  { datei: 'hero-building.png', art: 'ki-technik', beleg: 'PNG-Fassung desselben Motivs wie hero-building.jpg.', verwendet: false, ersatzEmpfohlen: false, einsatzort: null, bezug: 'Unternehmensdarstellung', rechteinhaber: 'KI-Erzeugnis, Auftraggeber', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: null },
+  { datei: 'offer/atrium.jpg', art: 'ungeklaert', beleg: 'Keine Metadaten, keine bisherige Kennzeichnung, derzeit nicht eingebunden.', verwendet: false, ersatzEmpfohlen: false, einsatzort: null, bezug: null, rechteinhaber: null, nutzungsfreigabe: 'offen', veroeffentlichungsfreigabe: 'offen', ersatzPrioritaet: null },
+  { datei: 'offer/pv-dach.jpg', art: 'ungeklaert', beleg: 'Keine Metadaten, keine bisherige Kennzeichnung, derzeit nicht eingebunden.', verwendet: false, ersatzEmpfohlen: false, einsatzort: null, bezug: null, rechteinhaber: null, nutzungsfreigabe: 'offen', veroeffentlichungsfreigabe: 'offen', ersatzPrioritaet: null },
+  { datei: 'unternehmen/tga-gebaeudetechnik.png', art: 'ungeklaert', beleg: 'Keine Metadaten, derzeit nicht eingebunden.', verwendet: false, ersatzEmpfohlen: false, einsatzort: null, bezug: null, rechteinhaber: null, nutzungsfreigabe: 'offen', veroeffentlichungsfreigabe: 'offen', ersatzPrioritaet: null },
 
   /* --- Eigene Grafik ---------------------------------------------------- */
-  { datei: 'logo-icon-v2.png', art: 'grafik', beleg: 'Bildmarke der ELCON LED GmbH.', verwendet: true, ersatzEmpfohlen: false },
-  { datei: 'og-vorschau.png', art: 'grafik', beleg: 'Vorschaubild für geteilte Links.', verwendet: true, ersatzEmpfohlen: false },
+  { datei: 'logo-icon-v2.png', art: 'grafik', beleg: 'Bildmarke der ELCON LED GmbH.', verwendet: true, ersatzEmpfohlen: false, einsatzort: 'Kopf- und Fußzeile', bezug: 'Bildmarke', rechteinhaber: 'ELCON LED GmbH', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: null },
+  { datei: 'og-vorschau.png', art: 'grafik', beleg: 'Vorschaubild für geteilte Links.', verwendet: true, ersatzEmpfohlen: false, einsatzort: 'Vorschaubild geteilter Links', bezug: 'Bildmarke', rechteinhaber: 'ELCON LED GmbH', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: null },
 ];
 
 /* Referenzschreiben und Fremdlogos werden nicht einzeln aufgeführt: Die
@@ -136,6 +168,16 @@ export const ungeklaerteBilder = BILDREGISTER.filter((b) => b.art === 'ungeklaer
 
 /** Motive, für die eine reale Aufnahme empfohlen wird. */
 export const ersatzEmpfohlen = BILDREGISTER.filter((b) => b.ersatzEmpfohlen);
+
+/** Motive, für die noch eine reale Aufnahme gebraucht wird, nach Dringlichkeit. */
+export const ersatzbedarf = BILDREGISTER
+  .filter((b) => b.ersatzEmpfohlen && b.verwendet)
+  .sort((a, z) => (a.ersatzPrioritaet ?? 9) - (z.ersatzPrioritaet ?? 9));
+
+/** Motive ohne geklärte Nutzungs- oder Veröffentlichungsfreigabe. */
+export const offeneBildfreigaben = BILDREGISTER.filter(
+  (b) => b.nutzungsfreigabe === 'offen' || b.veroeffentlichungsfreigabe === 'offen',
+);
 
 /** Braucht das Motiv einen sichtbaren Hinweis im Nutzungskontext? */
 export const brauchtHinweis = (art: Bildart) =>

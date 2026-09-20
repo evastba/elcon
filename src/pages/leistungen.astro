@@ -4,6 +4,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Leistungsfinder from '../components/Leistungsfinder.astro';
 import { asset } from '../lib/assets';
 import Bildhinweis from '../components/Bildhinweis.astro';
+import Anlagentechnik from '../components/Anlagentechnik.astro';
 ---
 
 <BaseLayout title="Leistungen" description="Elektrotechnik, HKLS, MSR- und Gebäudeautomation, Netzwerktechnik, Brandschutz sowie Projektmanagement — alle Gewerke der technischen Gebäudeausrüstung aus einer Hand.">
@@ -54,7 +55,7 @@ import Bildhinweis from '../components/Bildhinweis.astro';
         </div>
       </div>
 
-      <div class="capability-strip">
+      <div class="capability-strip" id="leistungsfelder">
         <div class="capability-item">
           <div class="hex-icon"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></div>
           <div>
@@ -132,56 +133,7 @@ import Bildhinweis from '../components/Bildhinweis.astro';
         </div>
       </div>
 
-      <div class="techscope-head">
-        <h3>Abgedeckte Anlagentechnik im Detail</h3>
-        <p>Von der Mittelspannungsschaltanlage bis zur Gebäudeautomation — die technische Bandbreite, die wir aus einer Hand planen, bauen und betreuen.</p>
-      </div>
-      <div class="techscope-grid">
-        <div class="techscope-item has-photo">
-          <div class="techscope-photo"><Image src={asset("/assets/leistungen/mittelspannung-schneider.jpg")} alt="Techniker arbeitet an einer Mittelspannungsschaltanlage" /></div>
-          <div class="techscope-item-body">
-            <h4>Mittelspannungsanlagen</h4>
-            <p>Mittelspannungsschaltanlagen und Trafostationen.</p>
-          </div>
-        </div>
-        <div class="techscope-item">
-          <h4>EDV-Technik</h4>
-          <p>Datenfernübertragung (DFÜ) und lokale Netzwerkinstallationen (LAN).</p>
-        </div>
-        <div class="techscope-item has-photo">
-          <div class="techscope-photo"><Image src={asset("/assets/leistungen/hebebuehne-verkabelung.jpg")} alt="Techniker verlegt auf einer Hebebühne Kabeltrassen unter der Decke" /></div>
-          <div class="techscope-item-body">
-            <h4>Niederspannungsanlagen</h4>
-            <p>Niederspannungsschaltanlagen, Starkstromkabel- und Leitungsnetze, Schaltanlagenbau, EMV- und ESE-Technologie, Erdungs- und Potentialausgleichssysteme, Blitz- und Überspannungsschutz sowie Niedrigenergiehaus-Technik.</p>
-          </div>
-        </div>
-        <div class="techscope-item">
-          <h4>Energieerzeugung, KWK &amp; Photovoltaik</h4>
-          <p>Diesel-Generator-Anlagen, Blockheizkraftwerke, Windkraftanlagen, solare Energieversorgung und unterbrechungsfreie Stromversorgung (USV).</p>
-        </div>
-        <div class="techscope-item">
-          <h4>Beleuchtungsanlagen</h4>
-          <p>Innenraum-, Außen-, Straßen-, Wege- und Platzbeleuchtung sowie Effekt- und Werbebeleuchtung.</p>
-        </div>
-        <div class="techscope-item has-photo">
-          <div class="techscope-photo"><Image src={asset("/assets/leistungen/kommunikationssysteme-rack.jpg")} alt="Techniker konfektioniert Netzwerk- und Kommunikationsverkabelung in einem Serverschrank" /></div>
-          <div class="techscope-item-body">
-            <h4>Kommunikationssysteme</h4>
-            <p>Telefon- und Interkomanlagen, Personenrufanlagen, elektroakustische Lautsprecheranlagen (ELA) sowie terrestrische und Satelliten-Empfangsanlagen.</p>
-          </div>
-        </div>
-        <div class="techscope-item">
-          <h4>Sicherheitssysteme</h4>
-          <p>Brand- und Gasalarmanlagen, Einbruchmeldeanlagen, Videoüberwachung und Zutrittskontrollsysteme.</p>
-        </div>
-        <div class="techscope-item has-photo">
-          <div class="techscope-photo"><Image src={asset("/assets/leistungen/baustelle-messung.jpg")} alt="Techniker dokumentiert Messwerte an einer Schaltanlage auf der Baustelle" /></div>
-          <div class="techscope-item-body">
-            <h4>Gebäudeautomation &amp; MSRL-Technik</h4>
-            <p>DDC- und SPS-Steuerungen, Gebäudeautomation und Industrie-Steuerungsanlagen.</p>
-          </div>
-        </div>
-      </div>
+      <Anlagentechnik />
     </div>
   </section>
 

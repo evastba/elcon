@@ -4,6 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Leistungsfinder from '../../components/Leistungsfinder.astro';
 import { asset } from '../../lib/assets';
 import Bildhinweis from '../../components/Bildhinweis.astro';
+import Anlagentechnik from '../../components/Anlagentechnik.astro';
 ---
 
 <BaseLayout title="Services" description="Electrical engineering, HVAC and plumbing, instrumentation and building automation, network technology, fire protection and project management — every building services trade from a single source.">
@@ -54,7 +55,7 @@ import Bildhinweis from '../../components/Bildhinweis.astro';
         </div>
       </div>
 
-      <div class="capability-strip">
+      <div class="capability-strip" id="leistungsfelder">
         <div class="capability-item">
           <div class="hex-icon"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></div>
           <div>
@@ -132,56 +133,7 @@ import Bildhinweis from '../../components/Bildhinweis.astro';
         </div>
       </div>
 
-      <div class="techscope-head">
-        <h3>Systems we cover in detail</h3>
-        <p>From medium-voltage switchgear to building automation — the technical range we design, build and look after from a single source.</p>
-      </div>
-      <div class="techscope-grid">
-        <div class="techscope-item has-photo">
-          <div class="techscope-photo"><Image src={asset("/assets/leistungen/mittelspannung-schneider.jpg")} alt="Engineer working on a medium-voltage switchgear assembly" /></div>
-          <div class="techscope-item-body">
-            <h4>Medium-voltage installations</h4>
-            <p>Medium-voltage switchgear and transformer stations.</p>
-          </div>
-        </div>
-        <div class="techscope-item">
-          <h4>IT infrastructure</h4>
-          <p>Remote data transmission and local network installations (LAN).</p>
-        </div>
-        <div class="techscope-item has-photo">
-          <div class="techscope-photo"><Image src={asset("/assets/leistungen/hebebuehne-verkabelung.jpg")} alt="Engineer on an access platform installing cable trays below the ceiling" /></div>
-          <div class="techscope-item-body">
-            <h4>Low-voltage installations</h4>
-            <p>Low-voltage switchgear, power cable and conductor networks, switchgear manufacture, EMC and ESD technology, earthing and equipotential bonding systems, lightning and surge protection, and low-energy building technology.</p>
-          </div>
-        </div>
-        <div class="techscope-item">
-          <h4>Power generation, CHP &amp; photovoltaics</h4>
-          <p>Diesel generator sets, combined heat and power plants, wind turbines, solar power supply and uninterruptible power supplies (UPS).</p>
-        </div>
-        <div class="techscope-item">
-          <h4>Lighting installations</h4>
-          <p>Interior, exterior, street, pathway and open-space lighting, as well as effect and advertising lighting.</p>
-        </div>
-        <div class="techscope-item has-photo">
-          <div class="techscope-photo"><Image src={asset("/assets/leistungen/kommunikationssysteme-rack.jpg")} alt="Engineer terminating network and communications cabling in a server cabinet" /></div>
-          <div class="techscope-item-body">
-            <h4>Communication systems</h4>
-            <p>Telephone and intercom systems, paging systems, electroacoustic public address systems, and terrestrial and satellite reception systems.</p>
-          </div>
-        </div>
-        <div class="techscope-item">
-          <h4>Security systems</h4>
-          <p>Fire and gas alarm systems, intruder alarm systems, video surveillance and access control systems.</p>
-        </div>
-        <div class="techscope-item has-photo">
-          <div class="techscope-photo"><Image src={asset("/assets/leistungen/baustelle-messung.jpg")} alt="Engineer recording measured values at a switchgear assembly on site" /></div>
-          <div class="techscope-item-body">
-            <h4>Building automation &amp; control technology</h4>
-            <p>DDC and PLC control systems, building automation and industrial control installations.</p>
-          </div>
-        </div>
-      </div>
+      <Anlagentechnik />
     </div>
   </section>
 

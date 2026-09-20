@@ -259,6 +259,73 @@ KI-generiertes Motiv. Das ist korrigiert.
 
 ---
 
+## 10a. Benötigte reale Projektbilder
+
+Damit Sie die Bilder gezielt zusammenstellen können, hier der konkrete Bedarf
+in der Reihenfolge, in der er wirkt. Bitte keine Bilder aus dem Internet und
+keine Kundenaufnahmen ohne Freigabe.
+
+### Technische Vorgaben für alle Bilder
+
+| Angabe | Vorgabe |
+| --- | --- |
+| Mindestauflösung | 1600 px lange Kante, besser 2400 px |
+| Seitenverhältnis | 4:3 oder 3:2 (Querformat), Porträts 3:4 |
+| Dateiformat | JPG oder PNG, Originaldatei aus der Kamera |
+| Dateigröße | bis 10 MB je Bild |
+| Namensschema | `projekt-ort-jahr-motiv-01.jpg`, z. B. `vw-salzgitter-2024-schaltanlage-01.jpg` |
+| Mitzuliefern | Aufnahmejahr, Fotograf oder Rechteinhaber, Projektzuordnung, ein Satz zur Bildbeschreibung |
+| Freigabe | schriftliche Zustimmung des Auftraggebers, wenn dessen Anlage oder Gelände erkennbar ist |
+
+Abgebildete Mitarbeitende müssen der Veröffentlichung zugestimmt haben.
+
+### Priorität 1 — aktuelle deutsche Referenzprojekte (Startseite)
+
+Für **Audi-Werk Ingolstadt**, **VW-Werk Emden** und **VW-Batteriewerk
+Salzgitter** liegt derzeit nur das Kundenlogo vor. Gewünscht je Projekt zwei
+bis drei Aufnahmen:
+
+- Gesamtansicht der ausgeführten Anlage
+- technische Detailaufnahme, etwa Schaltschrank oder Energieverteilung
+- Installation im laufenden Betrieb
+
+Einsatzort: Projektkarten der Startseite und künftige Detailseiten.
+
+### Priorität 2 — Referenzbereich der Projektübersicht
+
+Ein reales Projektmotiv als Aufmacher des Referenzbereichs; ersetzt
+`offer/technik-msr.jpg`, das derzeit als KI-Visualisierung gekennzeichnet ist.
+Gewünscht: eine repräsentative Anlagenaufnahme, Querformat 16:6.
+
+### Priorität 3 — Unternehmens- und Teambereich
+
+Ersetzt `unternehmen/team-planung.jpg`. Gewünscht: eine echte Aufnahme aus dem
+Arbeitsalltag, Querformat 16:8. Zusätzlich ein Porträt des Geschäftsführers für
+die Ansprechpartnerkarte (3:4, freigestellter oder neutraler Hintergrund).
+
+### Priorität 4 — Leistungsseite
+
+Fünf KI-Motive mit Personen. Gewünscht je ein reales Motiv zu:
+
+- Projektierung: Planbesprechung auf der Baustelle
+- Montage: Team bei der Installation
+- Wartung: Messung oder Thermografie an der Anlage
+- MSR-Technik: Programmierung am Schaltschrank
+- Beratung: Abstimmung vor der Anlage
+
+### Priorität 6 — Einstieg der Startseite
+
+`hero-building.jpg` ist eine KI-Visualisierung eines Gebäudes. Ein reales
+Referenzobjekt wäre glaubwürdiger, ist aber nachrangig.
+
+### Wenn kein Bild vorliegt
+
+Die Seite funktioniert ohne. Wo kein freigegebenes Foto existiert, zeigt die
+Projektkarte das Kundenlogo, und wo auch das fehlt, eine neutrale Textfläche.
+Es wird kein KI-Bild als echtes Projektfoto ausgegeben.
+
+---
+
 ## 11. Fehlende Ansprechpartnerdaten
 
 Hinterlegt und auf beiden Kontaktseiten sichtbar: **Klaus-Jürgen Deiters,
@@ -366,7 +433,9 @@ Ansprechpartnerfoto (Abschnitt 11), Herkunft von Bild 08 klären (Abschnitt 9).
 | --- | --- |
 | Firmendaten, Impressumsangaben, Ansprechpartner | `src/config.ts` |
 | Projektreferenzen, Logos, Referenzschreiben, Freigaben | `src/data/referenzen.ts` |
-| Bildherkunft und KI-Kennzeichnung | `src/data/bilder.ts` |
+| Bildherkunft, Rechte und KI-Kennzeichnung | `src/data/bilder.ts` |
+| Technische Anlagengruppen der Leistungsseite | `src/data/anlagentechnik.ts` |
+| Texte der Startseitenabschnitte | `src/i18n/startseite.ts` |
 | Projektdetailtexte | `src/data/projekte.ts` |
 | Auswahl des Leistungsfinders | `src/data/finder.ts` |
 | Texte der Navigation und wiederkehrender Bausteine | `src/i18n/ui.ts` |

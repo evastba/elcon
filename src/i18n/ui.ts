@@ -94,7 +94,6 @@ export interface UiTexte {
   footerNavTitel: string;
   /** Erweiterte Fußzeile. */
   footer: {
-    positionierung: string;
     leistungen: string;
     leistungenLinks: { href: string; label: string }[];
     unternehmen: string;
@@ -177,8 +176,6 @@ export const UI: Record<Lang, UiTexte> = {
     ],
     footerNavTitel: 'Navigation',
     footer: {
-      positionierung:
-        'Technische Gebäudeausrüstung für Industrie, Gewerbe und anspruchsvolle Bestandsprojekte.',
       leistungen: 'Leistungen',
       leistungenLinks: [
         { href: '/leistungen/#leistungsfelder', label: 'Elektrotechnik' },
@@ -283,8 +280,6 @@ export const UI: Record<Lang, UiTexte> = {
     ],
     footerNavTitel: 'Navigation',
     footer: {
-      positionierung:
-        'Building services engineering for industry, commerce and demanding existing-building projects.',
       leistungen: 'Services',
       leistungenLinks: [
         { href: '/en/services/#leistungsfelder', label: 'Electrical engineering' },
