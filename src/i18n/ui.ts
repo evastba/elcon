@@ -120,6 +120,8 @@ export interface UiTexte {
     direktLink: string;
   };
   marqueeTitel: string;
+  /** Ansprechpartner-Komponente. */
+  kontaktperson: { eyebrow: string; titel: string; anrufen: string; schreiben: string; sprachen: string };
   /** Einordnung abgeschlossener Projekte der Unternehmenshistorie. */
   historisch: { ueberschrift: string; hinweis: string; kurz: string };
   /** Kennzeichnung KI-generierter Motive, je nach Nutzungskontext. */
@@ -189,6 +191,13 @@ export const UI: Record<Lang, UiTexte> = {
       direktLink: 'Direkt zum Anfrageformular',
     },
     marqueeTitel: 'Vertrauen von Unternehmen und Institutionen',
+    kontaktperson: {
+      eyebrow: 'Ihr Ansprechpartner',
+      titel: 'Wer Ihre Anfrage entgegennimmt',
+      anrufen: 'Anrufen',
+      schreiben: 'E-Mail schreiben',
+      sprachen: 'Sprachen',
+    },
     historisch: {
       ueberschrift: 'Projektbeispiele aus der Unternehmenshistorie',
       hinweis:
@@ -262,6 +271,13 @@ export const UI: Record<Lang, UiTexte> = {
       direktLink: 'Go directly to the enquiry form',
     },
     marqueeTitel: 'Trusted by companies and institutions',
+    kontaktperson: {
+      eyebrow: 'Your contact',
+      titel: 'Who will handle your enquiry',
+      anrufen: 'Call',
+      schreiben: 'Send an email',
+      sprachen: 'Languages',
+    },
     historisch: {
       ueberschrift: 'Project examples from our corporate history',
       hinweis:

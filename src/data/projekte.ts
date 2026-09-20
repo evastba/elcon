@@ -70,13 +70,13 @@ const PROJEKTE: Projektdetail[] = [
   },
   {
     slug: 'nord-stream-2-seit-2018',
-    titel: 'Nordstream II, seit 2018',
+    titel: 'Nord Stream 2, ab 2018',
     kachel: 'Nord Stream 2 Gaspipeline, Ostsee',
     absaetze: [
-      'ELCON liefert ELT-Technik für Offshore Gaspipeline-Projekt “Nordstream 2”',
-      'Wie bereits beim Bau der Pipeline von Nordstream 1 im Jahr 2011, ist auch ELCON LED beim Bau Nordstream-Pipeline 2 vertreten. Auch hier wurde ELCON unter anderem mit der Verlegung von Spezialkabeln, sowie dem Anschluss sämtlicher Messpunkte und Geräte betraut.',
-      'Von großem Vorteil ist hierbei die Jahrzente lange Erfahrung mit Projekten in der russischen Förderation sowie auch die Mitarbeit beim Nordstream 1 Projekt.',
-      'Die Nordstream-Pipeline ist eine Offshore-Gasleitung, bestehend aus zwei jeweils 1.300 Kilometer langen Leitungssträngen auf dem Grund der Ostsee. Die Trasse führt von der UST-Luga / Russland bis zur deutschen Ostseeküste nach Lubmin nahe Greifswald, Mecklenburg Vorpommern und verbindet die Europäische Union auch hier direct mit einigen der größten Erdgasreserven der Welt in Russland.',
+      'ELCON lieferte ELT-Technik für das Offshore-Gaspipeline-Projekt „Nord Stream 2“.',
+      'Wie bereits beim Bau der Pipeline Nord Stream 1 im Jahr 2011 war ELCON LED auch am Bau der Pipeline Nord Stream 2 beteiligt. Auch hier wurde ELCON unter anderem mit der Verlegung von Spezialkabeln sowie dem Anschluss sämtlicher Messpunkte und Geräte betraut.',
+      'Von großem Vorteil war hierbei die jahrzehntelange Erfahrung mit Projekten in der Russischen Föderation sowie die Mitarbeit am Projekt Nord Stream 1.',
+      'Die Nordstream-Pipeline ist eine Offshore-Gasleitung, bestehend aus zwei jeweils 1.300 Kilometer langen Leitungssträngen auf dem Grund der Ostsee. Die Trasse führt von Ust-Luga in Russland bis zur deutschen Ostseeküste nach Lubmin nahe Greifswald, Mecklenburg-Vorpommern, und verbindet die Europäische Union auch hier direkt mit einigen der größten Erdgasreserven der Welt in Russland.',
       'Bauvorhaben: Offshore Gasleitung von UST-Luga / Russland nach Lubmin / Deutschland',
     ],
     felder: [
@@ -85,10 +85,10 @@ const PROJEKTE: Projektdetail[] = [
   },
   {
     slug: 'nord-stream-wartung-seit-2012',
-    titel: 'Nord Stream I - Wartung und Instandhaltung seit 2012',
+    titel: 'Nord Stream I — Wartung und Instandhaltung ab 2012',
     absaetze: [
-      'Nach erfolgreicher Inbetriebnahme der Nord-Stream-Pipeline (Nordstream I) im November 2011, bei der ELCON LED mit der Verlegung von Spezialkabeln und der Planung und Installation von elektrotechnischen Anlagen, sowie dem Anschluss elektrischer Messpunkte und Geräte betraut war, ist die Anlage nun in Betrieb.',
-      'Seit 2012 ist ELCON LED für die Wartung und Instandhaltung der laufenden Anlagen verantwortlich.',
+      'Nach erfolgreicher Inbetriebnahme der Nord-Stream-Pipeline (Nordstream I) im November 2011, bei der ELCON LED mit der Verlegung von Spezialkabeln und der Planung und Installation von elektrotechnischen Anlagen, sowie dem Anschluss elektrischer Messpunkte und Geräte betraut war, ging die Anlage in Betrieb.',
+      'Ab 2012 war ELCON LED für die Wartung und Instandhaltung der Anlagen verantwortlich.',
     ],
     felder: [
     ],
@@ -251,7 +251,7 @@ const PROJEKTE: Projektdetail[] = [
     titel: 'Fertigungsanlagen Continental Automotive Systems Rus, 2011',
     kachel: 'Continental Automotive Systems, Kaluga',
     absaetze: [
-      'Ausbau und Instandhaltung der Fertigungsanlagen in Kaluga - Am Automotive Produktionsstandort Kaluga investiert Continental in den Ausbau seiner Fertigungsanlagen, in denen überwiegend Motorsteuergeräte produziert werden, aber auch Komponenten für Kraftstoffversorgung und Einspritzanlagen. ELCON wurde bei diesem Projekt mit umfassenden Aufgaben in den Bereichen Baumanagement, Technische Wartung, Instandhaltung, Reparatur und Erneuerung betraut.',
+      'Ausbau und Instandhaltung der Fertigungsanlagen in Kaluga — am Automotive-Produktionsstandort Kaluga investierte Continental in den Ausbau seiner Fertigungsanlagen, in denen überwiegend Motorsteuergeräte produziert werden, aber auch Komponenten für Kraftstoffversorgung und Einspritzanlagen. ELCON wurde bei diesem Projekt mit umfassenden Aufgaben in den Bereichen Baumanagement, Technische Wartung, Instandhaltung, Reparatur und Erneuerung betraut.',
       '- mehrsprachige Projektdokumentation',
     ],
     felder: [
@@ -430,22 +430,22 @@ const UEBERSETZUNGEN: Record<string, ProjektdetailEn> = {
     ],
   },
   'nord-stream-2-seit-2018': {
-    titel: 'Nord Stream 2, since 2018',
+    titel: 'Nord Stream 2, from 2018',
     kachel: 'Nord Stream 2 gas pipeline, Baltic Sea',
     absaetze: [
-      'ELCON supplies electrical engineering for the offshore gas pipeline project “Nord Stream 2”',
-      'As already during construction of the Nord Stream 1 pipeline in 2011, ELCON LED is also involved in the construction of the Nord Stream 2 pipeline. Here too, ELCON was entrusted with laying special cables and connecting all measuring points and devices, among other tasks.',
-      'Decades of experience with projects in the Russian Federation, together with the work on the Nord Stream 1 project, are a considerable advantage here.',
+      'ELCON supplied electrical engineering for the offshore gas pipeline project “Nord Stream 2”.',
+      'As on the Nord Stream 1 pipeline in 2011, ELCON LED was also involved in the construction of the Nord Stream 2 pipeline. Here too, ELCON was entrusted with laying special cables and connecting all measuring points and devices, among other tasks.',
+      'Decades of experience with projects in the Russian Federation, together with the work on the Nord Stream 1 project, were a considerable advantage here.',
       'The Nord Stream pipeline is an offshore gas pipeline consisting of two strings, each 1,300 kilometres long, running along the bed of the Baltic Sea. The route runs from Ust-Luga, Russia, to the German Baltic coast at Lubmin near Greifswald, Mecklenburg-Western Pomerania, and here too connects the European Union directly with some of the world’s largest natural gas reserves in Russia.',
       'Project: offshore gas pipeline from Ust-Luga, Russia, to Lubmin, Germany',
     ],
     felder: [],
   },
   'nord-stream-wartung-seit-2012': {
-    titel: 'Nord Stream I — servicing and maintenance since 2012',
+    titel: 'Nord Stream I — servicing and maintenance from 2012',
     absaetze: [
-      'Following the successful commissioning of the Nord Stream pipeline (Nord Stream I) in November 2011 — a project in which ELCON LED was entrusted with laying special cables, designing and installing electrical systems and connecting electrical measuring points and devices — the installation is now in operation.',
-      'Since 2012, ELCON LED has been responsible for servicing and maintaining the operating systems.',
+      'Following the successful commissioning of the Nord Stream pipeline (Nord Stream I) in November 2011 — a project in which ELCON LED was entrusted with laying special cables, designing and installing electrical systems and connecting electrical measuring points and devices — the installation went into operation.',
+      'From 2012, ELCON LED was responsible for servicing and maintaining the installations.',
     ],
     felder: [],
   },
@@ -587,7 +587,7 @@ const UEBERSETZUNGEN: Record<string, ProjektdetailEn> = {
     titel: 'Production facilities, Continental Automotive Systems Rus, 2011',
     kachel: 'Continental Automotive Systems, Kaluga',
     absaetze: [
-      'Expansion and maintenance of the production facilities in Kaluga — at its Kaluga automotive production site, Continental is investing in expanding facilities that mainly produce engine control units, but also components for fuel supply and injection systems. On this project, ELCON was entrusted with wide-ranging tasks in construction management, technical servicing, maintenance, repair and renewal.',
+      'Expansion and maintenance of the production facilities in Kaluga — at its Kaluga automotive production site, Continental invested in expanding facilities that mainly produce engine control units, but also components for fuel supply and injection systems. On this project, ELCON was entrusted with wide-ranging tasks in construction management, technical servicing, maintenance, repair and renewal.',
       '- multilingual project documentation',
     ],
     felder: [

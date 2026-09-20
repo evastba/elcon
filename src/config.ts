@@ -44,7 +44,7 @@ export const company = {
    * ------------------------------------------------------------------ */
 
   /** Namen der vertretungsberechtigten Geschäftsführung. */
-  managingDirectors: ['Klaus Deiters'] as string[] | null,
+  managingDirectors: ['Klaus-Jürgen Deiters'] as string[] | null,
   /** Registergericht. */
   registerCourt: 'Amtsgericht Hildesheim' as string | null,
   /** Handelsregisternummer. */
@@ -61,6 +61,15 @@ export const company = {
    * USt-IdNr. ist nachzutragen; siehe LIVEGANG_CHECKLISTE.md.
    */
   vatId: null as string | null,
+  /**
+   * Steuernummer.
+   *
+   * Keine Pflichtangabe nach § 5 DDG, auf Wunsch des Auftraggebers aber
+   * aufgenommen — korrekt als Steuernummer bezeichnet und nicht, wie im
+   * bisherigen Impressum, als Umsatzsteuer-Identifikationsnummer. Sie
+   * ersetzt die USt-IdNr nicht; die bleibt nachzutragen.
+   */
+  taxNumber: '15/7773289' as string | null,
   /** Zuständige Kammer oder Aufsichtsbehörde, falls einschlägig. */
   chamber: null as string | null,
   /** Berufsrechtliche Bezeichnung und Staat der Verleihung, falls einschlägig. */
@@ -86,10 +95,13 @@ export const fehlendePflichtangaben: { feld: string; de: string; en: string }[] 
     de: 'Handelsregisternummer',
     en: 'Commercial register number',
   },
+  /* Nach § 5 Abs. 1 Nr. 6 DDG nur Pflicht, sofern das Unternehmen eine
+     USt-IdNr besitzt. Sie ist hier noch nicht belegt; die hinterlegte
+     Steuernummer tritt nicht an ihre Stelle. */
   !company.vatId && {
     feld: 'vatId',
-    de: 'Umsatzsteuer-Identifikationsnummer (§ 27a UStG)',
-    en: 'VAT identification number',
+    de: 'Umsatzsteuer-Identifikationsnummer (§ 27a UStG), sofern vorhanden',
+    en: 'VAT identification number, if the company holds one',
   },
 ].filter(Boolean) as { feld: string; de: string; en: string }[];
 
@@ -151,20 +163,41 @@ export interface Ansprechpartner {
 /**
  * Reale Ansprechpartner der ELCON LED GmbH.
  *
- * Bewusst leer: Für den deutschen Standort liegen keine belegten Namen,
- * Funktionen oder Durchwahlen vor. Erfundene Personen wären auf einer
- * Unternehmenswebsite eine Falschangabe, deshalb bleibt die Liste leer, bis
- * echte Daten vorliegen — die Kontaktseite zeigt solange die allgemeinen
- * Unternehmensdaten.
+ * Gepflegt wird ausschließlich hier. Ein Eintrag erscheint nur, wenn `aktiv`
+ * und `veroeffentlichungsfreigabe` beide auf `true` stehen — so lässt sich
+ * eine Person vorübergehend ausblenden, ohne den Datensatz zu verlieren.
  *
- * Die auf www.elcon-led.com genannte Büroleitung des Moskauer Büros ist hier
- * bewusst nicht hinterlegt: Nach Auskunft des Auftraggebers bestehen keine
- * laufenden Projekte in oder mit russischer Beteiligung mehr.
+ * Fehlt ein freigegebenes Foto, setzt die Komponente die Initialen. Ein
+ * KI-erzeugtes Portrait wäre die Darstellung einer Person, die es nicht
+ * gibt, und kommt deshalb nicht in Betracht.
  *
  * Gepflegt wird die Liste ausschließlich hier. Ein Eintrag erscheint erst,
  * wenn `aktiv` und `veroeffentlichungsfreigabe` beide auf `true` stehen.
  */
-export const ansprechpartner: Ansprechpartner[] = [];
+export const ansprechpartner: Ansprechpartner[] = [
+  {
+    id: 'deiters',
+    vorname: 'Klaus-Jürgen',
+    nachname: 'Deiters',
+    funktion: 'Geschäftsführer',
+    funktionEn: 'Managing Director',
+    bereich: null,
+    bereichEn: null,
+    /* Kein eigener Durchwahlanschluss bekannt — es gilt die Zentrale. */
+    telefon: company.phone,
+    telefonHref: company.phoneHref,
+    email: company.email,
+    /* Kein freigegebenes Foto vorhanden. Die Komponente setzt dann die
+       Initialen; ein KI-erzeugtes Portrait kommt nicht in Frage. */
+    foto: null,
+    sprachen: [],
+    aufKontaktseite: true,
+    imFooter: false,
+    leistungsbereiche: [],
+    aktiv: true,
+    veroeffentlichungsfreigabe: true,
+  },
+];
 
 /** Ansprechpartner, die tatsächlich ausgegeben werden dürfen. */
 export const sichtbareAnsprechpartner = ansprechpartner.filter(

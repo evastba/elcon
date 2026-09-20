@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { company } from '../../config';
+import Ansprechpartner from '../../components/Ansprechpartner.astro';
 
 /* Das versteckte Feld "lang" im Formular ist eine Sprachkennung für den
    Posteingang: Das Anfrageformular steht in beiden Sprachen, die Nachricht
@@ -32,6 +33,7 @@ import { company } from '../../config';
           </span>
           <span>Message us directly on WhatsApp</span>
         </a>
+        <Ansprechpartner />
       </div>
       <form class="request" id="requestForm">
         <input type="hidden" name="lang" value="en">

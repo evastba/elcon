@@ -54,6 +54,13 @@ const gf = company.managingDirectors;
     </>
   )}
 
+  {company.taxNumber && (
+    <>
+      <h2>Tax number</h2>
+      <p>{company.taxNumber}</p>
+    </>
+  )}
+
   {company.chamber && (
     <>
       <h2>Competent chamber or supervisory authority</h2>

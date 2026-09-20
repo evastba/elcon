@@ -60,6 +60,13 @@ const gf = company.managingDirectors;
     </>
   )}
 
+  {company.taxNumber && (
+    <>
+      <h2>Steuernummer</h2>
+      <p>{company.taxNumber}</p>
+    </>
+  )}
+
   {company.chamber && (
     <>
       <h2>Zuständige Kammer bzw. Aufsichtsbehörde</h2>
