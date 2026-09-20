@@ -522,7 +522,16 @@ const vollbild: Record<string, string> = Object.fromEntries(
       </div>
 
       <div class="projekt-aufklappen">
-        <button type="button" class="cta-btn ghost" id="projekteMehr" aria-expanded="false" aria-controls="projectGrid" hidden>
+        <button
+          type="button"
+          class="cta-btn ghost"
+          id="projekteMehr"
+          aria-expanded="false"
+          aria-controls="projectGrid"
+          data-mehr="Show more projects"
+          data-weniger="Show fewer"
+          hidden
+        >
           Show more projects
         </button>
       </div>
@@ -860,7 +869,7 @@ const vollbild: Record<string, string> = Object.fromEntries(
     if(rasterOffen){
       knopf.hidden = false;
       knopf.setAttribute('aria-expanded', 'true');
-      knopf.textContent = 'Show fewer';
+      knopf.textContent = knopf.dataset.weniger;
       return;
     }
 
@@ -876,9 +885,9 @@ const vollbild: Record<string, string> = Object.fromEntries(
 
     knopf.hidden = verborgen === 0;
     knopf.setAttribute('aria-expanded', 'false');
-    knopf.textContent = verborgen === 1
-      ? 'Show 1 more project'
-      : 'Show ' + verborgen + ' more projects';
+    /* Die Beschriftungen stehen am Knopf selbst, nicht hier: So bleibt dieses
+       Skript in beiden Sprachfassungen wortgleich. */
+    knopf.textContent = knopf.dataset.mehr;
   }
 
   (function(){
