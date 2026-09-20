@@ -22,8 +22,8 @@ export const company = {
   street: 'Bauernstraße 34',
   zip: '31275',
   city: 'Lehrte',
-  /** Ortsteil, im Impressum des Stammhauses mit angegeben. */
-  district: 'OT Immensen',
+  /** Ortsteil; erscheint zusammen mit dem Ort in einer Zeile. */
+  district: 'Immensen',
   country: 'Deutschland',
   /** Landesname für die englische Fassung der Anschrift. */
   countryEn: 'Germany',
@@ -77,6 +77,15 @@ export const company = {
   /** Inhaltlich Verantwortlicher, falls abweichend von der Geschäftsführung. */
   contentResponsible: null as string | null,
 } as const;
+
+/**
+ * Ort in einer Zeile, wie er auf der Website erscheint.
+ *
+ * Der Ortsteil stand bisher als eigene Zeile darueber; zusammengezogen
+ * bleibt die Anschrift kuerzer, ohne eine Angabe zu verlieren. Die
+ * strukturierten Daten fuehren Ort und Postleitzahl weiterhin getrennt.
+ */
+export const ortZeile = `${company.zip} ${company.city}/${company.district}`;
 
 /** Pflichtangaben nach § 5 DDG, die noch fehlen — Schlüssel und Klartext. */
 export const fehlendePflichtangaben: { feld: string; de: string; en: string }[] = [

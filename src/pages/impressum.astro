@@ -1,6 +1,6 @@
 ---
 import LegalLayout from '../layouts/LegalLayout.astro';
-import { company, fehlendePflichtangaben, geschaeftsfuehrungLabel } from '../config';
+import { company, fehlendePflichtangaben, geschaeftsfuehrungLabel, ortZeile } from '../config';
 
 /* Fehlende Pflichtangaben gehören nicht als Hinweiskasten auf die
    veröffentlichte Seite — sie stehen in LIVEGANG_CHECKLISTE.md. Damit die
@@ -24,8 +24,7 @@ const gf = company.managingDirectors;
   <p>
     {company.name}<br />
     {company.street}<br />
-    {company.district}<br />
-    {company.zip} {company.city}<br />
+    {ortZeile}<br />
     {company.country}
   </p>
 

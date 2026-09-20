@@ -1,6 +1,6 @@
 ---
 import LegalLayout from '../../layouts/LegalLayout.astro';
-import { company, geschaeftsfuehrungLabel } from '../../config';
+import { company, geschaeftsfuehrungLabel, ortZeile } from '../../config';
 
 const gf = company.managingDirectors;
 ---
@@ -18,8 +18,7 @@ const gf = company.managingDirectors;
   <p>
     {company.name}<br />
     {company.street}<br />
-    {company.district}<br />
-    {company.zip} {company.city}<br />
+    {ortZeile}<br />
     {company.countryEn}
   </p>
 

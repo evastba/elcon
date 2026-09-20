@@ -102,6 +102,8 @@ export interface UiTexte {
     cta: string;
     telefon: string;
     email: string;
+    whatsapp: string;
+    whatsappLink: string;
   };
   footerRechtliches: string;
   impressum: string;
@@ -205,6 +207,8 @@ export const UI: Record<Lang, UiTexte> = {
       cta: 'Projekt besprechen',
       telefon: 'Telefon',
       email: 'E-Mail',
+      whatsapp: 'WhatsApp',
+      whatsappLink: 'Nachricht schreiben',
     },
     footerRechtliches: 'Rechtliches',
     impressum: 'Impressum',
@@ -317,6 +321,8 @@ export const UI: Record<Lang, UiTexte> = {
       cta: 'Discuss your project',
       telefon: 'Phone',
       email: 'Email',
+      whatsapp: 'WhatsApp',
+      whatsappLink: 'Send a message',
     },
     footerRechtliches: 'Legal',
     impressum: 'Legal notice',

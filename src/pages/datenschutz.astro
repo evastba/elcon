@@ -1,6 +1,6 @@
 ---
 import LegalLayout from '../layouts/LegalLayout.astro';
-import { company, analyticsEnabled, GA_MEASUREMENT_ID, cloudflareAnalyticsEnabled, anyAnalyticsEnabled } from '../config';
+import { company, analyticsEnabled, GA_MEASUREMENT_ID, cloudflareAnalyticsEnabled, anyAnalyticsEnabled, ortZeile } from '../config';
 ---
 
 <LegalLayout
@@ -15,8 +15,7 @@ import { company, analyticsEnabled, GA_MEASUREMENT_ID, cloudflareAnalyticsEnable
   <p>
     {company.name}<br />
     {company.street}<br />
-    {company.district}<br />
-    {company.zip} {company.city}<br />
+    {ortZeile}<br />
     {company.country}<br />
     Telefon: <a href={`tel:${company.phoneHref}`}>{company.phone}</a><br />
     E-Mail: <a href={`mailto:${company.email}`}>{company.email}</a>

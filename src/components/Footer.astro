@@ -2,7 +2,7 @@
 import { Image } from 'astro:assets';
 import logoIcon from '../assets/logo-icon-v2.png';
 import Ansprechpartner from './Ansprechpartner.astro';
-import { company, analyticsEnabled } from '../config';
+import { company, analyticsEnabled, ortZeile } from '../config';
 import { getLang, UI, pfad } from '../i18n/ui';
 
 /* Erweiterte Fußzeile in vier Spalten.
@@ -36,8 +36,7 @@ const land = lang === 'de' ? company.country : company.countryEn;
       <p class="footer-firma">{company.name}</p>
       <address class="footer-adresse">
         {company.street}<br />
-        {company.district}<br />
-        {company.zip} {company.city}<br />
+        {ortZeile}<br />
         {land}
       </address>
     </div>
@@ -66,6 +65,10 @@ const land = lang === 'de' ? company.country : company.countryEn;
         <li>
           <span>{f.email}</span>
           <a href={`mailto:${company.email}`}>{company.email}</a>
+        </li>
+        <li>
+          <span>{f.whatsapp}</span>
+          <a href={`https://wa.me/${company.whatsapp}`} target="_blank" rel="noopener">{f.whatsappLink}</a>
         </li>
       </ul>
       <a class="cta-btn primary footer-cta" href={pfad('/kontakt/', lang)}>{f.cta}</a>
