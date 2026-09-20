@@ -87,7 +87,7 @@ export const STARTSEITE: Record<'de' | 'en', Startseite> = {
     },
     hero: {
       eyebrow: 'Generalunternehmer für technische Gebäudeausrüstung',
-      h1: ['Elektro-, Gebäude- und', 'Automatisierungstechnik', 'in einer Verantwortung.'],
+      h1: ['Komplexe Projekte', 'aus einer Hand', 'mit 30+ Jahren Expertise.'],
       lead:
         'ELCON plant, baut und betreut die technische Ausrüstung von Industrie- und Gewerbebauten: Elektrotechnik, Heizung, Klima, Lüftung, Sanitär sowie Mess-, Steuer- und Regeltechnik. Ein Projektteam koordiniert die Gewerke — auch im laufenden Betrieb.',
       vertrauen: 'In Deutschland verankert. International projekterfahren. Seit 1993.',
@@ -225,7 +225,7 @@ export const STARTSEITE: Record<'de' | 'en', Startseite> = {
     },
     hero: {
       eyebrow: 'Main contractor for building services engineering',
-      h1: ['Electrical, mechanical and', 'automation systems', 'under one responsibility.'],
+      h1: ['Complex projects', 'from a single source', 'with 30+ years of expertise.'],
       lead:
         'ELCON designs, builds and maintains the technical services of industrial and commercial buildings: electrical installations, heating, air conditioning, ventilation, plumbing and control technology. One project team coordinates the trades — including during ongoing operation.',
       vertrauen: 'Rooted in Germany. Internationally experienced. Since 1993.',

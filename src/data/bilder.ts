@@ -88,7 +88,15 @@ export const BILDREGISTER: Bildeintrag[] = [
   { datei: 'unternehmen/team-planung.jpg', art: 'ki-personen', beleg: kiPerson + ' Steht im Unternehmensabschnitt und könnte als ELCON-Team gelesen werden.', verwendet: true, ersatzEmpfohlen: true },
 
   /* --- Fotorealistische KI-Motive ohne Personen ------------------------- */
-  { datei: 'hero-building.jpg', art: 'ki-technik', beleg: kiTechnik, verwendet: true, ersatzEmpfohlen: true },
+  {
+    datei: 'hero-building.jpg',
+    art: 'ki-technik',
+    beleg:
+      kiTechnik +
+      ' Wird auf Entscheidung des Auftraggebers ohne Hinweis am Bild gezeigt: generisches Gebäude ohne Personen und ohne Bezug auf ein konkretes Projekt. Abgedeckt durch den Sammelnachweis im Impressum.',
+    verwendet: true,
+    ersatzEmpfohlen: true,
+  },
   { datei: 'leistungen/kabeltrasse.jpg', art: 'ki-technik', beleg: kiTechnik, verwendet: true, ersatzEmpfohlen: false },
 
   /* --- KI-Motiv im Referenzumfeld --------------------------------------- */

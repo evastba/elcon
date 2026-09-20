@@ -25,6 +25,7 @@ const text = lang === 'de' ? r.kurzText : r.kurzTextEn;
 const platte = lang === 'de' ? r.textPlatte : r.textPlatteEn;
 const basis = lang === 'de' ? '/projekte/' : '/en/projects/';
 const mehr = lang === 'de' ? 'Details ansehen' : 'View details';
+const kurz = lang === 'de' ? 'Kurzreferenz' : 'Short reference';
 
 /* Logos nur zeigen, wenn die Verwendung nicht ausdrücklich abgelehnt wurde.
    Fehlende Freigabe ist kein Grund, die Referenz ganz zu verbergen — dann
@@ -80,8 +81,10 @@ const gross = r.darstellung === 'logo-gross' || r.darstellung === 'logo-doppelt'
     </h3>
     <span class="project-meta" set:html={meta} />
     <p set:html={text} />
-    {r.slug && (
+    {r.slug ? (
       <span class="project-mehr">{mehr} <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
+    ) : (
+      <span class="project-kurz">{kurz}</span>
     )}
   </div>
 </article>

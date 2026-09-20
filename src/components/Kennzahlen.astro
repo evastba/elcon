@@ -1,5 +1,5 @@
 ---
-import { getLang } from '../i18n/ui';
+import { getLang, UI } from '../i18n/ui';
 import { STARTSEITE } from '../i18n/startseite';
 
 /* Vertrauenskennzahlen direkt unter dem Einstieg.
@@ -8,11 +8,18 @@ import { STARTSEITE } from '../i18n/startseite';
  * 1993 wird bewusst nicht hochgezählt — eine laufende Jahreszahl wirkt wie ein
  * Fehler. Bei reduzierter Bewegung wird gar nicht animiert.
  */
-const t = STARTSEITE[getLang(Astro.url)].kennzahlen;
+const lang = getLang(Astro.url);
+const t = STARTSEITE[lang].kennzahlen;
+
+/* Überschrift des Vertrauensabschnitts. Sie gilt für Kennzahlen und
+   Logo-Laufschrift gemeinsam — die Laufschrift führt sie deshalb nicht
+   noch einmal. */
+const titel = UI[lang].marqueeTitel;
 ---
 
-<section class="kennzahlen-band" aria-label={t.eyebrow}>
+<section class="kennzahlen-band" aria-labelledby="vertrauenTitel">
   <div class="wrap">
+    <h2 class="kennzahlen-titel" id="vertrauenTitel">{titel}</h2>
     <dl class="kennzahlen">
       {t.werte.map((k) => (
         <div class="kennzahl">

@@ -244,6 +244,12 @@ html, body { overflow-x: clip; }
   /* --- Vertrauenskennzahlen ----------------------------------------------- */
   .kennzahlen-band{padding-block:0;}
   .kennzahlen-band .wrap{padding-block:1.8rem;}
+  /* Überschrift des Vertrauensabschnitts — sie gilt für die Kennzahlen und
+     die Logo-Laufschrift darunter gemeinsam. */
+  .kennzahlen-titel{
+    margin:0 0 1.1rem;font-size:clamp(1.05rem,2vw,1.25rem);font-weight:800;
+    color:var(--text);letter-spacing:-.005em;
+  }
   .kennzahlen{
     display:grid;grid-template-columns:repeat(4,1fr);gap:1.4rem;margin:0;
     border-top:1px solid var(--border);border-bottom:1px solid var(--border);
@@ -259,7 +265,8 @@ html, body { overflow-x: clip; }
   }
 
   /* --- Logo-Laufschrift als Vertrauensbeleg ------------------------------- */
-  .vertrauensband{padding-block:1.4rem 2.4rem;}
+  .vertrauensband{padding-block:0 2.4rem;}
+  .vertrauensband .trust-block{margin-bottom:0;}
 
   /* --- Kompetenzfelder ---------------------------------------------------- */
   .kompetenz-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;}
@@ -395,6 +402,7 @@ html, body { overflow-x: clip; }
   }
   @media (max-width:640px){
     .hero-vertrauen{margin:-1.2rem 0 1.4rem;font-size:.86rem;}
+    .kennzahlen-titel{margin-bottom:.9rem;font-size:1rem;}
     .kennzahlen{grid-template-columns:repeat(2,1fr);gap:1.1rem;padding-block:1.2rem;}
     .kennzahlen-band .wrap{padding-block:1.2rem;}
     .vertrauensband{padding-block:1rem 1.8rem;}
@@ -413,6 +421,67 @@ html, body { overflow-x: clip; }
     .hero-ctas .cta-btn{width:100%;justify-content:center;}
     .abschluss-aktion{width:100%;}
     .abschluss-aktion .cta-btn{width:100%;justify-content:center;}
+  }
+
+  /* --- Erweiterte Fußzeile ------------------------------------------------
+     Vier Spalten: Marke, Leistungen, Unternehmen, Kontakt. Die Linkgruppen
+     sind <details>-Elemente — auf breiten Bildschirmen dauerhaft offen, auf
+     schmalen einklappbar, damit die Fußzeile das Seitenende nicht dominiert.
+     Die rechtlichen Verweise stehen außerhalb und bleiben immer sichtbar. */
+  .footer-positionierung{
+    margin:.9rem 0 1rem;font-size:.9rem;line-height:1.6;color:var(--text-muted);max-width:34ch;
+  }
+  .footer-gruppe summary{
+    list-style:none;cursor:default;display:flex;align-items:center;justify-content:space-between;
+  }
+  .footer-gruppe summary::-webkit-details-marker{display:none;}
+  .footer-gruppe summary h2{
+    margin:0;font-size:.82rem;font-weight:700;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--text);
+  }
+  .footer-gruppe summary::after{
+    content:"";width:9px;height:9px;flex:none;display:none;
+    border-right:2px solid var(--text-muted);border-bottom:2px solid var(--text-muted);
+    transform:rotate(45deg);margin-right:3px;
+    transition:transform .15s ease-out;
+  }
+  .footer-gruppe ul{list-style:none;margin:.9rem 0 0;padding:0;display:flex;flex-direction:column;gap:.5rem;}
+  .footer-gruppe a{font-size:.92rem;line-height:1.45;}
+
+  .footer-kontakt h2{
+    margin:0 0 .9rem;font-size:.82rem;font-weight:700;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--text);
+  }
+  .footer-wege{list-style:none;margin:0 0 1.2rem;padding:0;display:flex;flex-direction:column;gap:.7rem;}
+  .footer-wege li{display:flex;flex-direction:column;gap:.1rem;}
+  .footer-wege span{
+    font-size:.72rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--text-muted);
+  }
+  .footer-wege a{font-size:.98rem;font-weight:600;overflow-wrap:anywhere;}
+  .footer-cta{justify-content:center;}
+
+  @media (max-width:900px){
+    .footer-grid{grid-template-columns:1fr 1fr;gap:2rem;}
+    .footer-marke{grid-column:1 / -1;}
+  }
+  @media (max-width:640px){
+    .footer-grid{grid-template-columns:1fr;gap:1.2rem;padding-block:2rem;}
+    .footer-marke{grid-column:auto;}
+    .footer-positionierung{max-width:none;}
+    /* Auf schmalen Bildschirmen sind die Linkgruppen zusammengeklappt: Die
+       Fußzeile bleibt kurz, die Ziele sind mit einem Tipp erreichbar. Die
+       rechtlichen Verweise liegen außerhalb und bleiben immer sichtbar. */
+    .footer-gruppe{border-top:1px solid var(--border);padding-block:.2rem;}
+    .footer-gruppe summary{cursor:pointer;padding-block:.85rem;min-height:44px;}
+    .footer-gruppe summary::after{display:block;transform:rotate(45deg);}
+    .footer-gruppe[open] summary::after{transform:rotate(-135deg);}
+    .footer-gruppe ul{margin:0 0 1rem;gap:.7rem;}
+    .footer-gruppe a{display:inline-block;padding-block:.15rem;}
+    .footer-kontakt{border-top:1px solid var(--border);padding-top:1.2rem;}
+    .footer-cta{width:100%;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .footer-gruppe summary::after{transition:none;}
   }
 
   /* Ansprechpartner.
@@ -567,7 +636,7 @@ html, body { overflow-x: clip; }
       padding:.3rem 0 0 1rem;background:none;min-width:0;
     }
   }
-  .project-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:1rem;margin-bottom:3rem;}
+  .project-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem;margin-bottom:3rem;}
   .reference-directory{border-top:1px solid var(--border);padding-top:1.8rem;}
 
   /* Referenzen — Abschnitt 1: Ausgewählte Referenzen */
@@ -753,16 +822,30 @@ html, body { overflow-x: clip; }
   .project-logo-dual{display:flex;gap:.6rem;align-items:center;}
   .project-logo-dual .project-logo-chip{max-width:none;padding:.3rem .5rem;}
   .project-logo-dual .project-logo-chip img{max-height:58px;}
-  .project-body{padding:.8rem .9rem 1rem;}
+  .project-body{padding:1rem 1.1rem 1.15rem;display:flex;flex-direction:column;}
   .project-tag{
     display:inline-block;font-size:.68rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
     color:var(--accent-2);background:color-mix(in srgb, var(--accent-2) 14%, transparent);
     padding:.22rem .5rem;border-radius:4px;margin-bottom:.6rem;
   }
-  .project-body h3{margin:0 0 .15rem;font-size:.84rem;font-weight:700;line-height:1.3;}
-  .project-meta{display:block;font-size:.66rem;color:var(--text-muted);margin:0 0 .4rem;}
+  /* Typografie der Projektkacheln.
+
+     Die Werte lagen zuvor bei 0.84rem für die Überschrift und 0.66rem für die
+     Metazeile — rund 13 und 11 Pixel. Das war auf dem Bildschirm mühsam und
+     auf dem Telefon kaum lesbar. Jetzt: Überschrift 17 Pixel, Metazeile 13,
+     Beschreibung 15 bei einer Zeilenhöhe von 1.55. Lange Projektnamen brechen
+     um, statt abgeschnitten zu werden. */
+  .project-body h3{
+    margin:0 0 .3rem;font-size:1.06rem;font-weight:800;line-height:1.3;
+    overflow-wrap:break-word;hyphens:auto;
+  }
+  .project-meta{
+    display:block;font-size:.82rem;color:var(--text-muted);margin:0 0 .55rem;line-height:1.45;
+  }
   .project-body p{
-    margin:0;color:var(--text-muted);font-size:.74rem;line-height:1.45;
+    margin:0;color:var(--text-muted);font-size:.94rem;line-height:1.55;
+    /* Auf drei Zeilen begrenzt, aber nie mitten im Wort: Die vollständige
+       Beschreibung steht auf der Detailseite. */
     display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;
   }
 
@@ -862,7 +945,7 @@ html, body { overflow-x: clip; }
   .form-note{font-size:.78rem;color:var(--text-muted);margin:0;}
 
   footer.site{border-top:1px solid var(--border);background:var(--surface-alt);}
-  .footer-grid{display:grid;grid-template-columns:1.6fr 1fr;gap:2rem;padding-block:2.6rem;}
+  .footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1.1fr;gap:2.4rem;align-items:start;padding-block:2.6rem;}
   .footer-grid h4{font-size:.82rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);margin:0 0 .8rem;}
   .footer-grid ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.55rem;font-size:.9rem;}
   .footer-grid a{text-decoration:none;color:var(--text-muted);}
@@ -902,7 +985,7 @@ html, body { overflow-x: clip; }
     .hero .wrap,.company .wrap,.contact .wrap{grid-template-columns:1fr;}
     .hero-art{order:-1;max-width:340px;margin-inline:auto;}
     .stat-strip{grid-template-columns:repeat(2,1fr);}
-    .project-grid{grid-template-columns:repeat(4,1fr);}
+    .project-grid{grid-template-columns:repeat(3,1fr);}
     .capability-strip{grid-template-columns:repeat(2,1fr);}
     .techscope-grid{grid-template-columns:repeat(2,1fr);}
     .values{grid-template-columns:repeat(2,1fr);}
@@ -910,7 +993,7 @@ html, body { overflow-x: clip; }
     .form-row{grid-template-columns:1fr;}
   }
   @media (max-width:640px){
-    .project-grid{grid-template-columns:repeat(2,1fr);}
+    .project-grid{grid-template-columns:repeat(2,1fr);gap:1rem;}
     .capability-strip{grid-template-columns:1fr;}
     .techscope-grid{grid-template-columns:1fr;}
     .stat-strip{grid-template-columns:1fr 1fr;}
@@ -965,29 +1048,46 @@ html, body { overflow-x: clip; }
      nach --accent-3 (Petrol), Schatten aus --shadow-hover. */
 
   /* --- Karten ------------------------------------------------------------ */
+  /* Kartenverhalten — ein System für alle Karten der Seite.
+
+     Entscheidend ist die Unterscheidung: Eine Karte, die auf eine Detailseite
+     führt, reagiert auf Zeiger und Tastatur und trägt den Zeigefinger. Eine
+     Karte ohne Ziel tut das nicht — sonst verspricht sie einen Klick, der
+     nichts bewirkt. Zuvor sahen beide gleich aus. */
   .project-card,
+  .aktuell-karte,
   .ref-group-card,
   .techscope-item,
-  .philosophy-card{
+  .philosophy-card,
+  .kompetenz-karte{
     @apply duration-150 ease-out;
     transition-property:transform,border-color,box-shadow;
-    will-change:transform;
   }
-  .project-card:hover,
+  .project-card--link,
+  .aktuell-karte--link{cursor:pointer;will-change:transform;}
+  .project-card--link:hover,
+  .aktuell-karte--link:hover,
   .ref-group-card:hover,
   .techscope-item:hover,
-  .philosophy-card:hover{
+  .philosophy-card:hover,
+  .kompetenz-karte:hover{
     border-color:var(--accent-3);
     box-shadow:var(--shadow-hover);
     @apply motion-safe:-translate-y-0.5;
   }
+  /* Auf Touch-Geräten gibt es kein Überfahren — dort quittiert die Karte die
+     Berührung. */
+  .project-card--link:active,
+  .aktuell-karte--link:active{border-color:var(--accent-3);}
 
   /* Tastaturbedienung: derselbe Zustand, wenn ein Element im Inneren den
      Fokus erhält — sonst bliebe der Effekt Mausnutzern vorbehalten. */
-  .project-card:focus-within,
+  .project-card--link:focus-within,
+  .aktuell-karte--link:focus-within,
   .ref-group-card:focus-within,
   .techscope-item:focus-within,
-  .philosophy-card:focus-within{
+  .philosophy-card:focus-within,
+  .kompetenz-karte:focus-within{
     border-color:var(--accent-3);
     box-shadow:var(--shadow-hover);
   }
@@ -1092,8 +1192,8 @@ html, body { overflow-x: clip; }
   .project-card-link::after{content:'';position:absolute;inset:0;z-index:1;}
   .project-card--link:hover .project-card-link{color:var(--accent-3);}
   .project-mehr{
-    display:inline-flex;align-items:center;gap:.3rem;margin-top:.7rem;
-    font-size:.82rem;font-weight:700;color:var(--accent-3);
+    display:inline-flex;align-items:center;gap:.35rem;margin-top:.8rem;
+    font-size:.88rem;font-weight:700;color:var(--accent-3);
   }
   .project-mehr svg{width:13px;height:13px;transition:transform .15s ease-out;}
   .project-card--link:hover .project-mehr svg{@apply motion-safe:translate-x-0.5;}
@@ -1102,6 +1202,13 @@ html, body { overflow-x: clip; }
   /* "Details ansehen" an den Fuß der Kachel binden, damit der Hinweis in einer
      Reihe auf gleicher Höhe steht — unabhängig von der Textlänge. */
   .project-card--link{display:flex;flex-direction:column;}
+  /* Karten ohne Detailseite sagen das, statt einen Klick offenzulassen. */
+  .project-kurz{
+    margin-top:.8rem;align-self:flex-start;
+    font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
+    color:var(--text-muted);border:1px solid var(--border);border-radius:4px;
+    padding:.2rem .5rem;
+  }
   /* display:flex hätte sonst Tailwinds [hidden]{display:none} überstimmt — bei
      gleicher Spezifität gewinnt die spätere Regel. Der Filter der Projektseite
      blendet über das hidden-Attribut aus und hätte diese Kacheln nicht mehr

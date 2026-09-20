@@ -92,6 +92,18 @@ export interface UiTexte {
   menueOeffnen: string;
   zurStartseite: string;
   footerNavTitel: string;
+  /** Erweiterte Fußzeile. */
+  footer: {
+    positionierung: string;
+    leistungen: string;
+    leistungenLinks: { href: string; label: string }[];
+    unternehmen: string;
+    unternehmenLinks: { href: string; label: string }[];
+    kontakt: string;
+    cta: string;
+    telefon: string;
+    email: string;
+  };
   footerRechtliches: string;
   impressum: string;
   datenschutz: string;
@@ -164,6 +176,30 @@ export const UI: Record<Lang, UiTexte> = {
       { href: '/kontakt/', label: 'Kontakt' },
     ],
     footerNavTitel: 'Navigation',
+    footer: {
+      positionierung:
+        'Technische Gebäudeausrüstung für Industrie, Gewerbe und anspruchsvolle Bestandsprojekte.',
+      leistungen: 'Leistungen',
+      leistungenLinks: [
+        { href: '/leistungen/#leistungsfelder', label: 'Elektrotechnik' },
+        { href: '/leistungen/#leistungsfelder', label: 'Heizung, Klima, Lüftung, Sanitär' },
+        { href: '/leistungen/#anlagentechnik', label: 'Gebäudeautomation und MSR' },
+        { href: '/leistungen/#anlagentechnik', label: 'Brandschutz und Sicherheitstechnik' },
+        { href: '/leistungen/#leistungsfelder', label: 'Projektmanagement und Consulting' },
+      ],
+      unternehmen: 'Unternehmen und Projekte',
+      unternehmenLinks: [
+        { href: '/unternehmen/', label: 'Unternehmen' },
+        { href: '/#aktuelle-projekte', label: 'Aktuelle Projekte' },
+        { href: '/projekte/', label: 'Alle Referenzprojekte' },
+        { href: '/#projektablauf', label: 'Projektablauf' },
+        { href: '/#leistungsfinder', label: 'Leistungsfinder' },
+      ],
+      kontakt: 'Kontakt',
+      cta: 'Projekt besprechen',
+      telefon: 'Telefon',
+      email: 'E-Mail',
+    },
     footerRechtliches: 'Rechtliches',
     impressum: 'Impressum',
     datenschutz: 'Datenschutz',
@@ -246,6 +282,30 @@ export const UI: Record<Lang, UiTexte> = {
       { href: '/en/contact/', label: 'Contact' },
     ],
     footerNavTitel: 'Navigation',
+    footer: {
+      positionierung:
+        'Building services engineering for industry, commerce and demanding existing-building projects.',
+      leistungen: 'Services',
+      leistungenLinks: [
+        { href: '/en/services/#leistungsfelder', label: 'Electrical engineering' },
+        { href: '/en/services/#leistungsfelder', label: 'Heating, air conditioning, ventilation, plumbing' },
+        { href: '/en/services/#anlagentechnik', label: 'Building automation and control' },
+        { href: '/en/services/#anlagentechnik', label: 'Fire protection and security systems' },
+        { href: '/en/services/#leistungsfelder', label: 'Project management and consulting' },
+      ],
+      unternehmen: 'Company and projects',
+      unternehmenLinks: [
+        { href: '/en/company/', label: 'Company' },
+        { href: '/en/#aktuelle-projekte', label: 'Current projects' },
+        { href: '/en/projects/', label: 'All reference projects' },
+        { href: '/en/#projektablauf', label: 'How we work' },
+        { href: '/en/#leistungsfinder', label: 'Service finder' },
+      ],
+      kontakt: 'Contact',
+      cta: 'Discuss your project',
+      telefon: 'Phone',
+      email: 'Email',
+    },
     footerRechtliches: 'Legal',
     impressum: 'Legal notice',
     datenschutz: 'Privacy',

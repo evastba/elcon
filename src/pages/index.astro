@@ -9,7 +9,6 @@ import WarumElcon from '../components/WarumElcon.astro';
 import Projektablauf from '../components/Projektablauf.astro';
 import Leistungsfinder from '../components/Leistungsfinder.astro';
 import AbschlussCta from '../components/AbschlussCta.astro';
-import Bildhinweis from '../components/Bildhinweis.astro';
 import Ansprechpartner from '../components/Ansprechpartner.astro';
 import { asset } from '../lib/assets';
 import { getLang, pfad } from '../i18n/ui';
@@ -44,11 +43,8 @@ const projekte = pfad('/projekte/', lang);
           <a class="cta-btn ghost" href={projekte}>{t.hero.ctaSekundaer}</a>
         </div>
       </div>
-      <div class="hero-medien">
-        <div class="hero-art">
+      <div class="hero-art">
           <Image src={asset("/assets/hero-building.jpg")} alt={t.hero.bildAlt} widths={[480, 760, 1008]} sizes="(max-width: 900px) 100vw, 46vw" loading="eager" fetchpriority="high" />
-        </div>
-        <Bildhinweis art="symbolisch" />
       </div>
     </div>
   </section>
@@ -57,7 +53,7 @@ const projekte = pfad('/projekte/', lang);
 
   <section class="vertrauensband">
     <div class="wrap">
-      <LogoMarquee />
+      <LogoMarquee zeigeTitel={false} />
     </div>
   </section>
 

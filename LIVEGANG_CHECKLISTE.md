@@ -50,6 +50,12 @@ von einer fachkundigen Stelle bestätigt werden.
   (Transparenzpflicht seit 2. August 2026): Hinweis direkt unter dem Bild,
   dauerhaft sichtbar, zusätzlich ein Sammelnachweis im Impressum. Ob das im
   Einzelfall ausreicht, ist eine juristische Bewertung.
+- **Hero-Motiv der Startseite ohne Kennzeichnung.** Auf Ihre Entscheidung hin
+  trägt das Gebäudemotiv im Einstieg der Startseite keinen Hinweis am Bild
+  mehr. Es zeigt keine Personen und behauptet kein konkretes Projekt; der
+  Sammelnachweis im Impressum deckt es ab. Alle übrigen KI-Motive — besonders
+  die mit Personen — sind weiterhin am Bild gekennzeichnet. Bitte
+  gegenprüfen lassen.
 - **Referenzschreiben von Behörden und Abgeordneten.** Unter den 20 Schreiben
   sind Zuschriften aus dem Bundeskanzleramt, dem Deutschen Bundestag, dem
   Niedersächsischen Landtag und einem ausländischen Ministerium. Eine

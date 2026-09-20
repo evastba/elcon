@@ -1,30 +1,39 @@
 ---
 import { Image } from 'astro:assets';
 import logoIcon from '../assets/logo-icon-v2.png';
+import Ansprechpartner from './Ansprechpartner.astro';
 import { company, analyticsEnabled } from '../config';
 import { getLang, UI, pfad } from '../i18n/ui';
 
+/* Erweiterte Fußzeile in vier Spalten.
+ *
+ * Sie soll orientieren, nicht die Sitemap wiederholen: je Spalte höchstens
+ * fünf Ziele, dazu die Kontaktwege und die zentrale Handlungsaufforderung.
+ * Auf schmalen Bildschirmen stapeln sich die Spalten; die Linkgruppen lassen
+ * sich einklappen, damit die Fußzeile das Seitenende nicht dominiert. Die
+ * rechtlichen Verweise stehen außerhalb der Klappgruppen und bleiben immer
+ * sichtbar.
+ *
+ * Alle Kontaktdaten kommen aus src/config.ts.
+ */
 const lang = getLang(Astro.url);
 const t = UI[lang];
-
-/* Dieselben Ziele wie in der Kopfnavigation, ohne die Untereinträge. */
-const links = t.nav.map((l) => ({ href: l.href, label: l.label }));
-
-/* Das Land steht in der Stammdatendatei auf Deutsch; in der englischen Fassung
-   wäre "Deutschland" in einer sonst englischen Anschrift ein Fremdkörper. */
-const land = lang === 'de' ? company.country : 'Germany';
+const f = t.footer;
+const start = lang === 'de' ? '/' : '/en/';
+const land = lang === 'de' ? company.country : company.countryEn;
 ---
 
 <footer class="site">
   <div class="wrap footer-grid">
-    <div>
-      <a href={lang === 'de' ? '/' : '/en/'} class="brand">
+    <div class="footer-marke">
+      <a href={start} class="brand">
         <Image src={logoIcon} class="hex-mark" alt="ELCON Icon" />
         <span class="brand-text">
           <span class="brand-word">ELCON</span>
           <span class="brand-tagline">Connected Engineering</span>
         </span>
       </a>
+      <p class="footer-positionierung">{f.positionierung}</p>
       <p class="footer-firma">{company.name}</p>
       <address class="footer-adresse">
         {company.street}<br />
@@ -33,13 +42,38 @@ const land = lang === 'de' ? company.country : 'Germany';
         {land}
       </address>
     </div>
-    <div>
-      <h4>{t.footerNavTitel}</h4>
+
+    <details class="footer-gruppe" open>
+      <summary><h2>{f.leistungen}</h2></summary>
       <ul>
-        {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+        {f.leistungenLinks.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
       </ul>
+    </details>
+
+    <details class="footer-gruppe" open>
+      <summary><h2>{f.unternehmen}</h2></summary>
+      <ul>
+        {f.unternehmenLinks.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+      </ul>
+    </details>
+
+    <div class="footer-kontakt">
+      <h2>{f.kontakt}</h2>
+      <ul class="footer-wege">
+        <li>
+          <span>{f.telefon}</span>
+          <a href={`tel:${company.phoneHref}`}>{company.phone}</a>
+        </li>
+        <li>
+          <span>{f.email}</span>
+          <a href={`mailto:${company.email}`}>{company.email}</a>
+        </li>
+      </ul>
+      <a class="cta-btn primary footer-cta" href={pfad('/kontakt/', lang)}>{f.cta}</a>
+      <Ansprechpartner stelle="footer" />
     </div>
   </div>
+
   <div class="wrap footer-bottom">
     <span>© 2026 {company.name}</span>
     <nav class="footer-rechtliches" aria-label={t.footerRechtliches}>
@@ -49,3 +83,21 @@ const land = lang === 'de' ? company.country : 'Germany';
     </nav>
   </div>
 </footer>
+
+<script>
+  /* Die Linkgruppen der Fußzeile stehen im Markup offen — ohne JavaScript und
+     für Suchmaschinen sind die Ziele damit sichtbar. Auf schmalen Geräten
+     werden sie beim Laden zugeklappt, damit das Seitenende kurz bleibt; wer
+     die Breite ändert, bekommt sie wieder aufgeklappt. */
+  (function () {
+    var gruppen = document.querySelectorAll('.footer-gruppe');
+    if (!gruppen.length) return;
+    var schmal = window.matchMedia('(max-width: 640px)');
+
+    function anpassen(e) {
+      gruppen.forEach(function (g) { g.open = !e.matches; });
+    }
+    anpassen(schmal);
+    if (schmal.addEventListener) schmal.addEventListener('change', anpassen);
+  })();
+</script>
