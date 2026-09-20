@@ -92,7 +92,7 @@ export const STARTSEITE: Record<'de' | 'en', Startseite> = {
         'ELCON plant, baut und betreut die technische Ausrüstung von Industrie- und Gewerbebauten: Elektrotechnik, Heizung, Klima, Lüftung, Sanitär sowie Mess-, Steuer- und Regeltechnik. Ein Projektteam koordiniert die Gewerke — auch im laufenden Betrieb.',
       vertrauen: 'In Deutschland verankert. International projekterfahren. Seit 1993.',
       ctaPrimaer: 'Projekt besprechen',
-      ctaSekundaer: 'Referenzprojekte ansehen',
+      ctaSekundaer: 'Projekte ansehen',
       bildAlt: 'Modernes Gewerbegebäude mit technischer Gebäudeausrüstung',
     },
     kennzahlen: {
@@ -230,7 +230,7 @@ export const STARTSEITE: Record<'de' | 'en', Startseite> = {
         'ELCON designs, builds and maintains the technical services of industrial and commercial buildings: electrical installations, heating, air conditioning, ventilation, plumbing and control technology. One project team coordinates the trades — including during ongoing operation.',
       vertrauen: 'Rooted in Germany. Internationally experienced. Since 1993.',
       ctaPrimaer: 'Discuss your project',
-      ctaSekundaer: 'View reference projects',
+      ctaSekundaer: 'View projects',
       bildAlt: 'Modern commercial building with technical building services',
     },
     kennzahlen: {
