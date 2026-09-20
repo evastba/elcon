@@ -222,6 +222,10 @@ html, body { overflow-x: clip; }
   .hero .hero-ctas{
     display:grid;grid-template-columns:repeat(2,1fr);
     width:max-content;max-width:100%;
+    /* Das Knopfpaar steht mittig unter der Textspalte, nicht an deren
+       linker Kante. Möglich, weil das Raster nur so breit ist wie sein
+       Inhalt — ein automatischer Außenabstand zentriert es darin. */
+    margin-inline:auto;
   }
   .hero .hero-ctas .cta-btn{justify-content:center;}
   .hero-art{position:relative;border-radius:14px;overflow:hidden;box-shadow:var(--shadow);}
