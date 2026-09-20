@@ -345,12 +345,22 @@ html, body { overflow-x: clip; }
   .testimonial-carousel{border-top:1px solid var(--border);padding-top:2.6rem;margin-top:2.8rem;}
   .tc-viewport{position:relative;display:flex;align-items:center;gap:.7rem;}
   .tc-track{
-    display:flex;gap:1.3rem;overflow-x:auto;scroll-snap-type:x mandatory;
+    --tc-abstand:1.3rem;
+    /* Wunschbreite einer Kachel. Wie viele davon nebeneinander passen, rechnet
+       das Skript aus; die Zahl steht danach in --tc-spalten. */
+    --tc-basis:180px;
+    display:flex;gap:var(--tc-abstand);overflow-x:auto;scroll-snap-type:x mandatory;
     padding:.25rem .15rem 1.1rem;scroll-behavior:smooth;
   }
   .tc-track::-webkit-scrollbar{height:6px;}
   .tc-track::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px;}
-  .tc-slide{flex:none;width:180px;margin:0;scroll-snap-align:start;}
+  .tc-slide{flex:none;width:var(--tc-basis);margin:0;scroll-snap-align:start;}
+  /* Sobald die Spaltenzahl feststeht, teilen sich die Kacheln die Breite genau
+     auf. Eine Seite endet dadurch immer an einer Kachelkante statt mitten in
+     einer — ohne Skript bleibt es bei der Wunschbreite und freiem Scrollen. */
+  .tc-track[data-spalten] .tc-slide{
+    width:calc((100% - (var(--tc-spalten) - 1) * var(--tc-abstand)) / var(--tc-spalten));
+  }
   .tc-thumb{
     display:block;width:100%;aspect-ratio:900/1269;padding:0;margin:0;border:1px solid var(--border);
     border-radius:6px;overflow:hidden;background:var(--surface-raised);cursor:zoom-in;box-shadow:var(--shadow);
@@ -368,8 +378,35 @@ html, body { overflow-x: clip; }
     display:flex;align-items:center;justify-content:center;
   }
   .tc-nav:hover{border-color:var(--accent-3);color:var(--accent-3);}
+  /* Am Anfang und am Ende gibt es nichts mehr zu blättern. Der Pfeil bleibt
+     stehen, statt zu verschwinden — sonst springt die Leiste in der Breite. */
+  .tc-nav:disabled{opacity:.3;cursor:default;color:var(--text-muted);border-color:var(--border);}
+  .tc-nav:disabled:hover{border-color:var(--border);color:var(--text-muted);}
+
+  /* Seitenanzeige unter dem Band. Die Punkte stehen für Seiten, nicht für
+     einzelne Schreiben: Wie viele Kacheln nebeneinander passen, hängt von der
+     Fensterbreite ab, deshalb wird die Zahl der Punkte im Browser bestimmt. */
+  .tc-steuerung{display:flex;flex-direction:column;align-items:center;gap:.2rem;margin-top:.2rem;}
+  .tc-dots{display:flex;flex-wrap:wrap;justify-content:center;gap:.1rem;}
+  .tc-dots[hidden]{display:none;}
+  /* Der Punkt selbst ist klein, die Trefferfläche darf es nicht sein: Auf dem
+     Telefon wird mit dem Daumen getippt, 9 Pixel sind dafür zu wenig. Die
+     Schaltfläche misst deshalb 26 Pixel, gezeichnet wird nur der innere
+     Punkt. */
+  .tc-dot{
+    width:26px;height:26px;padding:0;border:0;background:none;cursor:pointer;
+    border-radius:50%;display:grid;place-items:center;
+  }
+  .tc-dot::before{
+    content:"";width:9px;height:9px;border-radius:50%;
+    border:1px solid var(--border);background:transparent;
+  }
+  .tc-dot:hover::before{border-color:var(--accent-3);}
+  .tc-dot[aria-current="true"]::before{background:var(--accent-3);border-color:var(--accent-3);}
+  .tc-status{margin:0;font-size:.76rem;color:var(--text-muted);}
+
   @media (max-width:640px){
-    .tc-slide{width:130px;}
+    .tc-track{--tc-basis:150px;}
     .tc-nav{display:none;}
   }
 
@@ -668,6 +705,7 @@ html, body { overflow-x: clip; }
 
 
   .tc-nav,
+  .tc-dot::before,
   .lang-toggle a{
     @apply duration-150 ease-out;
     transition-property:transform,background-color,border-color,color;
@@ -676,6 +714,8 @@ html, body { overflow-x: clip; }
   .lang-toggle a:hover{ @apply motion-safe:scale-[1.02]; }
   .tc-nav:active,
   .lang-toggle a:active{ @apply motion-safe:scale-[0.98]; }
+  .tc-nav:disabled:hover,
+  .tc-nav:disabled:active{ transform:none; }
 
   /* --- Links -------------------------------------------------------------- */
   nav.primary a,
@@ -694,6 +734,9 @@ html, body { overflow-x: clip; }
   @media (prefers-reduced-motion: reduce){
     .marquee-track{animation:none;transform:none;}
     .marquee{overflow-x:auto;}
+    /* Das Karussell blättert sonst weich durch; bei dieser Einstellung
+       springt es direkt auf die neue Seite. */
+    .tc-track{scroll-behavior:auto;}
   }
 
 
