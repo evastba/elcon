@@ -1,79 +1,82 @@
 ---
 import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import LogoMarquee from '../../components/LogoMarquee.astro';
+import Kennzahlen from '../../components/Kennzahlen.astro';
+import Kompetenzfelder from '../../components/Kompetenzfelder.astro';
+import AktuelleProjekte from '../../components/AktuelleProjekte.astro';
+import WarumElcon from '../../components/WarumElcon.astro';
+import Projektablauf from '../../components/Projektablauf.astro';
+import Leistungsfinder from '../../components/Leistungsfinder.astro';
+import AbschlussCta from '../../components/AbschlussCta.astro';
+import Ansprechpartner from '../../components/Ansprechpartner.astro';
 import { asset } from '../../lib/assets';
-import { company } from '../../config';
+import { getLang, pfad } from '../../i18n/ui';
+import { STARTSEITE } from '../../i18n/startseite';
 
-/* Die Gewerke stehen ausführlich auf /en/services/. Hier nur die Namen als
-   Anreißer — derselbe Wortlaut wie dort, damit nichts auseinanderläuft. */
-const trades = [
-  'Electrical engineering',
-  'Heating, air conditioning, ventilation, plumbing',
-  'Communications technology',
-  'Lighting technology',
-  'Network technology & IT',
-  'Instrumentation, control & building automation',
-  'Fire protection & security systems',
-  'Project management & consulting',
-];
+/* Reihenfolge der Abschnitte — jeder hat eine eigene Aufgabe:
+   1 Einstieg und Positionierung · 2 Vertrauen (Laufschrift und Kennzahlen) ·
+   3 Kompetenzfelder ·
+   4 aktuelle Referenzen · 5 Unterscheidungsmerkmale · 6 Projektablauf ·
+   7 Leistungsfinder · 8 Unternehmen und Ansprechpartner · 9 Abschluss.
+
+   Die Logo-Laufschrift steht bewusst nicht im Einstieg: Sie belegt Vertrauen,
+   beantwortet aber keine der Fragen, die ein Besucher zuerst hat. Sie sitzt
+   deshalb im Vertrauensabschnitt, gemeinsam mit den Kennzahlen unter einer
+   Überschrift. */
+
+const lang = getLang(Astro.url);
+const t = STARTSEITE[lang];
+const kontakt = pfad('/kontakt/', lang);
+const projekte = pfad('/projekte/', lang);
 ---
 
-<BaseLayout
-  title="ELCON — main contractor for building services engineering"
-  description="Main contractor for building services engineering: electrical, heating, air conditioning, ventilation, plumbing and automation systems from a single source."
-  rawTitle
->
+<BaseLayout title={t.meta.titel} description={t.meta.beschreibung} rawTitle>
 
   <section class="hero">
     <div class="wrap">
-      <div>
-        <p class="eyebrow eyebrow-plain">Main contractor for building services engineering</p>
-        <h1>Complex projects<br>from a single source<br>with 30+ years of expertise.</h1>
-        <p class="lead">ELCON brings electrical, heating, air conditioning, ventilation, plumbing and automation systems together into one promise: a single point of contact, delivered worldwide, engineered for measurable energy efficiency.</p>
+      <div class="hero-text">
+        <p class="eyebrow eyebrow-plain">{t.hero.eyebrow}</p>
+        <h1>{t.hero.h1.map((z, i) => (i === 0 ? z : <><br />{z}</>))}</h1>
+        <p class="lead">{t.hero.lead}</p>
+        <p class="hero-vertrauen">{t.hero.vertrauen}</p>
         <div class="hero-ctas">
-          <a class="cta-btn primary" href="/en/projects/">View projects</a>
-          <a class="cta-btn ghost" href="/en/contact/">Enquire about a project</a>
+          <a class="cta-btn primary" href={kontakt}>{t.hero.ctaPrimaer}</a>
+          <a class="cta-btn ghost" href={projekte}>{t.hero.ctaSekundaer}</a>
         </div>
       </div>
       <div class="hero-art">
-        <Image src={asset("/assets/hero-building.jpg")} alt="Modern commercial building with technical building services" loading="eager" fetchpriority="high" />
-        <span class="ai-badge"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.7 5.3L19 9l-5.3 1.7L12 16l-1.7-5.3L5 9l5.3-1.7L12 2z"/><path d="M19 14l.85 2.15L22 17l-2.15.85L19 20l-.85-2.15L16 17l2.15-.85L19 14z"/></svg>AI generated</span>
-      </div>
-    </div>
-    <div class="wrap">
-      <LogoMarquee />
-    </div>
-  </section>
-
-  <section style="background:var(--surface-alt)">
-    <div class="wrap">
-      <div class="section-head" style="margin-bottom:1.8rem;">
-        <p class="eyebrow">Every trade, one partner</p>
-        <h2>Services at a glance</h2>
-      </div>
-      <p class="offer-lead">We round out our expertise across every trade in technical plant construction with a service tailored to each phase in the life of your property — turnkey building services from a single source, from the first design through to ongoing maintenance.</p>
-      <div class="offer-domains" style="margin-top:1.4rem;">
-        {trades.map((t) => <span class="offer-domain-tag">{t}</span>)}
-      </div>
-      <div class="hero-ctas" style="margin-top:1.8rem;">
-        <a class="cta-btn primary" href="/en/services/">View all services</a>
+          <Image src={asset("/assets/hero-building.jpg")} alt={t.hero.bildAlt} widths={[480, 760, 1008]} sizes="(max-width: 900px) 100vw, 46vw" loading="eager" fetchpriority="high" />
       </div>
     </div>
   </section>
 
-  <section>
+  <Kennzahlen />
+
+  <Kompetenzfelder />
+
+  <AktuelleProjekte />
+
+  <WarumElcon />
+
+  <Projektablauf />
+
+  <Leistungsfinder />
+
+  <section class="unternehmen-teaser" style="background:var(--surface-alt)">
     <div class="wrap">
-      <div class="section-head" style="margin-bottom:1.4rem;">
-        <p class="eyebrow">Contact</p>
-        <h2>Enquire about a project</h2>
+      <div class="section-head">
+        <p class="eyebrow">{t.unternehmen.eyebrow}</p>
+        <h2>{t.unternehmen.titel}</h2>
+        <p>{t.unternehmen.text}</p>
       </div>
-      <p class="offer-lead">Tell us about your project — we will come back to you with a dedicated point of contact.</p>
-      <div class="hero-ctas" style="margin-top:1.6rem;">
-        <a class="cta-btn primary" href="/en/contact/">Go to the enquiry form</a>
-        <a class="cta-btn ghost" href={`tel:${company.phoneHref}`}>{company.phone}</a>
+      <Ansprechpartner />
+
+      <div class="hero-ctas">
+        <a class="cta-btn ghost" href="/en/company/">{t.unternehmen.link}</a>
       </div>
     </div>
   </section>
+
+  <AbschlussCta />
 
 </BaseLayout>

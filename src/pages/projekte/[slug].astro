@@ -2,6 +2,8 @@
 import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { PROJEKTDETAILS, type Projektdetail } from '../../data/projekte';
+import { PROJEKTREFERENZEN } from '../../data/referenzen';
+import { useUi } from '../../i18n/ui';
 
 export function getStaticPaths() {
   return PROJEKTDETAILS.map((projekt) => ({
@@ -82,6 +84,13 @@ const beschreibungMeta = kuerzen(rohText);
    und würden in Suchergebnissen abgeschnitten. Die Überschrift auf der Seite
    bleibt davon unberührt. */
 const seitentitel = projekt.kachel ?? kuerzen(projekt.titel, 52);
+
+/* Abgeschlossene Projekte der Unternehmenshistorie bekommen eine zeitliche
+   Einordnung, damit die Seite nicht als Beleg gegenwärtiger Tätigkeit
+   gelesen wird. Ob ein Projekt dazuzählt, steht in der Referenzverwaltung. */
+const t = useUi(Astro.url);
+const referenz = PROJEKTREFERENZEN.find((r) => r.slug === projekt.slug);
+const istHistorisch = referenz?.referenzTyp === 'historisch';
 ---
 
 <BaseLayout title={seitentitel} description={beschreibungMeta} ogType="article">
@@ -100,6 +109,10 @@ const seitentitel = projekt.kachel ?? kuerzen(projekt.titel, 52);
               </p>
             )}
           </header>
+
+          {istHistorisch && (
+            <p class="projekt-historisch">{t.historisch.hinweis}</p>
+          )}
 
           {weitereAbsaetze.map((a) => (
             <p>{a.split('\n').map((zeile, i) => i === 0 ? zeile : <><br />{zeile}</>)}</p>

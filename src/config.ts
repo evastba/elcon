@@ -1,32 +1,212 @@
 /**
  * Zentrale Stammdaten und Schalter der Website.
  *
- * Die Angaben aus `company` werden im Impressum, in der Datenschutzerklärung
- * und im Kontaktbereich verwendet — sie stehen bewusst nur an dieser einen
- * Stelle, damit eine Änderung (z. B. eine neue Faxnummer) nicht an mehreren
- * Stellen im Markup nachgezogen werden muss.
+ * Alles, was an mehreren Stellen erscheint — Anschrift, Rufnummern,
+ * Registerangaben, Ansprechpartner —, steht hier und nur hier. Impressum,
+ * Datenschutzerklärung, Kontaktbereich und Fußzeile lesen daraus; eine
+ * Änderung muss deshalb nicht im Markup nachgezogen werden.
+ *
+ * Angaben, die noch nicht vorliegen, stehen bewusst auf `null` statt auf einem
+ * erfundenen Platzhalter. Die betroffenen Abschnitte entfallen dann auf der
+ * Website ersatzlos — ein sichtbarer Hinweis auf die Lücke wäre für Besucher
+ * irritierend und gehört nicht auf eine veröffentlichte Seite. Was fehlt,
+ * steht stattdessen in LIVEGANG_CHECKLISTE.md, und `npm run build` gibt es im
+ * Protokoll aus.
  */
+
 export const company = {
+  /** Vollständige Firmierung inklusive Rechtsform. */
   name: 'ELCON LED GmbH',
-  street: 'Bauernstr. 34',
+
+  /* Ladungsfähige Anschrift. */
+  street: 'Bauernstraße 34',
   zip: '31275',
-  city: 'Lehrte (OT Immensen)',
+  city: 'Lehrte',
+  /** Ortsteil, im Impressum des Stammhauses mit angegeben. */
+  district: 'OT Immensen',
   country: 'Deutschland',
+  /** Landesname für die englische Fassung der Anschrift. */
+  countryEn: 'Germany',
+
   phone: '+49 (0) 5175 - 77 16 116',
   phoneHref: '+4951757716116',
   fax: '+49 (0) 5175 - 92 00 14',
   email: 'info@elcon-led.com',
-  // TODO(Auftraggeber): Die folgenden Angaben sind nach § 5 DDG Pflicht und
-  // müssen vor dem Livegang durch die echten Werte ersetzt werden. Solange
-  // hier `null` steht, weisen Impressum und Datenschutzerklärung sichtbar
-  // auf die Lücke hin, statt eine falsche Angabe zu machen.
-  managingDirectors: null as string[] | null,
-  registerCourt: null as string | null,
-  registerNumber: null as string | null,
+  /** Rufnummer für WhatsApp, ohne Zeichen und führendes Plus. */
+  whatsapp: '4951757716116',
+
+  /* ------------------------------------------------------------------ *
+   * Pflichtangaben nach § 5 DDG — noch nicht belegt.
+   *
+   * Diese Felder sind vor dem Livegang mit den echten Werten aus dem
+   * Handelsregisterauszug zu füllen. Solange sie auf `null` stehen, gilt das
+   * Impressum als unvollständig; der Build weist darauf hin.
+   * ------------------------------------------------------------------ */
+
+  /** Namen der vertretungsberechtigten Geschäftsführung. */
+  managingDirectors: ['Klaus-Jürgen Deiters'] as string[] | null,
+  /** Registergericht. */
+  registerCourt: 'Amtsgericht Hildesheim' as string | null,
+  /** Handelsregisternummer. */
+  registerNumber: 'HRB 202878' as string | null,
+  /**
+   * Umsatzsteuer-Identifikationsnummer nach § 27a UStG, Format DE + neun
+   * Ziffern.
+   *
+   * Bewusst leer: Das bisherige Impressum auf www.elcon-led.com führt unter
+   * dieser Überschrift "15/7773289". Das ist dem Format nach keine
+   * Umsatzsteuer-Identifikationsnummer, sondern eine Steuernummer — sie wird
+   * dort also falsch bezeichnet. Eine Steuernummer ist keine Pflichtangabe
+   * nach § 5 DDG und gehört nicht ungeprüft ins Impressum. Die echte
+   * USt-IdNr. ist nachzutragen; siehe LIVEGANG_CHECKLISTE.md.
+   */
   vatId: null as string | null,
-  // Optional: zuständige Aufsichtsbehörde/Kammer, falls einschlägig.
+  /**
+   * Steuernummer.
+   *
+   * Keine Pflichtangabe nach § 5 DDG, auf Wunsch des Auftraggebers aber
+   * aufgenommen — korrekt als Steuernummer bezeichnet und nicht, wie im
+   * bisherigen Impressum, als Umsatzsteuer-Identifikationsnummer. Sie
+   * ersetzt die USt-IdNr nicht; die bleibt nachzutragen.
+   */
+  taxNumber: '15/7773289' as string | null,
+  /** Zuständige Kammer oder Aufsichtsbehörde, falls einschlägig. */
   chamber: null as string | null,
+  /** Berufsrechtliche Bezeichnung und Staat der Verleihung, falls einschlägig. */
+  professionalTitle: null as string | null,
+  /** Inhaltlich Verantwortlicher, falls abweichend von der Geschäftsführung. */
+  contentResponsible: null as string | null,
 } as const;
+
+/** Pflichtangaben nach § 5 DDG, die noch fehlen — Schlüssel und Klartext. */
+export const fehlendePflichtangaben: { feld: string; de: string; en: string }[] = [
+  !company.managingDirectors && {
+    feld: 'managingDirectors',
+    de: 'Vertretungsberechtigte Geschäftsführung',
+    en: 'Authorised managing director(s)',
+  },
+  !company.registerCourt && {
+    feld: 'registerCourt',
+    de: 'Registergericht',
+    en: 'Register court',
+  },
+  !company.registerNumber && {
+    feld: 'registerNumber',
+    de: 'Handelsregisternummer',
+    en: 'Commercial register number',
+  },
+  /* Nach § 5 Abs. 1 Nr. 6 DDG nur Pflicht, sofern das Unternehmen eine
+     USt-IdNr besitzt. Sie ist hier noch nicht belegt; die hinterlegte
+     Steuernummer tritt nicht an ihre Stelle. */
+  !company.vatId && {
+    feld: 'vatId',
+    de: 'Umsatzsteuer-Identifikationsnummer (§ 27a UStG), sofern vorhanden',
+    en: 'VAT identification number, if the company holds one',
+  },
+].filter(Boolean) as { feld: string; de: string; en: string }[];
+
+/** Gilt das Impressum als vollständig? */
+export const impressumVollstaendig = fehlendePflichtangaben.length === 0;
+
+/**
+ * Bezeichnung der Geschäftsführung, abhängig von der Anzahl.
+ *
+ * Im Deutschen unterscheidet sich die Einzahl von der Mehrzahl; im Englischen
+ * ist "Managing Director" die übliche Entsprechung zum GmbH-Geschäftsführer.
+ * Das Geschlecht der Personen ist nicht bekannt, deshalb steht in der
+ * Einzahl die geschlechtsneutrale Form.
+ */
+export function geschaeftsfuehrungLabel(anzahl: number, lang: 'de' | 'en'): string {
+  if (lang === 'en') return anzahl === 1 ? 'Managing Director' : 'Managing Directors';
+  return anzahl === 1 ? 'Geschäftsführung' : 'Geschäftsführung';
+}
+
+/* ====================================================================== *
+ * Ansprechpartner
+ * ====================================================================== */
+
+export interface Ansprechpartner {
+  /** Interner Schlüssel, erscheint nicht auf der Website. */
+  id: string;
+  vorname: string;
+  nachname: string;
+  /** Funktionsbezeichnung, deutsch und englisch. */
+  funktion: string;
+  funktionEn: string;
+  /** Verantwortungsbereich in Stichworten, deutsch und englisch. */
+  bereich: string | null;
+  bereichEn: string | null;
+  /** Durchwahl in lesbarer Form; `telefonHref` ohne Zeichen für den Link. */
+  telefon: string | null;
+  telefonHref: string | null;
+  email: string | null;
+  /** Dateiname in src/assets/personen; ohne Foto wird eine Initialenfläche gezeigt. */
+  foto: string | null;
+  /** Gesprochene Sprachen, als ISO-Kürzel, z. B. ['de', 'en']. */
+  sprachen: string[];
+  /** Auf der Kontaktseite anzeigen. */
+  aufKontaktseite: boolean;
+  /** In der Fußzeile anzeigen. */
+  imFooter: boolean;
+  /** Leistungsbereiche, bei denen die Person genannt wird (IDs aus data/finder.ts). */
+  leistungsbereiche: string[];
+  /** Datensatz gepflegt und aktuell. */
+  aktiv: boolean;
+  /**
+   * Die Person hat der Veröffentlichung ihrer Daten auf der Website
+   * zugestimmt. Ohne diese Zustimmung wird der Datensatz nicht ausgegeben,
+   * auch wenn er vollständig ist.
+   */
+  veroeffentlichungsfreigabe: boolean;
+}
+
+/**
+ * Reale Ansprechpartner der ELCON LED GmbH.
+ *
+ * Gepflegt wird ausschließlich hier. Ein Eintrag erscheint nur, wenn `aktiv`
+ * und `veroeffentlichungsfreigabe` beide auf `true` stehen — so lässt sich
+ * eine Person vorübergehend ausblenden, ohne den Datensatz zu verlieren.
+ *
+ * Fehlt ein freigegebenes Foto, setzt die Komponente die Initialen. Ein
+ * KI-erzeugtes Portrait wäre die Darstellung einer Person, die es nicht
+ * gibt, und kommt deshalb nicht in Betracht.
+ *
+ * Gepflegt wird die Liste ausschließlich hier. Ein Eintrag erscheint erst,
+ * wenn `aktiv` und `veroeffentlichungsfreigabe` beide auf `true` stehen.
+ */
+export const ansprechpartner: Ansprechpartner[] = [
+  {
+    id: 'deiters',
+    vorname: 'Klaus-Jürgen',
+    nachname: 'Deiters',
+    funktion: 'Geschäftsführer',
+    funktionEn: 'Managing Director',
+    bereich: null,
+    bereichEn: null,
+    /* Kein eigener Durchwahlanschluss bekannt — es gilt die Zentrale. */
+    telefon: company.phone,
+    telefonHref: company.phoneHref,
+    email: company.email,
+    /* Kein freigegebenes Foto vorhanden. Die Komponente setzt dann die
+       Initialen; ein KI-erzeugtes Portrait kommt nicht in Frage. */
+    foto: null,
+    sprachen: [],
+    aufKontaktseite: true,
+    imFooter: false,
+    leistungsbereiche: [],
+    aktiv: true,
+    veroeffentlichungsfreigabe: true,
+  },
+];
+
+/** Ansprechpartner, die tatsächlich ausgegeben werden dürfen. */
+export const sichtbareAnsprechpartner = ansprechpartner.filter(
+  (p) => p.aktiv && p.veroeffentlichungsfreigabe,
+);
+
+/* ====================================================================== *
+ * Reichweitenmessung
+ * ====================================================================== */
 
 /**
  * Google-Analytics-4-Property-ID.
@@ -83,8 +263,39 @@ export const cloudflareAnalyticsEnabled =
 /** Läuft überhaupt irgendeine Form der Reichweitenmessung? */
 export const anyAnalyticsEnabled = analyticsEnabled || cloudflareAnalyticsEnabled;
 
+/* ====================================================================== *
+ * Anfrageformular
+ * ====================================================================== */
+
+/**
+ * Grenzwerte des Anfrageformulars.
+ *
+ * Sie stehen hier, weil Formular und Endpunkt dieselben Werte brauchen: Das
+ * Formular meldet die Überschreitung sofort, der Endpunkt weist sie noch
+ * einmal ab. Eine Prüfung allein im Browser wäre wirkungslos, da sich der
+ * Endpunkt auch direkt ansprechen lässt.
+ */
+export const formular = {
+  /** Gesamtgröße aller Anhänge zusammen. */
+  maxAnhangGesamt: 15 * 1024 * 1024,
+  /** Größe einer einzelnen Datei. */
+  maxAnhangEinzeln: 10 * 1024 * 1024,
+  maxDateien: 10,
+  maxLaengeName: 120,
+  maxLaengeUnternehmen: 160,
+  maxLaengeEmail: 254,
+  maxLaengeTelefon: 40,
+  maxLaengeOrt: 160,
+  maxLaengeNachricht: 8000,
+  /** Zulässige Dateiendungen, kleingeschrieben und mit Punkt. */
+  erlaubteEndungen: [
+    '.pdf', '.doc', '.docx', '.xls', '.xlsx',
+    '.jpg', '.jpeg', '.png', '.zip', '.dwg', '.dxf', '.ifc',
+  ],
+} as const;
+
 /** Datum der letzten inhaltlichen Änderung der Rechtstexte. */
-export const legalLastUpdated = '16. September 2026';
+export const legalLastUpdated = '20. September 2026';
 
 /** Dasselbe Datum für die englische Fassung der Rechtstexte. */
-export const legalLastUpdatedEn = '16 September 2026';
+export const legalLastUpdatedEn = '20 September 2026';

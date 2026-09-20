@@ -1,0 +1,37 @@
+---
+import { getLang, pfad } from '../i18n/ui';
+import { STARTSEITE } from '../i18n/startseite';
+
+/* Sechs Schritte einer Zusammenarbeit, aus Kundensicht.
+ *
+ * Als nummerierte Liste ausgezeichnet, nicht als Grafik: Die Reihenfolge ist
+ * die Information. Auf breiten Bildschirmen stehen die Schritte in zwei
+ * Reihen, auf schmalen untereinander — ohne waagerechtes Scrollen.
+ */
+const lang = getLang(Astro.url);
+const t = STARTSEITE[lang].ablauf;
+const kontakt = pfad('/kontakt/', lang);
+---
+
+<section class="ablauf" id="projektablauf">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">{t.eyebrow}</p>
+      <h2>{t.titel}</h2>
+    </div>
+
+    <ol class="ablauf-schritte">
+      {t.schritte.map((s, i) => (
+        <li class="ablauf-schritt">
+          <span class="ablauf-nummer" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+          <h3>{s.titel}</h3>
+          <p>{s.text}</p>
+        </li>
+      ))}
+    </ol>
+
+    <div class="hero-ctas ablauf-cta">
+      <a class="cta-btn primary" href={kontakt}>{t.cta}</a>
+    </div>
+  </div>
+</section>

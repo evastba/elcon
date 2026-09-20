@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { company } from '../../config';
+import Ansprechpartner from '../../components/Ansprechpartner.astro';
 
 /* Das versteckte Feld "lang" im Formular ist eine Sprachkennung für den
    Posteingang: Das Anfrageformular steht in beiden Sprachen, die Nachricht
@@ -19,8 +20,9 @@ import { company } from '../../config';
         <h3>{company.name}</h3>
         <ul class="contact-list">
           <li>{company.street}</li>
+          <li>{company.district}</li>
           <li>{company.zip} {company.city}</li>
-          <li>Germany</li>
+          <li>{company.countryEn}</li>
           <li>Phone: <a href={`tel:${company.phoneHref}`}>{company.phone}</a></li>
           <li>Fax: {company.fax}</li>
           <li><a href={`mailto:${company.email}`}>{company.email}</a></li>
@@ -31,6 +33,7 @@ import { company } from '../../config';
           </span>
           <span>Message us directly on WhatsApp</span>
         </a>
+        <Ansprechpartner />
       </div>
       <form class="request" id="requestForm">
         <input type="hidden" name="lang" value="en">

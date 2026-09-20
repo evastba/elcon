@@ -1,0 +1,58 @@
+---
+import { sichtbareAnsprechpartner } from '../config';
+import { getLang, UI } from '../i18n/ui';
+
+/* Ansprechpartner der ELCON LED GmbH.
+ *
+ * Gibt nur aus, wer in src/config.ts als aktiv und zur Veröffentlichung
+ * freigegeben hinterlegt ist. Liegt niemand vor, erscheint der Abschnitt gar
+ * nicht — ein leerer Platzhalter wäre auf einer Unternehmensseite schlechter
+ * als gar keiner.
+ *
+ * Fehlt ein Foto, stehen die Initialen. Ein KI-erzeugtes Portrait wäre die
+ * Abbildung einer Person, die es nicht gibt, und scheidet aus.
+ */
+
+interface Props {
+  /** Nur Personen zeigen, die für diese Stelle vorgesehen sind. */
+  stelle?: 'kontaktseite' | 'footer';
+}
+
+const { stelle = 'kontaktseite' } = Astro.props;
+const lang = getLang(Astro.url);
+const t = UI[lang].kontaktperson;
+
+const personen = sichtbareAnsprechpartner.filter((p) =>
+  stelle === 'footer' ? p.imFooter : p.aufKontaktseite,
+);
+
+const initialen = (v: string, n: string) => (v.charAt(0) + n.charAt(0)).toUpperCase();
+---
+
+{personen.length > 0 && (
+  <div class="kontaktpersonen">
+    {personen.map((p) => (
+      <article class="kontaktperson">
+        <span class="kontaktperson-initialen" aria-hidden="true">{initialen(p.vorname, p.nachname)}</span>
+        <div class="kontaktperson-text">
+          <p class="kontaktperson-name">{`${p.vorname} ${p.nachname}`}</p>
+          <p class="kontaktperson-funktion">{lang === 'de' ? p.funktion : p.funktionEn}</p>
+          {(lang === 'de' ? p.bereich : p.bereichEn) && (
+            <p class="kontaktperson-bereich">{lang === 'de' ? p.bereich : p.bereichEn}</p>
+          )}
+          <ul class="kontaktperson-wege">
+            {p.telefon && p.telefonHref && (
+              <li><a href={`tel:${p.telefonHref}`}>{p.telefon}</a></li>
+            )}
+            {p.email && <li><a href={`mailto:${p.email}`}>{p.email}</a></li>}
+            {p.sprachen.length > 0 && (
+              <li class="kontaktperson-sprachen">
+                {t.sprachen}: {p.sprachen.map((c) => c.toUpperCase()).join(', ')}
+              </li>
+            )}
+          </ul>
+        </div>
+      </article>
+    ))}
+  </div>
+)}

@@ -1,0 +1,90 @@
+---
+import { Image } from 'astro:assets';
+import { asset } from '../lib/assets';
+import { getLang } from '../i18n/ui';
+import type { Projektreferenz } from '../data/referenzen';
+
+/* Eine Kachel der Projektübersicht.
+ *
+ * Bis hierher stand dasselbe Markup 44-mal je Sprachfassung im Dokument. Es
+ * kommt jetzt aus data/referenzen.ts — Texte, Logos und Freigabestatus werden
+ * dadurch an einer Stelle gepflegt, und beide Sprachen können nicht mehr
+ * auseinanderlaufen.
+ */
+
+interface Props {
+  referenz: Projektreferenz;
+}
+
+const { referenz: r } = Astro.props;
+const lang = getLang(Astro.url);
+
+const titel = lang === 'de' ? r.projektname : r.projektnameEn;
+const meta = lang === 'de' ? r.metaZeile : r.metaZeileEn;
+const text = lang === 'de' ? r.kurzText : r.kurzTextEn;
+const platte = lang === 'de' ? r.textPlatte : r.textPlatteEn;
+const basis = lang === 'de' ? '/projekte/' : '/en/projects/';
+const mehr = lang === 'de' ? 'Details ansehen' : 'View details';
+const kurz = lang === 'de' ? 'Kurzreferenz' : 'Short reference';
+
+/* Logos nur zeigen, wenn die Verwendung nicht ausdrücklich abgelehnt wurde.
+   Fehlende Freigabe ist kein Grund, die Referenz ganz zu verbergen — dann
+   fällt die Kachel auf die Textplatte zurück. */
+const logosErlaubt = r.logoFreigabe !== 'abgelehnt';
+const logos = logosErlaubt ? r.logos : [];
+const zeigeLogo = logos.length > 0 && r.darstellung !== 'text';
+
+const chipKlasse = {
+  'logo': '',
+  'logo-klein': ' project-logo-chip--sm',
+  'logo-gross': ' project-logo-chip--large',
+  'logo-doppelt': '',
+  'text': '',
+}[r.darstellung];
+const gross = r.darstellung === 'logo-gross' || r.darstellung === 'logo-doppelt';
+---
+
+<article
+  class:list={['project-card', r.slug && 'project-card--link']}
+  data-category={r.kategorie}
+  data-typ={r.referenzTyp}
+>
+  {zeigeLogo ? (
+    <div class="project-art-wrap project-art-wrap--logo">
+      <div class:list={['project-logo', gross && 'project-logo--large']}>
+        {r.darstellung === 'logo-doppelt' ? (
+          <div class="project-logo-dual">
+            {logos.map((l) => (
+              <div class="project-logo-chip">
+                <Image src={asset(`/assets/logos/${l.datei}`)} alt={lang === 'de' ? l.alt : l.altEn} />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div class={`project-logo-chip${chipKlasse}`}>
+            <Image src={asset(`/assets/logos/${logos[0].datei}`)} alt={lang === 'de' ? logos[0].alt : logos[0].altEn} />
+          </div>
+        )}
+      </div>
+    </div>
+  ) : (
+    <div class="project-art-wrap project-art-wrap--text">
+      <span class="project-art-label">{platte ?? titel}</span>
+    </div>
+  )}
+
+  <div class="project-body">
+    <h3>
+      {r.slug
+        ? <a class="project-card-link" href={`${basis}${r.slug}/`}>{titel}</a>
+        : titel}
+    </h3>
+    <span class="project-meta" set:html={meta} />
+    <p set:html={text} />
+    {r.slug ? (
+      <span class="project-mehr">{mehr} <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
+    ) : (
+      <span class="project-kurz">{kurz}</span>
+    )}
+  </div>
+</article>

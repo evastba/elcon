@@ -1,0 +1,38 @@
+---
+import { company, sichtbareAnsprechpartner } from '../config';
+import { getLang, pfad } from '../i18n/ui';
+import { STARTSEITE } from '../i18n/startseite';
+
+/* Abschluss der Startseite: die eine Handlung, um die es geht.
+   Daneben die beiden direkten Wege für alle, die lieber sofort anrufen
+   oder schreiben. */
+const lang = getLang(Astro.url);
+const t = STARTSEITE[lang].abschluss;
+const kontakt = pfad('/kontakt/', lang);
+const person = sichtbareAnsprechpartner.find((p) => p.aufKontaktseite);
+---
+
+<section class="abschluss-cta">
+  <div class="wrap">
+    <div class="abschluss-inner">
+      <div class="abschluss-text">
+        <h2>{t.titel}</h2>
+        <p>{t.text}</p>
+        {person && <p class="abschluss-vertrauen">{t.vertrauen}</p>}
+      </div>
+      <div class="abschluss-aktion">
+        <a class="cta-btn primary" href={kontakt}>{t.cta}</a>
+        <ul class="abschluss-wege">
+          <li>
+            <span>{t.telefonLabel}</span>
+            <a href={`tel:${company.phoneHref}`}>{company.phone}</a>
+          </li>
+          <li>
+            <span>{t.emailLabel}</span>
+            <a href={`mailto:${company.email}`}>{company.email}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>

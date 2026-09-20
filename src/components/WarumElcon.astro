@@ -1,0 +1,41 @@
+---
+import { getLang } from '../i18n/ui';
+import { STARTSEITE } from '../i18n/startseite';
+
+/* Fünf Unterscheidungsmerkmale aus Kundensicht — keine Unternehmenswerte.
+   Die Frage dahinter: Warum ELCON und nicht ein Konzern oder ein reiner
+   Einzelgewerke-Anbieter? */
+const t = STARTSEITE[getLang(Astro.url)].warum;
+
+const ICONS = {
+  ansprechpartner: '<circle cx="9" cy="8" r="2.6"/><path d="M4 19c0-3 2.5-5 5-5s5 2 5 5"/><circle cx="17" cy="7" r="2"/><path d="M15 12c2 0 4.5 1.6 4.5 4.5"/>',
+  wege: '<path d="M13 2 4 14h7l-1 8 9-12h-7z"/>',
+  betrieb: '<path d="M4 20V9l6-4 6 4v11"/><path d="M3 20h18"/><path d="M9 20v-5h4v5"/>',
+  lebenszyklus: '<path d="M3 12a9 9 0 1 1 3 6.7"/><path d="M3 12v6h6"/>',
+  international: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 4 5.7 4 9s-1.5 6.5-4 9c-2.5-2.5-4-5.7-4-9s1.5-6.5 4-9z"/>',
+};
+---
+
+<section class="warum" id="warum-elcon" style="background:var(--surface-alt)">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">{t.eyebrow}</p>
+      <h2>{t.titel}</h2>
+      <p>{t.intro}</p>
+    </div>
+
+    <ul class="warum-liste">
+      {t.vorteile.map((v) => (
+        <li class="warum-punkt">
+          <span class="warum-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" set:html={ICONS[v.icon]} />
+          </span>
+          <div>
+            <h3>{v.titel}</h3>
+            <p>{v.text}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

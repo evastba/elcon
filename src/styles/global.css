@@ -51,6 +51,10 @@ html, body { overflow-x: clip; }
     --offwhite:#F7F9F8;
     --hellgrau:#E5E8E8;
     --anthrazit:#4D5A61;
+    /* Neutrales Grau für zurückhaltende Beschriftungen. Bewusst nicht heller:
+       Bei 4,57:1 auf der getönten Fläche ist die Grenze der Lesbarkeit nach
+       WCAG AA erreicht, ein hellerer Ton wäre nicht mehr zulässig. */
+    --grau-dezent:#6B7378;
     --ink:#0F2D3A;
     --green:#2E7D32;
     --orange:#FF7A00;
@@ -62,6 +66,7 @@ html, body { overflow-x: clip; }
     --border:var(--hellgrau);
     --text:var(--ink);
     --text-muted:var(--anthrazit);
+    --text-leise:var(--grau-dezent);
     --accent:var(--green);
     --accent-ink:#FFFFFF;
     --accent-soft:#E7F2E8;
@@ -115,7 +120,14 @@ html, body { overflow-x: clip; }
     --marke-abstand:.3rem;
     --marke-unterzeile:.72rem;
     --marke-hoehe:calc(var(--marke-wort) + var(--marke-abstand) + var(--marke-unterzeile));
-    --kopfhoehe:calc(var(--marke-hoehe) + 1.8rem + 1px);
+    /* Das Zeichen steht eine Spur über den Namensblock hinaus. Genau bündig
+       wirkt es neben der kräftigen Wortmarke optisch etwas zu klein — ein
+       üblicher Ausgleich, der die Ableitung aber nicht aufgibt. */
+    --marke-ueberstand:1.12;
+    --marke-zeichenhoehe:calc(var(--marke-hoehe) * var(--marke-ueberstand));
+    /* Das höhere der beiden bestimmt die Zeile: das Zeichen oder der
+       44 Pixel hohe Menüknopf auf schmalen Bildschirmen. */
+    --kopfhoehe:calc(max(var(--marke-zeichenhoehe), 44px) + 1.8rem + 1px);
   }
   header.site{
     position:sticky;top:0;z-index:100;
@@ -133,7 +145,7 @@ html, body { overflow-x: clip; }
   /* Das Zeichen schließt oben und unten mit dem Namensblock ab; die Breite folgt
      dem Seitenverhältnis der Datei (450×495). Zuvor stand hier ein Quadrat, das
      das Sechseck um rund ein Zehntel in die Breite zog. */
-  .hex-mark{height:var(--marke-hoehe);width:auto;flex:none;}
+  .hex-mark{height:var(--marke-zeichenhoehe);width:auto;flex:none;}
   .brand-text{display:flex;flex-direction:column;line-height:1;}
   .brand-word{font-weight:800;font-size:var(--marke-wort);letter-spacing:.01em;color:var(--text);}
   .brand-tagline{font-size:var(--marke-unterzeile);font-weight:600;letter-spacing:.11em;text-transform:uppercase;color:var(--accent-3);margin-top:var(--marke-abstand);}
@@ -193,27 +205,511 @@ html, body { overflow-x: clip; }
   .section-head p{color:var(--text-muted);font-size:1.02rem;line-height:1.6;margin:0;}
 
   /* Hero */
-  .hero{padding-top:clamp(3rem,7vw,5rem);}
+  /* Unten bewusst knapp: Der Vertrauensabschnitt soll dicht folgen und nicht
+     erst nach einer Leerfläche auftauchen. */
+  .hero{padding-top:clamp(3rem,7vw,5rem);padding-bottom:1.4rem;}
   .hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(2rem,5vw,4rem);align-items:center;}
-  .hero .eyebrow{margin-bottom:3.8rem;}
+  /* 3.8rem standen hier aus dem ursprünglichen Entwurf — zwischen Dachzeile
+     und Überschrift entstand dadurch ein auffälliges Loch. */
+  .hero .eyebrow{margin-bottom:1.6rem;}
   .hero h1{font-size:clamp(1.7rem,3vw,2.4rem);line-height:1.2;font-weight:800;margin:0 0 1.8rem;letter-spacing:-.01em;}
-  .hero p.lead{font-size:1rem;line-height:1.6;color:var(--text-muted);max-width:48ch;margin:0 0 3.2rem;}
+  .hero p.lead{font-size:1rem;line-height:1.6;color:var(--text-muted);max-width:48ch;margin:0 0 1.6rem;}
   .hero-ctas{display:flex;gap:.9rem;flex-wrap:wrap;margin-bottom:2.2rem;}
+  /* Die beiden Knöpfe im Einstieg sind gleich breit, unabhängig von der Länge
+     ihrer Beschriftung. Zwei 1fr-Spalten in einem Raster der Breite
+     max-content nehmen beide die Breite des längeren Knopfes an — ohne feste
+     Pixelwerte, die bei einer Textänderung wieder nicht passen würden. */
+  .hero .hero-ctas{
+    display:grid;grid-template-columns:repeat(2,1fr);
+    width:max-content;max-width:100%;
+  }
+  .hero .hero-ctas .cta-btn{justify-content:center;}
   .hero-art{position:relative;border-radius:14px;overflow:hidden;box-shadow:var(--shadow);}
   .hero-art img{width:100%;height:100%;display:block;object-fit:cover;aspect-ratio:4/3;}
-  .hero-art-note{
-    position:absolute;bottom:12px;left:12px;padding:.3rem .6rem;border-radius:5px;
-    background:rgba(15,45,58,.55);backdrop-filter:blur(2px);
-    font-size:.68rem;font-weight:500;color:rgba(255,255,255,.85);letter-spacing:.01em;
+  /* Trennt die abgeschlossenen Projekte der Unternehmenshistorie von den
+     übrigen. Läuft als volle Zeile durch das Raster, damit die Kachelspalten
+     unberührt bleiben. */
+  .projekt-trenner{
+    grid-column:1 / -1;
+    border-top:1px solid var(--border);
+    margin:1.4rem 0 .4rem;padding-top:1.5rem;
   }
-  .ai-badge{
-    position:absolute;bottom:7px;right:7px;display:flex;align-items:center;gap:.16rem;
-    font-size:.46rem;font-weight:500;color:rgba(255,255,255,.95);letter-spacing:.01em;
-    text-shadow:0 1px 3px rgba(0,0,0,.7),0 0 8px rgba(0,0,0,.4);
-    filter:drop-shadow(0 1px 2px rgba(0,0,0,.5));
-    white-space:nowrap;z-index:2;pointer-events:none;
+  .projekt-trenner h2{
+    margin:0 0 .5rem;font-size:clamp(1.05rem,2vw,1.3rem);font-weight:800;color:var(--text);
   }
-  .ai-badge svg{width:7px;height:7px;flex:none;}
+  .projekt-trenner p{
+    margin:0;font-size:.88rem;line-height:1.6;color:var(--text-muted);max-width:80ch;
+  }
+  .projekt-trenner.is-eingeklappt{display:none;}
+
+  /* Zeitliche Einordnung auf der Detailseite eines abgeschlossenen Projekts. */
+  .projekt-historisch{
+    margin:1.2rem 0 0;padding:.7rem 0 .7rem 1rem;
+    border-left:3px solid var(--border);
+    font-size:.86rem;line-height:1.6;color:var(--text-muted);max-width:68ch;
+  }
+
+  /* ===== Startseite: neue Abschnitte ======================================
+     Die Startseite folgt einer festen Dramaturgie: Einstieg, Kennzahlen,
+     Kompetenzfelder, aktuelle Referenzen, Unterscheidungsmerkmale, Ablauf,
+     Leistungsfinder, Unternehmen, Abschluss. Helle und getönte Flächen
+     wechseln sich ab, damit die Abschnitte beim Scrollen auseinanderfallen. */
+
+  /* --- Einstieg ----------------------------------------------------------- */
+  .hero-vertrauen{
+    margin:0 0 1.8rem;font-size:.9rem;font-weight:600;color:var(--accent-3);
+    letter-spacing:.01em;
+  }
+
+  /* --- Vertrauenskennzahlen ----------------------------------------------- */
+  .kennzahlen-band{padding-block:0;}
+  .kennzahlen-band .wrap{padding-block:.4rem 1.8rem;}
+  /* Überschrift des Vertrauensabschnitts — sie gilt für die Kennzahlen und
+     die Logo-Laufschrift darunter gemeinsam. */
+  /* Zurückhaltend gesetzt: Die Zeile ordnet den Abschnitt ein und soll der
+     Hauptüberschrift des Einstiegs nicht den Rang ablaufen. */
+  .kennzahlen-titel{
+    margin:0 0 2.2rem;font-size:clamp(.95rem,1.7vw,1.125rem);font-weight:500;
+    color:var(--text-leise);letter-spacing:0;text-align:center;
+  }
+  .kennzahlen{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:1.4rem;margin:0;
+    border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+    padding-block:1.5rem;
+  }
+  .kennzahl{margin:0;}
+  .kennzahl-wert{
+    font-family:'Manrope',sans-serif;font-weight:800;
+    font-size:clamp(1.6rem,3vw,2.1rem);line-height:1.1;color:var(--text);
+  }
+  .kennzahl-label{
+    margin:.35rem 0 0;font-size:.88rem;line-height:1.45;color:var(--text-muted);
+  }
+
+  /* --- Logo-Laufschrift als Vertrauensbeleg ------------------------------- */
+  /* Die Laufschrift sitzt im Vertrauensabschnitt zwischen Überschrift und
+     Kennzahlen. Ihre eigene Trennlinie entfällt dort — die Kennzahlen bringen
+     ihre eigene mit, zwei übereinander wirkten wie ein Fehler. */
+  .kennzahlen-band .trust-block{border-top:none;padding-top:0;margin-bottom:1.6rem;}
+
+  /* --- Kompetenzfelder ---------------------------------------------------- */
+  .kompetenz-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;}
+  .kompetenz-karte{
+    display:flex;flex-direction:column;
+    border:1px solid var(--border);border-radius:12px;background:var(--surface-raised);
+    padding:1.5rem 1.5rem 1.3rem;box-shadow:var(--shadow);
+  }
+  .kompetenz-karte h3{
+    margin:1rem 0 .5rem;font-size:1.08rem;font-weight:800;line-height:1.3;color:var(--text);
+  }
+  .kompetenz-nutzen{margin:0 0 1rem;font-size:.95rem;line-height:1.6;color:var(--text-muted);}
+  .kompetenz-begriffe{
+    list-style:none;margin:0 0 1.2rem;padding:0;
+    display:flex;flex-wrap:wrap;gap:.4rem;
+  }
+  .kompetenz-begriffe li{
+    font-size:.8rem;font-weight:600;color:var(--text-muted);
+    background:var(--surface-alt);border:1px solid var(--border);
+    border-radius:99px;padding:.22rem .6rem;
+  }
+  .kompetenz-link{
+    margin-top:auto;display:inline-flex;align-items:center;gap:.4rem;
+    font-size:.9rem;font-weight:700;color:var(--accent-3);text-decoration:none;
+  }
+  .kompetenz-link svg{width:15px;height:15px;flex:none;}
+  .kompetenz-link:hover{text-decoration:underline;}
+
+  /* --- Aktuelle Projekte --------------------------------------------------- */
+  .aktuell-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;}
+  .aktuell-karte{
+    display:flex;flex-direction:column;
+    border:1px solid var(--border);border-radius:12px;background:var(--surface-raised);
+    overflow:hidden;box-shadow:var(--shadow);
+  }
+  .aktuell-logo{
+    display:flex;align-items:center;justify-content:center;
+    height:120px;padding:1.4rem;background:var(--surface-alt);
+    border-bottom:1px solid var(--border);
+  }
+  .aktuell-logo img{max-height:100%;max-width:70%;width:auto;height:auto;object-fit:contain;}
+  .aktuell-body{padding:1.2rem 1.3rem 1.3rem;display:flex;flex-direction:column;flex:1;}
+  .aktuell-body h3{margin:0 0 .5rem;font-size:1.05rem;font-weight:800;line-height:1.35;color:var(--text);}
+  .aktuell-daten{
+    list-style:none;margin:0 0 .7rem;padding:0;
+    display:flex;flex-wrap:wrap;gap:.3rem .7rem;
+    font-size:.84rem;color:var(--text-muted);
+  }
+  .aktuell-daten li{display:flex;align-items:center;}
+  .aktuell-daten li + li::before{
+    content:"·";margin-right:.7rem;color:var(--border);
+  }
+  .aktuell-text{margin:0;font-size:.94rem;line-height:1.6;color:var(--text-muted);}
+  .aktuell-marke{
+    margin-top:.9rem;align-self:flex-start;
+    font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
+    color:var(--text-muted);border:1px solid var(--border);border-radius:4px;
+    padding:.2rem .5rem;
+  }
+  .aktuell-hinweis{
+    margin:1.2rem 0 0;font-size:.86rem;line-height:1.6;color:var(--text-muted);max-width:80ch;
+  }
+  .aktuell-alle{margin-top:1.8rem;}
+
+  /* --- Warum ELCON --------------------------------------------------------- */
+  .warum-liste{
+    list-style:none;margin:0;padding:0;
+    display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem 2.2rem;
+  }
+  /* Der fünfte Punkt steht allein in der letzten Reihe — über beide Spalten
+     gezogen wirkt er wie eine Zusammenfassung statt wie ein Rest. */
+  .warum-punkt:last-child{grid-column:1 / -1;}
+  .warum-punkt{display:flex;gap:1rem;align-items:flex-start;}
+  .warum-icon{
+    flex:none;width:42px;height:42px;border-radius:10px;
+    background:var(--surface-raised);border:1px solid var(--border);
+    display:flex;align-items:center;justify-content:center;color:var(--accent-3);
+  }
+  .warum-icon svg{width:21px;height:21px;}
+  .warum-punkt h3{margin:.2rem 0 .35rem;font-size:1rem;font-weight:800;color:var(--text);line-height:1.35;}
+  .warum-punkt p{margin:0;font-size:.94rem;line-height:1.6;color:var(--text-muted);}
+
+  /* --- Projektablauf -------------------------------------------------------- */
+  .ablauf-schritte{
+    list-style:none;margin:0;padding:0;
+    display:grid;grid-template-columns:repeat(3,1fr);gap:1.6rem 1.8rem;
+    counter-reset:none;
+  }
+  .ablauf-schritt{position:relative;padding-top:.4rem;}
+  /* Eine dünne Linie über jedem Schritt deutet den Fortlauf an, ohne dass eine
+     eigene Grafik nötig wäre. */
+  .ablauf-schritt::before{
+    content:"";position:absolute;top:0;left:0;right:0;height:2px;background:var(--border);
+  }
+  .ablauf-schritt:nth-child(-n+3)::before{background:var(--accent-3);}
+  .ablauf-nummer{
+    display:block;margin:.9rem 0 .5rem;
+    font-family:'Manrope',sans-serif;font-weight:800;font-size:.95rem;color:var(--accent-3);
+  }
+  .ablauf-schritt h3{margin:0 0 .4rem;font-size:1rem;font-weight:800;color:var(--text);line-height:1.35;}
+  .ablauf-schritt p{margin:0;font-size:.94rem;line-height:1.6;color:var(--text-muted);}
+  .ablauf-cta{margin-top:2.4rem;}
+
+  /* --- Abschluss ------------------------------------------------------------ */
+  .abschluss-cta{background:var(--ink);color:#fff;}
+  .abschluss-inner{
+    display:grid;grid-template-columns:1.25fr .75fr;gap:2.6rem;align-items:center;
+  }
+  .abschluss-text h2{margin:0 0 .9rem;color:#fff;font-size:clamp(1.5rem,3vw,2.1rem);line-height:1.25;}
+  .abschluss-text p{margin:0;color:rgba(255,255,255,.82);font-size:1rem;line-height:1.65;max-width:56ch;}
+  .abschluss-vertrauen{margin-top:.9rem !important;font-size:.9rem !important;color:rgba(255,255,255,.7) !important;}
+  .abschluss-aktion{display:flex;flex-direction:column;align-items:flex-start;gap:1.4rem;}
+  .abschluss-wege{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.7rem;}
+  .abschluss-wege li{display:flex;flex-direction:column;gap:.1rem;}
+  .abschluss-wege span{
+    font-size:.72rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
+    color:rgba(255,255,255,.55);
+  }
+  .abschluss-wege a{
+    color:#fff;text-decoration:none;font-size:1rem;font-weight:600;overflow-wrap:anywhere;
+  }
+  .abschluss-wege a:hover{text-decoration:underline;}
+
+  /* --- Startseite auf schmalen Bildschirmen -------------------------------
+     Ziel ist nicht, Inhalte wegzulassen, sondern die Scrollstrecke zu kürzen:
+     Kennzahlen zweispaltig statt vierspaltig, Karten einspaltig, Prozess
+     untereinander, Abstände enger. Waagerechtes Scrollen entsteht nirgends. */
+  @media (max-width:900px){
+    .kompetenz-grid,
+    .aktuell-grid{grid-template-columns:repeat(2,1fr);}
+    .ablauf-schritte{grid-template-columns:repeat(2,1fr);}
+    .abschluss-inner{grid-template-columns:1fr;gap:1.8rem;}
+  }
+  @media (max-width:640px){
+    .hero-vertrauen{margin:0 0 1.4rem;font-size:.86rem;}
+    .kennzahlen-titel{margin-bottom:1.8rem;font-size:.95rem;}
+    .kennzahlen{grid-template-columns:repeat(2,1fr);gap:1.1rem;padding-block:1.2rem;}
+    .kennzahlen-band .wrap{padding-block:.2rem 1.2rem;}
+    .kompetenz-grid,
+    .aktuell-grid,
+    .ablauf-schritte{grid-template-columns:1fr;}
+    .ablauf-schritte{gap:1.3rem;}
+    .ablauf-schritt::before{background:var(--accent-3);}
+    .ablauf-cta{margin-top:1.8rem;}
+    .warum-liste{grid-template-columns:1fr;gap:1.1rem;}
+    .warum-punkt:last-child{grid-column:auto;}
+    .aktuell-logo{height:96px;padding:1.1rem;}
+    /* Die Schaltflächen stehen untereinander und füllen die Breite — so
+       bleibt das Tippziel auch mit dem Daumen sicher zu treffen. */
+    .hero-ctas{gap:.7rem;}
+    .hero-ctas .cta-btn{width:100%;justify-content:center;}
+    .hero .hero-ctas{grid-template-columns:1fr;width:100%;}
+    .abschluss-aktion{width:100%;}
+    .abschluss-aktion .cta-btn{width:100%;justify-content:center;}
+  }
+
+  /* --- Erweiterte Fußzeile ------------------------------------------------
+     Vier Spalten: Marke, Leistungen, Unternehmen, Kontakt. Die Linkgruppen
+     sind <details>-Elemente — auf breiten Bildschirmen dauerhaft offen, auf
+     schmalen einklappbar, damit die Fußzeile das Seitenende nicht dominiert.
+     Die rechtlichen Verweise stehen außerhalb und bleiben immer sichtbar. */
+  .footer-gruppe summary{
+    list-style:none;cursor:default;display:flex;align-items:center;justify-content:space-between;
+  }
+  .footer-gruppe summary::-webkit-details-marker{display:none;}
+  .footer-gruppe summary h2{
+    margin:0;font-size:.82rem;font-weight:700;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--text);
+  }
+  .footer-gruppe summary::after{
+    content:"";width:9px;height:9px;flex:none;display:none;
+    border-right:2px solid var(--text-muted);border-bottom:2px solid var(--text-muted);
+    transform:rotate(45deg);margin-right:3px;
+    transition:transform .15s ease-out;
+  }
+  .footer-gruppe ul{list-style:none;margin:.9rem 0 0;padding:0;display:flex;flex-direction:column;gap:.5rem;}
+  .footer-gruppe a{font-size:.92rem;line-height:1.45;}
+
+  .footer-kontakt h2{
+    margin:0 0 .9rem;font-size:.82rem;font-weight:700;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--text);
+  }
+  .footer-wege{list-style:none;margin:0 0 1.2rem;padding:0;display:flex;flex-direction:column;gap:.7rem;}
+  .footer-wege li{display:flex;flex-direction:column;gap:.1rem;}
+  .footer-wege span{
+    font-size:.72rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--text-muted);
+  }
+  .footer-wege a{font-size:.98rem;font-weight:600;overflow-wrap:anywhere;}
+  /* Der Knopf stand direkt an den Kontaktangaben und war mit 16 Pixeln
+     größer gesetzt als jeder andere Text der Fußzeile (Links 14,7 px). Jetzt
+     rückt er ab und ordnet sich in die Größenstufen ein. */
+  .footer-cta{
+    align-self:flex-start;margin-top:1.5rem;
+    font-size:.88rem;font-weight:600;padding:.55rem 1.15rem;
+    justify-content:center;
+  }
+
+  @media (max-width:900px){
+    .footer-grid{grid-template-columns:1fr 1fr;gap:2rem;}
+    .footer-marke{grid-column:1 / -1;}
+  }
+  @media (max-width:640px){
+    .footer-grid{grid-template-columns:1fr;gap:1.2rem;padding-block:2rem;}
+    .footer-marke{grid-column:auto;}
+      /* Auf schmalen Bildschirmen sind die Linkgruppen zusammengeklappt: Die
+       Fußzeile bleibt kurz, die Ziele sind mit einem Tipp erreichbar. Die
+       rechtlichen Verweise liegen außerhalb und bleiben immer sichtbar. */
+    .footer-gruppe{border-top:1px solid var(--border);padding-block:.2rem;}
+    .footer-gruppe summary{cursor:pointer;padding-block:.85rem;min-height:44px;}
+    .footer-gruppe summary::after{display:block;transform:rotate(45deg);}
+    .footer-gruppe[open] summary::after{transform:rotate(-135deg);}
+    .footer-gruppe ul{margin:0 0 1rem;gap:.7rem;}
+    .footer-gruppe a{display:inline-block;padding-block:.15rem;}
+    .footer-kontakt{border-top:1px solid var(--border);padding-top:1.2rem;}
+    /* Auf dem Telefon volle Breite und wieder 44 Pixel hoch, damit das
+       Tippziel groß genug bleibt. */
+    .footer-cta{width:100%;padding:.72rem 1.15rem;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .footer-gruppe summary::after{transition:none;}
+  }
+
+  /* --- Accordion der Anlagentechnik ---------------------------------------
+     Native <details>/<summary>. Die Klickfläche umfasst die ganze Zeile, ist
+     mindestens 52 Pixel hoch und damit auch mit dem Daumen sicher zu treffen.
+     Das Zeichen rechts ist ein Winkel, der sich beim Öffnen dreht — bei
+     reduzierter Bewegung ohne Übergang. */
+  .anlagentechnik{margin-top:3rem;}
+  .akkordeon{
+    border-top:1px solid var(--border);
+    border-radius:0;
+  }
+  .akkordeon-gruppe{border-bottom:1px solid var(--border);}
+  .akkordeon-gruppe summary{
+    list-style:none;cursor:pointer;
+    display:flex;align-items:center;justify-content:space-between;gap:1rem;
+    min-height:52px;padding:.9rem .2rem;
+  }
+  .akkordeon-gruppe summary::-webkit-details-marker{display:none;}
+  .akkordeon-titel{
+    font-family:'Manrope',sans-serif;font-weight:800;font-size:1.02rem;
+    line-height:1.35;color:var(--text);
+  }
+  .akkordeon-gruppe summary:hover .akkordeon-titel{color:var(--accent-3);}
+  .akkordeon-zeichen{
+    flex:none;width:10px;height:10px;margin-right:.35rem;
+    border-right:2px solid var(--accent-3);border-bottom:2px solid var(--accent-3);
+    transform:rotate(45deg);transform-origin:60% 60%;
+    transition:transform .18s ease-out;
+  }
+  .akkordeon-gruppe[open] .akkordeon-zeichen{transform:rotate(-135deg);}
+  .akkordeon-inhalt{padding:0 .2rem 1.3rem;max-width:80ch;}
+  .akkordeon-einleitung{
+    margin:0 0 .8rem;font-size:.95rem;line-height:1.6;color:var(--text-muted);
+  }
+  .akkordeon-inhalt ul{
+    list-style:none;margin:0;padding:0;
+    display:grid;grid-template-columns:repeat(2,1fr);gap:.45rem 1.6rem;
+  }
+  .akkordeon-inhalt li{
+    position:relative;padding-left:1.1rem;
+    font-size:.95rem;line-height:1.55;color:var(--text);
+  }
+  .akkordeon-inhalt li::before{
+    content:"";position:absolute;left:0;top:.62em;
+    width:6px;height:6px;background:var(--accent-3);
+    clip-path:polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%);
+  }
+  @media (max-width:640px){
+    .anlagentechnik{margin-top:2.2rem;}
+    .akkordeon-titel{font-size:.96rem;}
+    .akkordeon-inhalt ul{grid-template-columns:1fr;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .akkordeon-zeichen{transition:none;}
+  }
+
+  /* --- Abstände und Schriftgrößen auf schmalen Bildschirmen ---------------
+     Auf dem Telefon zahlt jeder Abschnitt doppelt: Die Polsterung oben und
+     unten summiert sich über zehn Abschnitte zu rund tausend Pixeln reiner
+     Leerfläche. Sie wird hier zurückgenommen, ohne dass die Abschnitte
+     ineinanderlaufen. Zugleich steigen die kleinsten Schriftgrößen auf
+     mindestens 13 Pixel. */
+  @media (max-width:640px){
+    section{padding-block:2.5rem;}
+    .section-head{margin-bottom:1.6rem;}
+    .eyebrow{font-size:.82rem;margin-bottom:.7rem;}
+    .hero{padding-top:2rem;padding-bottom:1rem;}
+    .hero .eyebrow{margin-bottom:1.2rem;}
+    .hero h1{margin-bottom:1rem;}
+    .hero p.lead{margin-bottom:1.2rem;font-size:1rem;}
+    .tc-status{font-size:.8rem;}
+    .bildhinweis{font-size:.84rem;}
+    .kennzahl-label{font-size:.85rem;}
+    .aktuell-daten{font-size:.86rem;}
+    .project-meta{font-size:.84rem;}
+    .footer-bottom{padding-block:1.2rem;}
+    /* Die Laufschrift ist auf dem Telefon der am wenigsten tragende
+       Abschnitt — sie wird schmaler, nicht entfernt. */
+    .marquee-logo img{max-height:34px;}
+    .kennzahlen-band .trust-block{margin-bottom:1.1rem;}
+
+    /* Karteninnenabstände zurücknehmen — bei gestapelten Karten summiert sich
+       jeder Rand dreifach. */
+    .kompetenz-karte{padding:1.2rem 1.2rem 1.1rem;}
+    .kompetenz-karte h3{margin-top:.8rem;}
+    .kompetenz-begriffe{margin-bottom:1rem;gap:.3rem;}
+    .kompetenz-begriffe li{font-size:.78rem;padding:.2rem .5rem;}
+    .aktuell-body{padding:1rem 1.1rem 1.1rem;}
+    .ablauf-schritt{padding-top:.3rem;}
+    .ablauf-nummer{margin:.7rem 0 .35rem;}
+    .warum-icon{width:38px;height:38px;}
+
+    /* Tippziele der Kopfzeile auf 44 Pixel bringen. */
+    nav.primary .lang-toggle a{min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:center;}
+  }
+  @media (max-width:360px){
+    .hero h1{font-size:1.5rem;}
+    /* Bei 320 Pixeln passen Marke und Menüknopf sonst nicht nebeneinander:
+       Die Unterzeile bricht um, die Kopfzeile wächst, und das ausklappende
+       Menü beginnt hinter ihr. Unterzeile und Abstand werden deshalb
+       schmaler — die Kopfhöhe folgt der Ableitung von selbst. */
+    :root{--marke-unterzeile:.62rem;}
+    .brand-tagline{letter-spacing:.05em;white-space:nowrap;}
+    .nav-row{gap:.8rem;}
+  }
+
+  /* --- Google-Bewertungen --------------------------------------------------
+     Stehen unter den Dankschreiben. Die Sterne sind Inline-SVG statt
+     Schriftzeichen: Vorlesesoftware liest sonst je nach Zeichensatz
+     "schwarzer Stern" fünfmal vor. Die Bewertung steht deshalb einmal als
+     aria-label am Element. */
+  .bewertungen{border-top:1px solid var(--border);margin-top:2.6rem;padding-top:2.2rem;}
+  .bewertungen-kopf{margin-bottom:1.6rem;}
+  .bewertungen-kopf h3{margin:0 0 .6rem;font-size:1.1rem;font-weight:800;color:var(--text);}
+  .bewertungen-schnitt{display:flex;align-items:center;gap:.6rem;margin:0 0 .5rem;flex-wrap:wrap;}
+  .bewertungen-note{font-family:'Manrope',sans-serif;font-weight:800;font-size:1.5rem;color:var(--text);}
+  .bewertungen-sterne{display:inline-flex;gap:.12rem;}
+  .bewertungen-anzahl{font-size:.86rem;color:var(--text-muted);}
+  .bewertungen-intro{margin:0;font-size:.94rem;line-height:1.6;color:var(--text-muted);max-width:66ch;}
+
+  .stern{width:17px;height:17px;fill:var(--border);flex:none;}
+  .stern.ist-voll{fill:var(--accent-2);}
+
+  .bewertungen-liste{
+    list-style:none;margin:0;padding:0;
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.1rem;
+  }
+  .bewertung{
+    border:1px solid var(--border);border-radius:12px;background:var(--surface-raised);
+    padding:1.1rem 1.2rem;display:flex;flex-direction:column;
+  }
+  .bewertung-sterne{display:flex;gap:.12rem;margin:0 0 .6rem;}
+  .bewertung blockquote{
+    margin:0 0 .9rem;padding:0;border:0;font-size:.94rem;line-height:1.6;color:var(--text);
+  }
+  .bewertung-quelle{
+    margin:auto 0 0;display:flex;flex-wrap:wrap;gap:.2rem .6rem;
+    font-size:.84rem;color:var(--text-muted);
+  }
+  .bewertung-autor{font-weight:700;color:var(--text);}
+  .bewertungen-link{margin:1.2rem 0 0;font-size:.92rem;}
+  .bewertungen-hinweis{
+    margin:.7rem 0 0;font-size:.8rem;line-height:1.55;color:var(--text-leise);max-width:80ch;
+  }
+  @media (max-width:640px){
+    .bewertungen{margin-top:2rem;padding-top:1.8rem;}
+    .bewertungen-liste{grid-template-columns:1fr;}
+  }
+
+  /* Ansprechpartner.
+
+     Ohne freigegebenes Foto stehen die Initialen auf einer Farbfläche. Das
+     ist eine bewusste Entscheidung gegen ein erzeugtes Portrait: Eine Person
+     abzubilden, die es nicht gibt, wäre auf einer Unternehmensseite eine
+     Falschangabe — und eine leere Silhouette wirkt wie ein fehlender Datensatz. */
+  .kontaktpersonen{display:flex;flex-direction:column;gap:1rem;margin:1.6rem 0 0;}
+  .kontaktperson{
+    display:flex;gap:1rem;align-items:flex-start;
+    border:1px solid var(--border);border-radius:12px;
+    background:var(--surface-raised);padding:1.1rem 1.2rem;
+  }
+  .kontaktperson-initialen{
+    flex:none;width:52px;height:52px;border-radius:50%;
+    background:var(--ink);color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Manrope',sans-serif;font-weight:800;font-size:1.05rem;letter-spacing:.02em;
+  }
+  .kontaktperson-text{min-width:0;}
+  .kontaktperson-name{margin:0;font-weight:800;font-size:1rem;color:var(--text);}
+  .kontaktperson-funktion{margin:.15rem 0 0;font-size:.88rem;color:var(--accent-3);font-weight:600;}
+  .kontaktperson-bereich{margin:.2rem 0 0;font-size:.88rem;color:var(--text-muted);line-height:1.5;}
+  .kontaktperson-wege{list-style:none;margin:.6rem 0 0;padding:0;display:flex;flex-direction:column;gap:.25rem;}
+  .kontaktperson-wege li{font-size:.92rem;line-height:1.5;}
+  /* Lange Adressen müssen auf schmalen Geräten umbrechen dürfen. */
+  .kontaktperson-wege a{color:var(--text);text-decoration:none;overflow-wrap:anywhere;}
+  .kontaktperson-wege a:hover{color:var(--accent-3);text-decoration:underline;}
+  .kontaktperson-sprachen{color:var(--text-muted);font-size:.85rem;}
+
+  /* Kennzeichnung KI-generierter Motive.
+
+     Das frühere Overlay "AI generated" lag mit 0.46rem Schriftgröße direkt auf
+     dem Bild — zu klein zum Lesen und zugleich ein sichtbarer Fremdkörper im
+     Motiv. Der Hinweis steht jetzt darunter im Fließtext: dauerhaft sichtbar,
+     im Kontrast von --text-muted auf Weiß gut lesbar (rund 7,6:1) und ohne
+     Eingriff in die Bildfläche. */
+  .bildhinweis{
+    margin:.55rem 0 0;font-size:.8rem;line-height:1.55;color:var(--text-muted);
+    max-width:74ch;
+  }
+  /* Gemeinsame Kennzeichnung mehrerer Motive am Anfang eines Abschnitts. */
+  .bildhinweis-block{
+    margin:0 0 1.8rem;padding:.55rem 0 .55rem 1rem;
+    border-left:3px solid var(--border);
+    font-size:.84rem;line-height:1.6;color:var(--text-muted);max-width:78ch;
+  }
+  /* Steht der Hinweis unter einem randlosen Kasten, rückt er näher heran. */
+  .company-showcase + .bildhinweis,
+  .ref-stage + .bildhinweis{margin-top:-1rem;margin-bottom:1.8rem;}
 
   .stat-strip{
     display:grid;grid-template-columns:repeat(4,1fr);
@@ -317,7 +813,7 @@ html, body { overflow-x: clip; }
       padding:.3rem 0 0 1rem;background:none;min-width:0;
     }
   }
-  .project-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:1rem;margin-bottom:3rem;}
+  .project-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem;margin-bottom:3rem;}
   .reference-directory{border-top:1px solid var(--border);padding-top:1.8rem;}
 
   /* Referenzen — Abschnitt 1: Ausgewählte Referenzen */
@@ -458,6 +954,10 @@ html, body { overflow-x: clip; }
 
   @media (max-width:640px){
     .tc-track{--tc-kachel:min(54vw,210px);--tc-mitte:1.3;--tc-rand:.78;}
+    /* Auf dem Telefon sind die Punkte die einzige Steuerung neben dem
+       Wischen — sie brauchen entsprechend Platz. */
+    .tc-dot{width:44px;height:44px;}
+    .tc-dots{gap:0;}
     .tc-nav{display:none;}
   }
 
@@ -503,16 +1003,30 @@ html, body { overflow-x: clip; }
   .project-logo-dual{display:flex;gap:.6rem;align-items:center;}
   .project-logo-dual .project-logo-chip{max-width:none;padding:.3rem .5rem;}
   .project-logo-dual .project-logo-chip img{max-height:58px;}
-  .project-body{padding:.8rem .9rem 1rem;}
+  .project-body{padding:1rem 1.1rem 1.15rem;display:flex;flex-direction:column;}
   .project-tag{
     display:inline-block;font-size:.68rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
     color:var(--accent-2);background:color-mix(in srgb, var(--accent-2) 14%, transparent);
     padding:.22rem .5rem;border-radius:4px;margin-bottom:.6rem;
   }
-  .project-body h3{margin:0 0 .15rem;font-size:.84rem;font-weight:700;line-height:1.3;}
-  .project-meta{display:block;font-size:.66rem;color:var(--text-muted);margin:0 0 .4rem;}
+  /* Typografie der Projektkacheln.
+
+     Die Werte lagen zuvor bei 0.84rem für die Überschrift und 0.66rem für die
+     Metazeile — rund 13 und 11 Pixel. Das war auf dem Bildschirm mühsam und
+     auf dem Telefon kaum lesbar. Jetzt: Überschrift 17 Pixel, Metazeile 13,
+     Beschreibung 15 bei einer Zeilenhöhe von 1.55. Lange Projektnamen brechen
+     um, statt abgeschnitten zu werden. */
+  .project-body h3{
+    margin:0 0 .3rem;font-size:1.06rem;font-weight:800;line-height:1.3;
+    overflow-wrap:break-word;hyphens:auto;
+  }
+  .project-meta{
+    display:block;font-size:.82rem;color:var(--text-muted);margin:0 0 .55rem;line-height:1.45;
+  }
   .project-body p{
-    margin:0;color:var(--text-muted);font-size:.74rem;line-height:1.45;
+    margin:0;color:var(--text-muted);font-size:.94rem;line-height:1.55;
+    /* Auf drei Zeilen begrenzt, aber nie mitten im Wort: Die vollständige
+       Beschreibung steht auf der Detailseite. */
     display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;
   }
 
@@ -520,7 +1034,9 @@ html, body { overflow-x: clip; }
   .trust-block{border-top:1px solid var(--border);padding-top:2.6rem;}
   .trust-block h3{font-size:.85rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin:0 0 1.4rem;text-align:center;}
   .marquee{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);}
-  .marquee-track{display:flex;gap:5.2rem;width:max-content;animation:scroll-left 40s linear infinite;align-items:center;}
+  /* Umlaufdauer: 40s waren die Ausgangsgeschwindigkeit; 40 % langsamer
+     bedeutet dieselbe Strecke in 40 / 0,6 ≈ 67 Sekunden. */
+  .marquee-track{display:flex;gap:5.2rem;width:max-content;animation:scroll-left 67s linear infinite;align-items:center;}
   .marquee-logo{
     display:flex;align-items:center;justify-content:center;flex:none;
     height:64px;
@@ -612,7 +1128,7 @@ html, body { overflow-x: clip; }
   .form-note{font-size:.78rem;color:var(--text-muted);margin:0;}
 
   footer.site{border-top:1px solid var(--border);background:var(--surface-alt);}
-  .footer-grid{display:grid;grid-template-columns:1.6fr 1fr;gap:2rem;padding-block:2.6rem;}
+  .footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1.1fr;gap:2.4rem;align-items:start;padding-block:2.6rem;}
   .footer-grid h4{font-size:.82rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);margin:0 0 .8rem;}
   .footer-grid ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.55rem;font-size:.9rem;}
   .footer-grid a{text-decoration:none;color:var(--text-muted);}
@@ -637,13 +1153,14 @@ html, body { overflow-x: clip; }
   }
   .toast.show{transform:translate(-50%,0);}
 
+  /* 44 Pixel, damit die Schaltfläche mit dem Daumen sicher zu treffen ist. */
   .menu-toggle-label{
-    display:none;width:40px;height:40px;border:1px solid var(--border);border-radius:5px;
+    display:none;width:44px;height:44px;border:1px solid var(--border);border-radius:5px;
     align-items:center;justify-content:center;cursor:pointer;flex:none;
   }
   @media (max-width:900px){
     nav.primary{
-      position:fixed;inset:64px 0 0 0;background:var(--surface);flex-direction:column;
+      position:fixed;inset:var(--kopfhoehe) 0 0 0;background:var(--surface);flex-direction:column;
       padding:2rem 1.5rem;gap:1.4rem;transform:translateX(100%);transition:transform .25s ease;
       border-top:1px solid var(--border);
     }
@@ -652,7 +1169,7 @@ html, body { overflow-x: clip; }
     .hero .wrap,.company .wrap,.contact .wrap{grid-template-columns:1fr;}
     .hero-art{order:-1;max-width:340px;margin-inline:auto;}
     .stat-strip{grid-template-columns:repeat(2,1fr);}
-    .project-grid{grid-template-columns:repeat(4,1fr);}
+    .project-grid{grid-template-columns:repeat(3,1fr);}
     .capability-strip{grid-template-columns:repeat(2,1fr);}
     .techscope-grid{grid-template-columns:repeat(2,1fr);}
     .values{grid-template-columns:repeat(2,1fr);}
@@ -660,7 +1177,7 @@ html, body { overflow-x: clip; }
     .form-row{grid-template-columns:1fr;}
   }
   @media (max-width:640px){
-    .project-grid{grid-template-columns:repeat(2,1fr);}
+    .project-grid{grid-template-columns:repeat(2,1fr);gap:1rem;}
     .capability-strip{grid-template-columns:1fr;}
     .techscope-grid{grid-template-columns:1fr;}
     .stat-strip{grid-template-columns:1fr 1fr;}
@@ -688,14 +1205,16 @@ html, body { overflow-x: clip; }
   .legal-prose code{font-size:.9em;background:var(--surface-alt);border:1px solid var(--border);border-radius:4px;padding:.1em .4em;}
 
   /* Sichtbarer Hinweis auf noch fehlende Pflichtangaben */
-  .legal-todo{
-    border:1px solid var(--accent-2);border-left-width:4px;border-radius:6px;
-    background:var(--surface-alt);padding:1rem 1.2rem;margin:0 0 2rem;
+  /* Sachlicher Vorspann eines Rechtstexts — etwa der Hinweis, dass die
+     englische Fassung eine Übersetzung ist. Zurückhaltend gesetzt: Es ist
+     eine Einordnung für den Leser, keine Warnung.
+     Der frühere Kasten für noch fehlende Pflichtangaben ist entfallen;
+     offene Punkte stehen jetzt in LIVEGANG_CHECKLISTE.md und nicht mehr auf
+     der veröffentlichten Seite. */
+  .legal-hinweis{
+    border-left:3px solid var(--border);padding:.2rem 0 .2rem 1rem;
+    margin:0 0 2rem;font-size:.9rem;line-height:1.65;color:var(--text-muted);
   }
-  .legal-todo strong{display:block;color:var(--text);margin-bottom:.4rem;}
-  .legal-todo p{margin:0 0 .5rem;font-size:.9rem;line-height:1.6;color:var(--text-muted);}
-  .legal-todo ul{margin:0;padding-left:1.2rem;font-size:.9rem;color:var(--text-muted);list-style:disc;}
-  .legal-missing{font-style:italic;}
 
   /* ===== Hover-Zustände =====================================================
 
@@ -713,29 +1232,46 @@ html, body { overflow-x: clip; }
      nach --accent-3 (Petrol), Schatten aus --shadow-hover. */
 
   /* --- Karten ------------------------------------------------------------ */
+  /* Kartenverhalten — ein System für alle Karten der Seite.
+
+     Entscheidend ist die Unterscheidung: Eine Karte, die auf eine Detailseite
+     führt, reagiert auf Zeiger und Tastatur und trägt den Zeigefinger. Eine
+     Karte ohne Ziel tut das nicht — sonst verspricht sie einen Klick, der
+     nichts bewirkt. Zuvor sahen beide gleich aus. */
   .project-card,
+  .aktuell-karte,
   .ref-group-card,
   .techscope-item,
-  .philosophy-card{
+  .philosophy-card,
+  .kompetenz-karte{
     @apply duration-150 ease-out;
     transition-property:transform,border-color,box-shadow;
-    will-change:transform;
   }
-  .project-card:hover,
+  .project-card--link,
+  .aktuell-karte--link{cursor:pointer;will-change:transform;}
+  .project-card--link:hover,
+  .aktuell-karte--link:hover,
   .ref-group-card:hover,
   .techscope-item:hover,
-  .philosophy-card:hover{
+  .philosophy-card:hover,
+  .kompetenz-karte:hover{
     border-color:var(--accent-3);
     box-shadow:var(--shadow-hover);
     @apply motion-safe:-translate-y-0.5;
   }
+  /* Auf Touch-Geräten gibt es kein Überfahren — dort quittiert die Karte die
+     Berührung. */
+  .project-card--link:active,
+  .aktuell-karte--link:active{border-color:var(--accent-3);}
 
   /* Tastaturbedienung: derselbe Zustand, wenn ein Element im Inneren den
      Fokus erhält — sonst bliebe der Effekt Mausnutzern vorbehalten. */
-  .project-card:focus-within,
+  .project-card--link:focus-within,
+  .aktuell-karte--link:focus-within,
   .ref-group-card:focus-within,
   .techscope-item:focus-within,
-  .philosophy-card:focus-within{
+  .philosophy-card:focus-within,
+  .kompetenz-karte:focus-within{
     border-color:var(--accent-3);
     box-shadow:var(--shadow-hover);
   }
@@ -840,8 +1376,8 @@ html, body { overflow-x: clip; }
   .project-card-link::after{content:'';position:absolute;inset:0;z-index:1;}
   .project-card--link:hover .project-card-link{color:var(--accent-3);}
   .project-mehr{
-    display:inline-flex;align-items:center;gap:.3rem;margin-top:.7rem;
-    font-size:.82rem;font-weight:700;color:var(--accent-3);
+    display:inline-flex;align-items:center;gap:.35rem;margin-top:.8rem;
+    font-size:.88rem;font-weight:700;color:var(--accent-3);
   }
   .project-mehr svg{width:13px;height:13px;transition:transform .15s ease-out;}
   .project-card--link:hover .project-mehr svg{@apply motion-safe:translate-x-0.5;}
@@ -850,6 +1386,13 @@ html, body { overflow-x: clip; }
   /* "Details ansehen" an den Fuß der Kachel binden, damit der Hinweis in einer
      Reihe auf gleicher Höhe steht — unabhängig von der Textlänge. */
   .project-card--link{display:flex;flex-direction:column;}
+  /* Karten ohne Detailseite sagen das, statt einen Klick offenzulassen. */
+  .project-kurz{
+    margin-top:.8rem;align-self:flex-start;
+    font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
+    color:var(--text-muted);border:1px solid var(--border);border-radius:4px;
+    padding:.2rem .5rem;
+  }
   /* display:flex hätte sonst Tailwinds [hidden]{display:none} überstimmt — bei
      gleicher Spezifität gewinnt die spätere Regel. Der Filter der Projektseite
      blendet über das hidden-Attribut aus und hätte diese Kacheln nicht mehr

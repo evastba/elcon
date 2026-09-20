@@ -1,0 +1,47 @@
+---
+import { getLang } from '../i18n/ui';
+import { STARTSEITE } from '../i18n/startseite';
+
+/* Drei Kompetenzfelder statt acht gleichrangiger Kacheln.
+ *
+ * Die vollständige fachliche Tiefe bleibt auf der Leistungsseite; hier steht
+ * nur, was ein Auftraggeber zur Einordnung braucht. Die Karten sind keine
+ * Links — nur der Verweis darin ist einer, damit nicht zwei konkurrierende
+ * Klickziele entstehen.
+ */
+const lang = getLang(Astro.url);
+const t = STARTSEITE[lang].kompetenz;
+
+const ICONS = {
+  elektro: '<path d="M13 2 4 14h7l-1 8 9-12h-7z"/>',
+  tga: '<path d="M12 3c2 2.5 4 5.2 4 8a4 4 0 0 1-8 0c0-2.8 2-5.5 4-8Z"/><path d="M12 13v8"/>',
+  automation: '<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/>',
+};
+---
+
+<section class="kompetenz" id="kompetenzfelder">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">{t.eyebrow}</p>
+      <h2>{t.titel}</h2>
+      <p>{t.intro}</p>
+    </div>
+
+    <div class="kompetenz-grid">
+      {t.felder.map((f) => (
+        <article class="kompetenz-karte">
+          <span class="hex-icon" aria-hidden="true"><svg viewBox="0 0 24 24" set:html={ICONS[f.icon]} /></span>
+          <h3>{f.titel}</h3>
+          <p class="kompetenz-nutzen">{f.nutzen}</p>
+          <ul class="kompetenz-begriffe">
+            {f.begriffe.map((b) => <li>{b}</li>)}
+          </ul>
+          <a class="kompetenz-link" href={f.href}>
+            {t.alle}
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

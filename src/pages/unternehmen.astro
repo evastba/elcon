@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { asset } from '../lib/assets';
+import Bildhinweis from '../components/Bildhinweis.astro';
 ---
 
 <BaseLayout title="Unternehmen" description="Die ELCON LED GmbH: Generalunternehmer für technische Gebäudeausrüstung mit 30+ Jahren Erfahrung — verlässlich, persönlich, aus einer Hand.">
@@ -17,12 +18,13 @@ import { asset } from '../lib/assets';
 
       <div class="company-showcase">
         <div class="company-art">
-          <Image src={asset("/assets/unternehmen/team-planung.jpg")} alt="Zwei ELCON-Techniker besprechen einen Anlagenplan vor der technischen Gebäudeausrüstung" />
-          <span class="ai-badge"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.7 5.3L19 9l-5.3 1.7L12 16l-1.7-5.3L5 9l5.3-1.7L12 2z"/><path d="M19 14l.85 2.15L22 17l-2.15.85L19 20l-.85-2.15L16 17l2.15-.85L19 14z"/></svg>AI generated</span>
+          <Image src={asset("/assets/unternehmen/team-planung.jpg")} alt="Zwei Techniker besprechen einen Anlagenplan vor technischer Gebäudeausrüstung" />
+          
           <div class="company-art-overlay"></div>
           <blockquote class="leitbild">„Wir sind der verlässliche Generalunternehmer für technische Gebäudeausrüstung — wir planen, bauen und betreuen Elektro-, Heizungs-, Klima-, Lüftungs-, Sanitär- und Automatisierungstechnik aus einer Hand, persönlich und mit langjähriger Erfahrung.“</blockquote>
         </div>
       </div>
+      <Bildhinweis art="personen" />
 
       <p class="values-lead">Dafür stehen wir – das bestätigen auch unsere Kunden:</p>
       <div class="values">
@@ -71,6 +73,5 @@ import { asset } from '../lib/assets';
       </div>
     </div>
   </section>
-</div>
 
 </BaseLayout>

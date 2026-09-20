@@ -3,6 +3,8 @@ import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Leistungsfinder from '../../components/Leistungsfinder.astro';
 import { asset } from '../../lib/assets';
+import Bildhinweis from '../../components/Bildhinweis.astro';
+import Anlagentechnik from '../../components/Anlagentechnik.astro';
 ---
 
 <BaseLayout title="Services" description="Electrical engineering, HVAC and plumbing, instrumentation and building automation, network technology, fire protection and project management — every building services trade from a single source.">
@@ -13,6 +15,8 @@ import { asset } from '../../lib/assets';
         <p class="eyebrow">Every trade, one partner</p>
         <h1>Services at a glance</h1>
       </div>
+
+      <Bildhinweis art="abschnitt" />
 
       <div class="offer-band">
         <p class="eyebrow" style="margin-bottom:.6rem;">What we offer</p>
@@ -25,7 +29,7 @@ import { asset } from '../../lib/assets';
         </div>
         <div class="phase-grid">
           <div class="phase-item">
-            <div class="phase-photo"><Image src={asset("/assets/leistungen/planbesprechung-baustelle.jpg")} alt="Two engineers discussing construction drawings on site" /><span class="ai-badge"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.7 5.3L19 9l-5.3 1.7L12 16l-1.7-5.3L5 9l5.3-1.7L12 2z"/><path d="M19 14l.85 2.15L22 17l-2.15.85L19 20l-.85-2.15L16 17l2.15-.85L19 14z"/></svg>AI generated</span></div>
+            <div class="phase-photo"><Image src={asset("/assets/leistungen/planbesprechung-baustelle.jpg")} alt="Two engineers discussing construction drawings on site" /></div>
             <div class="phase-item-body">
               <div class="phase-num">01</div>
               <h3>Design &amp; engineering</h3>
@@ -33,7 +37,7 @@ import { asset } from '../../lib/assets';
             </div>
           </div>
           <div class="phase-item">
-            <div class="phase-photo"><Image src={asset("/assets/leistungen/team-montage.jpg")} alt="Four-strong installation team fitting a switchgear cabinet on site" /><span class="ai-badge"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.7 5.3L19 9l-5.3 1.7L12 16l-1.7-5.3L5 9l5.3-1.7L12 2z"/><path d="M19 14l.85 2.15L22 17l-2.15.85L19 20l-.85-2.15L16 17l2.15-.85L19 14z"/></svg>AI generated</span></div>
+            <div class="phase-photo"><Image src={asset("/assets/leistungen/team-montage.jpg")} alt="Four-strong installation team fitting a switchgear cabinet on site" /></div>
             <div class="phase-item-body">
               <div class="phase-num">02</div>
               <h3>Installation</h3>
@@ -41,7 +45,7 @@ import { asset } from '../../lib/assets';
             </div>
           </div>
           <div class="phase-item">
-            <div class="phase-photo"><Image src={asset("/assets/leistungen/thermografie.jpg")} alt="Engineer carrying out a thermographic inspection of a switchgear assembly" /><span class="ai-badge"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.7 5.3L19 9l-5.3 1.7L12 16l-1.7-5.3L5 9l5.3-1.7L12 2z"/><path d="M19 14l.85 2.15L22 17l-2.15.85L19 20l-.85-2.15L16 17l2.15-.85L19 14z"/></svg>AI generated</span></div>
+            <div class="phase-photo"><Image src={asset("/assets/leistungen/thermografie.jpg")} alt="Engineer carrying out a thermographic inspection of a switchgear assembly" /></div>
             <div class="phase-item-body">
               <div class="phase-num">03</div>
               <h3>Servicing, maintenance &amp; repair</h3>
@@ -51,7 +55,7 @@ import { asset } from '../../lib/assets';
         </div>
       </div>
 
-      <div class="capability-strip">
+      <div class="capability-strip" id="leistungsfelder">
         <div class="capability-item">
           <div class="hex-icon"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></div>
           <div>
@@ -68,7 +72,7 @@ import { asset } from '../../lib/assets';
         </div>
         <figure class="capability-photo">
           <Image src={asset("/assets/leistungen/msr-handheld.jpg")} alt="Engineer programming a PLC controller with a handheld terminal at the control cabinet" />
-          <span class="ai-badge"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.7 5.3L19 9l-5.3 1.7L12 16l-1.7-5.3L5 9l5.3-1.7L12 2z"/><path d="M19 14l.85 2.15L22 17l-2.15.85L19 20l-.85-2.15L16 17l2.15-.85L19 14z"/></svg>AI generated</span>
+          
           <figcaption>Control technology in practice</figcaption>
         </figure>
         <div class="capability-item">
@@ -115,13 +119,13 @@ import { asset } from '../../lib/assets';
         </div>
         <figure class="capability-photo">
           <Image src={asset("/assets/leistungen/kabeltrasse.jpg")} alt="Cable tray with structured cabling and connection terminals below the ceiling" />
-          <span class="ai-badge"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.7 5.3L19 9l-5.3 1.7L12 16l-1.7-5.3L5 9l5.3-1.7L12 2z"/><path d="M19 14l.85 2.15L22 17l-2.15.85L19 20l-.85-2.15L16 17l2.15-.85L19 14z"/></svg>AI generated</span>
+          
           <figcaption>Structured cabling &amp; network technology</figcaption>
         </figure>
       </div>
 
       <div class="lifecycle-band">
-        <div class="lifecycle-photo"><Image src={asset("/assets/leistungen/beratung-anlage.jpg")} alt="Engineer advising two colleagues with a tablet in front of a heating and air conditioning plant" /><span class="ai-badge"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.7 5.3L19 9l-5.3 1.7L12 16l-1.7-5.3L5 9l5.3-1.7L12 2z"/><path d="M19 14l.85 2.15L22 17l-2.15.85L19 20l-.85-2.15L16 17l2.15-.85L19 14z"/></svg>AI generated</span></div>
+        <div class="lifecycle-photo"><Image src={asset("/assets/leistungen/beratung-anlage.jpg")} alt="Engineer advising two colleagues with a tablet in front of a heating and air conditioning plant" /></div>
         <div class="hex-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 1 3 6.7"/><path d="M3 12v6h6"/></svg></div>
         <div>
           <h3>We look after installations for their whole life</h3>
@@ -129,56 +133,7 @@ import { asset } from '../../lib/assets';
         </div>
       </div>
 
-      <div class="techscope-head">
-        <h3>Systems we cover in detail</h3>
-        <p>From medium-voltage switchgear to building automation — the technical range we design, build and look after from a single source.</p>
-      </div>
-      <div class="techscope-grid">
-        <div class="techscope-item has-photo">
-          <div class="techscope-photo"><Image src={asset("/assets/leistungen/mittelspannung-schneider.jpg")} alt="Engineer working on a medium-voltage switchgear assembly" /><span class="ai-badge"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.7 5.3L19 9l-5.3 1.7L12 16l-1.7-5.3L5 9l5.3-1.7L12 2z"/><path d="M19 14l.85 2.15L22 17l-2.15.85L19 20l-.85-2.15L16 17l2.15-.85L19 14z"/></svg>AI generated</span></div>
-          <div class="techscope-item-body">
-            <h4>Medium-voltage installations</h4>
-            <p>Medium-voltage switchgear and transformer stations.</p>
-          </div>
-        </div>
-        <div class="techscope-item">
-          <h4>IT infrastructure</h4>
-          <p>Remote data transmission and local network installations (LAN).</p>
-        </div>
-        <div class="techscope-item has-photo">
-          <div class="techscope-photo"><Image src={asset("/assets/leistungen/hebebuehne-verkabelung.jpg")} alt="Engineer on an access platform installing cable trays below the ceiling" /><span class="ai-badge"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.7 5.3L19 9l-5.3 1.7L12 16l-1.7-5.3L5 9l5.3-1.7L12 2z"/><path d="M19 14l.85 2.15L22 17l-2.15.85L19 20l-.85-2.15L16 17l2.15-.85L19 14z"/></svg>AI generated</span></div>
-          <div class="techscope-item-body">
-            <h4>Low-voltage installations</h4>
-            <p>Low-voltage switchgear, power cable and conductor networks, switchgear manufacture, EMC and ESD technology, earthing and equipotential bonding systems, lightning and surge protection, and low-energy building technology.</p>
-          </div>
-        </div>
-        <div class="techscope-item">
-          <h4>Power generation, CHP &amp; photovoltaics</h4>
-          <p>Diesel generator sets, combined heat and power plants, wind turbines, solar power supply and uninterruptible power supplies (UPS).</p>
-        </div>
-        <div class="techscope-item">
-          <h4>Lighting installations</h4>
-          <p>Interior, exterior, street, pathway and open-space lighting, as well as effect and advertising lighting.</p>
-        </div>
-        <div class="techscope-item has-photo">
-          <div class="techscope-photo"><Image src={asset("/assets/leistungen/kommunikationssysteme-rack.jpg")} alt="Engineer terminating network and communications cabling in a server cabinet" /><span class="ai-badge"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.7 5.3L19 9l-5.3 1.7L12 16l-1.7-5.3L5 9l5.3-1.7L12 2z"/><path d="M19 14l.85 2.15L22 17l-2.15.85L19 20l-.85-2.15L16 17l2.15-.85L19 14z"/></svg>AI generated</span></div>
-          <div class="techscope-item-body">
-            <h4>Communication systems</h4>
-            <p>Telephone and intercom systems, paging systems, electroacoustic public address systems, and terrestrial and satellite reception systems.</p>
-          </div>
-        </div>
-        <div class="techscope-item">
-          <h4>Security systems</h4>
-          <p>Fire and gas alarm systems, intruder alarm systems, video surveillance and access control systems.</p>
-        </div>
-        <div class="techscope-item has-photo">
-          <div class="techscope-photo"><Image src={asset("/assets/leistungen/baustelle-messung.jpg")} alt="Engineer recording measured values at a switchgear assembly on site" /><span class="ai-badge"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.7 5.3L19 9l-5.3 1.7L12 16l-1.7-5.3L5 9l5.3-1.7L12 2z"/><path d="M19 14l.85 2.15L22 17l-2.15.85L19 20l-.85-2.15L16 17l2.15-.85L19 14z"/></svg>AI generated</span></div>
-          <div class="techscope-item-body">
-            <h4>Building automation &amp; control technology</h4>
-            <p>DDC and PLC control systems, building automation and industrial control installations.</p>
-          </div>
-        </div>
-      </div>
+      <Anlagentechnik />
     </div>
   </section>
 

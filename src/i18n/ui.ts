@@ -92,6 +92,17 @@ export interface UiTexte {
   menueOeffnen: string;
   zurStartseite: string;
   footerNavTitel: string;
+  /** Erweiterte Fußzeile. */
+  footer: {
+    leistungen: string;
+    leistungenLinks: { href: string; label: string }[];
+    unternehmen: string;
+    unternehmenLinks: { href: string; label: string }[];
+    kontakt: string;
+    cta: string;
+    telefon: string;
+    email: string;
+  };
   footerRechtliches: string;
   impressum: string;
   datenschutz: string;
@@ -120,6 +131,26 @@ export interface UiTexte {
     direktLink: string;
   };
   marqueeTitel: string;
+  /** Google-Bewertungen. */
+  bewertungen: {
+    titel: string;
+    intro: string;
+    von: string;
+    sterne: string;
+    profil: string;
+    quelle: string;
+  };
+  /** Ansprechpartner-Komponente. */
+  kontaktperson: { eyebrow: string; titel: string; anrufen: string; schreiben: string; sprachen: string };
+  /** Einordnung abgeschlossener Projekte der Unternehmenshistorie. */
+  historisch: { ueberschrift: string; hinweis: string; hinweisGruppe: string; kurz: string };
+  /** Kennzeichnung KI-generierter Motive, je nach Nutzungskontext. */
+  bildhinweis: {
+    symbolisch: string;
+    personen: string;
+    projekt: string;
+    abschnitt: string;
+  };
   cookie: {
     label: string;
     text: string;
@@ -153,6 +184,28 @@ export const UI: Record<Lang, UiTexte> = {
       { href: '/kontakt/', label: 'Kontakt' },
     ],
     footerNavTitel: 'Navigation',
+    footer: {
+      leistungen: 'Leistungen',
+      leistungenLinks: [
+        { href: '/leistungen/#leistungsfelder', label: 'Elektrotechnik' },
+        { href: '/leistungen/#leistungsfelder', label: 'Heizung, Klima, Lüftung, Sanitär' },
+        { href: '/leistungen/#anlagentechnik', label: 'Gebäudeautomation und MSR' },
+        { href: '/leistungen/#anlagentechnik', label: 'Brandschutz und Sicherheitstechnik' },
+        { href: '/leistungen/#leistungsfelder', label: 'Projektmanagement und Consulting' },
+      ],
+      unternehmen: 'Unternehmen und Projekte',
+      unternehmenLinks: [
+        { href: '/unternehmen/', label: 'Unternehmen' },
+        { href: '/#aktuelle-projekte', label: 'Aktuelle Projekte' },
+        { href: '/projekte/', label: 'Alle Referenzprojekte' },
+        { href: '/#projektablauf', label: 'Projektablauf' },
+        { href: '/#leistungsfinder', label: 'Leistungsfinder' },
+      ],
+      kontakt: 'Kontakt',
+      cta: 'Projekt besprechen',
+      telefon: 'Telefon',
+      email: 'E-Mail',
+    },
     footerRechtliches: 'Rechtliches',
     impressum: 'Impressum',
     datenschutz: 'Datenschutz',
@@ -180,6 +233,38 @@ export const UI: Record<Lang, UiTexte> = {
       direktLink: 'Direkt zum Anfrageformular',
     },
     marqueeTitel: 'Vertrauen von Unternehmen und Institutionen',
+    bewertungen: {
+      titel: 'Bewertungen bei Google',
+      intro: 'Was Auftraggeber öffentlich über die Zusammenarbeit schreiben.',
+      von: 'von',
+      sterne: 'von 5 Sternen',
+      profil: 'Alle Bewertungen bei Google ansehen',
+      quelle: 'Quelle: Google-Unternehmensprofil. Die Bewertungen werden beim Erstellen der Seite abgerufen; beim Aufruf dieser Seite entsteht keine Verbindung zu Google.',
+    },
+    kontaktperson: {
+      eyebrow: 'Ihr Ansprechpartner',
+      titel: 'Wer Ihre Anfrage entgegennimmt',
+      anrufen: 'Anrufen',
+      schreiben: 'E-Mail schreiben',
+      sprachen: 'Sprachen',
+    },
+    historisch: {
+      ueberschrift: 'Projektbeispiele aus der Unternehmenshistorie',
+      hinweis:
+        'Historisches Referenzprojekt aus der internationalen Unternehmensgeschichte von ELCON. Die Angaben beziehen sich auf den jeweils genannten Ausführungszeitraum und stellen keine Aussage über eine gegenwärtige Tätigkeit oder Geschäftsbeziehung dar.',
+      hinweisGruppe:
+        'Abgeschlossene Referenzprojekte aus der internationalen Unternehmensgeschichte von ELCON. Die Angaben beziehen sich auf den jeweils genannten Ausführungszeitraum und stellen keine Aussage über eine gegenwärtige Tätigkeit oder Geschäftsbeziehung dar.',
+      kurz: 'Historisches Referenzprojekt',
+    },
+    bildhinweis: {
+      symbolisch: 'Symbolische Visualisierung – KI-generiert.',
+      personen:
+        'KI-generierte Visualisierung; keine Aufnahme eines konkreten ELCON-Projekts oder tatsächlicher ELCON-Mitarbeitender.',
+      projekt:
+        'Symbolische KI-Visualisierung – keine Aufnahme des beschriebenen Referenzprojekts.',
+      abschnitt:
+        'Die in diesem Abschnitt verwendeten Motive sind KI-generierte Visualisierungen und dienen der beispielhaften Darstellung der Leistungsbereiche. Sie zeigen keine konkreten Referenzprojekte oder tatsächlichen ELCON-Mitarbeitenden.',
+    },
     cookie: {
       label: 'Cookie-Einstellungen',
       text: 'Diese Website verwendet Cookies bzw. vergleichbare Technologien, um die Nutzung der Seite anonymisiert auszuwerten und sie so zu verbessern. Sie können der Analyse zustimmen oder sie ablehnen. Details finden Sie in unserer ',
@@ -211,6 +296,28 @@ export const UI: Record<Lang, UiTexte> = {
       { href: '/en/contact/', label: 'Contact' },
     ],
     footerNavTitel: 'Navigation',
+    footer: {
+      leistungen: 'Services',
+      leistungenLinks: [
+        { href: '/en/services/#leistungsfelder', label: 'Electrical engineering' },
+        { href: '/en/services/#leistungsfelder', label: 'Heating, air conditioning, ventilation, plumbing' },
+        { href: '/en/services/#anlagentechnik', label: 'Building automation and control' },
+        { href: '/en/services/#anlagentechnik', label: 'Fire protection and security systems' },
+        { href: '/en/services/#leistungsfelder', label: 'Project management and consulting' },
+      ],
+      unternehmen: 'Company and projects',
+      unternehmenLinks: [
+        { href: '/en/company/', label: 'Company' },
+        { href: '/en/#aktuelle-projekte', label: 'Current projects' },
+        { href: '/en/projects/', label: 'All reference projects' },
+        { href: '/en/#projektablauf', label: 'How we work' },
+        { href: '/en/#leistungsfinder', label: 'Service finder' },
+      ],
+      kontakt: 'Contact',
+      cta: 'Discuss your project',
+      telefon: 'Phone',
+      email: 'Email',
+    },
     footerRechtliches: 'Legal',
     impressum: 'Legal notice',
     datenschutz: 'Privacy',
@@ -238,6 +345,38 @@ export const UI: Record<Lang, UiTexte> = {
       direktLink: 'Go directly to the enquiry form',
     },
     marqueeTitel: 'Trusted by companies and institutions',
+    bewertungen: {
+      titel: 'Reviews on Google',
+      intro: 'What clients write publicly about working with us.',
+      von: 'by',
+      sterne: 'out of 5 stars',
+      profil: 'See all reviews on Google',
+      quelle: 'Source: Google Business Profile. The reviews are retrieved when the site is built; visiting this page does not establish any connection to Google.',
+    },
+    kontaktperson: {
+      eyebrow: 'Your contact',
+      titel: 'Who will handle your enquiry',
+      anrufen: 'Call',
+      schreiben: 'Send an email',
+      sprachen: 'Languages',
+    },
+    historisch: {
+      ueberschrift: 'Project examples from our corporate history',
+      hinweis:
+        'Historical reference project from ELCON\u2019s international corporate history. The information relates to the stated period of execution and does not indicate any current activity or ongoing business relationship.',
+      hinweisGruppe:
+        'Completed reference projects from ELCON\u2019s international corporate history. The information relates to the period of execution stated in each case and does not indicate any current activity or ongoing business relationship.',
+      kurz: 'Historical reference project',
+    },
+    bildhinweis: {
+      symbolisch: 'Symbolic visualisation – AI-generated.',
+      personen:
+        'AI-generated visualisation; not an image of a specific ELCON project or actual ELCON employees.',
+      projekt:
+        'Symbolic AI-generated visualisation – not an image of the referenced project.',
+      abschnitt:
+        'The images used in this section are AI-generated visualisations and serve to illustrate our areas of expertise. They do not depict specific reference projects or actual ELCON employees.',
+    },
     cookie: {
       label: 'Cookie settings',
       text: 'This website uses cookies and comparable technologies to analyse how the site is used, on an anonymised basis, and to improve it. You can accept or decline this analysis. Details are set out in our ',

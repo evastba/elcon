@@ -1,0 +1,75 @@
+---
+import { ladeBewertungen } from '../data/bewertungen';
+import { getLang, UI } from '../i18n/ui';
+
+/* Google-Bewertungen, abgerufen beim Bauen der Seite.
+ *
+ * Steht unter den Dankschreiben: Die Schreiben belegen die Zusammenarbeit über
+ * zwei Jahrzehnte, die Bewertungen den aktuellen Stand. Liegt keine Bewertung
+ * vor — oder ist die Schnittstelle nicht eingerichtet —, entfällt der
+ * Abschnitt vollständig. Ein leerer Kasten mit "noch keine Bewertungen" wäre
+ * schlechter als keiner.
+ *
+ * Die Profilbilder der Verfasser werden bewusst nicht eingebunden: Sie lägen
+ * auf Google-Servern und würden beim Seitenaufruf genau die Verbindung
+ * herstellen, die der serverseitige Abruf vermeidet.
+ */
+const lang = getLang(Astro.url);
+const t = UI[lang].bewertungen;
+const stand = await ladeBewertungen();
+
+const zeigen = stand.bewertungen.length > 0;
+const schnittText = stand.schnitt !== null
+  ? stand.schnitt.toFixed(1).replace('.', lang === 'de' ? ',' : '.')
+  : null;
+---
+
+{zeigen && (
+  <div class="bewertungen" id="google-bewertungen">
+    <div class="bewertungen-kopf">
+      <h3>{t.titel}</h3>
+      {schnittText && (
+        <p class="bewertungen-schnitt">
+          <span class="bewertungen-note">{schnittText}</span>
+          <span class="bewertungen-sterne" aria-hidden="true">
+            {[1, 2, 3, 4, 5].map((i) => (
+              <svg viewBox="0 0 20 20" class:list={['stern', stand.schnitt! >= i - 0.25 && 'ist-voll']}>
+                <path d="M10 1.6l2.5 5.4 5.9.7-4.4 4 1.2 5.8L10 14.6 4.8 17.5 6 11.7 1.6 7.7l5.9-.7z"/>
+              </svg>
+            ))}
+          </span>
+          <span class="bewertungen-anzahl">
+            {schnittText} {t.sterne} · {stand.anzahl}
+          </span>
+        </p>
+      )}
+      <p class="bewertungen-intro">{t.intro}</p>
+    </div>
+
+    <ul class="bewertungen-liste">
+      {stand.bewertungen.map((b) => (
+        <li class="bewertung">
+          <p class="bewertung-sterne" aria-label={`${b.sterne} ${t.sterne}`}>
+            {[1, 2, 3, 4, 5].map((i) => (
+              <svg viewBox="0 0 20 20" class:list={['stern', b.sterne >= i && 'ist-voll']} aria-hidden="true">
+                <path d="M10 1.6l2.5 5.4 5.9.7-4.4 4 1.2 5.8L10 14.6 4.8 17.5 6 11.7 1.6 7.7l5.9-.7z"/>
+              </svg>
+            ))}
+          </p>
+          <blockquote lang={b.sprache ?? undefined}>{b.text}</blockquote>
+          <p class="bewertung-quelle">
+            <span class="bewertung-autor">{b.autor}</span>
+            {b.datumText && <span class="bewertung-datum">{b.datumText}</span>}
+          </p>
+        </li>
+      ))}
+    </ul>
+
+    {stand.profilUrl && (
+      <p class="bewertungen-link">
+        <a href={stand.profilUrl} target="_blank" rel="noopener noreferrer">{t.profil}</a>
+      </p>
+    )}
+    <p class="bewertungen-hinweis">{t.quelle}</p>
+  </div>
+)}

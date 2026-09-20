@@ -1,0 +1,80 @@
+---
+import { getLang, UI } from '../i18n/ui';
+import { STARTSEITE } from '../i18n/startseite';
+import LogoMarquee from './LogoMarquee.astro';
+
+/* Vertrauensabschnitt direkt unter dem Einstieg: Überschrift, Logo-Laufschrift,
+ * Kennzahlen.
+ *
+ * Die drei gehören zusammen — sie beantworten dieselbe Frage („kann man denen
+ * etwas zutrauen?") und stehen deshalb unter einer Überschrift statt in
+ * getrennten Abschnitten.
+ *
+ * Höchstens vier, alle aus dem vorhandenen Datenbestand belegt. Die Jahreszahl
+ * 1993 wird bewusst nicht hochgezählt — eine laufende Jahreszahl wirkt wie ein
+ * Fehler. Bei reduzierter Bewegung wird gar nicht animiert.
+ */
+const lang = getLang(Astro.url);
+const t = STARTSEITE[lang].kennzahlen;
+
+/* Überschrift des Vertrauensabschnitts. Sie gilt für Kennzahlen und
+   Logo-Laufschrift gemeinsam — die Laufschrift führt sie deshalb nicht
+   noch einmal. */
+const titel = UI[lang].marqueeTitel;
+---
+
+<section class="kennzahlen-band" aria-labelledby="vertrauenTitel">
+  <div class="wrap">
+    <h2 class="kennzahlen-titel" id="vertrauenTitel">{titel}</h2>
+
+    <LogoMarquee zeigeTitel={false} />
+
+    <dl class="kennzahlen">
+      {t.werte.map((k) => (
+        <div class="kennzahl">
+          <dt class="kennzahl-wert" data-zaehler={k.zaehler} data-suffix={k.suffix}>{k.wert}</dt>
+          <dd class="kennzahl-label">{k.label}</dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</section>
+
+<script>
+  /* Zählt die Kennzahlen beim Erscheinen hoch. Der Endwert steht im Markup;
+     die Animation überschreibt ihn nur vorübergehend. Ohne JavaScript oder bei
+     reduzierter Bewegung steht sofort die richtige Zahl. */
+  (function () {
+    var felder = document.querySelectorAll('.kennzahl-wert[data-zaehler]');
+    if (!felder.length) return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!('IntersectionObserver' in window)) return;
+
+    function zaehle(el) {
+      var ziel = parseInt(el.dataset.zaehler, 10);
+      if (isNaN(ziel)) return;
+      var suffix = el.dataset.suffix || '';
+      var dauer = 900;
+      var start = null;
+      function schritt(zeit) {
+        if (start === null) start = zeit;
+        var anteil = Math.min((zeit - start) / dauer, 1);
+        var wert = Math.round(ziel * (1 - Math.pow(1 - anteil, 3)));
+        el.textContent = wert + (anteil === 1 ? suffix : '');
+        if (anteil < 1) requestAnimationFrame(schritt);
+      }
+      el.textContent = '0';
+      requestAnimationFrame(schritt);
+    }
+
+    var beobachter = new IntersectionObserver(function (eintraege) {
+      eintraege.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        beobachter.unobserve(e.target);
+        zaehle(e.target);
+      });
+    }, { threshold: 0.6 });
+
+    felder.forEach(function (el) { beobachter.observe(el); });
+  })();
+</script>
