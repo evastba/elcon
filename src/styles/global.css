@@ -103,6 +103,20 @@ html, body { overflow-x: clip; }
   .wrap{max-width:1180px;margin-inline:auto;padding-inline:clamp(16px,4vw,32px);}
 
   /* Header */
+  /* Maße der Wort-Bild-Marke an einer Stelle.
+     Das Zeichen ist genau so hoch wie der Namensblock daneben, und die Höhe der
+     Kopfzeile ergibt sich wiederum daraus. Beides wird deshalb gerechnet statt
+     abgeschrieben — sonst müsste eine geänderte Schriftgröße an drei weiteren
+     Stellen nachgezogen werden. Die Kopfhöhe brauchen der Abstand für
+     Sprungmarken, das mitlaufende Datenblatt der Projektseiten und das
+     ausklappbare Menü auf schmalen Bildschirmen. */
+  :root{
+    --marke-wort:1.45rem;
+    --marke-abstand:.3rem;
+    --marke-unterzeile:.72rem;
+    --marke-hoehe:calc(var(--marke-wort) + var(--marke-abstand) + var(--marke-unterzeile));
+    --kopfhoehe:calc(var(--marke-hoehe) + 1.8rem + 1px);
+  }
   header.site{
     position:sticky;top:0;z-index:100;
     border-bottom:1px solid var(--border);
@@ -116,10 +130,13 @@ html, body { overflow-x: clip; }
   }
   .nav-row{display:flex;align-items:center;gap:1.5rem;padding-block:.9rem;}
   .brand{display:flex;align-items:center;gap:.65rem;text-decoration:none;color:var(--text);margin-right:auto;}
-  .hex-mark{width:66px;height:66px;flex:none;}
+  /* Das Zeichen schließt oben und unten mit dem Namensblock ab; die Breite folgt
+     dem Seitenverhältnis der Datei (450×495). Zuvor stand hier ein Quadrat, das
+     das Sechseck um rund ein Zehntel in die Breite zog. */
+  .hex-mark{height:var(--marke-hoehe);width:auto;flex:none;}
   .brand-text{display:flex;flex-direction:column;line-height:1;}
-  .brand-word{font-weight:800;font-size:1.68rem;letter-spacing:.01em;color:var(--text);}
-  .brand-tagline{font-size:.72rem;font-weight:600;letter-spacing:.11em;text-transform:uppercase;color:var(--accent-3);margin-top:.3rem;}
+  .brand-word{font-weight:800;font-size:var(--marke-wort);letter-spacing:.01em;color:var(--text);}
+  .brand-tagline{font-size:var(--marke-unterzeile);font-weight:600;letter-spacing:.11em;text-transform:uppercase;color:var(--accent-3);margin-top:var(--marke-abstand);}
 
   nav.primary{display:flex;gap:1.9rem;}
   nav.primary a{
@@ -649,7 +666,7 @@ html, body { overflow-x: clip; }
     .stat-strip{grid-template-columns:1fr 1fr;}
     .values{grid-template-columns:1fr;}
     .footer-grid{grid-template-columns:1fr;}
-    nav.primary{top:60px;}
+    nav.primary{top:var(--kopfhoehe);}
   }
 
   /* Rechtstexte (Impressum, Datenschutz) */
@@ -788,7 +805,7 @@ html, body { overflow-x: clip; }
 
   .projekt-daten{
     background:var(--surface-alt);border:1px solid var(--border);border-radius:12px;
-    padding:1.4rem 1.5rem;position:sticky;top:96px;
+    padding:1.4rem 1.5rem;position:sticky;top:calc(var(--kopfhoehe) + 1.4rem);
   }
   .projekt-daten h2{font-size:.82rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);margin:0 0 1rem;}
   .projekt-daten dl{margin:0;}
@@ -843,7 +860,7 @@ html, body { overflow-x: clip; }
 
   /* Die Kopfzeile klebt oben; Sprungziele brauchen deshalb Abstand, sonst
      verschwindet die Überschrift darunter. */
-  [id]{scroll-margin-top:96px;}
+  [id]{scroll-margin-top:var(--kopfhoehe);}
 
   /* Markenblock im Seitenfuß: dieselbe Darstellung wie in der Kopfzeile,
      darunter der ausgeschriebene Firmenname und die Anschrift. */
