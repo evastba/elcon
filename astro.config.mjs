@@ -1,10 +1,15 @@
 import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
+import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://www.elcon-connected.de',
+  // Produktionsadresse. Canonical, Sitemap und Open-Graph-Angaben werden
+  // daraus abgeleitet — eine falsche Angabe hier verweist Suchmaschinen auf
+  // eine Adresse, unter der die Seite nicht erreichbar ist.
+  site: 'https://www.elcon-led.com',
   integrations: [
+    sitemap(),
     tailwind({
       // Das bestehende Design nutzt eigene CSS-Variablen/Klassen (siehe src/styles/global.css).
       // Tailwinds Basis-Reset bleibt deaktiviert, damit sich beide Systeme nicht in die Quere kommen;

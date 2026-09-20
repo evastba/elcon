@@ -15,7 +15,10 @@ interface Props {
 }
 
 const { title, description, rawTitle = false } = Astro.props;
-const fullTitle = rawTitle ? title : `${title} — ELCON Connected Engineering`;
+/* Google zeigt etwa 60 Zeichen. Der Markenzusatz bleibt deshalb kurz — der
+   vollständige Claim stand zuvor in jedem Titel und verbrauchte allein 30
+   Zeichen, sodass bei Projektseiten der eigentliche Titel abgeschnitten wurde. */
+const fullTitle = rawTitle ? title : `${title} — ELCON`;
 ---
 
 <Layout title={fullTitle} description={description}>

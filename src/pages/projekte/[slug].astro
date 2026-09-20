@@ -75,9 +75,16 @@ function kuerzen(text: string, max = 155): string {
 }
 
 const beschreibungMeta = kuerzen(rohText);
+
+/* Für den Browsertitel die kurze Bezeichnung der Kachel verwenden, sofern es
+   eine gibt. Die Originaltitel der Quellseiten sind teils über 60 Zeichen lang
+   ("Nord Stream - ELCON liefert ELT-Technik für Offshore Gaspipeline, 2011")
+   und würden in Suchergebnissen abgeschnitten. Die Überschrift auf der Seite
+   bleibt davon unberührt. */
+const seitentitel = projekt.kachel ?? kuerzen(projekt.titel, 52);
 ---
 
-<BaseLayout title={projekt.titel} description={beschreibungMeta}>
+<BaseLayout title={seitentitel} description={beschreibungMeta} ogType="article">
   <section class="projekt-detail">
     <div class="wrap">
       <a href="/projekte/" class="subpage-back">← Zurück zur Projektübersicht</a>
