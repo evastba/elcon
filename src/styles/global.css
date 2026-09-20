@@ -522,7 +522,7 @@ html, body { overflow-x: clip; }
   .form-note{font-size:.78rem;color:var(--text-muted);margin:0;}
 
   footer.site{border-top:1px solid var(--border);background:var(--surface-alt);}
-  .footer-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:2rem;padding-block:2.6rem;}
+  .footer-grid{display:grid;grid-template-columns:1.6fr 1fr;gap:2rem;padding-block:2.6rem;}
   .footer-grid h4{font-size:.82rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);margin:0 0 .8rem;}
   .footer-grid ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.55rem;font-size:.9rem;}
   .footer-grid a{text-decoration:none;color:var(--text-muted);}
@@ -755,25 +755,15 @@ html, body { overflow-x: clip; }
   .project-mehr svg{width:13px;height:13px;transition:transform .15s ease-out;}
   .project-card--link:hover .project-mehr svg{@apply motion-safe:translate-x-0.5;}
 
-  /* Projekte ohne eigene Kachel im Raster */
-  .weitere-projekte{margin-top:2.6rem;padding-top:2rem;border-top:1px solid var(--border);}
-  .weitere-projekte h2{font-size:1.05rem;font-weight:800;margin:0 0 .5rem;}
-  .weitere-projekte > p{margin:0 0 1.1rem;font-size:.92rem;line-height:1.6;color:var(--text-muted);max-width:70ch;}
-  .weitere-projekte ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:.6rem;}
-  .weitere-projekte a{
-    display:flex;align-items:center;justify-content:space-between;gap:.8rem;
-    padding:.8rem 1rem;border:1px solid var(--border);border-radius:8px;
-    background:var(--surface-raised);text-decoration:none;color:var(--text);
-    font-size:.9rem;font-weight:600;line-height:1.4;
-    transition-property:transform,border-color,box-shadow;
-    @apply duration-150 ease-out;
-  }
-  .weitere-projekte a:hover{border-color:var(--accent-3);box-shadow:var(--shadow-hover);@apply motion-safe:-translate-y-0.5;}
-  .weitere-projekte svg{width:15px;height:15px;flex:none;color:var(--accent-3);}
 
   /* "Details ansehen" an den Fuß der Kachel binden, damit der Hinweis in einer
      Reihe auf gleicher Höhe steht — unabhängig von der Textlänge. */
   .project-card--link{display:flex;flex-direction:column;}
+  /* display:flex hätte sonst Tailwinds [hidden]{display:none} überstimmt — bei
+     gleicher Spezifität gewinnt die spätere Regel. Der Filter der Projektseite
+     blendet über das hidden-Attribut aus und hätte diese Kacheln nicht mehr
+     verbergen können. */
+  .project-card[hidden]{display:none;}
   .project-card--link .project-body{display:flex;flex-direction:column;flex:1;}
   .project-card--link .project-mehr{margin-top:auto;padding-top:.7rem;}
 
@@ -781,7 +771,32 @@ html, body { overflow-x: clip; }
      verschwindet die Überschrift darunter. */
   [id]{scroll-margin-top:96px;}
 
-  /* Anschrift im Seitenfuß, unter dem Logo */
+  /* Markenblock im Seitenfuß: dieselbe Darstellung wie in der Kopfzeile,
+     darunter der ausgeschriebene Firmenname und die Anschrift. */
+  footer.site .brand{margin-bottom:.9rem;}
+  .footer-firma{font-weight:800;color:var(--text);font-size:1rem;margin:0 0 .35rem;}
   .footer-adresse{
     font-style:normal;color:var(--text-muted);font-size:.88rem;line-height:1.7;margin:0;
+  }
+
+  /* Rechtstexte nebeneinander am rechten Rand der untersten Zeile */
+  .footer-rechtliches{display:flex;flex-wrap:wrap;gap:1.4rem;}
+  .footer-rechtliches a{color:var(--text-muted);text-decoration:none;}
+  .footer-rechtliches a:hover{color:var(--accent-3);}
+
+  /* Eingeklappte Projektkacheln */
+  .project-card.is-eingeklappt{display:none;}
+  .projekt-aufklappen{display:flex;justify-content:center;margin:-1.4rem 0 3rem;}
+  .projekt-aufklappen button[hidden]{display:none;}
+
+  /* Kachelbild für Projekte ohne Auftraggeber-Logo: statt eines Platzhalter-
+     bildes eine ruhige Textfläche im Seitenraster. */
+  .project-art-wrap--text{
+    display:flex;align-items:center;justify-content:center;
+    background:var(--surface-alt);padding:1rem;text-align:center;
+  }
+  .project-art-label{
+    font-family:'Manrope',system-ui,sans-serif;font-weight:800;
+    font-size:.95rem;line-height:1.25;color:var(--accent-3);
+    letter-spacing:.01em;
   }

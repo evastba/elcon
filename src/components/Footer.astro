@@ -14,10 +14,14 @@ const links = [
 <footer class="site">
   <div class="wrap footer-grid">
     <div>
-      <a href="/" class="brand" style="margin-bottom:.8rem;">
-        <Image src={logoIcon} class="hex-mark" style="width:30px;height:30px;" alt="ELCON Icon" />
-        <span class="brand-word" style="font-size:1.05rem;">ELCON</span>
+      <a href="/" class="brand">
+        <Image src={logoIcon} class="hex-mark" alt="ELCON Icon" />
+        <span class="brand-text">
+          <span class="brand-word">ELCON</span>
+          <span class="brand-tagline">Connected Building Engineering</span>
+        </span>
       </a>
+      <p class="footer-firma">{company.name}</p>
       <address class="footer-adresse">
         {company.street}<br />
         {company.zip} {company.city}<br />
@@ -30,16 +34,13 @@ const links = [
         {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
       </ul>
     </div>
-    <div>
-      <h4>Rechtliches</h4>
-      <ul>
-        <li><a href="/impressum/">Impressum</a></li>
-        <li><a href="/datenschutz/">Datenschutz</a></li>
-        {analyticsEnabled && <li><a href="#" id="cookieSettingsLink">Cookie-Einstellungen</a></li>}
-      </ul>
-    </div>
   </div>
   <div class="wrap footer-bottom">
     <span>© 2026 {company.name}</span>
+    <nav class="footer-rechtliches" aria-label="Rechtliches">
+      <a href="/impressum/">Impressum</a>
+      <a href="/datenschutz/">Datenschutz</a>
+      {analyticsEnabled && <a href="#" id="cookieSettingsLink">Cookie-Einstellungen</a>}
+    </nav>
   </div>
 </footer>

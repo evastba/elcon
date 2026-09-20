@@ -2,12 +2,6 @@
 import { Image, getImage } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { asset } from '../../lib/assets';
-import { PROJEKTDETAILS } from '../../data/projekte';
-
-/* Für einige dokumentierte Projekte gibt es keine Kachel im Raster oben.
-   Ohne diesen Block wären ihre Detailseiten von der Übersicht aus nicht
-   erreichbar. */
-const ohneKachel = PROJEKTDETAILS.filter((p) => !p.kachel);
 
 /* Die Großansicht der Referenzschreiben wird erst im Browser gesetzt und kann
    deshalb nicht über die <Image>-Komponente laufen. getImage() erzeugt die
@@ -478,24 +472,69 @@ const vollbild: Record<string, string> = Object.fromEntries(
             <p>Planung und Ausführung von Elektro- und Kommunikationstechnik für neun Modernisierungsprojekte in Moskau — u.&nbsp;a. Hotel Balschug/Kempinski und mehrere Repräsentanzgebäude, im Auftrag der AMR (Philipp Holzmann AG).</p>
           </div>
         </article>
+        <article class="project-card project-card--link" data-category="planung">
+          <div class="project-art-wrap project-art-wrap--logo">
+            <div class="project-logo project-logo--large"><div class="project-logo-chip project-logo-chip--large"><Image src={asset("/assets/logos/nordstream.png")} alt="Nord Stream Logo" /></div></div>
+          </div>
+          <div class="project-body">
+            <h3><a class="project-card-link" href="/projekte/nord-stream-wartung-seit-2012/">Nord Stream I, Wartung &amp; Instandhaltung</a></h3>
+            <span class="project-meta">Ostsee · Planung &amp; Betrieb</span>
+            <p>Laufende Wartung und Instandhaltung der Ostsee-Pipeline seit der Inbetriebnahme im November 2011.</p>
+            <span class="project-mehr">Details ansehen <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
+          </div>
+        </article>
+        <article class="project-card project-card--link" data-category="elektro">
+          <div class="project-art-wrap project-art-wrap--text">
+            <span class="project-art-label">Schubbeize</span>
+          </div>
+          <div class="project-body">
+            <h3><a class="project-card-link" href="/projekte/schubbeize-lipetsk-2006/">Schubbeize, Lipetsk</a></h3>
+            <span class="project-meta">Russland · Elektrotechnik</span>
+            <p>Mittelspannungsanlagentechnik, Trafos und Schaltschränke für eine Beizanlage in Lipetsk.</p>
+            <span class="project-mehr">Details ansehen <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
+          </div>
+        </article>
+        <article class="project-card project-card--link" data-category="elektro">
+          <div class="project-art-wrap project-art-wrap--text">
+            <span class="project-art-label">Ziegelwerk</span>
+          </div>
+          <div class="project-body">
+            <h3><a class="project-card-link" href="/projekte/ziegelwerk-kiprewo-2006/">Ziegelwerk, Kiprewo</a></h3>
+            <span class="project-meta">Russland · Elektrotechnik</span>
+            <p>Neubau einer Anlage zur Ziegelproduktion für Wienerberger; ELCON-Anteil 13,5 Mio. Euro.</p>
+            <span class="project-mehr">Details ansehen <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
+          </div>
+        </article>
+        <article class="project-card project-card--link" data-category="hkls">
+          <div class="project-art-wrap project-art-wrap--text">
+            <span class="project-art-label">Villa Benilux</span>
+          </div>
+          <div class="project-body">
+            <h3><a class="project-card-link" href="/projekte/villa-benilux-2006/">Villa Benilux</a></h3>
+            <span class="project-meta">Haustechnik &amp; Planung</span>
+            <p>Komplette Planung der Haustechnik inklusive Schwachstrom, Schwimmbadtechnik und Regenwassernutzung.</p>
+            <span class="project-mehr">Details ansehen <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
+          </div>
+        </article>
+        <article class="project-card project-card--link" data-category="planung">
+          <div class="project-art-wrap project-art-wrap--text">
+            <span class="project-art-label">Villa Moskau</span>
+          </div>
+          <div class="project-body">
+            <h3><a class="project-card-link" href="/projekte/villa-rublowskoe-schosse-moskau-2005/">Villa Rublowskoe Schosse, Moskau</a></h3>
+            <span class="project-meta">Russland · Planung &amp; Betrieb</span>
+            <p>Planung und Ausführung sämtlicher technischer Anlagen für den Neubau einer privaten Villa.</p>
+            <span class="project-mehr">Details ansehen <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
+          </div>
+        </article>
       </div>
 
-      {ohneKachel.length > 0 && (
-        <div class="weitere-projekte">
-          <h2>Weitere dokumentierte Projekte</h2>
-          <p>Zu diesen Vorhaben liegen ausführliche Angaben vor, sie sind im Raster oben jedoch nicht als Kachel enthalten.</p>
-          <ul>
-            {ohneKachel.map((p) => (
-              <li>
-                <a href={`/projekte/${p.slug}/`}>
-                  <span>{p.titel}</span>
-                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+      <div class="projekt-aufklappen">
+        <button type="button" class="cta-btn ghost" id="projekteMehr" aria-expanded="false" aria-controls="projectGrid" hidden>
+          Weitere Projekte anzeigen
+        </button>
+      </div>
+
 
 
       <div class="reference-directory" id="refVerzeichnis">
@@ -747,6 +786,78 @@ const vollbild: Record<string, string> = Object.fromEntries(
   import { trackEvent } from '../../scripts/track';
 
   /* Filterleiste der Projektübersicht */
+  /* Projektraster: zunächst nur die erste Reihe zeigen.
+
+     Wie viele Kacheln eine Reihe fasst, hängt von der Fensterbreite ab (sechs,
+     vier oder zwei Spalten). Statt eine feste Zahl anzunehmen, wird die erste
+     Reihe am Layout abgelesen: Alle Kacheln mit demselben oberen Abstand wie
+     die erste gehören dazu. Das stimmt damit auch nach einem Filterwechsel und
+     nach Größenänderung des Fensters.
+
+     Ohne JavaScript bleiben alle Kacheln sichtbar — eingeklappt wird erst,
+     wenn dieser Code läuft. */
+  var rasterOffen = false;
+
+  function aktualisiereRaster(){
+    var grid = document.getElementById('projectGrid');
+    var knopf = document.getElementById('projekteMehr');
+    if(!grid || !knopf) return;
+
+    var karten = Array.prototype.slice.call(grid.querySelectorAll('.project-card'));
+    karten.forEach(function(k){ k.classList.remove('is-eingeklappt'); });
+
+    var sichtbar = karten.filter(function(k){ return !k.hidden; });
+    if(sichtbar.length === 0){ knopf.hidden = true; return; }
+
+    if(rasterOffen){
+      knopf.hidden = false;
+      knopf.setAttribute('aria-expanded', 'true');
+      knopf.textContent = 'Weniger anzeigen';
+      return;
+    }
+
+    /* Erst alle Abstände messen, dann ausblenden. Würde beides im selben
+       Durchlauf geschehen, verschöbe jedes ausgeblendete Element das Layout
+       der nachfolgenden und deren gemessener Abstand wäre falsch. */
+    var abstaende = sichtbar.map(function(k){ return k.offsetTop; });
+    var ersteReihe = abstaende[0];
+    var verborgen = 0;
+    sichtbar.forEach(function(k, i){
+      if(abstaende[i] > ersteReihe){ k.classList.add('is-eingeklappt'); verborgen++; }
+    });
+
+    knopf.hidden = verborgen === 0;
+    knopf.setAttribute('aria-expanded', 'false');
+    knopf.textContent = verborgen === 1
+      ? 'Ein weiteres Projekt anzeigen'
+      : 'Weitere ' + verborgen + ' Projekte anzeigen';
+  }
+
+  (function(){
+    var knopf = document.getElementById('projekteMehr');
+    if(!knopf) return;
+
+    knopf.addEventListener('click', function(){
+      rasterOffen = !rasterOffen;
+      aktualisiereRaster();
+      trackEvent('projekte_aufgeklappt', { offen: rasterOffen });
+      if(!rasterOffen){
+        document.getElementById('projectGrid').scrollIntoView({ block: 'start', behavior: 'smooth' });
+      }
+    });
+
+    var timer;
+    window.addEventListener('resize', function(){
+      clearTimeout(timer);
+      timer = setTimeout(aktualisiereRaster, 150);
+    });
+
+    aktualisiereRaster();
+    /* Nach dem Laden der Schriften und Bilder können sich Höhen verschieben —
+       einmal nachmessen, damit die Reihengrenze stimmt. */
+    window.addEventListener('load', aktualisiereRaster);
+  })();
+
   document.querySelectorAll('.filter-chip').forEach(function(btn){
     btn.addEventListener('click', function(){
       document.querySelectorAll('.filter-chip').forEach(function(b){
@@ -760,6 +871,7 @@ const vollbild: Record<string, string> = Object.fromEntries(
       document.querySelectorAll('#projectGrid .project-card').forEach(function(card){
         card.hidden = !(f === 'all' || card.dataset.category === f);
       });
+      aktualisiereRaster();
     });
   });
 
