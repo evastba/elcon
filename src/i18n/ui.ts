@@ -229,7 +229,7 @@ export const UI: Record<Lang, UiTexte> = {
       zurueck: 'Zurück',
       weiter: 'Weiter',
       ergebnisAnzeigen: 'Ergebnis anzeigen',
-      direkt: 'Lieber gleich schreiben?',
+      direkt: 'Besser gleich schreiben?',
       direktLink: 'Direkt zum Anfrageformular',
     },
     marqueeTitel: 'Vertrauen von Unternehmen und Institutionen',
