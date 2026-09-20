@@ -123,7 +123,7 @@ export interface UiTexte {
   /** Ansprechpartner-Komponente. */
   kontaktperson: { eyebrow: string; titel: string; anrufen: string; schreiben: string; sprachen: string };
   /** Einordnung abgeschlossener Projekte der Unternehmenshistorie. */
-  historisch: { ueberschrift: string; hinweis: string; kurz: string };
+  historisch: { ueberschrift: string; hinweis: string; hinweisGruppe: string; kurz: string };
   /** Kennzeichnung KI-generierter Motive, je nach Nutzungskontext. */
   bildhinweis: {
     symbolisch: string;
@@ -202,6 +202,8 @@ export const UI: Record<Lang, UiTexte> = {
       ueberschrift: 'Projektbeispiele aus der Unternehmenshistorie',
       hinweis:
         'Historisches Referenzprojekt aus der internationalen Unternehmensgeschichte von ELCON. Die Angaben beziehen sich auf den jeweils genannten Ausführungszeitraum und stellen keine Aussage über eine gegenwärtige Tätigkeit oder Geschäftsbeziehung dar.',
+      hinweisGruppe:
+        'Abgeschlossene Referenzprojekte aus der internationalen Unternehmensgeschichte von ELCON. Die Angaben beziehen sich auf den jeweils genannten Ausführungszeitraum und stellen keine Aussage über eine gegenwärtige Tätigkeit oder Geschäftsbeziehung dar.',
       kurz: 'Historisches Referenzprojekt',
     },
     bildhinweis: {
@@ -282,6 +284,8 @@ export const UI: Record<Lang, UiTexte> = {
       ueberschrift: 'Project examples from our corporate history',
       hinweis:
         'Historical reference project from ELCON\u2019s international corporate history. The information relates to the stated period of execution and does not indicate any current activity or ongoing business relationship.',
+      hinweisGruppe:
+        'Completed reference projects from ELCON\u2019s international corporate history. The information relates to the period of execution stated in each case and does not indicate any current activity or ongoing business relationship.',
       kurz: 'Historical reference project',
     },
     bildhinweis: {

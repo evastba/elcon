@@ -206,6 +206,29 @@ html, body { overflow-x: clip; }
   .hero-ctas{display:flex;gap:.9rem;flex-wrap:wrap;margin-bottom:2.2rem;}
   .hero-art{position:relative;border-radius:14px;overflow:hidden;box-shadow:var(--shadow);}
   .hero-art img{width:100%;height:100%;display:block;object-fit:cover;aspect-ratio:4/3;}
+  /* Trennt die abgeschlossenen Projekte der Unternehmenshistorie von den
+     übrigen. Läuft als volle Zeile durch das Raster, damit die Kachelspalten
+     unberührt bleiben. */
+  .projekt-trenner{
+    grid-column:1 / -1;
+    border-top:1px solid var(--border);
+    margin:1.4rem 0 .4rem;padding-top:1.5rem;
+  }
+  .projekt-trenner h2{
+    margin:0 0 .5rem;font-size:clamp(1.05rem,2vw,1.3rem);font-weight:800;color:var(--text);
+  }
+  .projekt-trenner p{
+    margin:0;font-size:.88rem;line-height:1.6;color:var(--text-muted);max-width:80ch;
+  }
+  .projekt-trenner.is-eingeklappt{display:none;}
+
+  /* Zeitliche Einordnung auf der Detailseite eines abgeschlossenen Projekts. */
+  .projekt-historisch{
+    margin:1.2rem 0 0;padding:.7rem 0 .7rem 1rem;
+    border-left:3px solid var(--border);
+    font-size:.86rem;line-height:1.6;color:var(--text-muted);max-width:68ch;
+  }
+
   /* Ansprechpartner.
 
      Ohne freigegebenes Foto stehen die Initialen auf einer Farbfläche. Das
