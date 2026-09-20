@@ -21,8 +21,9 @@ import { company, analyticsEnabled, GA_MEASUREMENT_ID, cloudflareAnalyticsEnable
   <p>
     {company.name}<br />
     {company.street}<br />
+    {company.district}<br />
     {company.zip} {company.city}<br />
-    Germany<br />
+    {company.countryEn}<br />
     Phone: <a href={`tel:${company.phoneHref}`}>{company.phone}</a><br />
     Email: <a href={`mailto:${company.email}`}>{company.email}</a>
   </p>

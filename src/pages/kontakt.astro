@@ -14,6 +14,7 @@ import { company } from '../config';
         <h3>{company.name}</h3>
         <ul class="contact-list">
           <li>{company.street}</li>
+          <li>{company.district}</li>
           <li>{company.zip} {company.city}</li>
           <li>Telefon: <a href={`tel:${company.phoneHref}`}>{company.phone}</a></li>
           <li>Fax: {company.fax}</li>

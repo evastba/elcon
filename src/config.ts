@@ -19,9 +19,11 @@ export const company = {
   name: 'ELCON LED GmbH',
 
   /* Ladungsfähige Anschrift. */
-  street: 'Bauernstr. 34',
+  street: 'Bauernstraße 34',
   zip: '31275',
-  city: 'Lehrte (OT Immensen)',
+  city: 'Lehrte',
+  /** Ortsteil, im Impressum des Stammhauses mit angegeben. */
+  district: 'OT Immensen',
   country: 'Deutschland',
   /** Landesname für die englische Fassung der Anschrift. */
   countryEn: 'Germany',
@@ -41,13 +43,23 @@ export const company = {
    * Impressum als unvollständig; der Build weist darauf hin.
    * ------------------------------------------------------------------ */
 
-  /** Namen der vertretungsberechtigten Geschäftsführung, z. B. ['Max Mustermann']. */
-  managingDirectors: null as string[] | null,
-  /** Registergericht, z. B. 'Amtsgericht Hildesheim'. */
-  registerCourt: null as string | null,
-  /** Handelsregisternummer, z. B. 'HRB 12345'. */
-  registerNumber: null as string | null,
-  /** Umsatzsteuer-Identifikationsnummer nach § 27a UStG, z. B. 'DE123456789'. */
+  /** Namen der vertretungsberechtigten Geschäftsführung. */
+  managingDirectors: ['Klaus Deiters'] as string[] | null,
+  /** Registergericht. */
+  registerCourt: 'Amtsgericht Hildesheim' as string | null,
+  /** Handelsregisternummer. */
+  registerNumber: 'HRB 202878' as string | null,
+  /**
+   * Umsatzsteuer-Identifikationsnummer nach § 27a UStG, Format DE + neun
+   * Ziffern.
+   *
+   * Bewusst leer: Das bisherige Impressum auf www.elcon-led.com führt unter
+   * dieser Überschrift "15/7773289". Das ist dem Format nach keine
+   * Umsatzsteuer-Identifikationsnummer, sondern eine Steuernummer — sie wird
+   * dort also falsch bezeichnet. Eine Steuernummer ist keine Pflichtangabe
+   * nach § 5 DDG und gehört nicht ungeprüft ins Impressum. Die echte
+   * USt-IdNr. ist nachzutragen; siehe LIVEGANG_CHECKLISTE.md.
+   */
   vatId: null as string | null,
   /** Zuständige Kammer oder Aufsichtsbehörde, falls einschlägig. */
   chamber: null as string | null,
@@ -147,7 +159,34 @@ export interface Ansprechpartner {
  * Gepflegt wird die Liste ausschließlich hier. Ein Eintrag erscheint erst,
  * wenn `aktiv` und `veroeffentlichungsfreigabe` beide auf `true` stehen.
  */
-export const ansprechpartner: Ansprechpartner[] = [];
+export const ansprechpartner: Ansprechpartner[] = [
+  /*
+   * Aus der Kontaktseite von www.elcon-led.com übernommen. Die Person ist
+   * real und dort mit Durchwahl veröffentlicht — eine Zustimmung zur
+   * Veröffentlichung auf der neuen Website ist damit aber nicht erteilt.
+   * `veroeffentlichungsfreigabe` steht deshalb auf false; der Datensatz wird
+   * nicht ausgegeben. Siehe LIVEGANG_CHECKLISTE.md, Abschnitt 11.
+   */
+  {
+    id: 'tsyplenkova',
+    vorname: 'Olga',
+    nachname: 'Tsyplenkova',
+    funktion: 'Büroleitung',
+    funktionEn: 'Office Manager',
+    bereich: null,
+    bereichEn: null,
+    telefon: '+7 916 020 77 36',
+    telefonHref: '+79160207736',
+    email: null,
+    foto: null,
+    sprachen: ['ru', 'de'],
+    aufKontaktseite: false,
+    imFooter: false,
+    leistungsbereiche: [],
+    aktiv: false,
+    veroeffentlichungsfreigabe: false,
+  },
+];
 
 /** Ansprechpartner, die tatsächlich ausgegeben werden dürfen. */
 export const sichtbareAnsprechpartner = ansprechpartner.filter(
