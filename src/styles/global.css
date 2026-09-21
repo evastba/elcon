@@ -704,7 +704,10 @@ html, body { overflow-x: clip; }
      ihre Eigenfarben mit dem Abschnittshintergrund. */
   .partner-liste{
     list-style:none;margin:0;padding:0;
-    display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.2rem;
+    /* auto-fill statt auto-fit: Bei nur einem freigegebenen Partner bleibt
+       die Kachel ein Drittel breit, statt sich über die ganze Spalte zu
+       ziehen. */
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.2rem;
   }
   .partner-karte{
     display:flex;flex-direction:column;gap:1rem;
@@ -713,9 +716,13 @@ html, body { overflow-x: clip; }
   }
   .partner-logo{
     display:flex;align-items:center;justify-content:flex-start;
-    height:44px;
+    height:64px;padding:.6rem .9rem;border-radius:8px;align-self:flex-start;
   }
-  .partner-logo img{max-height:44px;width:auto;max-width:170px;object-fit:contain;}
+  /* Weiße Logos brauchen eine dunkle Flaeche, dunkle eine helle. Eingefaerbt
+     wird nichts — das waere ein Eingriff in die fremde Marke. */
+  .partner-logo--dunkel{background:var(--ink);}
+  .partner-logo--hell{background:#fff;border:1px solid var(--border);}
+  .partner-logo img{max-height:100%;width:auto;max-width:190px;object-fit:contain;}
   .partner-text h3{margin:0 0 .3rem;font-size:1.06rem;font-weight:700;}
   .partner-sitz{margin:0 0 .7rem;font-size:.82rem;color:var(--text-leise);}
   .partner-worte{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:.4rem;}
@@ -729,18 +736,6 @@ html, body { overflow-x: clip; }
     font-size:.88rem;font-weight:700;color:var(--accent-3);text-decoration:none;
   }
   .partner-link:hover{text-decoration:underline;}
-  /* Der Beitrag von ELCON steht als ein Punkt unter den Kacheln, mit der
-     Wabe des Hausstils als Aufzaehlungszeichen. */
-  .partner-beitrag{
-    display:flex;gap:.7rem;align-items:flex-start;
-    margin:1.8rem 0 0;max-width:none;
-    font-size:1.02rem;line-height:1.6;color:var(--text);
-  }
-  .partner-beitrag::before{
-    content:"";width:10px;height:10px;flex:none;margin-top:.45rem;
-    background:var(--accent-3);
-    clip-path:polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%);
-  }
 
   /* Kennzeichnung in der Bildecke.
 

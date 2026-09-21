@@ -17,6 +17,15 @@ export interface Partnerlogo {
   /** Bildbeschreibung für Menschen, die das Logo nicht sehen können. */
   alt: string;
   altEn: string;
+  /**
+   * Untergrund, auf dem das Logo lesbar ist.
+   *
+   * Firmenlogos liegen oft nur in einer Fassung vor — mal dunkel auf hell,
+   * mal weiß für dunkle Flächen. Statt sie einzufärben, was die Marke
+   * verändern würde, bekommt jede Kachel die Fläche, für die ihr Logo
+   * gemacht ist.
+   */
+  hintergrund: 'hell' | 'dunkel';
 }
 
 export interface Partner {
@@ -49,21 +58,6 @@ export interface Partner {
 
 export const PARTNER: Partner[] = [
   {
-    id: 'elektro-deiters',
-    name: 'Elektro Deiters',
-    /* Der 1953 von Wilhelm Deiters gegründete Elektrofachbetrieb, aus dem
-       die ELCON hervorgegangen ist; beide gehören zur Deiters-Gruppe. So
-       steht es bereits auf der Unternehmensseite. Firmierung, Sitz und die
-       Art der Zusammenarbeit sind noch zu bestätigen. */
-    sitz: null,
-    stichworte: null,
-    stichworteEn: null,
-    website: null,
-    logo: null,
-    veroeffentlichungsfreigabe: false,
-    aktiv: true,
-  },
-  {
     id: 'ampulse',
     name: 'Ampulse GmbH',
     sitz: 'Berlin',
@@ -72,11 +66,19 @@ export const PARTNER: Partner[] = [
        transformatoren, Wechselrichter, Hoch- und Mittelspannungskabel sowie
        Batteriespeicher. Wie die Zusammenarbeit mit ELCON im Einzelnen
        aussieht, ist noch zu benennen — deshalb bleibt das Feld leer. */
-    stichworte: null,
-    stichworteEn: null,
-    website: 'https://ampulse.energy/de/',
-    logo: null,
-    veroeffentlichungsfreigabe: false,
+    stichworte: ['Ausrüstung für Energieprojekte', 'Transformatoren, Kabel und Batteriespeicher'],
+    stichworteEn: ['Equipment for energy projects', 'Transformers, cables and battery storage'],
+    website: 'https://ampulse.energy/',
+    /* Logo und Angaben auf Weisung des Auftraggebers von ampulse.energy
+       übernommen. Die Datei liegt nur in weißer Fassung vor, deshalb die
+       dunkle Kachel. */
+    logo: {
+      datei: 'ampulse.png',
+      alt: 'Logo der Ampulse GmbH',
+      altEn: 'Logo of Ampulse GmbH',
+      hintergrund: 'dunkel',
+    },
+    veroeffentlichungsfreigabe: true,
     aktiv: true,
   },
   {
@@ -92,22 +94,51 @@ export const PARTNER: Partner[] = [
        der ELCON überein — die beiden Gesellschaften teilen sich den
        Standort. */
     sitz: 'Lehrte-Immensen',
-    /* Geschäftsfeld und Art der Zusammenarbeit sind noch zu benennen. */
-    stichworte: null,
-    stichworteEn: null,
+    /* Art der Zusammenarbeit laut Auftraggeber. Auf der Website der Ampulse
+       GmbH wird die Northtech GmbH zudem als ausführender Partner geführt. */
+    stichworte: ['Zusammenarbeit bei internationalen Projekten'],
+    stichworteEn: ['Cooperation on international projects'],
     website: null,
+    /* Logodatei liegt noch nicht vor; die Kachel erscheint solange ohne
+       Zeichen. */
     logo: null,
-    veroeffentlichungsfreigabe: false,
+    veroeffentlichungsfreigabe: true,
+    aktiv: true,
+  },
+  {
+    id: 'elektro-deiters',
+    name: 'Elektro Deiters',
+    /* Der 1953 von Wilhelm Deiters gegründete Elektrofachbetrieb, aus dem
+       die ELCON hervorgegangen ist; beide gehören zur Deiters-Gruppe. So
+       steht es bereits auf der Unternehmensseite. Firmierung, Sitz und die
+       Art der Zusammenarbeit sind noch zu bestätigen. */
+    sitz: 'Lehrte-Immensen',
+    /* Leistungen laut elektro-deiters.de. */
+    stichworte: ['Elektroinstallation und Gebäudetechnik', 'Photovoltaik und Ladeinfrastruktur'],
+    stichworteEn: ['Electrical installation and building services', 'Photovoltaics and charging infrastructure'],
+    website: 'https://www.elektro-deiters.de/',
+    /* Das Zeichen bringt seine eigene dunkle Flaeche mit und steht deshalb
+       auf hellem Untergrund. */
+    logo: {
+      datei: 'elektro-deiters.png',
+      alt: 'Logo von Elektro Deiters',
+      altEn: 'Logo of Elektro Deiters',
+      hintergrund: 'hell',
+    },
+    veroeffentlichungsfreigabe: true,
     aktiv: true,
   },
 ];
 
 /**
- * Ein Eintrag ist vollständig, wenn Sitz, Stichworte und Logo vorliegen.
- * Ohne diese drei bleibt eine Kachel eine leere Hülle.
+ * Ein Eintrag ist vollständig, wenn Sitz und Stichworte vorliegen.
+ *
+ * Das Logo ist ausdrücklich keine Bedingung: Liegt keine Datei vor, zeigt die
+ * Kachel den Firmennamen ohne Zeichen. Ein Eintrag ohne Sitz und ohne
+ * Stichworte bliebe dagegen eine leere Hülle.
  */
 export const istVollstaendig = (p: Partner): boolean =>
-  Boolean(p.sitz && p.stichworte?.length && p.stichworteEn?.length && p.logo);
+  Boolean(p.sitz && p.stichworte?.length && p.stichworteEn?.length);
 
 /** Partner, die tatsächlich ausgegeben werden dürfen. */
 export const sichtbarePartner = PARTNER.filter(

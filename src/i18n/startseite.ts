@@ -70,8 +70,6 @@ export interface Startseite {
     eyebrow: string;
     titel: string;
     intro: string;
-    /** Was ELCON in die Zusammenarbeit einbringt — ein Punkt, keine Liste. */
-    beitrag: string;
     sitzLabel: string;
     websiteLabel: string;
   };
@@ -207,9 +205,7 @@ export const STARTSEITE: Record<'de' | 'en', Startseite> = {
       eyebrow: 'Partnerunternehmen',
       titel: 'Technische Reichweite über das eigene Haus hinaus',
       intro:
-        'Für Aufgaben, die über die eigenen Gewerke hinausgehen, arbeitet ELCON mit spezialisierten Unternehmen dauerhaft zusammen — mit klarer Zuständigkeit auf beiden Seiten.',
-      beitrag:
-        'ELCON bringt in beide Unternehmen die eigene Kompetenz ein: Elektro-, Gebäude- und Automatisierungstechnik sowie die Steuerung komplexer Projekte von der Planung bis zur Inbetriebnahme.',
+        'Für Aufgaben, die über die eigenen Gewerke hinausgehen, arbeitet ELCON mit spezialisierten Unternehmen dauerhaft zusammen.',
       sitzLabel: 'Sitz',
       websiteLabel: 'Website',
     },
@@ -344,9 +340,7 @@ export const STARTSEITE: Record<'de' | 'en', Startseite> = {
       eyebrow: 'Partner companies',
       titel: 'Technical reach beyond our own trades',
       intro:
-        'For work that goes beyond our own trades, ELCON cooperates with specialised companies on a lasting basis — with clear responsibilities on both sides.',
-      beitrag:
-        'ELCON contributes its own expertise to both companies: electrical, building services and automation engineering, together with the management of complex projects from design to commissioning.',
+        'For work that goes beyond our own trades, ELCON cooperates with specialised companies on a lasting basis.',
       sitzLabel: 'Based in',
       websiteLabel: 'Website',
     },

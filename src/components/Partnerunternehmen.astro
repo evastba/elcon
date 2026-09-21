@@ -10,9 +10,6 @@ import { sichtbarePartner } from '../data/partner';
  * Gezeigt wird nur, wer in data/partner.ts freigegeben und vollständig
  * hinterlegt ist. Liegt kein solcher Eintrag vor, entfällt der Abschnitt —
  * eine Überschrift ohne Kacheln wäre schlechter als keine.
- *
- * Der Satz zum Beitrag von ELCON steht bewusst unter den Kacheln: Erst die
- * Partner, dann was ELCON dort einbringt.
  */
 const lang = getLang(Astro.url);
 const t = STARTSEITE[lang].partner;
@@ -36,9 +33,11 @@ const partner = sichtbarePartner.map((p) => ({
       <ul class="partner-liste">
         {partner.map((p) => (
           <li class="partner-karte">
-            <div class="partner-logo">
-              <Image src={asset(`/assets/partner/${p.logo!.datei}`)} alt={p.logoAlt} loading="lazy" />
-            </div>
+            {p.logo && (
+              <div class:list={['partner-logo', `partner-logo--${p.logo.hintergrund}`]}>
+                <Image src={asset(`/assets/partner/${p.logo.datei}`)} alt={p.logoAlt} loading="lazy" />
+              </div>
+            )}
             <div class="partner-text">
               <h3>{p.name}</h3>
               {p.sitz && <p class="partner-sitz">{`${t.sitzLabel}: ${p.sitz}`}</p>}
@@ -54,8 +53,6 @@ const partner = sichtbarePartner.map((p) => ({
           </li>
         ))}
       </ul>
-
-      <p class="partner-beitrag">{t.beitrag}</p>
     </div>
   </section>
 )}
