@@ -49,6 +49,21 @@ export interface Partner {
 
 export const PARTNER: Partner[] = [
   {
+    id: 'elektro-deiters',
+    name: 'Elektro Deiters',
+    /* Der 1953 von Wilhelm Deiters gegründete Elektrofachbetrieb, aus dem
+       die ELCON hervorgegangen ist; beide gehören zur Deiters-Gruppe. So
+       steht es bereits auf der Unternehmensseite. Firmierung, Sitz und die
+       Art der Zusammenarbeit sind noch zu bestätigen. */
+    sitz: null,
+    stichworte: null,
+    stichworteEn: null,
+    website: null,
+    logo: null,
+    veroeffentlichungsfreigabe: false,
+    aktiv: true,
+  },
+  {
     id: 'ampulse',
     name: 'Ampulse GmbH',
     sitz: 'Berlin',

@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import logoIcon from '../assets/logo-icon-v2.png';
 import Ansprechpartner from './Ansprechpartner.astro';
+import { sichtbarePartner } from '../data/partner';
 import { company, analyticsEnabled, ortZeile } from '../config';
 import { getLang, UI, pfad } from '../i18n/ui';
 
@@ -19,6 +20,11 @@ import { getLang, UI, pfad } from '../i18n/ui';
 const lang = getLang(Astro.url);
 const t = UI[lang];
 const f = t.footer;
+
+/* Der Verweis auf die Partner erscheint nur, wenn der Abschnitt auf der
+   Startseite auch steht — sonst zeigte die Fußzeile auf eine Sprungmarke,
+   die es nicht gibt. */
+const partnerSichtbar = sichtbarePartner.length > 0;
 const start = lang === 'de' ? '/' : '/en/';
 const land = lang === 'de' ? company.country : company.countryEn;
 ---
@@ -52,6 +58,9 @@ const land = lang === 'de' ? company.country : company.countryEn;
       <summary><h2>{f.unternehmen}</h2></summary>
       <ul>
         {f.unternehmenLinks.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+        {partnerSichtbar && (
+          <li><a href={f.partnerLink.href}>{f.partnerLink.label}</a></li>
+        )}
       </ul>
     </details>
 

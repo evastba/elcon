@@ -1,79 +1,113 @@
 /**
- * Zweisprachigkeit der Website.
+ * Mehrsprachigkeit der Website.
  *
- * Die deutsche Fassung liegt unter "/", die englische unter "/en/". Welche
- * Sprache gilt, wird nicht durchgereicht, sondern an der Adresse abgelesen:
- * So muss keine Komponente eine zusätzliche Eigenschaft entgegennehmen, und
- * eine vergessene Weitergabe kann keine halb übersetzte Seite erzeugen.
+ * Die deutsche Fassung liegt unter "/", die übrigen unter "/en/", "/ar/" und
+ * "/zh/". Welche Sprache gilt, wird nicht durchgereicht, sondern an der
+ * Adresse abgelesen: So muss keine Komponente eine zusätzliche Eigenschaft
+ * entgegennehmen, und eine vergessene Weitergabe kann keine halb übersetzte
+ * Seite erzeugen.
  *
  * Fließtexte stehen weiterhin in den Seiten selbst — hier stehen nur die
  * Bausteine, die auf jeder Seite auftauchen (Navigation, Fußzeile, Formular-
  * bausteine des Finders und der Rechtslayouts).
  */
 
-export const LANGS = ['de', 'en'] as const;
+export const LANGS = ['de', 'en', 'ar', 'zh'] as const;
 export type Lang = (typeof LANGS)[number];
 
 export const DEFAULT_LANG: Lang = 'de';
 
-/** Sprache aus der Adresse ableiten. Alles unterhalb von /en/ ist englisch. */
+/** Sprachen mit Rechts-nach-links-Satz. */
+export const RTL_LANGS: ReadonlyArray<Lang> = ['ar'];
+export const istRtl = (lang: Lang) => RTL_LANGS.includes(lang);
+
+/** Adresspräfix je Sprache; Deutsch liegt ohne Präfix in der Wurzel. */
+const PRAEFIX: Record<Lang, string> = { de: '', en: '/en', ar: '/ar', zh: '/zh' };
+
+/** Sprache aus der Adresse ableiten. Ohne bekanntes Präfix gilt Deutsch. */
 export function getLang(url: URL | string): Lang {
   const pfad = typeof url === 'string' ? url : url.pathname;
-  return /^\/en(\/|$)/.test(pfad) ? 'en' : 'de';
+  const treffer = pfad.match(/^\/(en|ar|zh)(\/|$)/);
+  return treffer ? (treffer[1] as Lang) : 'de';
 }
 
 /**
- * Gegenstücke der Seiten in beiden Sprachen.
+ * Gegenstücke der Seiten in allen Sprachen.
  *
- * Die englischen Adressen sind bewusst englisch benannt ("/en/services/" statt
- * "/en/leistungen/"): Für englischsprachige Besucher und für Suchmaschinen ist
- * das die sprechende Form. Die Zuordnung hier ist die einzige Stelle, an der
- * beide Fassungen verknüpft sind — der Sprachumschalter und die
- * hreflang-Angaben lesen sie aus.
+ * Die Adressen der übersetzten Fassungen sind lateinisch benannt
+ * ("/ar/services/" statt einer arabischen Schreibung): Arabische und
+ * chinesische Schriftzeichen müssten in der Adresse prozentkodiert werden
+ * und wären damit weder lesbar noch gut zu teilen. Die Zuordnung hier ist
+ * die einzige Stelle, an der die Fassungen verknüpft sind — der
+ * Sprachumschalter und die hreflang-Angaben lesen sie aus.
  */
-const SEITENPAARE: ReadonlyArray<readonly [string, string]> = [
-  ['/', '/en/'],
-  ['/leistungen/', '/en/services/'],
-  ['/projekte/', '/en/projects/'],
-  ['/unternehmen/', '/en/company/'],
-  ['/kontakt/', '/en/contact/'],
-  ['/impressum/', '/en/imprint/'],
-  ['/datenschutz/', '/en/privacy/'],
+const SEITEN: ReadonlyArray<Record<Lang, string>> = [
+  { de: '/', en: '/en/', ar: '/ar/', zh: '/zh/' },
+  { de: '/leistungen/', en: '/en/services/', ar: '/ar/services/', zh: '/zh/services/' },
+  { de: '/projekte/', en: '/en/projects/', ar: '/ar/projects/', zh: '/zh/projects/' },
+  { de: '/unternehmen/', en: '/en/company/', ar: '/ar/company/', zh: '/zh/company/' },
+  { de: '/kontakt/', en: '/en/contact/', ar: '/ar/contact/', zh: '/zh/contact/' },
+  { de: '/impressum/', en: '/en/imprint/', ar: '/ar/imprint/', zh: '/zh/imprint/' },
+  { de: '/datenschutz/', en: '/en/privacy/', ar: '/ar/privacy/', zh: '/zh/privacy/' },
 ];
+
+/** Verzeichnis der Projektdetailseiten je Sprache. */
+const PROJEKTBASIS: Record<Lang, string> = {
+  de: '/projekte/',
+  en: '/en/projects/',
+  ar: '/ar/projects/',
+  zh: '/zh/projects/',
+};
+
+export const projektBasis = (lang: Lang) => PROJEKTBASIS[lang];
 
 const normalisiere = (pfad: string) => (pfad.endsWith('/') ? pfad : pfad + '/');
 
 /**
- * Dieselbe Seite in der anderen Sprache.
+ * Dieselbe Seite in einer anderen Sprache.
  *
- * Projektdetailseiten tragen in beiden Sprachen denselben Slug; sie werden
- * deshalb über das Präfix umgerechnet statt einzeln aufgeführt. Gibt es kein
- * Gegenstück, führt der Verweis auf die Startseite der anderen Sprache — ein
- * Sprachwechsel soll nie ins Leere laufen.
+ * Projektdetailseiten tragen in allen Sprachen denselben Slug; sie werden
+ * deshalb über das Verzeichnis umgerechnet statt einzeln aufgeführt. Gibt es
+ * kein Gegenstück, führt der Verweis auf die Startseite der Zielsprache —
+ * ein Sprachwechsel soll nie ins Leere laufen.
  */
 export function anderePfad(pfad: string, ziel: Lang): string {
   const p = normalisiere(pfad);
 
-  for (const [de, en] of SEITENPAARE) {
-    if (p === de) return ziel === 'de' ? de : en;
-    if (p === en) return ziel === 'de' ? de : en;
+  for (const zeile of SEITEN) {
+    if (LANGS.some((l) => zeile[l] === p)) return zeile[ziel];
   }
 
-  const projektDe = p.match(/^\/projekte\/(.+\/)$/);
-  if (projektDe) return ziel === 'de' ? p : `/en/projects/${projektDe[1]}`;
+  for (const lang of LANGS) {
+    const basis = PROJEKTBASIS[lang];
+    if (p.startsWith(basis) && p.length > basis.length) {
+      return PROJEKTBASIS[ziel] + p.slice(basis.length);
+    }
+  }
 
-  const projektEn = p.match(/^\/en\/projects\/(.+\/)$/);
-  if (projektEn) return ziel === 'de' ? `/projekte/${projektEn[1]}` : p;
-
-  return ziel === 'de' ? '/' : '/en/';
+  return SEITEN[0][ziel];
 }
 
 /** Adresse eines Pfads in der jeweiligen Sprache, für Verweise im Markup. */
 export function pfad(schluessel: string, lang: Lang): string {
-  const paar = SEITENPAARE.find(([de]) => de === schluessel);
-  if (!paar) return schluessel;
-  return lang === 'de' ? paar[0] : paar[1];
+  const zeile = SEITEN.find((z) => z.de === schluessel);
+  return zeile ? zeile[lang] : schluessel;
 }
+
+/**
+ * Anker innerhalb einer übersetzten Seite.
+ *
+ * Verweise der Fußzeile tragen deutsche Pfade mit Sprungmarke
+ * ("/leistungen/#anlagentechnik"). Hier wird der Pfadteil in die Zielsprache
+ * übersetzt und die Marke unverändert angehängt.
+ */
+export function pfadMitAnker(ziel: string, lang: Lang): string {
+  const [basis, anker] = ziel.split('#');
+  return pfad(basis, lang) + (anker ? '#' + anker : '');
+}
+
+/** Präfix einer Sprache, etwa für Verweise, die kein Gegenstück haben. */
+export const sprachPraefix = (lang: Lang) => PRAEFIX[lang];
 
 interface NavLink {
   href: string;
@@ -98,6 +132,8 @@ export interface UiTexte {
     leistungenLinks: { href: string; label: string }[];
     unternehmen: string;
     unternehmenLinks: { href: string; label: string }[];
+    /** Verweis auf den Partnerabschnitt; erscheint nur, wenn dieser sichtbar ist. */
+    partnerLink: { href: string; label: string };
     kontakt: string;
     cta: string;
     telefon: string;
@@ -203,6 +239,7 @@ export const UI: Record<Lang, UiTexte> = {
         { href: '/#projektablauf', label: 'Projektablauf' },
         { href: '/#leistungsfinder', label: 'Leistungsfinder' },
       ],
+      partnerLink: { href: '/#partnerunternehmen', label: 'Partnerunternehmen' },
       kontakt: 'Kontakt',
       cta: 'Projekt besprechen',
       telefon: 'Telefon',
@@ -317,6 +354,7 @@ export const UI: Record<Lang, UiTexte> = {
         { href: '/en/#projektablauf', label: 'How we work' },
         { href: '/en/#leistungsfinder', label: 'Service finder' },
       ],
+      partnerLink: { href: '/en/#partnerunternehmen', label: 'Partner companies' },
       kontakt: 'Contact',
       cta: 'Discuss your project',
       telefon: 'Phone',
