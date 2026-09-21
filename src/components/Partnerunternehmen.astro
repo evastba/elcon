@@ -1,0 +1,61 @@
+---
+import { Image } from 'astro:assets';
+import { asset } from '../lib/assets';
+import { getLang } from '../i18n/ui';
+import { STARTSEITE } from '../i18n/startseite';
+import { sichtbarePartner } from '../data/partner';
+
+/* Partnerunternehmen am Ende der Startseite.
+ *
+ * Gezeigt wird nur, wer in data/partner.ts freigegeben und vollständig
+ * hinterlegt ist. Liegt kein solcher Eintrag vor, entfällt der Abschnitt —
+ * eine Überschrift ohne Kacheln wäre schlechter als keine.
+ *
+ * Der Satz zum Beitrag von ELCON steht bewusst unter den Kacheln: Erst die
+ * Partner, dann was ELCON dort einbringt.
+ */
+const lang = getLang(Astro.url);
+const t = STARTSEITE[lang].partner;
+
+const partner = sichtbarePartner.map((p) => ({
+  ...p,
+  worte: (lang === 'de' ? p.stichworte : p.stichworteEn) ?? [],
+  logoAlt: p.logo ? (lang === 'de' ? p.logo.alt : p.logo.altEn) : '',
+}));
+---
+
+{partner.length > 0 && (
+  <section class="partner" id="partnerunternehmen" style="background:var(--surface-alt)">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">{t.eyebrow}</p>
+        <h2>{t.titel}</h2>
+        <p>{t.intro}</p>
+      </div>
+
+      <ul class="partner-liste">
+        {partner.map((p) => (
+          <li class="partner-karte">
+            <div class="partner-logo">
+              <Image src={asset(`/assets/partner/${p.logo!.datei}`)} alt={p.logoAlt} loading="lazy" />
+            </div>
+            <div class="partner-text">
+              <h3>{p.name}</h3>
+              {p.sitz && <p class="partner-sitz">{`${t.sitzLabel}: ${p.sitz}`}</p>}
+              <ul class="partner-worte">
+                {p.worte.map((w) => <li>{w}</li>)}
+              </ul>
+              {p.website && (
+                <a class="partner-link" href={p.website} target="_blank" rel="noopener noreferrer">
+                  {t.websiteLabel}
+                </a>
+              )}
+            </div>
+          </li>
+        ))}
+      </ul>
+
+      <p class="partner-beitrag">{t.beitrag}</p>
+    </div>
+  </section>
+)}

@@ -346,6 +346,44 @@ erst, wenn `aktiv` und `veroeffentlichungsfreigabe` beide auf `true` stehen.
 
 ---
 
+## 11a. Fehlende Angaben zu den Partnerunternehmen
+
+Der Abschnitt „Partnerunternehmen" am Ende der Startseite ist gebaut, bleibt
+aber unsichtbar, bis zu einem Unternehmen alle Angaben vorliegen. Eine
+Überschrift ohne Kacheln wäre schlechter als kein Abschnitt.
+
+**Ampulse GmbH, Berlin** — Geschäftsfeld laut eigener Darstellung:
+Ausrüstung für Energieprojekte, unter anderem Hochspannungstransformatoren,
+Wechselrichter, Hoch- und Mittelspannungskabel und Batteriespeicher.
+
+Offen:
+
+- **Ein bis zwei Stichworte** zur Art der Zusammenarbeit, deutsch und
+  englisch.
+- **Logodatei** in verwendbarer Auflösung und die Zustimmung zur Verwendung.
+
+**Northtech GmbH, Lehrte-Immensen** — Geschäftsführer Klaus Deiters,
+Amtsgericht Hildesheim HRB 207311. Anschrift und Registergericht stimmen mit
+denen der ELCON überein.
+
+Offen:
+
+- **Geschäftsfeld** in einem Satz.
+- **Ein bis zwei Stichworte** zur Art der Zusammenarbeit, deutsch und
+  englisch.
+- **Logodatei** und Zustimmung zur Verwendung.
+- **Website**, falls vorhanden.
+
+> Die Umsatzsteuer-Identifikationsnummer DE340373438 gehört zur Northtech
+> GmbH. Sie darf nicht als Nummer der ELCON LED GmbH ins Impressum
+> übernommen werden — dort fehlt die Angabe weiterhin, siehe Abschnitt 1.
+
+Gepflegt in `src/data/partner.ts`. Ein Eintrag erscheint erst, wenn Sitz,
+Stichworte und Logo vorliegen **und** `veroeffentlichungsfreigabe` auf `true`
+steht. Logodateien gehören nach `src/assets/partner/`.
+
+---
+
 ## 12. Erforderliche E-Mail- und Cloudflare-Konfiguration
 
 **Auf Ihren Wunsch zurückgestellt.** Das Anfrageformular arbeitet vorerst

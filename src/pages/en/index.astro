@@ -8,6 +8,7 @@ import WarumElcon from '../../components/WarumElcon.astro';
 import Projektablauf from '../../components/Projektablauf.astro';
 import Leistungsfinder from '../../components/Leistungsfinder.astro';
 import Ansprechpartner from '../../components/Ansprechpartner.astro';
+import Partnerunternehmen from '../../components/Partnerunternehmen.astro';
 import { asset } from '../../lib/assets';
 import { getLang, pfad } from '../../i18n/ui';
 import { STARTSEITE } from '../../i18n/startseite';
@@ -79,5 +80,7 @@ const projekte = pfad('/projekte/', lang);
       </div>
     </div>
   </section>
+
+  <Partnerunternehmen />
 
 </BaseLayout>

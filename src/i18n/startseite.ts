@@ -66,6 +66,15 @@ export interface Startseite {
   ablauf: { eyebrow: string; titel: string; schritte: Schritt[]; cta: string };
   finder: { eyebrow: string; titel: string; intro: string };
   unternehmen: { eyebrow: string; titel: string; text: string; link: string };
+  partner: {
+    eyebrow: string;
+    titel: string;
+    intro: string;
+    /** Was ELCON in die Zusammenarbeit einbringt — ein Punkt, keine Liste. */
+    beitrag: string;
+    sitzLabel: string;
+    websiteLabel: string;
+  };
 }
 
 export const STARTSEITE: Record<'de' | 'en', Startseite> = {
@@ -194,6 +203,16 @@ export const STARTSEITE: Record<'de' | 'en', Startseite> = {
         'Die ELCON LED GmbH ist seit 1993 eigenständig tätig und hat ihren Sitz in Lehrte bei Hannover. Auftraggeber erhalten einen festen Kontakt, der technische und organisatorische Schnittstellen zusammenführt — statt für jedes Gewerk einen anderen.',
       link: 'Mehr über ELCON erfahren',
     },
+    partner: {
+      eyebrow: 'Partnerunternehmen',
+      titel: 'Technische Reichweite über das eigene Haus hinaus',
+      intro:
+        'Für Aufgaben, die über die eigenen Gewerke hinausgehen, arbeitet ELCON mit spezialisierten Unternehmen dauerhaft zusammen — mit klarer Zuständigkeit auf beiden Seiten.',
+      beitrag:
+        'ELCON bringt in beide Unternehmen die eigene Kompetenz ein: Elektro-, Gebäude- und Automatisierungstechnik sowie die Steuerung komplexer Projekte von der Planung bis zur Inbetriebnahme.',
+      sitzLabel: 'Sitz',
+      websiteLabel: 'Website',
+    },
   },
 
   en: {
@@ -320,6 +339,16 @@ export const STARTSEITE: Record<'de' | 'en', Startseite> = {
       text:
         'ELCON LED GmbH has operated independently since 1993 and is based in Lehrte near Hannover. Clients get one dedicated contact who brings the technical and organisational interfaces together — rather than a different one for every trade.',
       link: 'More about ELCON',
+    },
+    partner: {
+      eyebrow: 'Partner companies',
+      titel: 'Technical reach beyond our own trades',
+      intro:
+        'For work that goes beyond our own trades, ELCON cooperates with specialised companies on a lasting basis — with clear responsibilities on both sides.',
+      beitrag:
+        'ELCON contributes its own expertise to both companies: electrical, building services and automation engineering, together with the management of complex projects from design to commissioning.',
+      sitzLabel: 'Based in',
+      websiteLabel: 'Website',
     },
   },
 };
