@@ -105,8 +105,8 @@ export const PARTNER: Partner[] = [
     sitz: 'Region Hannover',
     /* Art der Zusammenarbeit laut Auftraggeber. Auf der Website der Ampulse
        GmbH wird die Northtech GmbH zudem als ausführender Partner geführt. */
-    stichworte: ['Zusammenarbeit bei internationalen Projekten'],
-    stichworteEn: ['Cooperation on international projects'],
+    stichworte: ['Zusammenarbeit bei internationalen Projekten', 'Ausrüstung für Energieprojekte'],
+    stichworteEn: ['Cooperation on international projects', 'Equipment for energy projects'],
     website: null,
     /* Vom Auftraggeber geliefert. Die Datei war randlos beschnitten; ein
        durchsichtiger Rand von vier Prozent haelt das Zeichen von der
