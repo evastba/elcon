@@ -34,7 +34,10 @@ const partner = sichtbarePartner.map((p) => ({
         {partner.map((p) => (
           <li class="partner-karte">
             {p.logo && (
-              <div class:list={['partner-logo', `partner-logo--${p.logo.hintergrund}`]}>
+              <div
+                class:list={['partner-logo', `partner-logo--${p.logo.hintergrund}`]}
+                style={`--logo-skalierung:${p.logo.skalierung ?? 1}`}
+              >
                 <Image src={asset(`/assets/partner/${p.logo.datei}`)} alt={p.logoAlt} loading="lazy" />
               </div>
             )}
@@ -44,10 +47,17 @@ const partner = sichtbarePartner.map((p) => ({
               <ul class="partner-worte">
                 {p.worte.map((w) => <li>{w}</li>)}
               </ul>
-              {p.website && (
+              {p.website ? (
                 <a class="partner-link" href={p.website} target="_blank" rel="noopener noreferrer">
                   {t.websiteLabel}
                 </a>
+              ) : (
+                /* Ohne Adresse steht die Zeile nur da, damit die Kacheln
+                   gleich aufgebaut bleiben. Bewusst kein Verweis: Ein Link
+                   ins Leere führte zu einer Fehlerseite, und Vorleseprogramme
+                   kündigten ein Ziel an, das es nicht gibt. Sobald die
+                   Adresse vorliegt, wird daraus von selbst ein Verweis. */
+                <span class="partner-link partner-link--ohne-ziel">{t.websiteLabel}</span>
               )}
             </div>
           </li>

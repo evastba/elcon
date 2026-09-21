@@ -716,13 +716,26 @@ html, body { overflow-x: clip; }
   }
   .partner-logo{
     display:flex;align-items:center;justify-content:flex-start;
-    height:64px;padding:.6rem .9rem;border-radius:8px;align-self:flex-start;
+    /* Feste Kachelhoehe fuer alle Logos: Die Zeichen haben sehr
+       unterschiedliche Seitenverhaeltnisse — breite Schriftzuege neben
+       gestapelten Marken. Erst eine gemeinsame Flaeche laesst sie
+       gleich gross wirken. */
+    /* Die Kachelhoehe ist fuer alle gleich und auf den groessten Faktor
+       ausgelegt; nur das Zeichen darin waechst. So bleiben Name und
+       Stichworte der Nachbarkacheln auf einer Linie. */
+    --logo-hoehe:70px;
+    height:calc(var(--logo-hoehe) * 1.3);
+    padding:.6rem .9rem;border-radius:8px;align-self:flex-start;
   }
   /* Weiße Logos brauchen eine dunkle Flaeche, dunkle eine helle. Eingefaerbt
      wird nichts — das waere ein Eingriff in die fremde Marke. */
   .partner-logo--dunkel{background:var(--ink);}
-  .partner-logo--hell{background:#fff;border:1px solid var(--border);}
-  .partner-logo img{max-height:100%;width:auto;max-width:190px;object-fit:contain;}
+  .partner-logo--hell{background:#fff;}
+  .partner-logo img{
+    width:auto;object-fit:contain;
+    max-height:calc(var(--logo-hoehe) * var(--logo-skalierung,1));
+    max-width:calc(200px * var(--logo-skalierung,1));
+  }
   .partner-text h3{margin:0 0 .3rem;font-size:1.06rem;font-weight:700;}
   .partner-sitz{margin:0 0 .7rem;font-size:.82rem;color:var(--text-leise);}
   .partner-worte{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:.4rem;}
@@ -735,7 +748,8 @@ html, body { overflow-x: clip; }
     margin-top:.9rem;align-self:flex-start;
     font-size:.88rem;font-weight:700;color:var(--accent-3);text-decoration:none;
   }
-  .partner-link:hover{text-decoration:underline;}
+  a.partner-link:hover{text-decoration:underline;}
+  .partner-link--ohne-ziel{cursor:default;}
 
   /* Kennzeichnung in der Bildecke.
 

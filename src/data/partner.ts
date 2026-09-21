@@ -26,6 +26,15 @@ export interface Partnerlogo {
    * gemacht ist.
    */
   hintergrund: 'hell' | 'dunkel';
+  /**
+   * Optischer Ausgleich, Standard 1.
+   *
+   * Gestapelte Zeichen — Bildmarke über Schriftzug — wirken bei gleicher
+   * Höhe kleiner als breit laufende Schriftzüge. Der Faktor gleicht das aus,
+   * ohne die Kachelhöhe zu verändern; die Kacheln bleiben damit auf einer
+   * Linie.
+   */
+  skalierung?: number;
 }
 
 export interface Partner {
@@ -93,15 +102,22 @@ export const PARTNER: Partner[] = [
        dort fehlt sie weiterhin. Anschrift und Amtsgericht stimmen mit denen
        der ELCON überein — die beiden Gesellschaften teilen sich den
        Standort. */
-    sitz: 'Lehrte-Immensen',
+    sitz: 'Region Hannover',
     /* Art der Zusammenarbeit laut Auftraggeber. Auf der Website der Ampulse
        GmbH wird die Northtech GmbH zudem als ausführender Partner geführt. */
     stichworte: ['Zusammenarbeit bei internationalen Projekten'],
     stichworteEn: ['Cooperation on international projects'],
     website: null,
-    /* Logodatei liegt noch nicht vor; die Kachel erscheint solange ohne
-       Zeichen. */
-    logo: null,
+    /* Vom Auftraggeber geliefert. Die Datei war randlos beschnitten; ein
+       durchsichtiger Rand von vier Prozent haelt das Zeichen von der
+       Kachelkante fort. */
+    logo: {
+      datei: 'northtech.png',
+      alt: 'Logo der Northtech GmbH',
+      altEn: 'Logo of Northtech GmbH',
+      hintergrund: 'hell',
+      skalierung: 1.3,
+    },
     veroeffentlichungsfreigabe: true,
     aktiv: true,
   },
@@ -112,7 +128,7 @@ export const PARTNER: Partner[] = [
        die ELCON hervorgegangen ist; beide gehören zur Deiters-Gruppe. So
        steht es bereits auf der Unternehmensseite. Firmierung, Sitz und die
        Art der Zusammenarbeit sind noch zu bestätigen. */
-    sitz: 'Lehrte-Immensen',
+    sitz: 'Region Hannover',
     /* Leistungen laut elektro-deiters.de. */
     stichworte: ['Elektroinstallation und Gebäudetechnik', 'Photovoltaik und Ladeinfrastruktur'],
     stichworteEn: ['Electrical installation and building services', 'Photovoltaics and charging infrastructure'],
