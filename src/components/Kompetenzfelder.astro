@@ -1,5 +1,5 @@
 ---
-import { getLang } from '../i18n/ui';
+import { getLang, pfadMitAnker } from '../i18n/ui';
 import { STARTSEITE } from '../i18n/startseite';
 
 /* Drei Kompetenzfelder statt acht gleichrangiger Kacheln.
@@ -11,6 +11,10 @@ import { STARTSEITE } from '../i18n/startseite';
  */
 const lang = getLang(Astro.url);
 const t = STARTSEITE[lang].kompetenz;
+
+/* Die Verweise stehen in den Textdaten mit deutschem Pfad und Sprungmarke.
+   Übersetzt wird hier, damit nicht jede Sprachfassung ihre eigenen Adressen
+   führen muss — eine Fehlerquelle weniger bei sechs Sprachen. */
 
 const ICONS = {
   elektro: '<path d="M13 2 4 14h7l-1 8 9-12h-7z"/>',
@@ -36,7 +40,7 @@ const ICONS = {
           <ul class="kompetenz-begriffe">
             {f.begriffe.map((b) => <li>{b}</li>)}
           </ul>
-          <a class="kompetenz-link" href={f.href}>
+          <a class="kompetenz-link" href={pfadMitAnker(f.href, lang)}>
             {t.alle}
             <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
           </a>

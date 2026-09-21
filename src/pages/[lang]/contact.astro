@@ -1,4 +1,5 @@
 ---
+import { LANGS } from '../../i18n/ui';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { company, ortZeile } from '../../config';
 import Ansprechpartner from '../../components/Ansprechpartner.astro';
@@ -7,6 +8,16 @@ import Ansprechpartner from '../../components/Ansprechpartner.astro';
    Posteingang: Das Anfrageformular steht in beiden Sprachen, die Nachricht
    landet aber in demselben Postfach. So ist beim Öffnen sofort erkennbar, in
    welcher Sprache geantwortet werden sollte. */
+
+/* Diese Seite wird für alle übersetzten Fassungen aus einer Datei erzeugt.
+   Oberfläche, Navigation und Fußzeile stehen bereits in der jeweiligen
+   Sprache; der Fließtext dieser Seite ist noch englisch und wird Sprache für
+   Sprache ersetzt. Ein englischer Absatz ist für den Besucher besser als eine
+   Seite, die es nicht gibt. */
+export function getStaticPaths() {
+  return LANGS.filter((l) => l !== 'de').map((lang) => ({ params: { lang } }));
+}
+
 ---
 
 <BaseLayout title="Contact" description="Send a project enquiry to ELCON LED GmbH — Bauernstr. 34, 31275 Lehrte, Germany. Phone, email, WhatsApp and enquiry form.">

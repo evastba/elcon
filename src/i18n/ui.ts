@@ -12,7 +12,9 @@
  * bausteine des Finders und der Rechtslayouts).
  */
 
-export const LANGS = ['de', 'en', 'ar', 'zh'] as const;
+/* Reihenfolge im Sprachumschalter: zuerst die lateinisch gesetzten
+   Sprachen, danach die mit eigener Schrift. */
+export const LANGS = ['de', 'en', 'ru', 'fr', 'ar', 'zh'] as const;
 export type Lang = (typeof LANGS)[number];
 
 export const DEFAULT_LANG: Lang = 'de';
@@ -22,12 +24,12 @@ export const RTL_LANGS: ReadonlyArray<Lang> = ['ar'];
 export const istRtl = (lang: Lang) => RTL_LANGS.includes(lang);
 
 /** Adresspräfix je Sprache; Deutsch liegt ohne Präfix in der Wurzel. */
-const PRAEFIX: Record<Lang, string> = { de: '', en: '/en', ar: '/ar', zh: '/zh' };
+const PRAEFIX: Record<Lang, string> = { de: '', en: '/en', zh: '/zh', ar: '/ar', ru: '/ru', fr: '/fr' };
 
 /** Sprache aus der Adresse ableiten. Ohne bekanntes Präfix gilt Deutsch. */
 export function getLang(url: URL | string): Lang {
   const pfad = typeof url === 'string' ? url : url.pathname;
-  const treffer = pfad.match(/^\/(en|ar|zh)(\/|$)/);
+  const treffer = pfad.match(/^\/(en|zh|ar|ru|fr)(\/|$)/);
   return treffer ? (treffer[1] as Lang) : 'de';
 }
 
@@ -42,21 +44,23 @@ export function getLang(url: URL | string): Lang {
  * Sprachumschalter und die hreflang-Angaben lesen sie aus.
  */
 const SEITEN: ReadonlyArray<Record<Lang, string>> = [
-  { de: '/', en: '/en/', ar: '/ar/', zh: '/zh/' },
-  { de: '/leistungen/', en: '/en/services/', ar: '/ar/services/', zh: '/zh/services/' },
-  { de: '/projekte/', en: '/en/projects/', ar: '/ar/projects/', zh: '/zh/projects/' },
-  { de: '/unternehmen/', en: '/en/company/', ar: '/ar/company/', zh: '/zh/company/' },
-  { de: '/kontakt/', en: '/en/contact/', ar: '/ar/contact/', zh: '/zh/contact/' },
-  { de: '/impressum/', en: '/en/imprint/', ar: '/ar/imprint/', zh: '/zh/imprint/' },
-  { de: '/datenschutz/', en: '/en/privacy/', ar: '/ar/privacy/', zh: '/zh/privacy/' },
+  { de: '/', en: '/en/', zh: '/zh/', ar: '/ar/', ru: '/ru/', fr: '/fr/' },
+  { de: '/leistungen/', en: '/en/services/', zh: '/zh/services/', ar: '/ar/services/', ru: '/ru/services/', fr: '/fr/services/' },
+  { de: '/projekte/', en: '/en/projects/', zh: '/zh/projects/', ar: '/ar/projects/', ru: '/ru/projects/', fr: '/fr/projects/' },
+  { de: '/unternehmen/', en: '/en/company/', zh: '/zh/company/', ar: '/ar/company/', ru: '/ru/company/', fr: '/fr/company/' },
+  { de: '/kontakt/', en: '/en/contact/', zh: '/zh/contact/', ar: '/ar/contact/', ru: '/ru/contact/', fr: '/fr/contact/' },
+  { de: '/impressum/', en: '/en/imprint/', zh: '/zh/imprint/', ar: '/ar/imprint/', ru: '/ru/imprint/', fr: '/fr/imprint/' },
+  { de: '/datenschutz/', en: '/en/privacy/', zh: '/zh/privacy/', ar: '/ar/privacy/', ru: '/ru/privacy/', fr: '/fr/privacy/' },
 ];
 
 /** Verzeichnis der Projektdetailseiten je Sprache. */
 const PROJEKTBASIS: Record<Lang, string> = {
   de: '/projekte/',
   en: '/en/projects/',
-  ar: '/ar/projects/',
   zh: '/zh/projects/',
+  ar: '/ar/projects/',
+  ru: '/ru/projects/',
+  fr: '/fr/projects/',
 };
 
 export const projektBasis = (lang: Lang) => PROJEKTBASIS[lang];
@@ -118,8 +122,12 @@ interface NavLink {
 export interface UiTexte {
   htmlLang: string;
   ogLocale: string;
-  /** Name der Sprache in der jeweils anderen Sprache, für den Umschalter. */
-  spracheUmschalten: string;
+  /** Leserichtung des Satzes. */
+  dir: 'ltr' | 'rtl';
+  /** Eigenname der Sprache, für den Sprachumschalter. */
+  sprachname: string;
+  /** Kürzel im Sprachumschalter. */
+  sprachkuerzel: string;
   zumInhalt: string;
   nav: NavLink[];
   navLabel: string;
@@ -202,7 +210,9 @@ export const UI: Record<Lang, UiTexte> = {
   de: {
     htmlLang: 'de',
     ogLocale: 'de_DE',
-    spracheUmschalten: 'Switch to English',
+    dir: 'ltr',
+    sprachname: 'Deutsch',
+    sprachkuerzel: 'DE',
     zumInhalt: 'Zum Inhalt springen',
     navLabel: 'Hauptnavigation',
     menueOeffnen: 'Menü öffnen',
@@ -317,7 +327,9 @@ export const UI: Record<Lang, UiTexte> = {
   en: {
     htmlLang: 'en',
     ogLocale: 'en_GB',
-    spracheUmschalten: 'Zur deutschen Fassung wechseln',
+    dir: 'ltr',
+    sprachname: 'English',
+    sprachkuerzel: 'EN',
     zumInhalt: 'Skip to content',
     navLabel: 'Main navigation',
     menueOeffnen: 'Open menu',
@@ -427,6 +439,476 @@ export const UI: Record<Lang, UiTexte> = {
       textLinkText: 'privacy policy',
       ablehnen: 'Decline',
       akzeptieren: 'Accept',
+    },
+  },
+  zh: {
+    htmlLang: 'zh-Hans',
+    ogLocale: 'zh_CN',
+    dir: 'ltr',
+    sprachname: '中文',
+    /* Eigene Schrift statt eines lateinischen Kürzels: „CH" liest sich
+       ausserdem als Landeskennung der Schweiz. */
+    sprachkuerzel: '中文',
+    zumInhalt: '跳转到主要内容',
+    navLabel: '主导航',
+    menueOeffnen: '打开菜单',
+    zurStartseite: 'ELCON — 返回首页',
+    nav: [
+      { href: '/zh/services/', label: '服务' },
+      {
+        href: '/zh/projects/',
+        label: '项目',
+        sub: [
+          { href: '/zh/projects/#selected-projects', label: '精选项目' },
+          { href: '/zh/projects/#client-directory', label: '客户一览' },
+          { href: '/zh/projects/#client-feedback', label: '客户评价' },
+        ],
+      },
+      { href: '/zh/company/', label: '公司' },
+      { href: '/zh/contact/', label: '联系' },
+    ],
+    footerNavTitel: '导航',
+    footer: {
+      leistungen: '服务',
+      leistungenLinks: [
+        { href: '/zh/services/#leistungsfelder', label: '电气工程' },
+        { href: '/zh/services/#leistungsfelder', label: '供暖、空调、通风与卫浴' },
+        { href: '/zh/services/#anlagentechnik', label: '楼宇自动化与测控技术' },
+        { href: '/zh/services/#anlagentechnik', label: '消防与安防技术' },
+        { href: '/zh/services/#leistungsfelder', label: '项目管理与咨询' },
+      ],
+      unternehmen: '公司与项目',
+      unternehmenLinks: [
+        { href: '/zh/company/', label: '公司' },
+        { href: '/zh/#aktuelle-projekte', label: '当前项目' },
+        { href: '/zh/projects/', label: '全部参考项目' },
+        { href: '/zh/#projektablauf', label: '项目流程' },
+        { href: '/zh/#leistungsfinder', label: '服务查询' },
+      ],
+      partnerLink: { href: '/zh/#partnerunternehmen', label: '合作企业' },
+      kontakt: '联系',
+      cta: '洽谈项目',
+      telefon: '电话',
+      email: '电子邮件',
+      whatsapp: 'WhatsApp',
+      whatsappLink: '发送消息',
+    },
+    footerRechtliches: '法律信息',
+    impressum: '法律声明',
+    datenschutz: '隐私政策',
+    cookieEinstellungen: 'Cookie 设置',
+    anrufen: '致电',
+    schnellkontakt: '快速联系',
+    startseite: '首页',
+    brotkrumen: '面包屑导航',
+    stand: '更新日期',
+    finder: {
+      eyebrow: '三步提交询价',
+      titel: '您需要哪项服务？',
+      intro: '简单说明您的项目，我们会为您展示相关的参考案例并准备询价。',
+      fortschritt: ['项目', '专业工程', '阶段'],
+      frage1: '这是什么类型的项目？',
+      frage2: '希望我们承担哪些专业工程？',
+      frage3: '项目目前进展到哪一步？',
+      ergebnisTitel: '与您的项目相匹配',
+      anfrageVorbereiten: '准备询价',
+      vonVorn: '重新开始',
+      zurueck: '返回',
+      weiter: '下一步',
+      ergebnisAnzeigen: '显示结果',
+      direkt: '想直接与我们联系？',
+      direktLink: '直接前往询价表单',
+    },
+    marqueeTitel: '企业与机构的信赖之选',
+    bewertungen: {
+      titel: 'Google 评价',
+      intro: '客户公开评价与我们的合作。',
+      von: '来自',
+      sterne: '（满分 5 星）',
+      profil: '在 Google 上查看全部评价',
+      quelle: '来源：Google 商家资料。评价在网站构建时获取；访问本页不会与 Google 建立任何连接。',
+    },
+    kontaktperson: {
+      eyebrow: '您的联系人',
+      titel: '由谁处理您的询价',
+      anrufen: '致电',
+      schreiben: '发送邮件',
+      sprachen: '语言',
+    },
+    historisch: {
+      ueberschrift: '公司发展历程中的项目实例',
+      hinweis:
+        '来自 ELCON 国际业务历史的参考项目。相关信息对应所列的实施期间，并不表示当前的业务活动或持续的合作关系。',
+      hinweisGruppe:
+        '来自 ELCON 国际业务历史的已完成参考项目。相关信息分别对应各自所列的实施期间，并不表示当前的业务活动或持续的合作关系。',
+      kurz: '历史参考项目',
+    },
+    bildhinweis: {
+      symbolisch: '示意图 — 由人工智能生成。',
+      personen:
+        '由人工智能生成的示意图；并非特定 ELCON 项目的照片，也非真实的 ELCON 员工。',
+      projekt:
+        '由人工智能生成的示意图 — 并非所述项目的实际照片。',
+      abschnitt:
+        '本节所用图片为人工智能生成的示意图，用于说明我们的业务领域。它们并未呈现具体的参考项目，也未呈现真实的 ELCON 员工。',
+    },
+    cookie: {
+      label: 'Cookie 设置',
+      text: '本网站使用 Cookie 及类似技术，以匿名方式分析网站的使用情况并加以改进。您可以接受或拒绝此项分析。详细说明见我们的',
+      textLinkText: '隐私政策',
+      ablehnen: '拒绝',
+      akzeptieren: '接受',
+    },
+  },
+  ar: {
+    htmlLang: 'ar',
+    ogLocale: 'ar_AE',
+    dir: 'rtl',
+    sprachname: 'العربية',
+    sprachkuerzel: 'عربي',
+    zumInhalt: 'تخطَّ إلى المحتوى',
+    navLabel: 'التنقّل الرئيسي',
+    menueOeffnen: 'فتح القائمة',
+    zurStartseite: 'ELCON — العودة إلى الصفحة الرئيسية',
+    nav: [
+      { href: '/ar/services/', label: 'الخدمات' },
+      {
+        href: '/ar/projects/',
+        label: 'المشاريع',
+        sub: [
+          { href: '/ar/projects/#selected-projects', label: 'مشاريع مختارة' },
+          { href: '/ar/projects/#client-directory', label: 'قائمة العملاء' },
+          { href: '/ar/projects/#client-feedback', label: 'آراء العملاء' },
+        ],
+      },
+      { href: '/ar/company/', label: 'الشركة' },
+      { href: '/ar/contact/', label: 'اتصل بنا' },
+    ],
+    footerNavTitel: 'التنقّل',
+    footer: {
+      leistungen: 'الخدمات',
+      leistungenLinks: [
+        { href: '/ar/services/#leistungsfelder', label: 'الهندسة الكهربائية' },
+        { href: '/ar/services/#leistungsfelder', label: 'التدفئة والتكييف والتهوية والصرف الصحي' },
+        { href: '/ar/services/#anlagentechnik', label: 'أتمتة المباني وأنظمة التحكّم' },
+        { href: '/ar/services/#anlagentechnik', label: 'الحماية من الحريق وأنظمة الأمن' },
+        { href: '/ar/services/#leistungsfelder', label: 'إدارة المشاريع والاستشارات' },
+      ],
+      unternehmen: 'الشركة والمشاريع',
+      unternehmenLinks: [
+        { href: '/ar/company/', label: 'الشركة' },
+        { href: '/ar/#aktuelle-projekte', label: 'المشاريع الحالية' },
+        { href: '/ar/projects/', label: 'جميع المشاريع المرجعية' },
+        { href: '/ar/#projektablauf', label: 'مسار المشروع' },
+        { href: '/ar/#leistungsfinder', label: 'دليل الخدمات' },
+      ],
+      partnerLink: { href: '/ar/#partnerunternehmen', label: 'الشركات الشريكة' },
+      kontakt: 'اتصل بنا',
+      cta: 'ناقش مشروعك',
+      telefon: 'الهاتف',
+      email: 'البريد الإلكتروني',
+      whatsapp: 'واتساب',
+      whatsappLink: 'أرسل رسالة',
+    },
+    footerRechtliches: 'معلومات قانونية',
+    impressum: 'بيان قانوني',
+    datenschutz: 'سياسة الخصوصية',
+    cookieEinstellungen: 'إعدادات ملفات تعريف الارتباط',
+    anrufen: 'اتصل بنا',
+    schnellkontakt: 'اتصال سريع',
+    startseite: 'الصفحة الرئيسية',
+    brotkrumen: 'مسار التنقّل',
+    stand: 'آخر تحديث',
+    finder: {
+      eyebrow: 'ثلاث خطوات نحو طلبك',
+      titel: 'ما الخدمة التي تحتاجها؟',
+      intro: 'أخبرنا باختصار بطبيعة مشروعك — وسنعرض عليك مشاريع مرجعية مناسبة ونجهّز طلبك.',
+      fortschritt: ['المشروع', 'التخصّصات', 'المرحلة'],
+      frage1: 'ما نوع المشروع؟',
+      frage2: 'ما التخصّصات التي تريد أن نتولّاها؟',
+      frage3: 'إلى أي مرحلة وصل المشروع؟',
+      ergebnisTitel: 'هذا ما يناسب مشروعك',
+      anfrageVorbereiten: 'تجهيز الطلب',
+      vonVorn: 'البدء من جديد',
+      zurueck: 'رجوع',
+      weiter: 'التالي',
+      ergebnisAnzeigen: 'عرض النتيجة',
+      direkt: 'تفضّل المراسلة مباشرة؟',
+      direktLink: 'الانتقال مباشرة إلى نموذج الطلب',
+    },
+    marqueeTitel: 'موضع ثقة الشركات والمؤسسات',
+    bewertungen: {
+      titel: 'التقييمات على Google',
+      intro: 'ما يكتبه العملاء علنًا عن التعامل معنا.',
+      von: 'بقلم',
+      sterne: 'من 5 نجوم',
+      profil: 'عرض جميع التقييمات على Google',
+      quelle: 'المصدر: الملف التعريفي للنشاط التجاري على Google. تُجلب التقييمات عند بناء الموقع، ولا تنشأ عن زيارة هذه الصفحة أي صلة بـ Google.',
+    },
+    kontaktperson: {
+      eyebrow: 'جهة الاتصال',
+      titel: 'من سيتولّى طلبك',
+      anrufen: 'اتصال',
+      schreiben: 'إرسال بريد إلكتروني',
+      sprachen: 'اللغات',
+    },
+    historisch: {
+      ueberschrift: 'أمثلة من مشاريع تاريخ الشركة',
+      hinweis:
+        'مشروع مرجعي من تاريخ ELCON الدولي. تتعلّق المعلومات بفترة التنفيذ المذكورة ولا تدلّ على نشاط حالي أو علاقة عمل قائمة.',
+      hinweisGruppe:
+        'مشاريع مرجعية منجزة من تاريخ ELCON الدولي. تتعلّق المعلومات بفترة التنفيذ المذكورة في كل حالة ولا تدلّ على نشاط حالي أو علاقة عمل قائمة.',
+      kurz: 'مشروع مرجعي تاريخي',
+    },
+    bildhinweis: {
+      symbolisch: 'تصوير رمزي — من إنتاج الذكاء الاصطناعي.',
+      personen:
+        'تصوير من إنتاج الذكاء الاصطناعي؛ وليس صورة لمشروع محدّد من مشاريع ELCON ولا لموظفين حقيقيين لديها.',
+      projekt:
+        'تصوير رمزي من إنتاج الذكاء الاصطناعي — وليس صورة للمشروع المذكور.',
+      abschnitt:
+        'الصور المستخدمة في هذا القسم من إنتاج الذكاء الاصطناعي وتخدم توضيح مجالات خبرتنا. وهي لا تُظهر مشاريع مرجعية محدّدة ولا موظفين حقيقيين لدى ELCON.',
+    },
+    cookie: {
+      label: 'إعدادات ملفات تعريف الارتباط',
+      text: 'يستخدم هذا الموقع ملفات تعريف الارتباط وتقنيات مشابهة لتحليل طريقة استخدام الموقع بصورة مجهّلة الهوية وتحسينه. يمكنك قبول هذا التحليل أو رفضه. التفاصيل مذكورة في ',
+      textLinkText: 'سياسة الخصوصية',
+      ablehnen: 'رفض',
+      akzeptieren: 'قبول',
+    },
+  },
+  ru: {
+    htmlLang: 'ru',
+    ogLocale: 'ru_RU',
+    dir: 'ltr',
+    sprachname: 'Русский',
+    sprachkuerzel: 'RU',
+    zumInhalt: 'Перейти к содержанию',
+    navLabel: 'Основная навигация',
+    menueOeffnen: 'Открыть меню',
+    zurStartseite: 'ELCON — на главную страницу',
+    nav: [
+      { href: '/ru/services/', label: 'Услуги' },
+      {
+        href: '/ru/projects/',
+        label: 'Проекты',
+        sub: [
+          { href: '/ru/projects/#selected-projects', label: 'Избранные проекты' },
+          { href: '/ru/projects/#client-directory', label: 'Список заказчиков' },
+          { href: '/ru/projects/#client-feedback', label: 'Отзывы заказчиков' },
+        ],
+      },
+      { href: '/ru/company/', label: 'Компания' },
+      { href: '/ru/contact/', label: 'Контакты' },
+    ],
+    footerNavTitel: 'Навигация',
+    footer: {
+      leistungen: 'Услуги',
+      leistungenLinks: [
+        { href: '/ru/services/#leistungsfelder', label: 'Электротехника' },
+        { href: '/ru/services/#leistungsfelder', label: 'Отопление, вентиляция, кондиционирование, сантехника' },
+        { href: '/ru/services/#anlagentechnik', label: 'Автоматизация зданий и КИПиА' },
+        { href: '/ru/services/#anlagentechnik', label: 'Противопожарная защита и системы безопасности' },
+        { href: '/ru/services/#leistungsfelder', label: 'Управление проектами и консалтинг' },
+      ],
+      unternehmen: 'Компания и проекты',
+      unternehmenLinks: [
+        { href: '/ru/company/', label: 'Компания' },
+        { href: '/ru/#aktuelle-projekte', label: 'Текущие проекты' },
+        { href: '/ru/projects/', label: 'Все референс-проекты' },
+        { href: '/ru/#projektablauf', label: 'Ход проекта' },
+        { href: '/ru/#leistungsfinder', label: 'Подбор услуг' },
+      ],
+      partnerLink: { href: '/ru/#partnerunternehmen', label: 'Партнёрские компании' },
+      kontakt: 'Контакты',
+      cta: 'Обсудить проект',
+      telefon: 'Телефон',
+      email: 'Эл. почта',
+      whatsapp: 'WhatsApp',
+      whatsappLink: 'Написать сообщение',
+    },
+    footerRechtliches: 'Правовая информация',
+    impressum: 'Выходные данные',
+    datenschutz: 'Политика конфиденциальности',
+    cookieEinstellungen: 'Настройки cookie',
+    anrufen: 'Позвонить',
+    schnellkontakt: 'Быстрая связь',
+    startseite: 'Главная',
+    brotkrumen: 'Навигационная цепочка',
+    stand: 'Актуально на',
+    finder: {
+      eyebrow: 'Три шага к запросу',
+      titel: 'Какая услуга вам нужна?',
+      intro: 'Коротко опишите ваш проект — мы покажем подходящие референсы и подготовим запрос.',
+      fortschritt: ['Проект', 'Разделы работ', 'Стадия'],
+      frage1: 'О каком проекте идёт речь?',
+      frage2: 'Какие разделы работ нам взять на себя?',
+      frage3: 'На какой стадии находится проект?',
+      ergebnisTitel: 'Это подходит вашему проекту',
+      anfrageVorbereiten: 'Подготовить запрос',
+      vonVorn: 'Начать заново',
+      zurueck: 'Назад',
+      weiter: 'Далее',
+      ergebnisAnzeigen: 'Показать результат',
+      direkt: 'Хотите написать сразу?',
+      direktLink: 'Перейти к форме запроса',
+    },
+    marqueeTitel: 'Нам доверяют компании и организации',
+    bewertungen: {
+      titel: 'Отзывы в Google',
+      intro: 'Что заказчики публично пишут о работе с нами.',
+      von: 'от',
+      sterne: 'из 5 звёзд',
+      profil: 'Смотреть все отзывы в Google',
+      quelle: 'Источник: профиль компании в Google. Отзывы загружаются при сборке сайта; посещение этой страницы не создаёт соединения с Google.',
+    },
+    kontaktperson: {
+      eyebrow: 'Ваш контакт',
+      titel: 'Кто займётся вашим запросом',
+      anrufen: 'Позвонить',
+      schreiben: 'Написать письмо',
+      sprachen: 'Языки',
+    },
+    historisch: {
+      ueberschrift: 'Примеры проектов из истории компании',
+      hinweis:
+        'Референс-проект из международной истории ELCON. Сведения относятся к указанному периоду выполнения и не свидетельствуют о текущей деятельности или действующих деловых отношениях.',
+      hinweisGruppe:
+        'Завершённые референс-проекты из международной истории ELCON. Сведения относятся к указанному в каждом случае периоду выполнения и не свидетельствуют о текущей деятельности или действующих деловых отношениях.',
+      kurz: 'Исторический референс-проект',
+    },
+    bildhinweis: {
+      symbolisch: 'Символическая визуализация — создано искусственным интеллектом.',
+      personen:
+        'Визуализация, созданная искусственным интеллектом; это не снимок конкретного проекта ELCON и не реальные сотрудники ELCON.',
+      projekt:
+        'Символическая визуализация, созданная искусственным интеллектом, — не снимок указанного проекта.',
+      abschnitt:
+        'Изображения в этом разделе — визуализации, созданные искусственным интеллектом. Они иллюстрируют направления нашей работы и не показывают конкретные референс-проекты или реальных сотрудников ELCON.',
+    },
+    cookie: {
+      label: 'Настройки cookie',
+      text: 'Этот сайт использует файлы cookie и сопоставимые технологии, чтобы анонимно анализировать использование сайта и улучшать его. Вы можете принять или отклонить такой анализ. Подробности изложены в нашей ',
+      textLinkText: 'политике конфиденциальности',
+      ablehnen: 'Отклонить',
+      akzeptieren: 'Принять',
+    },
+  },
+  fr: {
+    htmlLang: 'fr-CH',
+    ogLocale: 'fr_CH',
+    dir: 'ltr',
+    sprachname: 'Français',
+    sprachkuerzel: 'FR',
+    zumInhalt: 'Aller au contenu',
+    navLabel: 'Navigation principale',
+    menueOeffnen: 'Ouvrir le menu',
+    zurStartseite: 'ELCON — retour à l’accueil',
+    nav: [
+      { href: '/fr/services/', label: 'Prestations' },
+      {
+        href: '/fr/projects/',
+        label: 'Projets',
+        sub: [
+          { href: '/fr/projects/#selected-projects', label: 'Projets sélectionnés' },
+          { href: '/fr/projects/#client-directory', label: 'Liste des clients' },
+          { href: '/fr/projects/#client-feedback', label: 'Avis des clients' },
+        ],
+      },
+      { href: '/fr/company/', label: 'Entreprise' },
+      { href: '/fr/contact/', label: 'Contact' },
+    ],
+    footerNavTitel: 'Navigation',
+    footer: {
+      leistungen: 'Prestations',
+      leistungenLinks: [
+        { href: '/fr/services/#leistungsfelder', label: 'Électrotechnique' },
+        { href: '/fr/services/#leistungsfelder', label: 'Chauffage, climatisation, ventilation, sanitaire' },
+        { href: '/fr/services/#anlagentechnik', label: 'Automatisation du bâtiment et régulation' },
+        { href: '/fr/services/#anlagentechnik', label: 'Protection incendie et sécurité' },
+        { href: '/fr/services/#leistungsfelder', label: 'Gestion de projet et conseil' },
+      ],
+      unternehmen: 'Entreprise et projets',
+      unternehmenLinks: [
+        { href: '/fr/company/', label: 'Entreprise' },
+        { href: '/fr/#aktuelle-projekte', label: 'Projets en cours' },
+        { href: '/fr/projects/', label: 'Tous les projets de référence' },
+        { href: '/fr/#projektablauf', label: 'Déroulement du projet' },
+        { href: '/fr/#leistungsfinder', label: 'Recherche de prestations' },
+      ],
+      partnerLink: { href: '/fr/#partnerunternehmen', label: 'Entreprises partenaires' },
+      kontakt: 'Contact',
+      cta: 'Discuter de votre projet',
+      telefon: 'Téléphone',
+      email: 'E-mail',
+      whatsapp: 'WhatsApp',
+      whatsappLink: 'Envoyer un message',
+    },
+    footerRechtliches: 'Informations légales',
+    impressum: 'Mentions légales',
+    datenschutz: 'Protection des données',
+    cookieEinstellungen: 'Paramètres des cookies',
+    anrufen: 'Appeler',
+    schnellkontakt: 'Contact rapide',
+    startseite: 'Accueil',
+    brotkrumen: 'Fil d’Ariane',
+    stand: 'Mise à jour',
+    finder: {
+      eyebrow: 'Votre demande en trois étapes',
+      titel: 'De quelle prestation avez-vous besoin ?',
+      intro: 'Décrivez brièvement votre projet — nous vous montrons les références correspondantes et préparons votre demande.',
+      fortschritt: ['Projet', 'Corps de métier', 'Avancement'],
+      frage1: 'De quel type de projet s’agit-il ?',
+      frage2: 'Quels corps de métier devons-nous prendre en charge ?',
+      frage3: 'Où en est le projet ?',
+      ergebnisTitel: 'Cela correspond à votre projet',
+      anfrageVorbereiten: 'Préparer la demande',
+      vonVorn: 'Recommencer',
+      zurueck: 'Retour',
+      weiter: 'Suivant',
+      ergebnisAnzeigen: 'Afficher le résultat',
+      direkt: 'Vous préférez écrire directement ?',
+      direktLink: 'Aller directement au formulaire de demande',
+    },
+    marqueeTitel: 'La confiance d’entreprises et d’institutions',
+    bewertungen: {
+      titel: 'Avis sur Google',
+      intro: 'Ce que les clients écrivent publiquement sur notre collaboration.',
+      von: 'par',
+      sterne: 'sur 5 étoiles',
+      profil: 'Voir tous les avis sur Google',
+      quelle: 'Source : fiche d’établissement Google. Les avis sont récupérés lors de la génération du site ; la consultation de cette page n’établit aucune connexion avec Google.',
+    },
+    kontaktperson: {
+      eyebrow: 'Votre interlocuteur',
+      titel: 'Qui traitera votre demande',
+      anrufen: 'Appeler',
+      schreiben: 'Envoyer un e-mail',
+      sprachen: 'Langues',
+    },
+    historisch: {
+      ueberschrift: 'Exemples de projets issus de l’histoire de l’entreprise',
+      hinweis:
+        'Projet de référence issu de l’histoire internationale d’ELCON. Les informations se rapportent à la période d’exécution indiquée et ne traduisent ni une activité actuelle ni une relation d’affaires en cours.',
+      hinweisGruppe:
+        'Projets de référence achevés, issus de l’histoire internationale d’ELCON. Les informations se rapportent à la période d’exécution indiquée dans chaque cas et ne traduisent ni une activité actuelle ni une relation d’affaires en cours.',
+      kurz: 'Projet de référence historique',
+    },
+    bildhinweis: {
+      symbolisch: 'Visualisation symbolique — générée par intelligence artificielle.',
+      personen:
+        'Visualisation générée par intelligence artificielle ; il ne s’agit ni d’un projet ELCON précis ni de collaborateurs réels d’ELCON.',
+      projekt:
+        'Visualisation symbolique générée par intelligence artificielle — il ne s’agit pas d’une photo du projet mentionné.',
+      abschnitt:
+        'Les images de cette section sont des visualisations générées par intelligence artificielle destinées à illustrer nos domaines de compétence. Elles ne représentent ni des projets de référence précis ni des collaborateurs réels d’ELCON.',
+    },
+    cookie: {
+      label: 'Paramètres des cookies',
+      text: 'Ce site utilise des cookies et des technologies comparables afin d’analyser son utilisation de manière anonymisée et de l’améliorer. Vous pouvez accepter ou refuser cette analyse. Les détails figurent dans notre ',
+      textLinkText: 'politique de confidentialité',
+      ablehnen: 'Refuser',
+      akzeptieren: 'Accepter',
     },
   },
 };

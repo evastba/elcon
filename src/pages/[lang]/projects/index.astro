@@ -6,7 +6,7 @@ import Bildhinweis from '../../../components/Bildhinweis.astro';
 import Projektkachel from '../../../components/Projektkachel.astro';
 import Bewertungen from '../../../components/Bewertungen.astro';
 import { referenzenNachTyp, istHistorisch } from '../../../data/referenzen';
-import { useUi } from '../../../i18n/ui';
+import { LANGS, useUi, pfad, getLang } from '../../../i18n/ui';
 
 /* Die Großansicht der Referenzschreiben wird erst im Browser gesetzt und kann
    deshalb nicht über die <Image>-Komponente laufen. getImage() erzeugt die
@@ -54,13 +54,25 @@ const ersteHistorische = referenzenNachTyp.findIndex(istHistorisch);
 /* Das Motiv im Referenzbereich ist eine KI-Visualisierung und trägt darunter
    den entsprechenden Hinweis. Für den Produktiveinsatz ist ein reales
    ELCON-Projektfoto vorzuziehen — siehe LIVEGANG_CHECKLISTE.md, Abschnitt 10. */
+
+/* Diese Seite wird für alle übersetzten Fassungen aus einer Datei erzeugt.
+   Oberfläche, Navigation und Fußzeile stehen bereits in der jeweiligen
+   Sprache; der Fließtext dieser Seite ist noch englisch und wird Sprache für
+   Sprache ersetzt. Ein englischer Absatz ist für den Besucher besser als eine
+   Seite, die es nicht gibt. */
+export function getStaticPaths() {
+  return LANGS.filter((l) => l !== 'de').map((lang) => ({ params: { lang } }));
+}
+
+const lang = getLang(Astro.url);
+
 ---
 
 <BaseLayout title="Projects & references" description="Projects delivered by ELCON LED GmbH: electrical, HVAC and automation systems for industrial, commercial and public sector clients in Germany and abroad.">
 
   <section id="references" style="padding-top:2.2rem;">
     <div class="wrap">
-      <a href="/en/" class="subpage-back">← Back to the home page</a>
+      <a href={pfad('/', lang)} class="subpage-back">← Back to the home page</a>
       <div class="section-head" id="selected-projects">
         <p class="eyebrow">Selected projects</p>
         <h1>Delivered solutions for our clients</h1>

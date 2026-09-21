@@ -22,7 +22,10 @@ const t = useUi(Astro.url);
 /* Google zeigt etwa 60 Zeichen. Der Markenzusatz bleibt deshalb kurz — der
    vollständige Claim stand zuvor in jedem Titel und verbrauchte allein 30
    Zeichen, sodass bei Projektseiten der eigentliche Titel abgeschnitten wurde. */
-const fullTitle = rawTitle ? title : `${title} — ELCON`;
+/* Trägt der Titel den Markennamen bereits, entfällt der Zusatz — sonst
+   stand er zweimal im Titel, etwa „ELCON — … — ELCON". */
+const fullTitle =
+  rawTitle || (title ?? '').includes('ELCON') ? title : `${title} — ELCON`;
 ---
 
 <Layout title={fullTitle} description={description} ogType={ogType}>

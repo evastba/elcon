@@ -1,10 +1,21 @@
 ---
+import { LANGS } from '../../i18n/ui';
 import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Leistungsfinder from '../../components/Leistungsfinder.astro';
 import { asset } from '../../lib/assets';
 import KiMarke from '../../components/KiMarke.astro';
 import Anlagentechnik from '../../components/Anlagentechnik.astro';
+
+/* Diese Seite wird für alle übersetzten Fassungen aus einer Datei erzeugt.
+   Oberfläche, Navigation und Fußzeile stehen bereits in der jeweiligen
+   Sprache; der Fließtext dieser Seite ist noch englisch und wird Sprache für
+   Sprache ersetzt. Ein englischer Absatz ist für den Besucher besser als eine
+   Seite, die es nicht gibt. */
+export function getStaticPaths() {
+  return LANGS.filter((l) => l !== 'de').map((lang) => ({ params: { lang } }));
+}
+
 ---
 
 <BaseLayout title="Services" description="Electrical engineering, HVAC and plumbing, instrumentation and building automation, network technology, fire protection and project management — every building services trade from a single source.">

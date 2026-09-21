@@ -1,15 +1,28 @@
 ---
+import { LANGS, pfad, getLang } from '../../i18n/ui';
 import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { asset } from '../../lib/assets';
 import KiMarke from '../../components/KiMarke.astro';
+
+/* Diese Seite wird für alle übersetzten Fassungen aus einer Datei erzeugt.
+   Oberfläche, Navigation und Fußzeile stehen bereits in der jeweiligen
+   Sprache; der Fließtext dieser Seite ist noch englisch und wird Sprache für
+   Sprache ersetzt. Ein englischer Absatz ist für den Besucher besser als eine
+   Seite, die es nicht gibt. */
+export function getStaticPaths() {
+  return LANGS.filter((l) => l !== 'de').map((lang) => ({ params: { lang } }));
+}
+
+const lang = getLang(Astro.url);
+
 ---
 
 <BaseLayout title="Company" description="ELCON LED GmbH: main contractor for building services engineering with 30+ years of experience — dependable, personal, from a single source.">
 
   <section id="companyPage" style="padding-top:2.2rem;">
     <div class="wrap">
-      <a href="/en/" class="subpage-back">← Back to the home page</a>
+      <a href={pfad('/', lang)} class="subpage-back">← Back to the home page</a>
       <div class="section-head">
         <p class="eyebrow">Company</p>
         <h1>Dependable &amp; Personal. Tailor made!</h1>

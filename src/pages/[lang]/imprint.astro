@@ -1,8 +1,19 @@
 ---
+import { LANGS } from '../../i18n/ui';
 import LegalLayout from '../../layouts/LegalLayout.astro';
 import { company, geschaeftsfuehrungLabel, ortZeile } from '../../config';
 
 const gf = company.managingDirectors;
+
+/* Diese Seite wird für alle übersetzten Fassungen aus einer Datei erzeugt.
+   Oberfläche, Navigation und Fußzeile stehen bereits in der jeweiligen
+   Sprache; der Fließtext dieser Seite ist noch englisch und wird Sprache für
+   Sprache ersetzt. Ein englischer Absatz ist für den Besucher besser als eine
+   Seite, die es nicht gibt. */
+export function getStaticPaths() {
+  return LANGS.filter((l) => l !== 'de').map((lang) => ({ params: { lang } }));
+}
+
 ---
 
 <LegalLayout

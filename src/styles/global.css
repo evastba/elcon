@@ -46,7 +46,28 @@
    Seite auf. Rein defensiv, ändert nichts am sichtbaren Design. */
 html, body { overflow-x: clip; }
 
+  /* Chinesisch: die verbreiteten Systemschriften der drei großen Plattformen,
+     danach die freien Noto-Fassungen. */
+  html[lang^="zh"]{
+    --schrift-text:'PingFang SC','Hiragino Sans GB','Microsoft YaHei','Noto Sans CJK SC','Source Han Sans SC',sans-serif;
+    --schrift-titel:'PingFang SC','Hiragino Sans GB','Microsoft YaHei','Noto Sans CJK SC','Source Han Sans SC',sans-serif;
+  }
+  /* Arabisch: Systemschriften mit arabischer Deckung. Tahoma steht am Ende,
+     weil ältere Windows-Fassungen sonst auf eine Schrift ohne Ligaturen
+     zurückfallen. */
+  html[lang="ar"]{
+    --schrift-text:'SF Arabic','Geeza Pro','Segoe UI','Noto Sans Arabic','Dubai',Tahoma,sans-serif;
+    --schrift-titel:'SF Arabic','Geeza Pro','Segoe UI','Noto Sans Arabic','Dubai',Tahoma,sans-serif;
+  }
+
   :root{
+    /* Die selbst gehosteten Schriften decken nur Latein ab (siehe die
+       unicode-range der @font-face-Regeln). Für Sprachen mit anderer Schrift
+       tritt weiter unten eine passende Systemschrift an ihre Stelle: Ein
+       vollständiger CJK- oder Arabisch-Webfont wiegt mehrere Megabyte und
+       stünde in keinem Verhältnis zum Nutzen. */
+    --schrift-text:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    --schrift-titel:'Manrope',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
     --white:#FFFFFF;
     --offwhite:#F7F9F8;
     --hellgrau:#E5E8E8;
@@ -90,12 +111,12 @@ html, body { overflow-x: clip; }
     margin:0;
     background:var(--surface);
     color:var(--text);
-    font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    font-family:var(--schrift-text);
     -webkit-font-smoothing:antialiased;
     padding-inline:0;
   }
   h1,h2,h3,.brand-word,.stat-num{
-    font-family:'Manrope',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    font-family:var(--schrift-titel);
     text-wrap:balance;
   }
   a{color:inherit;}
@@ -173,7 +194,7 @@ html, body { overflow-x: clip; }
 
   .cta-btn{
     display:inline-flex;align-items:center;gap:.5rem;
-    font-family:'Manrope',sans-serif;font-weight:700;font-size:.94rem;
+    font-family:var(--schrift-titel);font-weight:700;font-size:.94rem;
     padding:.72rem 1.3rem;border-radius:5px;text-decoration:none;border:1.5px solid transparent;
     cursor:pointer;font:inherit;
   }
@@ -292,7 +313,7 @@ html, body { overflow-x: clip; }
   }
   .kennzahl{margin:0;}
   .kennzahl-wert{
-    font-family:'Manrope',sans-serif;font-weight:800;
+    font-family:var(--schrift-titel);font-weight:800;
     font-size:clamp(1.6rem,3vw,2.1rem);line-height:1.1;color:var(--text);
   }
   .kennzahl-label{
@@ -398,7 +419,7 @@ html, body { overflow-x: clip; }
   .ablauf-schritt:nth-child(-n+3)::before{background:var(--accent-3);}
   .ablauf-nummer{
     display:block;margin:.9rem 0 .5rem;
-    font-family:'Manrope',sans-serif;font-weight:800;font-size:.95rem;color:var(--accent-3);
+    font-family:var(--schrift-titel);font-weight:800;font-size:.95rem;color:var(--accent-3);
   }
   .ablauf-schritt h3{margin:0 0 .4rem;font-size:1rem;font-weight:800;color:var(--text);line-height:1.35;}
   .ablauf-schritt p{margin:0;font-size:.94rem;line-height:1.6;color:var(--text-muted);}
@@ -532,7 +553,7 @@ html, body { overflow-x: clip; }
   }
   .akkordeon-gruppe summary::-webkit-details-marker{display:none;}
   .akkordeon-titel{
-    font-family:'Manrope',sans-serif;font-weight:800;font-size:1.02rem;
+    font-family:var(--schrift-titel);font-weight:800;font-size:1.02rem;
     line-height:1.35;color:var(--text);
   }
   .akkordeon-gruppe summary:hover .akkordeon-titel{color:var(--accent-3);}
@@ -628,7 +649,7 @@ html, body { overflow-x: clip; }
   .bewertungen-kopf{margin-bottom:1.6rem;}
   .bewertungen-kopf h3{margin:0 0 .6rem;font-size:1.1rem;font-weight:800;color:var(--text);}
   .bewertungen-schnitt{display:flex;align-items:center;gap:.6rem;margin:0 0 .5rem;flex-wrap:wrap;}
-  .bewertungen-note{font-family:'Manrope',sans-serif;font-weight:800;font-size:1.5rem;color:var(--text);}
+  .bewertungen-note{font-family:var(--schrift-titel);font-weight:800;font-size:1.5rem;color:var(--text);}
   .bewertungen-sterne{display:inline-flex;gap:.12rem;}
   .bewertungen-anzahl{font-size:.86rem;color:var(--text-muted);}
   .bewertungen-intro{margin:0;font-size:.94rem;line-height:1.6;color:var(--text-muted);max-width:66ch;}
@@ -678,7 +699,7 @@ html, body { overflow-x: clip; }
     flex:none;width:52px;height:52px;border-radius:50%;
     background:var(--ink);color:#fff;
     display:flex;align-items:center;justify-content:center;
-    font-family:'Manrope',sans-serif;font-weight:800;font-size:1.05rem;letter-spacing:.02em;
+    font-family:var(--schrift-titel);font-weight:800;font-size:1.05rem;letter-spacing:.02em;
   }
   .kontaktperson-text{min-width:0;}
   .kontaktperson-name{margin:0;font-weight:800;font-size:1rem;color:var(--text);}
@@ -862,7 +883,7 @@ html, body { overflow-x: clip; }
   .phase-item-body{padding:1.3rem 1.4rem 1.5rem;}
   .phase-num{
     display:flex;align-items:center;justify-content:center;width:34px;height:34px;flex:none;
-    background:var(--ink);color:#fff;border-radius:50%;font-family:'Manrope',sans-serif;font-weight:800;font-size:.9rem;
+    background:var(--ink);color:#fff;border-radius:50%;font-family:var(--schrift-titel);font-weight:800;font-size:.9rem;
     margin-bottom:.9rem;
   }
   .phase-item h3{margin:0 0 .5rem;font-size:1rem;font-weight:700;}
@@ -1141,7 +1162,7 @@ html, body { overflow-x: clip; }
     max-height:60px;max-width:225px;
   }
   .marquee-logo-text{
-    font-family:'Manrope',sans-serif;font-weight:700;font-size:1.05rem;color:var(--text-muted);
+    font-family:var(--schrift-titel);font-weight:700;font-size:1.05rem;color:var(--text-muted);
     white-space:nowrap;
   }
   @keyframes scroll-left{from{transform:translateX(0);}to{transform:translateX(-50%);}}
@@ -1156,7 +1177,7 @@ html, body { overflow-x: clip; }
   .company .wrap{max-width:1100px;}
   blockquote.leitbild{
     margin:0 0 2rem;padding-left:1.2rem;border-left:3px solid var(--accent);
-    font-family:'Manrope',sans-serif;font-size:1.28rem;line-height:1.5;font-weight:700;color:var(--text);
+    font-family:var(--schrift-titel);font-size:1.28rem;line-height:1.5;font-weight:700;color:var(--text);
   }
   .values-lead{font-size:1.15rem;font-weight:700;color:var(--text);margin:0 0 1.2rem;}
   .values{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;}

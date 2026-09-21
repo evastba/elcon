@@ -3,13 +3,18 @@ import { Image } from 'astro:assets';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { PROJEKTDETAILS, type Projektdetail } from '../../../data/projekte';
 import { PROJEKTREFERENZEN } from '../../../data/referenzen';
-import { useUi } from '../../../i18n/ui';
+import { LANGS, useUi, pfad, getLang } from '../../../i18n/ui';
 
+/* Jede Projektseite entsteht einmal je übersetzter Fassung. Der Slug ist in
+   allen Sprachen derselbe, damit ein Sprachwechsel auf der Detailseite nicht
+   auf die Übersicht zurückfällt. */
 export function getStaticPaths() {
-  return PROJEKTDETAILS.map((projekt) => ({
-    params: { slug: projekt.slug },
-    props: { projekt },
-  }));
+  return LANGS.filter((l) => l !== 'de').flatMap((lang) =>
+    PROJEKTDETAILS.map((projekt) => ({
+      params: { lang, slug: projekt.slug },
+      props: { projekt },
+    })),
+  );
 }
 
 interface Props {
@@ -87,12 +92,14 @@ const seitentitel = kachel ?? kuerzen(titel, 52);
 const t = useUi(Astro.url);
 const referenz = PROJEKTREFERENZEN.find((r) => r.slug === projekt.slug);
 const istHistorisch = referenz?.referenzTyp === 'historisch';
+const lang = getLang(Astro.url);
+
 ---
 
 <BaseLayout title={seitentitel} description={beschreibungMeta} ogType="article">
   <section class="projekt-detail">
     <div class="wrap">
-      <a href="/en/projects/" class="subpage-back">← Back to all projects</a>
+      <a href={pfad('/projekte/', lang)} class="subpage-back">← Back to all projects</a>
 
       <div class="projekt-layout">
         <div class="projekt-text">
@@ -151,8 +158,8 @@ const istHistorisch = referenz?.referenzTyp === 'historisch';
       </p>
 
       <div class="hero-ctas" style="margin-top:2rem;">
-        <a class="cta-btn primary" href="/en/contact/">Enquire about a similar project</a>
-        <a class="cta-btn ghost" href="/en/projects/">More projects</a>
+        <a class="cta-btn primary" href={pfad('/kontakt/', lang)}>Enquire about a similar project</a>
+        <a class="cta-btn ghost" href={pfad('/projekte/', lang)}>More projects</a>
       </div>
     </div>
   </section>

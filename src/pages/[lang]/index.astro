@@ -1,5 +1,4 @@
 ---
-import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Kennzahlen from '../../components/Kennzahlen.astro';
 import Kompetenzfelder from '../../components/Kompetenzfelder.astro';
@@ -9,32 +8,34 @@ import Projektablauf from '../../components/Projektablauf.astro';
 import Leistungsfinder from '../../components/Leistungsfinder.astro';
 import Ansprechpartner from '../../components/Ansprechpartner.astro';
 import Partnerunternehmen from '../../components/Partnerunternehmen.astro';
+import { Image } from 'astro:assets';
 import { asset } from '../../lib/assets';
-import { getLang, pfad } from '../../i18n/ui';
+import { LANGS, getLang, pfad } from '../../i18n/ui';
 import { STARTSEITE } from '../../i18n/startseite';
 
-/* Reihenfolge der Abschnitte — jeder hat eine eigene Aufgabe:
-   1 Einstieg und Positionierung · 2 Vertrauen (Laufschrift und Kennzahlen) ·
-   3 Kompetenzfelder ·
-   4 aktuelle Referenzen · 5 Unterscheidungsmerkmale · 6 Projektablauf ·
-   7 Leistungsfinder · 8 Unternehmen und Ansprechpartner.
-
-   Ein eigener Abschlussbereich mit "Projekt besprechen" stand hier zuvor;
-   er ist entfallen, weil die Fußzeile unmittelbar darunter denselben Knopf
-   trägt.
-
-   Die Logo-Laufschrift steht bewusst nicht im Einstieg: Sie belegt Vertrauen,
-   beantwortet aber keine der Fragen, die ein Besucher zuerst hat. Sie sitzt
-   deshalb im Vertrauensabschnitt, gemeinsam mit den Kennzahlen unter einer
-   Überschrift. */
+/* Startseite aller übersetzten Fassungen.
+ *
+ * Die deutsche liegt als src/pages/index.astro in der Wurzel, alle übrigen
+ * entstehen hier aus einer Datei. Vor der Mehrsprachigkeit stand je Sprache
+ * eine eigene Kopie; bei sechs Sprachen wären das sechs Dateien, die bei
+ * jeder Änderung auseinanderzulaufen drohen.
+ *
+ * Abfolge der Abschnitte: 1 Einstieg · 2 Kennzahlen und Logoband ·
+ * 3 Kompetenzfelder · 4 aktuelle Projekte · 5 Warum ELCON · 6 Projektablauf ·
+ * 7 Leistungsfinder · 8 Unternehmen und Ansprechpartner · 9 Partner.
+ */
+export function getStaticPaths() {
+  return LANGS.filter((l) => l !== 'de').map((lang) => ({ params: { lang } }));
+}
 
 const lang = getLang(Astro.url);
 const t = STARTSEITE[lang];
 const kontakt = pfad('/kontakt/', lang);
 const projekte = pfad('/projekte/', lang);
+const unternehmen = pfad('/unternehmen/', lang);
 ---
 
-<BaseLayout title={t.meta.titel} description={t.meta.beschreibung} rawTitle>
+<BaseLayout title={t.meta.titel} description={t.meta.beschreibung}>
 
   <section class="hero">
     <div class="wrap">
@@ -49,7 +50,7 @@ const projekte = pfad('/projekte/', lang);
         </div>
       </div>
       <div class="hero-art">
-          <Image src={asset("/assets/hero-building.jpg")} alt={t.hero.bildAlt} widths={[480, 760, 1008]} sizes="(max-width: 900px) 100vw, 46vw" loading="eager" fetchpriority="high" />
+        <Image src={asset("/assets/hero-building.jpg")} alt={t.hero.bildAlt} widths={[480, 760, 1008]} sizes="(max-width: 900px) 100vw, 46vw" loading="eager" fetchpriority="high" />
       </div>
     </div>
   </section>
@@ -76,7 +77,7 @@ const projekte = pfad('/projekte/', lang);
       <Ansprechpartner />
 
       <div class="hero-ctas">
-        <a class="cta-btn primary" href="/en/company/">{t.unternehmen.link}</a>
+        <a class="cta-btn primary" href={unternehmen}>{t.unternehmen.link}</a>
       </div>
     </div>
   </section>

@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import logoIcon from '../assets/logo-icon-v2.png';
-import { getLang, UI, anderePfad } from '../i18n/ui';
+import { getLang, UI, LANGS, anderePfad, pfad } from '../i18n/ui';
 
 /* Die Navigation markiert die aktive Seite serverseitig. Astro.url.pathname
    endet je nach Aufruf mit oder ohne Schrägstrich, deshalb wird normalisiert. */
@@ -11,18 +11,23 @@ const lang = getLang(Astro.url);
 const t = UI[lang];
 const links = t.nav;
 
-/* Ziel des Sprachumschalters: dieselbe Seite in der anderen Sprache. Früher
-   stand hier ein Schalter, der nur eine Hinweismeldung auslöste — jetzt gibt es
-   beide Fassungen, also führt er auch dorthin. */
-const zielDe = anderePfad(Astro.url.pathname, 'de');
-const zielEn = anderePfad(Astro.url.pathname, 'en');
+/* Sprachumschalter: dieselbe Seite in jeder verfügbaren Sprache. Die Liste
+   kommt aus LANGS, damit eine neue Sprache nur dort einzutragen ist und hier
+   nichts vergessen werden kann. */
+const sprachen = LANGS.map((l) => ({
+  lang: l,
+  href: anderePfad(Astro.url.pathname, l),
+  kuerzel: UI[l].sprachkuerzel,
+  name: UI[l].sprachname,
+  htmlLang: UI[l].htmlLang,
+}));
 
 const isActive = (href: string) => path === href.replace(/\/+$/, '');
 ---
 
 <header class="site">
   <div class="wrap nav-row">
-    <a href={lang === 'de' ? '/' : '/en/'} class="brand" aria-label={t.zurStartseite}>
+    <a href={pfad('/', lang)} class="brand" aria-label={t.zurStartseite}>
       <Image src={logoIcon} class="hex-mark" alt="ELCON Icon" loading="eager" />
       <span class="brand-text">
         <span class="brand-word">ELCON</span>
@@ -54,21 +59,17 @@ const isActive = (href: string) => path === href.replace(/\/+$/, '');
           aria-current={isActive(link.href) ? 'page' : undefined}
         >{link.label}</a>
       ))}
-      <div class="lang-toggle" role="group" aria-label={lang === 'de' ? 'Sprache' : 'Language'}>
-        <a
-          href={zielDe}
-          hreflang="de"
-          lang="de"
-          class:list={{ 'is-active': lang === 'de' }}
-          aria-current={lang === 'de' ? 'true' : undefined}
-        >DE</a>
-        <a
-          href={zielEn}
-          hreflang="en"
-          lang="en"
-          class:list={{ 'is-active': lang === 'en' }}
-          aria-current={lang === 'en' ? 'true' : undefined}
-        >EN</a>
+      <div class="lang-toggle" role="group" aria-label={t.sprachname}>
+        {sprachen.map((s) => (
+          <a
+            href={s.href}
+            hreflang={s.htmlLang}
+            lang={s.htmlLang}
+            title={s.name}
+            class:list={{ 'is-active': lang === s.lang }}
+            aria-current={lang === s.lang ? 'true' : undefined}
+          >{s.kuerzel}</a>
+        ))}
       </div>
     </nav>
   </div>

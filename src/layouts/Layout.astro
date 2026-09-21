@@ -2,7 +2,7 @@
 import { getImage } from 'astro:assets';
 import ogBild from '../assets/og-vorschau.png';
 import { company } from '../config';
-import { getLang, UI, anderePfad } from '../i18n/ui';
+import { getLang, UI, LANGS, anderePfad } from '../i18n/ui';
 import '../styles/global.css';
 
 interface Props {
@@ -17,6 +17,7 @@ interface Props {
 const lang = getLang(Astro.url);
 const t = UI[lang];
 
+/* Titel und Kurzbeschreibung, wenn eine Seite keine eigenen mitgibt. */
 const standard = {
   de: {
     title: 'ELCON — Generalunternehmer für technische Gebäudeausrüstung',
@@ -27,6 +28,26 @@ const standard = {
     title: 'ELCON — main contractor for building services engineering',
     description:
       'Main contractor for building services engineering: electrical, heating, air conditioning, ventilation, plumbing and automation systems from a single source.',
+  },
+  zh: {
+    title: 'ELCON — 建筑设备技术总承包商',
+    description:
+      '建筑设备技术总承包商：电气、供暖、空调、通风、卫浴与自动化技术，一站式承担。',
+  },
+  ar: {
+    title: 'ELCON — مقاول عام لأنظمة المباني التقنية',
+    description:
+      'مقاول عام لأنظمة المباني التقنية: الكهرباء والتدفئة والتكييف والتهوية والصرف الصحي وأنظمة الأتمتة من مصدر واحد.',
+  },
+  ru: {
+    title: 'ELCON — генеральный подрядчик по инженерным системам зданий',
+    description:
+      'Генеральный подрядчик по инженерным системам зданий: электротехника, отопление, вентиляция, кондиционирование, сантехника и автоматизация из одних рук.',
+  },
+  fr: {
+    title: 'ELCON — entreprise générale en technique du bâtiment',
+    description:
+      'Entreprise générale en technique du bâtiment : électricité, chauffage, climatisation, ventilation, sanitaire et automatisation d’une seule main.',
   },
 }[lang];
 
@@ -43,12 +64,14 @@ const {
    deshalb ist der Wert dort ausdrücklich kommentiert. */
 const kanonisch = new URL(Astro.url.pathname, Astro.site).href;
 
-/* Sprachalternativen. Beide Fassungen verweisen wechselseitig aufeinander;
-   x-default zeigt auf die deutsche Fassung, weil sie die Hauptfassung ist. */
-const pfadDe = anderePfad(Astro.url.pathname, 'de');
-const pfadEn = anderePfad(Astro.url.pathname, 'en');
-const alternativDe = new URL(pfadDe, Astro.site).href;
-const alternativEn = new URL(pfadEn, Astro.site).href;
+/* Sprachalternativen. Jede Fassung verweist auf alle übrigen; x-default zeigt
+   auf die deutsche, weil sie die Hauptfassung ist. Die Liste kommt aus LANGS,
+   damit eine neue Sprache hier nicht vergessen werden kann. */
+const alternativen = LANGS.map((l) => ({
+  hreflang: UI[l].htmlLang,
+  href: new URL(anderePfad(Astro.url.pathname, l), Astro.site).href,
+}));
+const alternativDe = new URL(anderePfad(Astro.url.pathname, 'de'), Astro.site).href;
 
 const vorschau = await getImage({ src: ogImage ?? ogBild, format: 'png', width: 1200 });
 const vorschauUrl = new URL(vorschau.src, Astro.site).href;
@@ -75,15 +98,16 @@ const organisation = {
 ---
 
 <!doctype html>
-<html lang={t.htmlLang}>
+<html lang={t.htmlLang} dir={t.dir}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={kanonisch} />
-    <link rel="alternate" hreflang="de" href={alternativDe} />
-    <link rel="alternate" hreflang="en" href={alternativEn} />
+    {alternativen.map((a) => (
+      <link rel="alternate" hreflang={a.hreflang} href={a.href} />
+    ))}
     <link rel="alternate" hreflang="x-default" href={alternativDe} />
     <link rel="icon" type="image/png" href="/assets/logo-icon.png" />
 
