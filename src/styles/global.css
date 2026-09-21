@@ -740,9 +740,14 @@ html, body { overflow-x: clip; }
     max-height:calc(var(--logo-hoehe) * var(--logo-skalierung,1));
     max-width:calc(200px * var(--logo-skalierung,1));
   }
+  /* Der Textteil fuellt die Kachelhoehe, damit der Knopf unten sitzt. */
+  .partner-text{display:flex;flex-direction:column;flex:1 1 auto;}
   .partner-text h3{margin:0 0 .3rem;font-size:1.06rem;font-weight:700;}
   .partner-sitz{margin:0 0 .7rem;font-size:.82rem;color:var(--text-leise);}
-  .partner-worte{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:.4rem;}
+  /* Der Rest der Kachelhoehe sammelt sich hier, nicht zwischen den
+     Stichworten: So stehen die Knoepfe aller Kacheln auf einer Linie,
+     gleich wie viele Stichworte darueber stehen. */
+  .partner-worte{list-style:none;margin:0 0 auto;padding:0;display:flex;flex-wrap:wrap;gap:.4rem;}
   .partner-worte li{
     font-size:.8rem;line-height:1.3;color:var(--text-muted);
     background:var(--surface);border:1px solid var(--border);border-radius:999px;
@@ -751,7 +756,7 @@ html, body { overflow-x: clip; }
   /* Anderthalbfacher Abstand zu den Stichworten darueber: Der Knopf soll
      als eigener Schritt lesbar sein, nicht als letzte Zeile der Aufzaehlung. */
   .partner-link{
-    margin-top:1.35rem;align-self:flex-start;
+    margin-top:1.35rem;align-self:center;
     font-size:.88rem;font-weight:600;padding:.55rem 1.15rem;
   }
   .partner-link--ohne-ziel{cursor:default;}
