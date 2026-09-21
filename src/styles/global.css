@@ -181,6 +181,10 @@ html, body { overflow-x: clip; }
   .cta-btn.primary:hover{filter:brightness(1.1);}
   .cta-btn.ghost{background:transparent;border-color:var(--border);color:var(--text);}
   .cta-btn.ghost:hover{border-color:var(--accent-3);color:var(--accent-3);}
+  /* Wie der gefuellte Knopf, nur umgekehrt: Rand und Schrift in der
+     Akzentfarbe, die Flaeche weiss. */
+  .cta-btn.umriss{background:var(--surface-raised);border-color:var(--accent-3);color:var(--accent-3);}
+  a.cta-btn.umriss:hover{background:var(--accent-3);color:var(--accent-ink);}
 
   .menu-toggle{display:none;}
 
@@ -744,11 +748,12 @@ html, body { overflow-x: clip; }
     background:var(--surface);border:1px solid var(--border);border-radius:999px;
     padding:.3rem .7rem;
   }
+  /* Anderthalbfacher Abstand zu den Stichworten darueber: Der Knopf soll
+     als eigener Schritt lesbar sein, nicht als letzte Zeile der Aufzaehlung. */
   .partner-link{
-    margin-top:.9rem;align-self:flex-start;
-    font-size:.88rem;font-weight:700;color:var(--accent-3);text-decoration:none;
+    margin-top:1.35rem;align-self:flex-start;
+    font-size:.88rem;font-weight:600;padding:.55rem 1.15rem;
   }
-  a.partner-link:hover{text-decoration:underline;}
   .partner-link--ohne-ziel{cursor:default;}
 
   /* Kennzeichnung in der Bildecke.

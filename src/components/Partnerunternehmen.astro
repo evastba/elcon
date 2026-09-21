@@ -48,7 +48,7 @@ const partner = sichtbarePartner.map((p) => ({
                 {p.worte.map((w) => <li>{w}</li>)}
               </ul>
               {p.website ? (
-                <a class="partner-link" href={p.website} target="_blank" rel="noopener noreferrer">
+                <a class="cta-btn umriss partner-link" href={p.website} target="_blank" rel="noopener noreferrer">
                   {t.websiteLabel}
                 </a>
               ) : (
@@ -57,7 +57,7 @@ const partner = sichtbarePartner.map((p) => ({
                    ins Leere führte zu einer Fehlerseite, und Vorleseprogramme
                    kündigten ein Ziel an, das es nicht gibt. Sobald die
                    Adresse vorliegt, wird daraus von selbst ein Verweis. */
-                <span class="partner-link partner-link--ohne-ziel">{t.websiteLabel}</span>
+                <span class="cta-btn umriss partner-link partner-link--ohne-ziel">{t.websiteLabel}</span>
               )}
             </div>
           </li>
