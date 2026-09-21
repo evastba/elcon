@@ -17,6 +17,7 @@ const t = STARTSEITE[lang].partner;
 const partner = sichtbarePartner.map((p) => ({
   ...p,
   worte: (lang === 'de' ? p.stichworte : p.stichworteEn) ?? [],
+  ort: (lang === 'de' ? p.sitz : p.sitzEn ?? p.sitz) ?? null,
   logoAlt: p.logo ? (lang === 'de' ? p.logo.alt : p.logo.altEn) : '',
 }));
 ---
@@ -43,7 +44,7 @@ const partner = sichtbarePartner.map((p) => ({
             )}
             <div class="partner-text">
               <h3>{p.name}</h3>
-              {p.sitz && <p class="partner-sitz">{`${t.sitzLabel}: ${p.sitz}`}</p>}
+              {p.ort && <p class="partner-sitz">{`${t.sitzLabel}: ${p.ort}`}</p>}
               <ul class="partner-worte">
                 {p.worte.map((w) => <li>{w}</li>)}
               </ul>

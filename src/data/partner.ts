@@ -44,6 +44,8 @@ export interface Partner {
   name: string;
   /** Sitz des Unternehmens. */
   sitz: string | null;
+  /** Englische Fassung des Sitzes, falls sie abweicht — etwa beim Land. */
+  sitzEn?: string | null;
   /**
    * Ein bis zwei Stichworte zur Art der Zusammenarbeit, deutsch und
    * englisch. Keine Werbetexte, sondern was das Unternehmen im gemeinsamen
@@ -139,6 +141,25 @@ export const PARTNER: Partner[] = [
       datei: 'elektro-deiters.png',
       alt: 'Logo von Elektro Deiters',
       altEn: 'Logo of Elektro Deiters',
+      hintergrund: 'hell',
+    },
+    veroeffentlichungsfreigabe: true,
+    aktiv: true,
+  },
+  {
+    id: 'electra-polska',
+    name: 'Electra Polska',
+    /* Angaben und Logo laut electrapolska.com; tätig seit 1997. Eine
+       Rechtsform nennt die Website nicht, deshalb steht hier keine. */
+    sitz: 'Bydgoszcz, Polen',
+    sitzEn: 'Bydgoszcz, Poland',
+    stichworte: ['Kabeltrassen und Freileitungen', 'Fahrleitungsnetze'],
+    stichworteEn: ['Cable and overhead lines', 'Traction networks'],
+    website: 'https://electrapolska.com/home/',
+    logo: {
+      datei: 'electra-polska.png',
+      alt: 'Logo von Electra Polska',
+      altEn: 'Logo of Electra Polska',
       hintergrund: 'hell',
     },
     veroeffentlichungsfreigabe: true,
