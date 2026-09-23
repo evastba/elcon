@@ -1625,6 +1625,18 @@ html, body { overflow-x: clip; }
      Karte ohne Ziel tut das nicht — sonst verspricht sie einen Klick, der
      nichts bewirkt. Zuvor sahen beide gleich aus. */
   .project-card,
+  /* Alle Kästen quittieren das Überfahren mit einem grünen Rand — nicht nur
+     die, die zu einer Seite führen. Ein Kasten, der sich anfassen lässt, soll
+     das auch zeigen. */
+  .partner-karte,
+  .value-chip,
+  .kontaktperson,
+  .bewertung,
+  .phase-item,
+  .project-kurz,
+  .finder-referenz,
+  .projekt-daten,
+  .project-card,
   .aktuell-karte,
   .ref-group-card,
   .techscope-item,
@@ -1635,8 +1647,16 @@ html, body { overflow-x: clip; }
   }
   .project-card--link,
   .aktuell-karte--link{cursor:pointer;will-change:transform;}
-  .project-card--link:hover,
-  .aktuell-karte--link:hover,
+  .partner-karte:hover,
+  .value-chip:hover,
+  .kontaktperson:hover,
+  .bewertung:hover,
+  .phase-item:hover,
+  .project-kurz:hover,
+  .finder-referenz:hover,
+  .projekt-daten:hover,
+  .project-card:hover,
+  .aktuell-karte:hover,
   .ref-group-card:hover,
   .techscope-item:hover,
   .philosophy-card:hover,
@@ -1652,8 +1672,13 @@ html, body { overflow-x: clip; }
 
   /* Tastaturbedienung: derselbe Zustand, wenn ein Element im Inneren den
      Fokus erhält — sonst bliebe der Effekt Mausnutzern vorbehalten. */
-  .project-card--link:focus-within,
-  .aktuell-karte--link:focus-within,
+  .partner-karte:focus-within,
+  .kontaktperson:focus-within,
+  .bewertung:focus-within,
+  .project-kurz:focus-within,
+  .finder-referenz:focus-within,
+  .project-card:focus-within,
+  .aktuell-karte:focus-within,
   .ref-group-card:focus-within,
   .techscope-item:focus-within,
   .philosophy-card:focus-within,
