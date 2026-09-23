@@ -202,7 +202,14 @@ html, body { overflow-x: clip; }
      das Sechseck um rund ein Zehntel in die Breite zog. */
   /* Das Zeichen ist quadratisch; Breite und Höhe laufen deshalb gemeinsam
      mit der Schriftgröße der Wortmarke. */
-  .marke-zeichen{height:var(--marke-zeichenhoehe);width:var(--marke-zeichenhoehe);flex:none;display:block;}
+  /* Ein Viertel kleiner als die Höhe der Wortmarke: Das Quadrat ist eine
+     geschlossene Fläche und wirkt bei gleicher Höhe schwerer als der
+     Schriftzug daneben. */
+  .marke-zeichen{
+    height:calc(var(--marke-zeichenhoehe) * .75);
+    width:calc(var(--marke-zeichenhoehe) * .75);
+    flex:none;display:block;
+  }
   .brand-text{display:flex;flex-direction:column;line-height:1;}
   /* Farben aus der Logovorlage: Der Schriftzug steht im Grün der Palette,
      die Unterzeile im Navy — beide Werte stimmen dort exakt überein. */
