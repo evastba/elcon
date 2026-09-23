@@ -272,20 +272,27 @@ html, body { overflow-x: clip; }
        plus Abstand plus Zeile der Unterzeile, alle mit line-height 1. Ein
        gestrecktes Quadrat würde sich stattdessen an der Kopfzeile ausrichten,
        nicht am Text. */
-    /* Der Würfel misst neun Zehntel des Textblocks daneben und steht mittig
-       dazu — er reicht damit fast, aber nicht ganz von der Oberkante von
-       ELCON bis zur Unterkante von GEBÄUDETECHNIK. Der Abstand der beiden
-       Zeilen entspricht dem der laufenden Marke. */
-    --marke-b-textblock:calc(var(--marke-wort) + .14rem + .46rem);
-    --marke-b-hoehe:calc(var(--marke-b-textblock) * .9);
-    display:inline-flex;align-items:center;align-self:center;gap:.5rem;
+    /* Der Würfel reicht genau von der Oberkante der Versalien von ELCON bis
+       zur Unterkante von GEBÄUDETECHNIK — nicht von Zeilenkasten zu
+       Zeilenkasten. Zwischen beiden liegt der Durchschuss der Schrift: Die
+       Versalien beginnen 0,151 em unter der Oberkante ihres Kastens, die
+       Grundlinie der Unterzeile liegt 1,177 em darunter. Beide Werte sind an
+       der gesetzten Schrift gemessen, nicht geschätzt.
+
+       Damit sie gültig bleiben, hängen Schriftgröße und Abstand der
+       Unterzeile an der Größe der Wortmarke statt an festen rem-Werten — so
+       wächst die ganze Marke im selben Verhältnis. */
+    font-size:var(--marke-wort);
+    --marke-b-versatz:.1508em;
+    --marke-b-hoehe:1.1769em;
+    display:inline-flex;align-items:flex-start;align-self:center;gap:.5rem;
     margin-left:1.6rem;padding-left:1.6rem;border-left:1px solid var(--border);
     /* Der freie Raum sammelt sich hinter der Vergleichsfassung, damit beide
        Marken links beieinander stehen. Ohne das schöbe der Ausdehner der
        ersten Marke die zweite an die Navigation heran. */
     margin-right:auto;
   }
-  .marke-b-zeichen{height:var(--marke-b-hoehe);width:var(--marke-b-hoehe);flex:none;display:block;}
+  .marke-b-zeichen{height:var(--marke-b-hoehe);width:var(--marke-b-hoehe);margin-top:var(--marke-b-versatz);flex:none;display:block;}
   .marke-b-text{display:flex;flex-direction:column;line-height:1;}
   .marke-b-wort{
     font-family:var(--schrift-titel);font-weight:800;
@@ -293,8 +300,8 @@ html, body { overflow-x: clip; }
   }
   .marke-b-unterzeile{
     display:flex;justify-content:space-between;
-    font-size:.46rem;font-weight:700;letter-spacing:0;line-height:1;
-    text-transform:uppercase;color:var(--copper);margin-top:.14rem;
+    font-size:calc(var(--marke-wort) * .284);font-weight:700;letter-spacing:0;line-height:1;
+    text-transform:uppercase;color:var(--copper);margin-top:calc(var(--marke-wort) * .0864);
   }
   /* Nebeneinander haben zwei Marken erst ab dieser Breite Platz. */
   @media (max-width:1100px){ .marke-b{display:none;} }
