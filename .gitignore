@@ -1,3 +1,8 @@
+# Ausgaben, die auf Zuruf erzeugt werden und nicht in die Versionierung
+# gehoeren — ein Website-PDF wiegt mehrere Megabyte und veraltet mit jeder
+# Aenderung.
+ELCON-Website.pdf
+
 # Build-Ausgabe
 dist/
 .output/
