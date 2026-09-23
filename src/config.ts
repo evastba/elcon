@@ -244,10 +244,32 @@ export const ansprechpartner: Ansprechpartner[] = [
     funktionEn: 'Project Assistant',
     bereich: null,
     bereichEn: null,
-    /* Kein eigener Durchwahlanschluss bekannt — es gilt die Zentrale. */
-    telefon: company.phone,
-    telefonHref: company.phoneHref,
-    email: company.email,
+    /* Ohne eigene Kontaktdaten auf Wunsch des Auftraggebers; Telefon und
+       E-Mail der Zentrale stehen weiterhin auf der Kontaktseite und in der
+       Fußzeile. */
+    telefon: null,
+    telefonHref: null,
+    email: null,
+    /* Kein freigegebenes Foto vorhanden; die Komponente setzt die Initialen. */
+    foto: null,
+    sprachen: [],
+    aufKontaktseite: true,
+    imFooter: false,
+    leistungsbereiche: [],
+    aktiv: true,
+    veroeffentlichungsfreigabe: true,
+  },
+  {
+    id: 'altenburg',
+    vorname: 'Bastian',
+    nachname: 'Altenburg',
+    funktion: 'Projektassistenz',
+    funktionEn: 'Project Assistant',
+    bereich: null,
+    bereichEn: null,
+    telefon: null,
+    telefonHref: null,
+    email: null,
     /* Kein freigegebenes Foto vorhanden; die Komponente setzt die Initialen. */
     foto: null,
     sprachen: [],
