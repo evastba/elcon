@@ -178,9 +178,9 @@ html, body { overflow-x: clip; }
      Sprungmarken, das mitlaufende Datenblatt der Projektseiten und das
      ausklappbare Menü auf schmalen Bildschirmen. */
   :root{
-    --marke-wort:1.45rem;
-    --marke-abstand:.3rem;
-    --marke-unterzeile:.72rem;
+    --marke-wort:1.62rem;
+    --marke-abstand:.14rem;
+    --marke-unterzeile:.64rem;
     --marke-hoehe:calc(var(--marke-wort) + var(--marke-abstand) + var(--marke-unterzeile));
     /* Das Zeichen steht eine Spur über den Namensblock hinaus. Genau bündig
        wirkt es neben der kräftigen Wortmarke optisch etwas zu klein — ein
@@ -214,18 +214,24 @@ html, body { overflow-x: clip; }
      das Sechseck um rund ein Zehntel in die Breite zog. */
   /* Das Zeichen ist quadratisch; Breite und Höhe laufen deshalb gemeinsam
      mit der Schriftgröße der Wortmarke. */
-  /* Der Würfel ist genau so hoch wie die Versalien von ELCON daneben. Die
-     Einheit cap misst die Versalhöhe der eigenen Schrift — deshalb trägt das
+  /* Die Höhe des Würfels bemisst sich an den Versalien von ELCON daneben: Die
+     Einheit cap misst die Versalhöhe der eigenen Schrift, deshalb trägt das
      Zeichen dieselbe Schriftfamilie und -größe wie die Wortmarke, obwohl es
-     selbst keinen Text enthält. Ältere Browser ohne cap-Einheit bekommen
-     darunter einen festen Anteil als Ersatz. */
+     selbst keinen Text enthält. Der Faktor lässt ihn etwas darüber
+     hinausragen; ältere Browser ohne cap-Einheit bekommen einen festen Anteil
+     als Ersatz. */
   .marke-zeichen{
+    --zeichen-faktor:1.18;
     font-family:var(--schrift-titel);font-size:var(--marke-wort);
-    height:.72em;width:.72em;
+    height:calc(.72em * var(--zeichen-faktor));
+    width:calc(.72em * var(--zeichen-faktor));
     flex:none;display:block;
   }
   @supports (height: 1cap){
-    .marke-zeichen{height:1cap;width:1cap;}
+    .marke-zeichen{
+      height:calc(1cap * var(--zeichen-faktor));
+      width:calc(1cap * var(--zeichen-faktor));
+    }
   }
   
   /* Farben aus der Logovorlage: Der Schriftzug steht im Grün der Palette,
@@ -741,7 +747,7 @@ html, body { overflow-x: clip; }
        Die Unterzeile bricht um, die Kopfzeile wächst, und das ausklappende
        Menü beginnt hinter ihr. Unterzeile und Abstand werden deshalb
        schmaler — die Kopfhöhe folgt der Ableitung von selbst. */
-    :root{--marke-unterzeile:.62rem;}
+    :root{--marke-unterzeile:.56rem;}
     .brand-tagline{white-space:nowrap;}
     .nav-row{gap:.8rem;}
   }
