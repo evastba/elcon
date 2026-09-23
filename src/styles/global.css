@@ -467,8 +467,9 @@ html, body { overflow-x: clip; }
 
   /* --- Vertrauenskennzahlen ----------------------------------------------- */
   .kennzahlen-band{padding-block:0;}
-  /* Doppelter Abstand zum Bannerbild: Die Zeile soll nicht am Bild kleben. */
-  .kennzahlen-band .wrap{padding-block:.8rem 1.8rem;}
+  /* Abstand zum Bannerbild, zweimal verdoppelt: Die Zeile soll deutlich vom
+     Bild abrücken. */
+  .kennzahlen-band .wrap{padding-block:1.6rem 1.8rem;}
   /* Überschrift des Vertrauensabschnitts — sie gilt für die Kennzahlen und
      die Logo-Laufschrift darunter gemeinsam. */
   /* Zurückhaltend gesetzt: Die Zeile ordnet den Abschnitt ein und soll der
