@@ -32,8 +32,16 @@ export const company = {
   phoneHref: '+4951757716116',
   fax: '+49 (0) 5175 - 92 00 14',
   email: 'info@elcon-led.com',
-  /** Rufnummer für WhatsApp, ohne Zeichen und führendes Plus. */
-  whatsapp: '4951757716116',
+  /**
+   * Rufnummer für WhatsApp, ohne Zeichen und führendes Plus.
+   *
+   * Das ist das Mobiltelefon der Projektassistenz, nicht die Zentrale: Über
+   * einen Festnetzanschluss lässt sich WhatsApp nicht führen, der bisherige
+   * Verweis wäre ins Leere gelaufen.
+   */
+  whatsapp: '4915222580164',
+  /** Dieselbe Nummer in lesbarer Schreibweise. */
+  whatsappLesbar: '+49 152 225 801 64',
 
   /* ------------------------------------------------------------------ *
    * Pflichtangaben nach § 5 DDG — noch nicht belegt.
@@ -244,11 +252,9 @@ export const ansprechpartner: Ansprechpartner[] = [
     funktionEn: 'Project Assistant',
     bereich: null,
     bereichEn: null,
-    /* Ohne eigene Kontaktdaten auf Wunsch des Auftraggebers; Telefon und
-       E-Mail der Zentrale stehen weiterhin auf der Kontaktseite und in der
-       Fußzeile. */
-    telefon: null,
-    telefonHref: null,
+    /* Mobilnummer; über sie läuft auch der WhatsApp-Verweis der Website. */
+    telefon: '+49 152 225 801 64',
+    telefonHref: '+4915222580164',
     email: null,
     /* Kein freigegebenes Foto vorhanden; die Komponente setzt die Initialen. */
     foto: null,
@@ -267,8 +273,8 @@ export const ansprechpartner: Ansprechpartner[] = [
     funktionEn: 'Project Assistant',
     bereich: null,
     bereichEn: null,
-    telefon: null,
-    telefonHref: null,
+    telefon: '+49 162 180 907 8',
+    telefonHref: '+491621809078',
     email: null,
     /* Kein freigegebenes Foto vorhanden; die Komponente setzt die Initialen. */
     foto: null,

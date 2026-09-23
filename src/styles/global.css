@@ -1491,6 +1491,9 @@ html, body { overflow-x: clip; }
   .contact-list{list-style:none;margin:0;padding:0;font-size:.96rem;line-height:1.8;color:var(--text-muted);}
   .contact-info a.whatsapp-link{display:inline-flex;align-items:center;gap:.65rem;text-decoration:none;background:var(--surface-raised);border:1px solid var(--border);color:var(--ink);font-weight:700;font-size:.92rem;padding:.6rem .95rem .6rem .6rem;margin-top:1.3rem;transition:border-color .15s,transform .15s;}
   .contact-info a.whatsapp-link:hover{border-color:#25D366;color:var(--ink);@apply motion-safe:-translate-y-0.5;}
+  /* Die Nummer steht unter der Schaltflaeche, damit sie sich notieren oder
+     von Hand eintippen laesst — der Verweis allein gibt sie nicht preis. */
+  .whatsapp-nummer{margin:.5rem 0 0;font-size:.92rem;color:var(--text-muted);}
   .whatsapp-badge{width:32px;height:32px;flex:none;display:flex;align-items:center;justify-content:center;}
   .whatsapp-badge svg{width:32px;height:32px;display:block;}
   form.request{
