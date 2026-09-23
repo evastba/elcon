@@ -272,11 +272,12 @@ html, body { overflow-x: clip; }
        plus Abstand plus Zeile der Unterzeile, alle mit line-height 1. Ein
        gestrecktes Quadrat würde sich stattdessen an der Kopfzeile ausrichten,
        nicht am Text. */
-    /* Der Würfel misst knapp die Hälfte des Textblocks und steht mittig
-       daneben; der Abstand der beiden Zeilen entspricht dem der laufenden
-       Marke. */
+    /* Der Würfel ist so hoch wie der Textblock daneben: Seine obere Kante
+       liegt an der Oberkante von ELCON, die untere an der Unterkante von
+       GEBÄUDETECHNIK. Der Abstand der beiden Zeilen entspricht dem der
+       laufenden Marke. */
     --marke-b-textblock:calc(var(--marke-wort) + .14rem + .46rem);
-    --marke-b-hoehe:calc(var(--marke-b-textblock) * .45);
+    --marke-b-hoehe:var(--marke-b-textblock);
     display:inline-flex;align-items:center;align-self:center;gap:.5rem;
     margin-left:1.6rem;padding-left:1.6rem;border-left:1px solid var(--border);
     /* Der freie Raum sammelt sich hinter der Vergleichsfassung, damit beide
