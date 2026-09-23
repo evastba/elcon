@@ -31,18 +31,17 @@ const land = lang === 'de' ? company.country : company.countryEn;
 <footer class="site">
   <div class="wrap footer-grid">
     <div class="footer-marke">
-      <a href={start} class="brand">
-        <span class="marke-zeile">
-          <LogoZeichen class="marke-zeichen" />
+<a href={start} class="brand">
+        <LogoZeichen class="marke-zeichen" />
+        <span class="brand-text">
           <span class="brand-word">ELCON</span>
-        </span>
-        {/* Die Unterzeile läuft von der linken Kante des Würfels bis unter das
-            N von ELCON. Damit sie diese Breite genau füllt, steht jeder Buchstabe
-            für sich und der Zwischenraum verteilt sich gleichmäßig — ein fester
-            Sperrwert träfe die Breite nur zufällig. Für Vorleseprogramme ist die
-            Zeile ohne Belang: Der Verweis trägt eine eigene Beschriftung. */}
-        <span class="brand-tagline" aria-hidden="true">
-          {'GEBÄUDETECHNIK'.split('').map((z) => <span>{z}</span>)}
+          {/* Die Unterzeile füllt genau die Breite von ELCON darüber. Damit sie
+              das trifft, steht jeder Buchstabe für sich und der Zwischenraum
+              verteilt sich gleichmäßig — ein fester Sperrwert träfe die Breite
+              nur zufällig und bräche bei jeder Änderung der Schriftgröße. */}
+          <span class="brand-tagline" aria-hidden="true">
+            {'GEBÄUDETECHNIK'.split('').map((z) => <span>{z}</span>)}
+          </span>
         </span>
       </a>
       <p class="footer-firma">{company.name}</p>

@@ -182,7 +182,7 @@ html, body { overflow-x: clip; }
   :root{
     --marke-wort:1.62rem;
     --marke-abstand:.14rem;
-    --marke-unterzeile:.64rem;
+    --marke-unterzeile:.46rem;
     --marke-hoehe:calc(var(--marke-wort) + var(--marke-abstand) + var(--marke-unterzeile));
     /* Das Zeichen steht eine Spur über den Namensblock hinaus. Genau bündig
        wirkt es neben der kräftigen Wortmarke optisch etwas zu klein — ein
@@ -205,63 +205,41 @@ html, body { overflow-x: clip; }
     background:var(--header-bg);backdrop-filter:blur(10px);
   }
   .nav-row{display:flex;align-items:center;gap:1.5rem;padding-block:.9rem;}
-  /* Marke: oben Würfel und Schriftzug nebeneinander, darunter die Unterzeile
-     über die gesamte Breite dieser Zeile. */
-  .brand{display:inline-flex;flex-direction:column;align-items:stretch;text-decoration:none;color:var(--text);margin-right:auto;}
-  /* Die drei Fassungen stehen in einer eigenen Gruppe; der freie Raum sammelt
-     sich hinter ihr, nicht zwischen ihnen. */
-  .marken-vergleich{display:flex;align-items:center;margin-right:auto;}
-  .marken-vergleich .brand{margin-right:0;}
-  .marke-c{margin-left:1.6rem;padding-left:1.6rem;border-left:1px solid var(--border);}
-  /* Einziger Unterschied zur laufenden Fassung: die Farbe der Unterzeile. */
-  .marke-c .brand-tagline{color:var(--copper);}
-  @media (max-width:1300px){ .marke-c{display:none;} }
-  /* line-height:1, damit der Durchschuss der Grundschrift die beiden Zeilen
-     der Marke nicht auseinanderzieht. Der Würfel richtet sich oben aus, nicht
-     mittig — siehe den Versatz weiter unten. */
-  .marke-zeile{display:flex;align-items:flex-start;gap:.5rem;line-height:1;}
-  /* Das Zeichen schließt oben und unten mit dem Namensblock ab; die Breite folgt
-     dem Seitenverhältnis der Datei (450×495). Zuvor stand hier ein Quadrat, das
-     das Sechseck um rund ein Zehntel in die Breite zog. */
-  /* Das Zeichen ist quadratisch; Breite und Höhe laufen deshalb gemeinsam
-     mit der Schriftgröße der Wortmarke. */
-  /* Die Höhe des Würfels bemisst sich an den Versalien von ELCON daneben: Die
-     Einheit cap misst die Versalhöhe der eigenen Schrift, deshalb trägt das
-     Zeichen dieselbe Schriftfamilie und -größe wie die Wortmarke, obwohl es
-     selbst keinen Text enthält. Der Faktor lässt ihn etwas darüber
-     hinausragen; ältere Browser ohne cap-Einheit bekommen einen festen Anteil
-     als Ersatz. */
-  /* Faktor 1: Der Würfel ist genau so hoch wie die Versalien und schließt
-     oben wie unten bündig mit dem E von ELCON ab. */
+  /* Marke.
+
+     Der Würfel steht links, rechts daneben ELCON und darunter die Unterzeile,
+     die genau die Breite von ELCON füllt.
+
+     Der Würfel reicht von der Oberkante der Versalien von ELCON bis zur
+     Unterkante von GEBÄUDETECHNIK — nicht von Zeilenkasten zu Zeilenkasten.
+     Zwischen beiden liegt der Durchschuss der Schrift: Die Versalien beginnen
+     0,151 em unter der Oberkante ihres Kastens, die Grundlinie der Unterzeile
+     liegt 1,177 em darunter. Beide Werte sind an der gesetzten Schrift
+     gemessen, über die Glyphenkanten, nicht geschätzt.
+
+     Damit sie gültig bleiben, hängen Schriftgröße und Abstand der Unterzeile
+     an der Größe der Wortmarke; die ganze Marke wächst dadurch im selben
+     Verhältnis. */
+  .brand{
+    font-size:var(--marke-wort);
+    display:inline-flex;align-items:flex-start;gap:.5rem;
+    text-decoration:none;color:var(--text);margin-right:auto;
+  }
   .marke-zeichen{
-    --zeichen-faktor:1;
-    font-family:var(--schrift-titel);font-size:var(--marke-wort);
-    height:calc(.72em * var(--zeichen-faktor));
-    width:calc(.72em * var(--zeichen-faktor));
-    /* Die Oberkante liegt auf der Oberkante der Versalien von ELCON. Die
-       beginnen 0,151 em unter der Oberkante ihres Zeilenkastens — an der
-       gesetzten Schrift gemessen. Mit Faktor 1 endet der Würfel dadurch
-       zugleich auf der Grundlinie. */
-    margin-top:.1508em;
+    height:1.1769em;width:1.1769em;margin-top:.1508em;
     flex:none;display:block;
   }
-  @supports (height: 1cap){
-    .marke-zeichen{
-      height:calc(1cap * var(--zeichen-faktor));
-      width:calc(1cap * var(--zeichen-faktor));
-    }
+  .brand-text{display:flex;flex-direction:column;line-height:1;}
+  /* Farben aus der Logovorlage: Der Schriftzug steht im Grün der Palette, die
+     Unterzeile im Orange des Würfels. */
+  .brand-word{
+    font-family:var(--schrift-titel);font-weight:800;
+    font-size:var(--marke-wort);letter-spacing:.01em;color:var(--forest);
   }
-  
-  /* Farben aus der Logovorlage: Der Schriftzug steht im Grün der Palette,
-     die Unterzeile im Navy — beide Werte stimmen dort exakt überein. */
-  .brand-word{font-weight:800;font-size:var(--marke-wort);letter-spacing:.01em;color:var(--forest);}
-  /* Die Unterzeile der Marke bleibt petrol — sie schreibt das Zeichen fort,
-     ohne mit den grünen Bedienelementen zu konkurrieren. */
   .brand-tagline{
     display:flex;justify-content:space-between;
-    font-size:var(--marke-unterzeile);font-weight:600;letter-spacing:0;
-    text-transform:uppercase;color:var(--navy);
-    margin-top:var(--marke-abstand);line-height:1;
+    font-size:var(--marke-unterzeile);font-weight:700;letter-spacing:0;line-height:1;
+    text-transform:uppercase;color:var(--copper);margin-top:var(--marke-abstand);
   }
 
   nav.primary{display:flex;gap:1.9rem;}
@@ -272,48 +250,6 @@ html, body { overflow-x: clip; }
   /* Der Unterstrich der Menüpunkte ist die Kupfermarke des Kopfbereichs —
      beim Überfahren wie auf der aktuellen Seite. */
   nav.primary a:hover{color:var(--text);border-color:var(--farbe-akzent);}
-
-  /* Vergleichsfassung der Marke im Kopfbereich.
-
-     Unterschied zur laufenden Fassung: Der Würfel reicht über beide Zeilen
-     statt nur über die Versalien, und die Unterzeile steht im Orange des
-     Würfels und füllt genau die Breite von ELCON statt der ganzen Marke.
-     Damit sie das trifft, ist sie deutlich kleiner gesetzt; der Zwischenraum
-     verteilt sich wie bei der laufenden Fassung gleichmäßig. */
-  .marke-b{
-    /* Die Höhe des Textblocks ist gerechnet statt gemessen: Zeile von ELCON
-       plus Abstand plus Zeile der Unterzeile, alle mit line-height 1. Ein
-       gestrecktes Quadrat würde sich stattdessen an der Kopfzeile ausrichten,
-       nicht am Text. */
-    /* Der Würfel reicht genau von der Oberkante der Versalien von ELCON bis
-       zur Unterkante von GEBÄUDETECHNIK — nicht von Zeilenkasten zu
-       Zeilenkasten. Zwischen beiden liegt der Durchschuss der Schrift: Die
-       Versalien beginnen 0,151 em unter der Oberkante ihres Kastens, die
-       Grundlinie der Unterzeile liegt 1,177 em darunter. Beide Werte sind an
-       der gesetzten Schrift gemessen, nicht geschätzt.
-
-       Damit sie gültig bleiben, hängen Schriftgröße und Abstand der
-       Unterzeile an der Größe der Wortmarke statt an festen rem-Werten — so
-       wächst die ganze Marke im selben Verhältnis. */
-    font-size:var(--marke-wort);
-    --marke-b-versatz:.1508em;
-    --marke-b-hoehe:1.1769em;
-    display:inline-flex;align-items:flex-start;align-self:center;gap:.5rem;
-    margin-left:1.6rem;padding-left:1.6rem;border-left:1px solid var(--border);
-  }
-  .marke-b-zeichen{height:var(--marke-b-hoehe);width:var(--marke-b-hoehe);margin-top:var(--marke-b-versatz);flex:none;display:block;}
-  .marke-b-text{display:flex;flex-direction:column;line-height:1;}
-  .marke-b-wort{
-    font-family:var(--schrift-titel);font-weight:800;
-    font-size:var(--marke-wort);letter-spacing:.01em;color:var(--forest);
-  }
-  .marke-b-unterzeile{
-    display:flex;justify-content:space-between;
-    font-size:calc(var(--marke-wort) * .284);font-weight:700;letter-spacing:0;line-height:1;
-    text-transform:uppercase;color:var(--copper);margin-top:calc(var(--marke-wort) * .0864);
-  }
-  /* Nebeneinander haben zwei Marken erst ab dieser Breite Platz. */
-  @media (max-width:1100px){ .marke-b{display:none;} }
 
   .lang-toggle{display:flex;gap:.35rem;font-size:.78rem;font-weight:600;align-items:center;}
   /* Der Umschalter besteht seit der englischen Fassung aus echten Verweisen
@@ -817,7 +753,7 @@ html, body { overflow-x: clip; }
        Die Unterzeile bricht um, die Kopfzeile wächst, und das ausklappende
        Menü beginnt hinter ihr. Unterzeile und Abstand werden deshalb
        schmaler — die Kopfhöhe folgt der Ableitung von selbst. */
-    :root{--marke-unterzeile:.56rem;}
+    :root{--marke-unterzeile:.4rem;}
     .brand-tagline{white-space:nowrap;}
     .nav-row{gap:.8rem;}
   }

@@ -41,7 +41,7 @@ export const company = {
    */
   whatsapp: '4915222580164',
   /** Dieselbe Nummer in lesbarer Schreibweise. */
-  whatsappLesbar: '+49 152 225 801 64',
+  whatsappLesbar: '+49 (0) 152 - 22 58 01 64',
 
   /* ------------------------------------------------------------------ *
    * Pflichtangaben nach § 5 DDG — noch nicht belegt.
@@ -245,6 +245,27 @@ export interface Ansprechpartner {
  */
 export const ansprechpartner: Ansprechpartner[] = [
   {
+    id: 'deiters',
+    vorname: 'Klaus-Jürgen',
+    nachname: 'Deiters',
+    funktion: 'Geschäftsführer',
+    funktionEn: 'Managing Director',
+    bereich: null,
+    bereichEn: null,
+    telefon: company.phone,
+    telefonHref: company.phoneHref,
+    email: null,
+    /* Kein freigegebenes Foto vorhanden. Die Komponente setzt dann die
+       Initialen; ein KI-erzeugtes Portrait kommt nicht in Frage. */
+    foto: null,
+    sprachen: [],
+    aufKontaktseite: true,
+    imFooter: false,
+    leistungsbereiche: [],
+    aktiv: true,
+    veroeffentlichungsfreigabe: true,
+  },
+  {
     id: 'geisler',
     vorname: 'Lisa',
     nachname: 'Geisler',
@@ -253,7 +274,7 @@ export const ansprechpartner: Ansprechpartner[] = [
     bereich: null,
     bereichEn: null,
     /* Mobilnummer; über sie läuft auch der WhatsApp-Verweis der Website. */
-    telefon: '+49 152 225 801 64',
+    telefon: '+49 (0) 152 - 22 58 01 64',
     telefonHref: '+4915222580164',
     email: null,
     /* Kein freigegebenes Foto vorhanden; die Komponente setzt die Initialen. */
@@ -273,33 +294,10 @@ export const ansprechpartner: Ansprechpartner[] = [
     funktionEn: 'Project Assistant',
     bereich: null,
     bereichEn: null,
-    telefon: '+49 162 180 907 8',
+    telefon: '+49 (0) 162 - 18 09 07 8',
     telefonHref: '+491621809078',
     email: null,
     /* Kein freigegebenes Foto vorhanden; die Komponente setzt die Initialen. */
-    foto: null,
-    sprachen: [],
-    aufKontaktseite: true,
-    imFooter: false,
-    leistungsbereiche: [],
-    aktiv: true,
-    veroeffentlichungsfreigabe: true,
-  },
-  {
-    id: 'deiters',
-    vorname: 'Klaus-Jürgen',
-    nachname: 'Deiters',
-    funktion: 'Geschäftsführer',
-    funktionEn: 'Managing Director',
-    bereich: null,
-    bereichEn: null,
-    /* Die Erreichbarkeit laeuft ueber die Projektassistenz; an der
-       Geschaeftsfuehrung stehen deshalb bewusst keine Kontaktdaten. */
-    telefon: null,
-    telefonHref: null,
-    email: null,
-    /* Kein freigegebenes Foto vorhanden. Die Komponente setzt dann die
-       Initialen; ein KI-erzeugtes Portrait kommt nicht in Frage. */
     foto: null,
     sprachen: [],
     aufKontaktseite: true,
