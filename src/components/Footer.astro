@@ -83,7 +83,7 @@ const land = lang === 'de' ? company.country : company.countryEn;
         </li>
         <li>
           <span>{f.whatsapp}</span>
-          <a href={`https://wa.me/${company.whatsapp}`} target="_blank" rel="noopener">{company.whatsappLesbar}</a>
+          <a href={`https://wa.me/${company.whatsapp}`} target="_blank" rel="noopener">{f.whatsappLink}</a>
         </li>
       </ul>
       <a class="cta-btn primary footer-cta" href={pfad('/kontakt/', lang)}>{f.cta}</a>
