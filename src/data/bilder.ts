@@ -148,7 +148,7 @@ export const BILDREGISTER: Bildeintrag[] = [
   { datei: 'unternehmen/tga-gebaeudetechnik.png', art: 'ungeklaert', beleg: 'Keine Metadaten, derzeit nicht eingebunden.', verwendet: false, ersatzEmpfohlen: false, einsatzort: null, bezug: null, rechteinhaber: null, nutzungsfreigabe: 'offen', veroeffentlichungsfreigabe: 'offen', ersatzPrioritaet: null },
 
   /* --- Eigene Grafik ---------------------------------------------------- */
-  { datei: 'logo-icon-v2.png', art: 'grafik', beleg: 'Bildmarke der ELCON LED GmbH.', verwendet: true, ersatzEmpfohlen: false, einsatzort: 'Kopf- und Fußzeile', bezug: 'Bildmarke', rechteinhaber: 'ELCON LED GmbH', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: null },
+  { datei: 'logo-icon-v2.png', art: 'grafik', beleg: 'Bildmarke der ELCON LED GmbH. Seit der Umstellung auf die neue Bildmarke nicht mehr eingebunden.', verwendet: false, ersatzEmpfohlen: false, einsatzort: 'Kopf- und Fußzeile', bezug: 'Bildmarke', rechteinhaber: 'ELCON LED GmbH', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: null },
   { datei: 'og-vorschau.png', art: 'grafik', beleg: 'Vorschaubild für geteilte Links.', verwendet: true, ersatzEmpfohlen: false, einsatzort: 'Vorschaubild geteilter Links', bezug: 'Bildmarke', rechteinhaber: 'ELCON LED GmbH', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: null },
 ];
 

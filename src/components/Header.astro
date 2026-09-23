@@ -1,6 +1,5 @@
 ---
-import { Image } from 'astro:assets';
-import logoIcon from '../assets/logo-icon-v2.png';
+import LogoZeichen from './LogoZeichen.astro';
 import { getLang, UI, LANGS, anderePfad, pfad } from '../i18n/ui';
 
 /* Die Navigation markiert die aktive Seite serverseitig. Astro.url.pathname
@@ -28,10 +27,10 @@ const isActive = (href: string) => path === href.replace(/\/+$/, '');
 <header class="site">
   <div class="wrap nav-row">
     <a href={pfad('/', lang)} class="brand" aria-label={t.zurStartseite}>
-      <Image src={logoIcon} class="hex-mark" alt="ELCON Icon" loading="eager" />
+      <LogoZeichen class="marke-zeichen" />
       <span class="brand-text">
         <span class="brand-word">ELCON</span>
-        <span class="brand-tagline">Connected Engineering</span>
+        <span class="brand-tagline">Gebäudetechnik</span>
       </span>
     </a>
 

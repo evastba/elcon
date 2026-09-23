@@ -1,6 +1,5 @@
 ---
-import { Image } from 'astro:assets';
-import logoIcon from '../assets/logo-icon-v2.png';
+import LogoZeichen from './LogoZeichen.astro';
 import Ansprechpartner from './Ansprechpartner.astro';
 import { sichtbarePartner } from '../data/partner';
 import { company, analyticsEnabled, ortZeile } from '../config';
@@ -33,10 +32,10 @@ const land = lang === 'de' ? company.country : company.countryEn;
   <div class="wrap footer-grid">
     <div class="footer-marke">
       <a href={start} class="brand">
-        <Image src={logoIcon} class="hex-mark" alt="ELCON Icon" />
+        <LogoZeichen class="marke-zeichen" />
         <span class="brand-text">
           <span class="brand-word">ELCON</span>
-          <span class="brand-tagline">Connected Engineering</span>
+          <span class="brand-tagline">Gebäudetechnik</span>
         </span>
       </a>
       <p class="footer-firma">{company.name}</p>

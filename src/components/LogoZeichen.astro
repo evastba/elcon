@@ -1,0 +1,50 @@
+---
+/* Bildmarke der ELCON: orangefarbenes Quadrat mit weißer Treppe.
+ *
+ * Nachgebaut als Vektor, nicht als Pixelbild. Die Geometrie ist am
+ * eingebetteten Bild der Vorlage (1588 × 344 Pixel) vermessen: Das Quadrat
+ * misst dort 341 Pixel, die neun Rasterfelder je 65 Pixel bei 5,57 Prozent
+ * Abstand. Im Original sitzt das Raster um rund 1,8 Einheiten nach links oben
+ * versetzt — ein Rundungsfehler der Rasterung, kein Gestaltungsmerkmal,
+ * deshalb steht es hier mittig.
+ *
+ * Die Farben stammen ebenfalls aus der Vorlage und sind identisch mit denen
+ * der Hauspalette: #D76B24 und Weiß.
+ */
+interface Props {
+  /** Zusätzliche Klasse für die Größensteuerung. */
+  class?: string;
+  /** Alternativtext; leer, wenn daneben bereits „ELCON" steht. */
+  titel?: string;
+}
+
+const { class: klasse, titel } = Astro.props;
+
+/* Rasterschritt: Feldbreite plus Abstand. */
+const feld = 19.06;
+const schritt = 24.63;
+const rand = 15.84;
+const pos = [rand, rand + schritt, rand + 2 * schritt];
+
+/* Die weißen Felder bilden eine ansteigende Treppe: oben eines, in der Mitte
+   zwei, unten drei. */
+const treppe: Array<[number, number]> = [
+  [0, 2],
+  [1, 1], [1, 2],
+  [2, 0], [2, 1], [2, 2],
+];
+---
+
+<svg
+  class={klasse}
+  viewBox="0 0 100 100"
+  xmlns="http://www.w3.org/2000/svg"
+  role={titel ? 'img' : 'presentation'}
+  aria-hidden={titel ? undefined : 'true'}
+>
+  {titel && <title>{titel}</title>}
+  <rect width="100" height="100" fill="#D76B24" />
+  {treppe.map(([zeile, spalte]) => (
+    <rect x={pos[spalte]} y={pos[zeile]} width={feld} height={feld} fill="#FFFFFF" />
+  ))}
+</svg>

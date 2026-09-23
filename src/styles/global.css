@@ -192,12 +192,16 @@ html, body { overflow-x: clip; }
   /* Das Zeichen schließt oben und unten mit dem Namensblock ab; die Breite folgt
      dem Seitenverhältnis der Datei (450×495). Zuvor stand hier ein Quadrat, das
      das Sechseck um rund ein Zehntel in die Breite zog. */
-  .hex-mark{height:var(--marke-zeichenhoehe);width:auto;flex:none;}
+  /* Das Zeichen ist quadratisch; Breite und Höhe laufen deshalb gemeinsam
+     mit der Schriftgröße der Wortmarke. */
+  .marke-zeichen{height:var(--marke-zeichenhoehe);width:var(--marke-zeichenhoehe);flex:none;display:block;}
   .brand-text{display:flex;flex-direction:column;line-height:1;}
-  .brand-word{font-weight:800;font-size:var(--marke-wort);letter-spacing:.01em;color:var(--text);}
+  /* Farben aus der Logovorlage: Der Schriftzug steht im Grün der Palette,
+     die Unterzeile im Navy — beide Werte stimmen dort exakt überein. */
+  .brand-word{font-weight:800;font-size:var(--marke-wort);letter-spacing:.01em;color:var(--forest);}
   /* Die Unterzeile der Marke bleibt petrol — sie schreibt das Zeichen fort,
      ohne mit den grünen Bedienelementen zu konkurrieren. */
-  .brand-tagline{font-size:var(--marke-unterzeile);font-weight:600;letter-spacing:.11em;text-transform:uppercase;color:var(--farbe-ruhig);margin-top:var(--marke-abstand);}
+  .brand-tagline{font-size:var(--marke-unterzeile);font-weight:600;letter-spacing:.11em;text-transform:uppercase;color:var(--navy);margin-top:var(--marke-abstand);}
 
   nav.primary{display:flex;gap:1.9rem;}
   nav.primary a{
@@ -354,7 +358,8 @@ html, body { overflow-x: clip; }
 
   /* --- Vertrauenskennzahlen ----------------------------------------------- */
   .kennzahlen-band{padding-block:0;}
-  .kennzahlen-band .wrap{padding-block:.4rem 1.8rem;}
+  /* Doppelter Abstand zum Bannerbild: Die Zeile soll nicht am Bild kleben. */
+  .kennzahlen-band .wrap{padding-block:.8rem 1.8rem;}
   /* Überschrift des Vertrauensabschnitts — sie gilt für die Kennzahlen und
      die Logo-Laufschrift darunter gemeinsam. */
   /* Zurückhaltend gesetzt: Die Zeile ordnet den Abschnitt ein und soll der
