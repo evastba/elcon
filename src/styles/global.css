@@ -678,7 +678,7 @@ html, body { overflow-x: clip; }
   .footer-wege li{display:flex;flex-direction:column;gap:.05rem;}
   .footer-wege span{
     font-size:.92rem;font-weight:400;letter-spacing:0;text-transform:none;
-    color:var(--farbe-aktion);line-height:1.45;
+    color:var(--text-muted);line-height:1.45;
   }
   .footer-wege a{font-size:.92rem;font-weight:400;line-height:1.45;overflow-wrap:anywhere;}
   /* Der Knopf stand direkt an den Kontaktangaben und war mit 16 Pixeln
@@ -1519,9 +1519,7 @@ html, body { overflow-x: clip; }
   .footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1.1fr;gap:2.4rem;align-items:start;padding-block:2.6rem;}
   /* Die Listenabstände stehen bei den Spalten selbst (.footer-gruppe,
      .footer-wege). Hier nur, was für alle gilt. */
-  /* Die Einträge unter den Kategorien stehen im Grün der Marke — Verweise
-     wie Kontaktangaben, damit die drei Spalten gleich aussehen. */
-  .footer-grid a{text-decoration:none;color:var(--farbe-aktion);}
+  .footer-grid a{text-decoration:none;color:var(--text-muted);}
   .footer-grid a:not(.cta-btn):hover{color:var(--accent-3);}
   .footer-bottom{border-top:1px solid var(--border);padding-block:1.2rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:.8rem;font-size:.8rem;color:var(--text-muted);}
 
