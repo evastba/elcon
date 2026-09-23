@@ -99,10 +99,17 @@ html, body { overflow-x: clip; }
     --farbe-aktion:var(--forest);
     --farbe-akzent:var(--copper);
     --farbe-ruhig:var(--teal);
-    /* Schaltflächen stehen in Petrol, nicht im Grün der übrigen
+    /* Schaltflächen stehen in Kupfer, nicht im Grün der übrigen
        Bedienelemente: Auf einer Seite voller grüner Verweise heben sie sich
-       so als eigene Gattung ab. Weiß darauf erreicht 5,09:1. */
-    --farbe-knopf:var(--teal);
+       so als eigene Gattung ab.
+
+       Der Ton ist gegenüber dem Palettenkupfer um eine Stufe abgedunkelt.
+       #D76B24 erreicht mit Weiß darauf nur 3,49:1 und bliebe damit unter den
+       4,5:1, die eine Knopfbeschriftung dieser Größe braucht; derselbe Wert
+       gilt für den Knopf mit Umriss, dessen Schrift auf Weiß steht. Diese
+       Fassung kommt auf 4,55:1 und ist vom Palettenton kaum zu
+       unterscheiden. */
+    --farbe-knopf:#BC5A1B;
     /* Aufgehelltes Kupfer für dunkle Flächen. Der Ton der Palette erreicht
        auf dem Einstiegsbanner gemessen nur 2,9 bis 3,2:1 und bliebe damit
        unter der Schwelle von 4,5:1 für Text dieser Größe; diese Fassung
