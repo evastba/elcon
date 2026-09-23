@@ -46,26 +46,9 @@
    Seite auf. Rein defensiv, ändert nichts am sichtbaren Design. */
 html, body { overflow-x: clip; }
 
-  /* Chinesisch: die verbreiteten Systemschriften der drei großen Plattformen,
-     danach die freien Noto-Fassungen. */
-  html[lang^="zh"]{
-    --schrift-text:'PingFang SC','Hiragino Sans GB','Microsoft YaHei','Noto Sans CJK SC','Source Han Sans SC',sans-serif;
-    --schrift-titel:'PingFang SC','Hiragino Sans GB','Microsoft YaHei','Noto Sans CJK SC','Source Han Sans SC',sans-serif;
-  }
-  /* Arabisch: Systemschriften mit arabischer Deckung. Tahoma steht am Ende,
-     weil ältere Windows-Fassungen sonst auf eine Schrift ohne Ligaturen
-     zurückfallen. */
-  html[lang="ar"]{
-    --schrift-text:'SF Arabic','Geeza Pro','Segoe UI','Noto Sans Arabic','Dubai',Tahoma,sans-serif;
-    --schrift-titel:'SF Arabic','Geeza Pro','Segoe UI','Noto Sans Arabic','Dubai',Tahoma,sans-serif;
-  }
-
   :root{
-    /* Die selbst gehosteten Schriften decken nur Latein ab (siehe die
-       unicode-range der @font-face-Regeln). Für Sprachen mit anderer Schrift
-       tritt weiter unten eine passende Systemschrift an ihre Stelle: Ein
-       vollständiger CJK- oder Arabisch-Webfont wiegt mehrere Megabyte und
-       stünde in keinem Verhältnis zum Nutzen. */
+    /* Die Schriftfamilien stehen als Variablen, damit sie sich an einer
+       Stelle austauschen lassen. */
     --schrift-text:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
     --schrift-titel:'Manrope',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
     /* ------------------------------------------------------------------ *
@@ -104,8 +87,9 @@ html, body { overflow-x: clip; }
      * Rollen
      *
      * Grün trägt die Bedienelemente und damit den größten Teil der Fläche.
-     * Kupfer setzt einzelne Marken — Wabe der Dachzeile, Pflichtfeld,
-     * aktiver Punkt im Karussell, Sterne, Fehlermeldung. Petrol begleitet
+     * Kupfer setzt einzelne kleine Marken — Wabe der Dachzeile, Pflichtfeld,
+     * aktiver Punkt im Karussell, Sterne, Fehlermeldung — und bleibt vom
+     * Fließtext fern, weil es auf Weiß nur 3,49:1 erreicht. Petrol begleitet
      * zurückhaltend und steht nur noch dort, wo es die Marke fortschreibt.
      * ------------------------------------------------------------------ */
     --farbe-aktion:var(--forest);
@@ -349,12 +333,9 @@ html, body { overflow-x: clip; }
     padding-block:1.5rem;
   }
   .kennzahl{margin:0;}
-  /* Die vier Zahlen sind die zweite Kupfermarke der Seite. Sie sind groß und
-     halbfett gesetzt und erreichen damit die Schwelle, ab der 3:1 Kontrast
-     genügt — für Fließtext wäre Kupfer auf Weiß zu schwach. */
   .kennzahl-wert{
     font-family:var(--schrift-titel);font-weight:800;
-    font-size:clamp(1.6rem,3vw,2.1rem);line-height:1.1;color:var(--farbe-akzent);
+    font-size:clamp(1.6rem,3vw,2.1rem);line-height:1.1;color:var(--slate);
   }
   .kennzahl-label{
     margin:.35rem 0 0;font-size:.88rem;line-height:1.45;color:var(--text-muted);
