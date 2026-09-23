@@ -99,6 +99,11 @@ html, body { overflow-x: clip; }
     --farbe-aktion:var(--forest);
     --farbe-akzent:var(--copper);
     --farbe-ruhig:var(--teal);
+    /* Aufgehelltes Kupfer für dunkle Flächen. Der Ton der Palette erreicht
+       auf dem Einstiegsbanner gemessen nur 2,9 bis 3,2:1 und bliebe damit
+       unter der Schwelle von 4,5:1 für Text dieser Größe; diese Fassung
+       kommt auf rund 5:1 und hält denselben Farbton. */
+    --farbe-akzent-hell:#F0A468;
 
     --surface:var(--white);
     --surface-alt:var(--offwhite);
@@ -199,7 +204,9 @@ html, body { overflow-x: clip; }
     font-size:.94rem;font-weight:500;text-decoration:none;color:var(--text-muted);
     padding-block:.25rem;border-bottom:2px solid transparent;
   }
-  nav.primary a:hover{color:var(--text);border-color:var(--accent-3);}
+  /* Der Unterstrich der Menüpunkte ist die Kupfermarke des Kopfbereichs —
+     beim Überfahren wie auf der aktuellen Seite. */
+  nav.primary a:hover{color:var(--text);border-color:var(--farbe-akzent);}
 
   .lang-toggle{display:flex;gap:.35rem;font-size:.78rem;font-weight:600;align-items:center;}
   /* Der Umschalter besteht seit der englischen Fassung aus echten Verweisen
@@ -341,7 +348,7 @@ html, body { overflow-x: clip; }
 
   /* --- Einstieg ----------------------------------------------------------- */
   .hero-vertrauen{
-    margin:0 0 1.4rem;font-size:.9rem;font-weight:600;color:#9FD8AE;
+    margin:0 0 1.4rem;font-size:.9rem;font-weight:600;color:var(--farbe-akzent-hell);
     letter-spacing:.01em;
   }
 
@@ -1023,7 +1030,11 @@ html, body { overflow-x: clip; }
     color:var(--text-muted);margin-bottom:1.4rem;text-decoration:none;
   }
   .subpage-back:hover{color:var(--accent-3);}
-  nav.primary a.is-active{color:var(--accent-3);}
+  /* Die aktuelle Seite trug bisher nur eine grüne Schrift und keinen
+     Unterstrich. Jetzt markiert sie derselbe Strich wie beim Überfahren,
+     die Schrift steht dafür in Textfarbe — zwei Akzentfarben auf einem
+     Element wären unruhig. */
+  nav.primary a.is-active{color:var(--text);border-color:var(--farbe-akzent);}
   nav.primary .nav-drop{position:relative;display:flex;}
   nav.primary .nav-drop-menu{
     position:absolute;top:100%;left:-.7rem;background:var(--surface-raised);border:1px solid var(--border);box-shadow:var(--shadow);padding:.4rem;display:flex;flex-direction:column;gap:.1rem;
