@@ -208,6 +208,9 @@ html, body { overflow-x: clip; }
   /* Marke: oben Würfel und Schriftzug nebeneinander, darunter die Unterzeile
      über die gesamte Breite dieser Zeile. */
   .brand{display:inline-flex;flex-direction:column;align-items:stretch;text-decoration:none;color:var(--text);margin-right:auto;}
+  /* Solange die Vergleichsfassung daneben steht, gibt die erste Marke den
+     Ausdehner an sie ab. */
+  header.site .brand:has(+ .marke-b){margin-right:0;}
   /* line-height:1, damit der Durchschuss der Grundschrift die beiden Zeilen
      der Marke nicht auseinanderzieht. */
   .marke-zeile{display:flex;align-items:center;gap:.5rem;line-height:1;}
@@ -256,6 +259,44 @@ html, body { overflow-x: clip; }
   /* Der Unterstrich der Menüpunkte ist die Kupfermarke des Kopfbereichs —
      beim Überfahren wie auf der aktuellen Seite. */
   nav.primary a:hover{color:var(--text);border-color:var(--farbe-akzent);}
+
+  /* Vergleichsfassung der Marke im Kopfbereich.
+
+     Unterschied zur laufenden Fassung: Der Würfel reicht über beide Zeilen
+     statt nur über die Versalien, und die Unterzeile steht im Orange des
+     Würfels und füllt genau die Breite von ELCON statt der ganzen Marke.
+     Damit sie das trifft, ist sie deutlich kleiner gesetzt; der Zwischenraum
+     verteilt sich wie bei der laufenden Fassung gleichmäßig. */
+  .marke-b{
+    /* Die Höhe des Textblocks ist gerechnet statt gemessen: Zeile von ELCON
+       plus Abstand plus Zeile der Unterzeile, alle mit line-height 1. Ein
+       gestrecktes Quadrat würde sich stattdessen an der Kopfzeile ausrichten,
+       nicht am Text. */
+    /* Der Würfel misst knapp die Hälfte des Textblocks und steht mittig
+       daneben; der Abstand der beiden Zeilen entspricht dem der laufenden
+       Marke. */
+    --marke-b-textblock:calc(var(--marke-wort) + .14rem + .46rem);
+    --marke-b-hoehe:calc(var(--marke-b-textblock) * .45);
+    display:inline-flex;align-items:center;align-self:center;gap:.5rem;
+    margin-left:1.6rem;padding-left:1.6rem;border-left:1px solid var(--border);
+    /* Der freie Raum sammelt sich hinter der Vergleichsfassung, damit beide
+       Marken links beieinander stehen. Ohne das schöbe der Ausdehner der
+       ersten Marke die zweite an die Navigation heran. */
+    margin-right:auto;
+  }
+  .marke-b-zeichen{height:var(--marke-b-hoehe);width:var(--marke-b-hoehe);flex:none;display:block;}
+  .marke-b-text{display:flex;flex-direction:column;line-height:1;}
+  .marke-b-wort{
+    font-family:var(--schrift-titel);font-weight:800;
+    font-size:var(--marke-wort);letter-spacing:.01em;color:var(--forest);
+  }
+  .marke-b-unterzeile{
+    display:flex;justify-content:space-between;
+    font-size:.46rem;font-weight:700;letter-spacing:0;line-height:1;
+    text-transform:uppercase;color:var(--copper);margin-top:.14rem;
+  }
+  /* Nebeneinander haben zwei Marken erst ab dieser Breite Platz. */
+  @media (max-width:1100px){ .marke-b{display:none;} }
 
   .lang-toggle{display:flex;gap:.35rem;font-size:.78rem;font-weight:600;align-items:center;}
   /* Der Umschalter besteht seit der englischen Fassung aus echten Verweisen
@@ -905,20 +946,31 @@ html, body { overflow-x: clip; }
      ihre Eigenfarben mit dem Abschnittshintergrund. */
   .partner-liste{
     list-style:none;margin:0;padding:0;
-    display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;
+    /* Sechs Spalten statt drei, jede Kachel über zwei: Das ergibt dieselbe
+       Kachelbreite wie ein Dreierraster, lässt eine unvollständige letzte
+       Reihe aber um eine halbe Kachel versetzt beginnen und damit mittig
+       stehen. */
+    display:grid;grid-template-columns:repeat(6,1fr);gap:1.2rem;
   }
   .partner-karte{
     display:flex;flex-direction:column;gap:1rem;
     background:var(--surface-raised);border:1px solid var(--border);
     padding:1.4rem 1.5rem;
   }
-  /* Bleibt in der zweiten Reihe eine einzelne Kachel übrig, steht sie in der
-     mittleren Spalte statt links außen. Die Regel greift nur bei genau vier
-     Einträgen — bei drei oder sechs ist die Reihe ohnehin voll. */
-  .partner-karte:nth-child(4):last-child{grid-column:2;}
+  .partner-karte{grid-column:span 2;}
+  /* Unvollständige letzte Reihe: Eine einzelne Kachel rückt in die Mitte,
+     zwei Kacheln rücken um eine halbe Kachelbreite ein. Die Regeln greifen
+     nur bei genau vier beziehungsweise fünf Einträgen — bei drei oder sechs
+     ist die Reihe ohnehin voll. */
+  .partner-karte:nth-child(4):last-child{grid-column:3 / span 2;}
+  .partner-karte:nth-child(4):nth-last-child(2){grid-column:2 / span 2;}
+  .partner-karte:nth-child(5):last-child{grid-column:4 / span 2;}
   @media (max-width:1100px){
     .partner-liste{grid-template-columns:repeat(2,1fr);}
-    .partner-karte:nth-child(4):last-child{grid-column:auto;}
+    .partner-karte,
+    .partner-karte:nth-child(4):last-child,
+    .partner-karte:nth-child(4):nth-last-child(2),
+    .partner-karte:nth-child(5):last-child{grid-column:auto;}
   }
   @media (max-width:640px){ .partner-liste{grid-template-columns:1fr;} }
   .partner-logo{

@@ -41,6 +41,21 @@ const isActive = (href: string) => path === href.replace(/\/+$/, '');
       </span>
     </a>
 
+    {/* Vergleichsfassung der Marke, ausschließlich im Kopfbereich und
+        ausschließlich zur Ansicht: Der Würfel reicht hier über beide Zeilen,
+        die Unterzeile steht im Orange des Würfels und füllt genau die Breite
+        von ELCON. Für Vorleseprogramme ist sie ausgeblendet — zwei Marken
+        nebeneinander wären dort nur verwirrend. */}
+    <span class="marke-b" aria-hidden="true">
+      <LogoZeichen class="marke-b-zeichen" />
+      <span class="marke-b-text">
+        <span class="marke-b-wort">ELCON</span>
+        <span class="marke-b-unterzeile">
+          {'GEBÄUDETECHNIK'.split('').map((z) => <span>{z}</span>)}
+        </span>
+      </span>
+    </span>
+
     <input type="checkbox" id="menuToggle" class="menu-toggle">
     <label for="menuToggle" class="menu-toggle-label" aria-label={t.menueOeffnen}>
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><path d="M2 5h16M2 10h16M2 15h16"/></svg>
