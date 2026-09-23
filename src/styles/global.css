@@ -110,6 +110,8 @@ html, body { overflow-x: clip; }
        Fassung kommt auf 4,55:1 und ist vom Palettenton kaum zu
        unterscheiden. */
     --farbe-knopf:#BC5A1B;
+    /* Kante des gefüllten Knopfes, eine Stufe dunkler als seine Fläche. */
+    --farbe-knopf-kante:#8F430F;
     /* Aufgehelltes Kupfer für dunkle Flächen. Der Ton der Palette erreicht
        auf dem Einstiegsbanner gemessen nur 2,9 bis 3,2:1 und bliebe damit
        unter der Schwelle von 4,5:1 für Text dieser Größe; diese Fassung
@@ -275,7 +277,11 @@ html, body { overflow-x: clip; }
     padding:.72rem 1.3rem;text-decoration:none;border:1.5px solid transparent;
     cursor:pointer;font:inherit;
   }
-  .cta-btn.primary{background:var(--farbe-knopf);color:var(--accent-ink);}
+  /* Auch der gefüllte Knopf trägt einen sichtbaren Rahmen, damit alle drei
+     Knopfarten dieselbe gefasste Kante zeigen. Der Rahmen steht eine Stufe
+     dunkler als die Fläche: Ein heller Rand verwässerte auf weißem Grund nur
+     den Rand der Fläche. */
+  .cta-btn.primary{background:var(--farbe-knopf);color:var(--accent-ink);border-color:var(--farbe-knopf-kante);}
   .cta-btn.primary:hover{filter:brightness(1.1);}
   .cta-btn.ghost{background:transparent;border-color:var(--border);color:var(--text);}
   .cta-btn.ghost:hover{border-color:var(--farbe-knopf);color:var(--farbe-knopf);}
