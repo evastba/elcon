@@ -110,8 +110,8 @@ html, body { overflow-x: clip; }
        Fassung kommt auf 4,55:1 und ist vom Palettenton kaum zu
        unterscheiden. */
     --farbe-knopf:#BC5A1B;
-    /* Kante des gefüllten Knopfes, eine Stufe dunkler als seine Fläche. */
-    --farbe-knopf-kante:#8F430F;
+    /* Der gefüllte Knopf trägt denselben Rand wie die durchsichtigen. */
+    --farbe-knopf-rand:var(--hellgrau);
     /* Aufgehelltes Kupfer für dunkle Flächen. Der Ton der Palette erreicht
        auf dem Einstiegsbanner gemessen nur 2,9 bis 3,2:1 und bliebe damit
        unter der Schwelle von 4,5:1 für Text dieser Größe; diese Fassung
@@ -231,14 +231,17 @@ html, body { overflow-x: clip; }
      selbst keinen Text enthält. Der Faktor lässt ihn etwas darüber
      hinausragen; ältere Browser ohne cap-Einheit bekommen einen festen Anteil
      als Ersatz. */
+  /* Faktor 1: Der Würfel ist genau so hoch wie die Versalien und schließt
+     oben wie unten bündig mit dem E von ELCON ab. */
   .marke-zeichen{
-    --zeichen-faktor:1.18;
+    --zeichen-faktor:1;
     font-family:var(--schrift-titel);font-size:var(--marke-wort);
     height:calc(.72em * var(--zeichen-faktor));
     width:calc(.72em * var(--zeichen-faktor));
     /* Die Oberkante liegt auf der Oberkante der Versalien von ELCON. Die
        beginnen 0,151 em unter der Oberkante ihres Zeilenkastens — an der
-       gesetzten Schrift gemessen, derselbe Wert wie in der Vergleichsfassung. */
+       gesetzten Schrift gemessen. Mit Faktor 1 endet der Würfel dadurch
+       zugleich auf der Grundlinie. */
     margin-top:.1508em;
     flex:none;display:block;
   }
@@ -332,11 +335,13 @@ html, body { overflow-x: clip; }
     padding:.72rem 1.3rem;text-decoration:none;border:1.5px solid transparent;
     cursor:pointer;font:inherit;
   }
-  /* Auch der gefüllte Knopf trägt einen sichtbaren Rahmen, damit alle drei
-     Knopfarten dieselbe gefasste Kante zeigen. Der Rahmen steht eine Stufe
-     dunkler als die Fläche: Ein heller Rand verwässerte auf weißem Grund nur
-     den Rand der Fläche. */
-  .cta-btn.primary{background:var(--farbe-knopf);color:var(--accent-ink);border-color:var(--farbe-knopf-kante);}
+  /* Alle drei Knopfarten tragen denselben hellen Rand. */
+  /* Die Schriftfarbe steht auch im Überfahren fest. Ohne das gewinnen die
+     allgemeinen Verweis-Zustände der Umgebung — in der Fußzeile und im
+     Kontaktblock wurde die Beschriftung dadurch grün. */
+  .cta-btn.primary,
+  .cta-btn.primary:hover,
+  .cta-btn.primary:focus-visible{background:var(--farbe-knopf);color:var(--accent-ink);border-color:var(--farbe-knopf-rand);}
   .cta-btn.primary:hover{filter:brightness(1.1);}
   .cta-btn.ghost{background:transparent;border-color:var(--border);color:var(--text);}
   .cta-btn.ghost:hover{border-color:var(--farbe-knopf);color:var(--farbe-knopf);}
@@ -882,7 +887,7 @@ html, body { overflow-x: clip; }
   .kontaktperson-wege li{font-size:.92rem;line-height:1.5;}
   /* Lange Adressen müssen auf schmalen Geräten umbrechen dürfen. */
   .kontaktperson-wege a{color:var(--text);text-decoration:none;overflow-wrap:anywhere;}
-  .kontaktperson-wege a:hover{color:var(--accent-3);text-decoration:underline;}
+  .kontaktperson-wege a:not(.cta-btn):hover{color:var(--accent-3);text-decoration:underline;}
   .kontaktperson-sprachen{color:var(--text-muted);font-size:.85rem;}
 
   /* Im Unternehmensabschnitt folgt der Verweis auf die Unternehmensseite
@@ -1478,7 +1483,7 @@ html, body { overflow-x: clip; }
   .contact-info h3{font-size:1.1rem;font-weight:700;margin:1.6rem 0 .5rem;}
   .contact-info h3:first-child{margin-top:0;}
   .contact-info a{text-decoration:none;color:var(--text);}
-  .contact-info a:hover{color:var(--accent-3);}
+  .contact-info a:not(.cta-btn):hover{color:var(--accent-3);}
   .contact-list{list-style:none;margin:0;padding:0;font-size:.96rem;line-height:1.8;color:var(--text-muted);}
   .contact-info a.whatsapp-link{display:inline-flex;align-items:center;gap:.65rem;text-decoration:none;background:var(--surface-raised);border:1px solid var(--border);color:var(--ink);font-weight:700;font-size:.92rem;padding:.6rem .95rem .6rem .6rem;margin-top:1.3rem;transition:border-color .15s,transform .15s;}
   .contact-info a.whatsapp-link:hover{border-color:#25D366;color:var(--ink);@apply motion-safe:-translate-y-0.5;}
@@ -1511,7 +1516,7 @@ html, body { overflow-x: clip; }
   /* Die Listenabstände stehen bei den Spalten selbst (.footer-gruppe,
      .footer-wege). Hier nur, was für alle gilt. */
   .footer-grid a{text-decoration:none;color:var(--text-muted);}
-  .footer-grid a:hover{color:var(--accent-3);}
+  .footer-grid a:not(.cta-btn):hover{color:var(--accent-3);}
   .footer-bottom{border-top:1px solid var(--border);padding-block:1.2rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:.8rem;font-size:.8rem;color:var(--text-muted);}
 
   /* Cookie-Consent-Banner */
