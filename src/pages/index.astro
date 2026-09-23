@@ -8,7 +8,6 @@ import WarumElcon from '../components/WarumElcon.astro';
 import Projektablauf from '../components/Projektablauf.astro';
 import Leistungsfinder from '../components/Leistungsfinder.astro';
 import Ansprechpartner from '../components/Ansprechpartner.astro';
-import Partnerunternehmen from '../components/Partnerunternehmen.astro';
 import { asset } from '../lib/assets';
 import { getLang, pfad } from '../i18n/ui';
 import { STARTSEITE } from '../i18n/startseite';
@@ -37,6 +36,9 @@ const projekte = pfad('/projekte/', lang);
 <BaseLayout title={t.meta.titel} description={t.meta.beschreibung} rawTitle>
 
   <section class="hero">
+    <div class="hero-bild">
+      <Image src={asset("/assets/hero-building.jpg")} alt={t.hero.bildAlt} widths={[760, 1008, 1440]} sizes="100vw" loading="eager" fetchpriority="high" />
+    </div>
     <div class="wrap">
       <div class="hero-text">
         <p class="eyebrow eyebrow-plain">{t.hero.eyebrow}</p>
@@ -47,9 +49,6 @@ const projekte = pfad('/projekte/', lang);
           <a class="cta-btn primary" href={kontakt}>{t.hero.ctaPrimaer}</a>
           <a class="cta-btn ghost" href={projekte}>{t.hero.ctaSekundaer}</a>
         </div>
-      </div>
-      <div class="hero-art">
-          <Image src={asset("/assets/hero-building.jpg")} alt={t.hero.bildAlt} widths={[480, 760, 1008]} sizes="(max-width: 900px) 100vw, 46vw" loading="eager" fetchpriority="high" />
       </div>
     </div>
   </section>
@@ -80,7 +79,5 @@ const projekte = pfad('/projekte/', lang);
       </div>
     </div>
   </section>
-
-  <Partnerunternehmen />
 
 </BaseLayout>
