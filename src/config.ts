@@ -147,11 +147,9 @@ export interface Meilenstein {
 /**
  * Stationen der Unternehmensgeschichte.
  *
- * Übernommen aus der Firmenvorstellung des Auftraggebers, Folie 2. Aus der
- * Textfassung der Datei ließen sich nur die ersten beiden Stationen auslesen;
- * die dritte fasst zusammen, was auf der Unternehmensseite ohnehin steht.
- * Weitere Stationen der Vorlage sind hier zu ergänzen — die Reihenfolge der
- * Liste ist die Reihenfolge auf dem Zeitstrahl.
+ * Übernommen aus der Firmenvorstellung des Auftraggebers, Folie 2, im
+ * Wortlaut der Vorlage. Die Reihenfolge der Liste ist die Reihenfolge auf dem
+ * Zeitstrahl; weitere Stationen sind hier zu ergänzen.
  */
 export const historie: Meilenstein[] = [
   {
@@ -165,15 +163,22 @@ export const historie: Meilenstein[] = [
     jahr: '1993',
     titel: 'ELCON GmbH',
     titelEn: 'ELCON GmbH',
-    text: 'Die ELCON wird als eigenständige Gesellschaft gegründet.',
-    textEn: 'ELCON is established as an independent company.',
+    text: 'Gründung für das Auslandsgeschäft.',
+    textEn: 'Founded for the international business.',
   },
   {
-    jahr: 'heute',
+    jahr: '2013',
     titel: 'ELCON LED GmbH',
     titelEn: 'ELCON LED GmbH',
-    text: 'Technischer Generalunternehmer mit Sitz in Lehrte bei Hannover, Teil der Deiters-Gruppe.',
-    textEn: 'Technical main contractor based in Lehrte near Hanover, part of the Deiters group.',
+    text: 'Übernahme des Geschäftsbereichs TGA.',
+    textEn: 'Takeover of the building services division.',
+  },
+  {
+    jahr: '2021',
+    titel: 'Gründung Northtech GmbH',
+    titelEn: 'Northtech GmbH founded',
+    text: 'Planung, Ausführung und Betreuung von Technik für Öl- und Gasförderung sowie -transport.',
+    textEn: 'Design, delivery and maintenance of technology for oil and gas production and transport.',
   },
 ];
 
