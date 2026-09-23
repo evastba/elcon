@@ -27,10 +27,17 @@ const isActive = (href: string) => path === href.replace(/\/+$/, '');
 <header class="site">
   <div class="wrap nav-row">
     <a href={pfad('/', lang)} class="brand" aria-label={t.zurStartseite}>
-      <LogoZeichen class="marke-zeichen" />
-      <span class="brand-text">
+      <span class="marke-zeile">
+        <LogoZeichen class="marke-zeichen" />
         <span class="brand-word">ELCON</span>
-        <span class="brand-tagline">Gebäudetechnik</span>
+      </span>
+      {/* Die Unterzeile läuft von der linken Kante des Würfels bis unter das
+          N von ELCON. Damit sie diese Breite genau füllt, steht jeder Buchstabe
+          für sich und der Zwischenraum verteilt sich gleichmäßig — ein fester
+          Sperrwert träfe die Breite nur zufällig. Für Vorleseprogramme ist die
+          Zeile ohne Belang: Der Verweis trägt eine eigene Beschriftung. */}
+      <span class="brand-tagline" aria-hidden="true">
+        {'GEBÄUDETECHNIK'.split('').map((z) => <span>{z}</span>)}
       </span>
     </a>
 

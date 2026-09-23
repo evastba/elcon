@@ -203,27 +203,42 @@ html, body { overflow-x: clip; }
     background:var(--header-bg);backdrop-filter:blur(10px);
   }
   .nav-row{display:flex;align-items:center;gap:1.5rem;padding-block:.9rem;}
-  .brand{display:flex;align-items:center;gap:.65rem;text-decoration:none;color:var(--text);margin-right:auto;}
+  /* Marke: oben Würfel und Schriftzug nebeneinander, darunter die Unterzeile
+     über die gesamte Breite dieser Zeile. */
+  .brand{display:inline-flex;flex-direction:column;align-items:stretch;text-decoration:none;color:var(--text);margin-right:auto;}
+  /* line-height:1, damit der Durchschuss der Grundschrift die beiden Zeilen
+     der Marke nicht auseinanderzieht. */
+  .marke-zeile{display:flex;align-items:center;gap:.5rem;line-height:1;}
   /* Das Zeichen schließt oben und unten mit dem Namensblock ab; die Breite folgt
      dem Seitenverhältnis der Datei (450×495). Zuvor stand hier ein Quadrat, das
      das Sechseck um rund ein Zehntel in die Breite zog. */
   /* Das Zeichen ist quadratisch; Breite und Höhe laufen deshalb gemeinsam
      mit der Schriftgröße der Wortmarke. */
-  /* Ein Viertel kleiner als die Höhe der Wortmarke: Das Quadrat ist eine
-     geschlossene Fläche und wirkt bei gleicher Höhe schwerer als der
-     Schriftzug daneben. */
+  /* Der Würfel ist genau so hoch wie die Versalien von ELCON daneben. Die
+     Einheit cap misst die Versalhöhe der eigenen Schrift — deshalb trägt das
+     Zeichen dieselbe Schriftfamilie und -größe wie die Wortmarke, obwohl es
+     selbst keinen Text enthält. Ältere Browser ohne cap-Einheit bekommen
+     darunter einen festen Anteil als Ersatz. */
   .marke-zeichen{
-    height:calc(var(--marke-zeichenhoehe) * .75);
-    width:calc(var(--marke-zeichenhoehe) * .75);
+    font-family:var(--schrift-titel);font-size:var(--marke-wort);
+    height:.72em;width:.72em;
     flex:none;display:block;
   }
-  .brand-text{display:flex;flex-direction:column;line-height:1;}
+  @supports (height: 1cap){
+    .marke-zeichen{height:1cap;width:1cap;}
+  }
+  
   /* Farben aus der Logovorlage: Der Schriftzug steht im Grün der Palette,
      die Unterzeile im Navy — beide Werte stimmen dort exakt überein. */
   .brand-word{font-weight:800;font-size:var(--marke-wort);letter-spacing:.01em;color:var(--forest);}
   /* Die Unterzeile der Marke bleibt petrol — sie schreibt das Zeichen fort,
      ohne mit den grünen Bedienelementen zu konkurrieren. */
-  .brand-tagline{font-size:var(--marke-unterzeile);font-weight:600;letter-spacing:.11em;text-transform:uppercase;color:var(--navy);margin-top:var(--marke-abstand);}
+  .brand-tagline{
+    display:flex;justify-content:space-between;
+    font-size:var(--marke-unterzeile);font-weight:600;letter-spacing:0;
+    text-transform:uppercase;color:var(--navy);
+    margin-top:var(--marke-abstand);line-height:1;
+  }
 
   nav.primary{display:flex;gap:1.9rem;}
   nav.primary a{
@@ -374,7 +389,7 @@ html, body { overflow-x: clip; }
 
   /* --- Einstieg ----------------------------------------------------------- */
   .hero-vertrauen{
-    margin:0 0 1.4rem;font-size:.9rem;font-weight:600;color:var(--farbe-aktion-hell);
+    margin:0 0 1.4rem;font-size:.9rem;font-weight:600;color:rgba(255,255,255,.92);
     letter-spacing:.01em;
   }
 
@@ -727,7 +742,7 @@ html, body { overflow-x: clip; }
        Menü beginnt hinter ihr. Unterzeile und Abstand werden deshalb
        schmaler — die Kopfhöhe folgt der Ableitung von selbst. */
     :root{--marke-unterzeile:.62rem;}
-    .brand-tagline{letter-spacing:.05em;white-space:nowrap;}
+    .brand-tagline{white-space:nowrap;}
     .nav-row{gap:.8rem;}
   }
 
