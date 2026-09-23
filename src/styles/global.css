@@ -460,7 +460,7 @@ html, body { overflow-x: clip; }
 
   /* --- Einstieg ----------------------------------------------------------- */
   .hero-vertrauen{
-    margin:0 0 2.1rem;font-size:.9rem;font-weight:600;color:rgba(255,255,255,.92);
+    margin:0 0 4.2rem;font-size:.9rem;font-weight:600;color:rgba(255,255,255,.92);
     letter-spacing:.01em;
   }
 
@@ -618,7 +618,7 @@ html, body { overflow-x: clip; }
     .ablauf-schritte{grid-template-columns:repeat(2,1fr);}
     }
   @media (max-width:640px){
-    .hero-vertrauen{margin:0 0 2.1rem;font-size:.86rem;}
+    .hero-vertrauen{margin:0 0 3rem;font-size:.86rem;}
     .kennzahlen-titel{font-size:.95rem;}
     .kennzahlen{grid-template-columns:repeat(2,1fr);gap:1.1rem;padding-block:1.2rem;}
     .kennzahlen-band .wrap{padding-block:.2rem 1.2rem;}
