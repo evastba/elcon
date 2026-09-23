@@ -99,7 +99,7 @@ export const STARTSEITE: Record<Lang, Startseite> = {
       werte: [
         { wert: '1993', label: 'eigenständig als ELCON LED GmbH' },
         { wert: '30+', zaehler: 30, suffix: '+', label: 'Jahre Projekterfahrung' },
-        { wert: '60+', zaehler: 60, suffix: '+', label: 'dokumentierte Projekte im Firmenarchiv' },
+        { wert: '60+', zaehler: 60, suffix: '+', label: 'Projekte im Firmenarchiv' },
         { wert: '3', zaehler: 3, label: 'Kontinente mit Projekterfahrung' },
       ],
     },
@@ -234,7 +234,7 @@ export const STARTSEITE: Record<Lang, Startseite> = {
       werte: [
         { wert: '1993', label: 'independent as ELCON LED GmbH' },
         { wert: '30+', zaehler: 30, suffix: '+', label: 'years of project experience' },
-        { wert: '60+', zaehler: 60, suffix: '+', label: 'documented projects in the company archive' },
+        { wert: '60+', zaehler: 60, suffix: '+', label: 'projects in the company archive' },
         { wert: '3', zaehler: 3, label: 'continents with project experience' },
       ],
     },

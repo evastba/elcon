@@ -461,7 +461,7 @@ html, body { overflow-x: clip; }
 
   /* --- Einstieg ----------------------------------------------------------- */
   .hero-vertrauen{
-    margin:0 0 1.4rem;font-size:.9rem;font-weight:600;color:var(--farbe-aktion-hell);
+    margin:0 0 1.4rem;font-size:.9rem;font-weight:600;color:rgba(255,255,255,.92);
     letter-spacing:.01em;
   }
 
@@ -474,8 +474,12 @@ html, body { overflow-x: clip; }
      die Logo-Laufschrift darunter gemeinsam. */
   /* Zurückhaltend gesetzt: Die Zeile ordnet den Abschnitt ein und soll der
      Hauptüberschrift des Einstiegs nicht den Rang ablaufen. */
+  /* Das Logoband bekommt oben und unten denselben Abstand: über sich zur
+     Vertrauenszeile, unter sich zur Trennlinie der Kennzahlen. Ein Wert für
+     beide, damit sie nicht auseinanderlaufen. */
+  .kennzahlen-band{--band-abstand:1.6rem;}
   .kennzahlen-titel{
-    margin:0 0 2.2rem;font-size:clamp(.95rem,1.7vw,1.125rem);font-weight:500;
+    margin:0 0 var(--band-abstand);font-size:clamp(.95rem,1.7vw,1.125rem);font-weight:500;
     color:var(--text-leise);letter-spacing:0;text-align:center;
   }
   .kennzahlen{
@@ -496,7 +500,7 @@ html, body { overflow-x: clip; }
   /* Die Laufschrift sitzt im Vertrauensabschnitt zwischen Überschrift und
      Kennzahlen. Ihre eigene Trennlinie entfällt dort — die Kennzahlen bringen
      ihre eigene mit, zwei übereinander wirkten wie ein Fehler. */
-  .kennzahlen-band .trust-block{border-top:none;padding-top:0;margin-bottom:1.6rem;}
+  .kennzahlen-band .trust-block{border-top:none;padding-top:0;margin-bottom:var(--band-abstand);}
 
   /* --- Kompetenzfelder ---------------------------------------------------- */
   .kompetenz-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;}
@@ -616,7 +620,7 @@ html, body { overflow-x: clip; }
     }
   @media (max-width:640px){
     .hero-vertrauen{margin:0 0 1.4rem;font-size:.86rem;}
-    .kennzahlen-titel{margin-bottom:1.8rem;font-size:.95rem;}
+    .kennzahlen-titel{font-size:.95rem;}
     .kennzahlen{grid-template-columns:repeat(2,1fr);gap:1.1rem;padding-block:1.2rem;}
     .kennzahlen-band .wrap{padding-block:.2rem 1.2rem;}
     .kompetenz-grid,
@@ -792,7 +796,7 @@ html, body { overflow-x: clip; }
     /* Die Laufschrift ist auf dem Telefon der am wenigsten tragende
        Abschnitt — sie wird schmaler, nicht entfernt. */
     .marquee-logo img{max-height:34px;}
-    .kennzahlen-band .trust-block{margin-bottom:1.1rem;}
+    .kennzahlen-band{--band-abstand:1.1rem;}
 
     /* Karteninnenabstände zurücknehmen — bei gestapelten Karten summiert sich
        jeder Rand dreifach. */
