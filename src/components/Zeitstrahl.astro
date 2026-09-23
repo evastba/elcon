@@ -1,0 +1,39 @@
+---
+import { historie } from '../config';
+import { getLang } from '../i18n/ui';
+
+/* Zeitstrahl der Unternehmensgeschichte.
+ *
+ * Als nummerierte Liste ausgezeichnet, nicht als Grafik: Die Reihenfolge ist
+ * die Information. Auf breiten Bildschirmen läuft der Strahl waagerecht durch
+ * die Stationen, auf schmalen senkrecht — dort wäre eine gestauchte Waagerechte
+ * unlesbar.
+ *
+ * Die Stationen stehen in src/config.ts. Liegt keine vor, entfällt der
+ * Abschnitt.
+ */
+const lang = getLang(Astro.url);
+
+const stationen = historie.map((m) => ({
+  jahr: m.jahr,
+  titel: lang === 'de' ? m.titel : m.titelEn,
+  text: lang === 'de' ? m.text : m.textEn,
+}));
+
+const ueberschrift = lang === 'de' ? 'Unsere Geschichte' : 'Our history';
+---
+
+{stationen.length > 0 && (
+  <section class="zeitstrahl" aria-labelledby="historie-titel">
+    <h2 id="historie-titel" class="zeitstrahl-titel">{ueberschrift}</h2>
+    <ol class="zeitstrahl-liste">
+      {stationen.map((s) => (
+        <li class="zeitstrahl-station">
+          <span class="zeitstrahl-jahr">{s.jahr}</span>
+          <h3>{s.titel}</h3>
+          <p>{s.text}</p>
+        </li>
+      ))}
+    </ol>
+  </section>
+)}

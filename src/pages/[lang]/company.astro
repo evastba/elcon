@@ -1,4 +1,5 @@
 ---
+import Zeitstrahl from '../../components/Zeitstrahl.astro';
 import Partnerunternehmen from '../../components/Partnerunternehmen.astro';
 import { LANGS, pfad, getLang } from '../../i18n/ui';
 import { Image } from 'astro:assets';
@@ -39,6 +40,8 @@ const lang = getLang(Astro.url);
           <blockquote class="leitbild">“We are the dependable main contractor for building services engineering — we design, build and look after electrical, heating, air conditioning, ventilation, plumbing and automation systems from a single source, personally and with many years of experience.”</blockquote>
         </div>
       </div>
+
+      <Zeitstrahl />
 
       <p class="values-lead">This is what we stand for — and what our clients confirm:</p>
       <div class="values">

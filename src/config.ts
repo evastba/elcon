@@ -131,6 +131,53 @@ export function geschaeftsfuehrungLabel(anzahl: number, lang: 'de' | 'en'): stri
 }
 
 /* ====================================================================== *
+ * Unternehmenshistorie
+ * ====================================================================== */
+
+/** Eine Station auf dem Zeitstrahl der Unternehmensseite. */
+export interface Meilenstein {
+  /** Jahreszahl oder Zeitangabe, wie sie erscheinen soll. */
+  jahr: string;
+  titel: string;
+  titelEn: string;
+  text: string;
+  textEn: string;
+}
+
+/**
+ * Stationen der Unternehmensgeschichte.
+ *
+ * Übernommen aus der Firmenvorstellung des Auftraggebers, Folie 2. Aus der
+ * Textfassung der Datei ließen sich nur die ersten beiden Stationen auslesen;
+ * die dritte fasst zusammen, was auf der Unternehmensseite ohnehin steht.
+ * Weitere Stationen der Vorlage sind hier zu ergänzen — die Reihenfolge der
+ * Liste ist die Reihenfolge auf dem Zeitstrahl.
+ */
+export const historie: Meilenstein[] = [
+  {
+    jahr: '1953',
+    titel: 'Handwerkliche Wurzeln',
+    titelEn: 'Craft origins',
+    text: 'Gründung von Elektro Deiters in Immensen.',
+    textEn: 'Elektro Deiters is founded in Immensen.',
+  },
+  {
+    jahr: '1993',
+    titel: 'ELCON GmbH',
+    titelEn: 'ELCON GmbH',
+    text: 'Die ELCON wird als eigenständige Gesellschaft gegründet.',
+    textEn: 'ELCON is established as an independent company.',
+  },
+  {
+    jahr: 'heute',
+    titel: 'ELCON LED GmbH',
+    titelEn: 'ELCON LED GmbH',
+    text: 'Technischer Generalunternehmer mit Sitz in Lehrte bei Hannover, Teil der Deiters-Gruppe.',
+    textEn: 'Technical main contractor based in Lehrte near Hanover, part of the Deiters group.',
+  },
+];
+
+/* ====================================================================== *
  * Ansprechpartner
  * ====================================================================== */
 
