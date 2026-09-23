@@ -68,18 +68,49 @@ html, body { overflow-x: clip; }
        stünde in keinem Verhältnis zum Nutzen. */
     --schrift-text:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
     --schrift-titel:'Manrope',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    /* ------------------------------------------------------------------ *
+     * Farbpalette „Variante B — architektonisch und ruhig"
+     *
+     * Die Werte stammen aus der Vorlage des Auftraggebers und stehen hier
+     * unverändert. Welche Rolle eine Farbe auf der Seite spielt, steht
+     * darunter — so lässt sich die Gewichtung ändern, ohne die Palette
+     * anzufassen.
+     * ------------------------------------------------------------------ */
+    --navy:#12313A;        /* Architectural Navy */
+    --forest:#25733A;      /* Forest Green */
+    --copper:#D76B24;      /* Copper Orange */
+    --teal:#1A7A7D;        /* Muted Teal */
+    --slate:#536169;       /* Slate */
+    --sand:#E9E5DC;        /* Warm Sand */
+    --warmweiss:#FAF9F6;   /* Warm White */
+    --softblack:#182126;   /* Soft Black */
+
     --white:#FFFFFF;
-    --offwhite:#F7F9F8;
-    --hellgrau:#E5E8E8;
-    --anthrazit:#4D5A61;
+    --offwhite:var(--warmweiss);
+    /* Warmer Neutralton statt des früheren kühlen Graus: Auf warmen Flächen
+       wirkte eine bläuliche Linie fremd. */
+    --hellgrau:#E4E1D9;
+    --anthrazit:var(--slate);
     /* Neutrales Grau für zurückhaltende Beschriftungen. Bewusst nicht heller:
        Bei 4,57:1 auf der getönten Fläche ist die Grenze der Lesbarkeit nach
        WCAG AA erreicht, ein hellerer Ton wäre nicht mehr zulässig. */
     --grau-dezent:#6B7378;
-    --ink:#0F2D3A;
-    --green:#2E7D32;
-    --orange:#FF7A00;
-    --petrol:#008B8B;
+    --ink:var(--navy);
+    --green:var(--forest);
+    --orange:var(--copper);
+    --petrol:var(--teal);
+
+    /* ------------------------------------------------------------------ *
+     * Rollen
+     *
+     * Grün trägt die Bedienelemente und damit den größten Teil der Fläche.
+     * Kupfer setzt einzelne Marken — Wabe der Dachzeile, Pflichtfeld,
+     * aktiver Punkt im Karussell, Sterne, Fehlermeldung. Petrol begleitet
+     * zurückhaltend und steht nur noch dort, wo es die Marke fortschreibt.
+     * ------------------------------------------------------------------ */
+    --farbe-aktion:var(--forest);
+    --farbe-akzent:var(--copper);
+    --farbe-ruhig:var(--teal);
 
     --surface:var(--white);
     --surface-alt:var(--offwhite);
@@ -88,21 +119,23 @@ html, body { overflow-x: clip; }
     --text:var(--ink);
     --text-muted:var(--anthrazit);
     --text-leise:var(--grau-dezent);
-    --accent:var(--green);
+    /* Die drei Namen stammen aus der Zeit vor der Rollenverteilung und
+       bleiben, weil über siebzig Regeln sie verwenden. */
+    --accent:var(--farbe-ruhig);
     --accent-ink:#FFFFFF;
-    --accent-soft:#E7F2E8;
-    --accent-2:var(--orange);
-    --accent-3:var(--petrol);
-    --header-bg:rgba(255,255,255,.92);
-    --hex-fill-1:#0F2D3A;
-    --hex-fill-2:#008B8B;
-    --hex-fill-3:#2E7D32;
+    --accent-soft:#E6F0E9;
+    --accent-2:var(--farbe-akzent);
+    --accent-3:var(--farbe-aktion);
+    --header-bg:rgba(250,249,246,.92);
+    --hex-fill-1:var(--navy);
+    --hex-fill-2:var(--teal);
+    --hex-fill-3:var(--forest);
     --hex-fill-4:#6CBF6F;
     --hex-line:#C9D3D3;
-    --shadow:0 20px 44px -28px rgba(15,45,58,.35);
+    --shadow:0 20px 44px -28px rgba(18,49,58,.35);
     /* Weicher, enger gefasster Schatten fuer Hover-Zustaende */
-    --shadow-hover:0 12px 28px -14px rgba(15,45,58,.22);
-    --shadow-hover-strong:0 16px 34px -16px rgba(15,45,58,.28);
+    --shadow-hover:0 12px 28px -14px rgba(18,49,58,.22);
+    --shadow-hover-strong:0 16px 34px -16px rgba(18,49,58,.28);
   }
 
   *{box-sizing:border-box;}
@@ -169,7 +202,9 @@ html, body { overflow-x: clip; }
   .hex-mark{height:var(--marke-zeichenhoehe);width:auto;flex:none;}
   .brand-text{display:flex;flex-direction:column;line-height:1;}
   .brand-word{font-weight:800;font-size:var(--marke-wort);letter-spacing:.01em;color:var(--text);}
-  .brand-tagline{font-size:var(--marke-unterzeile);font-weight:600;letter-spacing:.11em;text-transform:uppercase;color:var(--accent-3);margin-top:var(--marke-abstand);}
+  /* Die Unterzeile der Marke bleibt petrol — sie schreibt das Zeichen fort,
+     ohne mit den grünen Bedienelementen zu konkurrieren. */
+  .brand-tagline{font-size:var(--marke-unterzeile);font-weight:600;letter-spacing:.11em;text-transform:uppercase;color:var(--farbe-ruhig);margin-top:var(--marke-abstand);}
 
   nav.primary{display:flex;gap:1.9rem;}
   nav.primary a{
@@ -215,8 +250,10 @@ html, body { overflow-x: clip; }
     font-size:.76rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
     color:var(--accent-3);margin:0 0 .9rem;
   }
+  /* Die Wabe der Dachzeile ist die wiederkehrende Kupfermarke: klein, auf
+     jedem Abschnitt, gibt der Seite ihren Takt. */
   .eyebrow::before{
-    content:"";width:9px;height:9px;flex:none;background:var(--accent-3);
+    content:"";width:9px;height:9px;flex:none;background:var(--farbe-akzent);
     clip-path:polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%);
   }
   .eyebrow-plain::before{display:none;}
@@ -312,9 +349,12 @@ html, body { overflow-x: clip; }
     padding-block:1.5rem;
   }
   .kennzahl{margin:0;}
+  /* Die vier Zahlen sind die zweite Kupfermarke der Seite. Sie sind groß und
+     halbfett gesetzt und erreichen damit die Schwelle, ab der 3:1 Kontrast
+     genügt — für Fließtext wäre Kupfer auf Weiß zu schwach. */
   .kennzahl-wert{
     font-family:var(--schrift-titel);font-weight:800;
-    font-size:clamp(1.6rem,3vw,2.1rem);line-height:1.1;color:var(--text);
+    font-size:clamp(1.6rem,3vw,2.1rem);line-height:1.1;color:var(--farbe-akzent);
   }
   .kennzahl-label{
     margin:.35rem 0 0;font-size:.88rem;line-height:1.45;color:var(--text-muted);
@@ -1055,7 +1095,7 @@ html, body { overflow-x: clip; }
     border:1px solid var(--border);background:transparent;
   }
   .tc-dot:hover::before{border-color:var(--accent-3);}
-  .tc-dot[aria-current="true"]::before{background:var(--accent-3);border-color:var(--accent-3);}
+  .tc-dot[aria-current="true"]::before{background:var(--farbe-akzent);border-color:var(--farbe-akzent);}
   /* In der Fokusansicht sind die Bildunterschriften am Band ausgeblendet —
      wer steht in der Mitte, steht dafür einmal darunter. */
   .tc-aktuell{
@@ -1364,7 +1404,7 @@ html, body { overflow-x: clip; }
      Betriebssystem reduzierte Bewegung eingestellt ist. Für diese Besucher
      bleibt der Hover-Zustand also deutlich erkennbar, nur eben ohne Bewegung.
 
-     Die Farben stammen aus den Projekt-Tokens: Rahmen von --border (#E5E8E8)
+     Die Farben stammen aus den Projekt-Tokens: Rahmen von --border
      nach --accent-3 (Petrol), Schatten aus --shadow-hover. */
 
   /* --- Karten ------------------------------------------------------------ */
