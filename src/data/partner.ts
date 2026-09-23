@@ -147,19 +147,39 @@ export const PARTNER: Partner[] = [
     aktiv: true,
   },
   {
-    id: 'electra-polska',
-    name: 'Electra Polska',
-    /* Angaben und Logo laut electrapolska.com; tätig seit 1997. Eine
-       Rechtsform nennt die Website nicht, deshalb steht hier keine. */
-    sitz: 'Bydgoszcz, Polen',
-    sitzEn: 'Bydgoszcz, Poland',
-    stichworte: ['Kabeltrassen und Freileitungen', 'Fahrleitungsnetze'],
-    stichworteEn: ['Cable and overhead lines', 'Traction networks'],
-    website: 'https://electrapolska.com/home/',
+    id: 'electra-me-deutschland',
+    name: 'Electra M&E Deutschland GmbH',
+    /* Angaben laut electra-me.de: Gesamtdienstleister der technischen
+       Gebäudeausrüstung, rund 100 Mitarbeitende, Hauptniederlassung München
+       (Anna-Sigmund-Straße 1, 82061 Neuried). */
+    sitz: 'Neuried bei München',
+    sitzEn: 'Neuried near Munich',
+    stichworte: ['Technische Gebäudeausrüstung', 'Rohrleitungsbau und Prüfstandstechnik'],
+    stichworteEn: ['Building services engineering', 'Piping and test bench technology'],
+    website: 'https://www.electra-me.de/',
     logo: {
-      datei: 'electra-polska.png',
-      alt: 'Logo von Electra Polska',
-      altEn: 'Logo of Electra Polska',
+      datei: 'electra-me-deutschland.png',
+      alt: 'Logo der Electra M&E Deutschland GmbH',
+      altEn: 'Logo of Electra M&E Deutschland GmbH',
+      hintergrund: 'hell',
+    },
+    veroeffentlichungsfreigabe: true,
+    aktiv: true,
+  },
+  {
+    id: 'electra-me-polska',
+    name: 'Electra M&E Polska',
+    /* Angaben laut electra.co.pl: technische Installationen und technisches
+       Facility Management. Sitz Warschau, gegründet im April 2016. */
+    sitz: 'Warschau',
+    sitzEn: 'Warsaw',
+    stichworte: ['Technische Installationen', 'Gebäudeleittechnik und Facility Management'],
+    stichworteEn: ['Technical installations', 'Building management and facility services'],
+    website: 'https://www.electra.co.pl/',
+    logo: {
+      datei: 'electra-me-polska.png',
+      alt: 'Logo von Electra M&E Polska',
+      altEn: 'Logo of Electra M&E Polska',
       hintergrund: 'hell',
     },
     veroeffentlichungsfreigabe: true,
