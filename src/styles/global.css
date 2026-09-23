@@ -99,11 +99,19 @@ html, body { overflow-x: clip; }
     --farbe-aktion:var(--forest);
     --farbe-akzent:var(--copper);
     --farbe-ruhig:var(--teal);
+    /* Schaltflächen stehen in Petrol, nicht im Grün der übrigen
+       Bedienelemente: Auf einer Seite voller grüner Verweise heben sie sich
+       so als eigene Gattung ab. Weiß darauf erreicht 5,09:1. */
+    --farbe-knopf:var(--teal);
     /* Aufgehelltes Kupfer für dunkle Flächen. Der Ton der Palette erreicht
        auf dem Einstiegsbanner gemessen nur 2,9 bis 3,2:1 und bliebe damit
        unter der Schwelle von 4,5:1 für Text dieser Größe; diese Fassung
        kommt auf rund 5:1 und hält denselben Farbton. */
     --farbe-akzent-hell:#F0A468;
+    /* Aufgehelltes Grün für dunkle Flächen, aus demselben Grund: Forest Green
+       erreicht auf dem Bannerhintergrund nur 1,8:1 und wäre dort praktisch
+       unlesbar. */
+    --farbe-aktion-hell:#74C689;
 
     --surface:var(--white);
     --surface-alt:var(--offwhite);
@@ -232,14 +240,14 @@ html, body { overflow-x: clip; }
     padding:.72rem 1.3rem;text-decoration:none;border:1.5px solid transparent;
     cursor:pointer;font:inherit;
   }
-  .cta-btn.primary{background:var(--accent-3);color:var(--accent-ink);}
+  .cta-btn.primary{background:var(--farbe-knopf);color:var(--accent-ink);}
   .cta-btn.primary:hover{filter:brightness(1.1);}
   .cta-btn.ghost{background:transparent;border-color:var(--border);color:var(--text);}
-  .cta-btn.ghost:hover{border-color:var(--accent-3);color:var(--accent-3);}
+  .cta-btn.ghost:hover{border-color:var(--farbe-knopf);color:var(--farbe-knopf);}
   /* Wie der gefuellte Knopf, nur umgekehrt: Rand und Schrift in der
      Akzentfarbe, die Flaeche weiss. */
-  .cta-btn.umriss{background:var(--surface-raised);border-color:var(--accent-3);color:var(--accent-3);}
-  a.cta-btn.umriss:hover{background:var(--accent-3);color:var(--accent-ink);}
+  .cta-btn.umriss{background:var(--surface-raised);border-color:var(--farbe-knopf);color:var(--farbe-knopf);}
+  a.cta-btn.umriss:hover{background:var(--farbe-knopf);color:var(--accent-ink);}
 
   .menu-toggle{display:none;}
 
@@ -352,7 +360,7 @@ html, body { overflow-x: clip; }
 
   /* --- Einstieg ----------------------------------------------------------- */
   .hero-vertrauen{
-    margin:0 0 1.4rem;font-size:.9rem;font-weight:600;color:var(--farbe-akzent-hell);
+    margin:0 0 1.4rem;font-size:.9rem;font-weight:600;color:var(--farbe-aktion-hell);
     letter-spacing:.01em;
   }
 
@@ -1749,7 +1757,7 @@ html, body { overflow-x: clip; }
     }
     .kontaktleiste-btn:active{ @apply motion-safe:scale-[0.98]; }
     .kontaktleiste-btn svg{width:17px;height:17px;flex:none;}
-    .kontaktleiste-btn--anruf{background:var(--accent-3);color:var(--accent-ink);}
+    .kontaktleiste-btn--anruf{background:var(--farbe-knopf);color:var(--accent-ink);}
     .kontaktleiste-btn--whatsapp{background:var(--surface);border-color:var(--border);color:var(--ink);}
     .kontaktleiste-btn--whatsapp svg{color:#25D366;}
 
