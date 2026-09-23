@@ -208,12 +208,18 @@ html, body { overflow-x: clip; }
   /* Marke: oben Würfel und Schriftzug nebeneinander, darunter die Unterzeile
      über die gesamte Breite dieser Zeile. */
   .brand{display:inline-flex;flex-direction:column;align-items:stretch;text-decoration:none;color:var(--text);margin-right:auto;}
-  /* Solange die Vergleichsfassung daneben steht, gibt die erste Marke den
-     Ausdehner an sie ab. */
-  header.site .brand:has(+ .marke-b){margin-right:0;}
+  /* Die drei Fassungen stehen in einer eigenen Gruppe; der freie Raum sammelt
+     sich hinter ihr, nicht zwischen ihnen. */
+  .marken-vergleich{display:flex;align-items:center;margin-right:auto;}
+  .marken-vergleich .brand{margin-right:0;}
+  .marke-c{margin-left:1.6rem;padding-left:1.6rem;border-left:1px solid var(--border);}
+  /* Einziger Unterschied zur laufenden Fassung: die Farbe der Unterzeile. */
+  .marke-c .brand-tagline{color:var(--copper);}
+  @media (max-width:1300px){ .marke-c{display:none;} }
   /* line-height:1, damit der Durchschuss der Grundschrift die beiden Zeilen
-     der Marke nicht auseinanderzieht. */
-  .marke-zeile{display:flex;align-items:center;gap:.5rem;line-height:1;}
+     der Marke nicht auseinanderzieht. Der Würfel richtet sich oben aus, nicht
+     mittig — siehe den Versatz weiter unten. */
+  .marke-zeile{display:flex;align-items:flex-start;gap:.5rem;line-height:1;}
   /* Das Zeichen schließt oben und unten mit dem Namensblock ab; die Breite folgt
      dem Seitenverhältnis der Datei (450×495). Zuvor stand hier ein Quadrat, das
      das Sechseck um rund ein Zehntel in die Breite zog. */
@@ -230,6 +236,10 @@ html, body { overflow-x: clip; }
     font-family:var(--schrift-titel);font-size:var(--marke-wort);
     height:calc(.72em * var(--zeichen-faktor));
     width:calc(.72em * var(--zeichen-faktor));
+    /* Die Oberkante liegt auf der Oberkante der Versalien von ELCON. Die
+       beginnen 0,151 em unter der Oberkante ihres Zeilenkastens — an der
+       gesetzten Schrift gemessen, derselbe Wert wie in der Vergleichsfassung. */
+    margin-top:.1508em;
     flex:none;display:block;
   }
   @supports (height: 1cap){
@@ -287,10 +297,6 @@ html, body { overflow-x: clip; }
     --marke-b-hoehe:1.1769em;
     display:inline-flex;align-items:flex-start;align-self:center;gap:.5rem;
     margin-left:1.6rem;padding-left:1.6rem;border-left:1px solid var(--border);
-    /* Der freie Raum sammelt sich hinter der Vergleichsfassung, damit beide
-       Marken links beieinander stehen. Ohne das schöbe der Ausdehner der
-       ersten Marke die zweite an die Navigation heran. */
-    margin-right:auto;
   }
   .marke-b-zeichen{height:var(--marke-b-hoehe);width:var(--marke-b-hoehe);margin-top:var(--marke-b-versatz);flex:none;display:block;}
   .marke-b-text{display:flex;flex-direction:column;line-height:1;}

@@ -26,35 +26,49 @@ const isActive = (href: string) => path === href.replace(/\/+$/, '');
 
 <header class="site">
   <div class="wrap nav-row">
-    <a href={pfad('/', lang)} class="brand" aria-label={t.zurStartseite}>
-      <span class="marke-zeile">
-        <LogoZeichen class="marke-zeichen" />
-        <span class="brand-word">ELCON</span>
-      </span>
-      {/* Die Unterzeile läuft von der linken Kante des Würfels bis unter das
-          N von ELCON. Damit sie diese Breite genau füllt, steht jeder Buchstabe
-          für sich und der Zwischenraum verteilt sich gleichmäßig — ein fester
-          Sperrwert träfe die Breite nur zufällig. Für Vorleseprogramme ist die
-          Zeile ohne Belang: Der Verweis trägt eine eigene Beschriftung. */}
-      <span class="brand-tagline" aria-hidden="true">
-        {'GEBÄUDETECHNIK'.split('').map((z) => <span>{z}</span>)}
-      </span>
-    </a>
+    {/* Drei Fassungen der Marke nebeneinander, ausschließlich im Kopfbereich
+        und ausschließlich zur Ansicht. Nur die erste ist ein Verweis; die
+        beiden Vergleichsfassungen sind für Vorleseprogramme ausgeblendet, weil
+        drei Marken nebeneinander dort nur verwirrend wären. */}
+    <div class="marken-vergleich">
+      <a href={pfad('/', lang)} class="brand" aria-label={t.zurStartseite}>
+        <span class="marke-zeile">
+          <LogoZeichen class="marke-zeichen" />
+          <span class="brand-word">ELCON</span>
+        </span>
+        {/* Die Unterzeile läuft von der linken Kante des Würfels bis unter das
+            N von ELCON. Damit sie diese Breite genau füllt, steht jeder
+            Buchstabe für sich und der Zwischenraum verteilt sich gleichmäßig —
+            ein fester Sperrwert träfe die Breite nur zufällig. */}
+        <span class="brand-tagline" aria-hidden="true">
+          {'GEBÄUDETECHNIK'.split('').map((z) => <span>{z}</span>)}
+        </span>
+      </a>
 
-    {/* Vergleichsfassung der Marke, ausschließlich im Kopfbereich und
-        ausschließlich zur Ansicht: Der Würfel reicht hier über beide Zeilen,
-        die Unterzeile steht im Orange des Würfels und füllt genau die Breite
-        von ELCON. Für Vorleseprogramme ist sie ausgeblendet — zwei Marken
-        nebeneinander wären dort nur verwirrend. */}
-    <span class="marke-b" aria-hidden="true">
-      <LogoZeichen class="marke-b-zeichen" />
-      <span class="marke-b-text">
-        <span class="marke-b-wort">ELCON</span>
-        <span class="marke-b-unterzeile">
+      {/* Zweite Fassung: Der Würfel reicht über beide Zeilen, die Unterzeile
+          steht im Orange des Würfels und füllt genau die Breite von ELCON. */}
+      <span class="marke-b" aria-hidden="true">
+        <LogoZeichen class="marke-b-zeichen" />
+        <span class="marke-b-text">
+          <span class="marke-b-wort">ELCON</span>
+          <span class="marke-b-unterzeile">
+            {'GEBÄUDETECHNIK'.split('').map((z) => <span>{z}</span>)}
+          </span>
+        </span>
+      </span>
+
+      {/* Dritte Fassung: wie die erste, nur steht die Unterzeile im Orange des
+          Würfels statt in Navy. */}
+      <span class="brand marke-c" aria-hidden="true">
+        <span class="marke-zeile">
+          <LogoZeichen class="marke-zeichen" />
+          <span class="brand-word">ELCON</span>
+        </span>
+        <span class="brand-tagline">
           {'GEBÄUDETECHNIK'.split('').map((z) => <span>{z}</span>)}
         </span>
       </span>
-    </span>
+    </div>
 
     <input type="checkbox" id="menuToggle" class="menu-toggle">
     <label for="menuToggle" class="menu-toggle-label" aria-label={t.menueOeffnen}>
