@@ -424,10 +424,9 @@ html, body { overflow-x: clip; }
   .hero .hero-ctas{
     display:grid;grid-template-columns:repeat(2,1fr);
     width:max-content;max-width:100%;
-    /* Das Knopfpaar steht mittig unter der Textspalte, nicht an deren
-       linker Kante. Möglich, weil das Raster nur so breit ist wie sein
-       Inhalt — ein automatischer Außenabstand zentriert es darin. */
-    margin-inline:auto;
+    /* Das Knopfpaar steht an der linken Kante der Textspalte, bündig mit
+       Überschrift und Absatz darüber. */
+    margin-inline:0;
   }
   .hero .hero-ctas .cta-btn{justify-content:center;}
   /* Trennt die abgeschlossenen Projekte der Unternehmenshistorie von den
@@ -461,7 +460,7 @@ html, body { overflow-x: clip; }
 
   /* --- Einstieg ----------------------------------------------------------- */
   .hero-vertrauen{
-    margin:0 0 1.4rem;font-size:.9rem;font-weight:600;color:rgba(255,255,255,.92);
+    margin:0 0 2.1rem;font-size:.9rem;font-weight:600;color:rgba(255,255,255,.92);
     letter-spacing:.01em;
   }
 
@@ -619,7 +618,7 @@ html, body { overflow-x: clip; }
     .ablauf-schritte{grid-template-columns:repeat(2,1fr);}
     }
   @media (max-width:640px){
-    .hero-vertrauen{margin:0 0 1.4rem;font-size:.86rem;}
+    .hero-vertrauen{margin:0 0 2.1rem;font-size:.86rem;}
     .kennzahlen-titel{font-size:.95rem;}
     .kennzahlen{grid-template-columns:repeat(2,1fr);gap:1.1rem;padding-block:1.2rem;}
     .kennzahlen-band .wrap{padding-block:.2rem 1.2rem;}
