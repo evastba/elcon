@@ -283,7 +283,10 @@ export const ansprechpartner: Ansprechpartner[] = [
     aufKontaktseite: true,
     imFooter: false,
     leistungsbereiche: [],
-    aktiv: true,
+    /* Auf Wunsch des Auftraggebers nicht mehr auf der Website; der
+       Datensatz bleibt erhalten und lässt sich mit aktiv: true wieder
+       einblenden. */
+    aktiv: false,
     veroeffentlichungsfreigabe: true,
   },
   {
@@ -303,7 +306,10 @@ export const ansprechpartner: Ansprechpartner[] = [
     aufKontaktseite: true,
     imFooter: false,
     leistungsbereiche: [],
-    aktiv: true,
+    /* Auf Wunsch des Auftraggebers nicht mehr auf der Website; der
+       Datensatz bleibt erhalten und lässt sich mit aktiv: true wieder
+       einblenden. */
+    aktiv: false,
     veroeffentlichungsfreigabe: true,
   },
 ];
