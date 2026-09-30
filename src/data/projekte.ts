@@ -159,7 +159,7 @@ const PROJEKTE: Projektdetail[] = [
     titel: 'Porsche Zentrale in Moskau, 2006',
     kachel: 'Neubau Porsche-Zentrum, Moskau',
     absaetze: [
-      'Neubau des Porsche Autozentrums in Moskau\nGroßzügige Ausstellungsflächen, anspruchsvoller Showroom, repräsentative Ausstattung, das sind die Merkmale des Porsche Autozentrums in Moskau. Elcon ist hier für die Ausführung der gesamten technischen Gebäudeausrüstung mit einem Anteil von 3,5 Mio Euro am Gesamt Projektvolumen von ca. 10 Mio. Euro. zuständig.',
+      'Neubau des Porsche Autozentrums in Moskau\nGroßzügige Ausstellungsflächen, anspruchsvoller Showroom, repräsentative Ausstattung, das sind die Merkmale des Porsche Autozentrums in Moskau. Elcon ist hier für die Ausführung der gesamten technischen Gebäudeausrüstung zuständig.',
     ],
     felder: [
       { label: 'Projekt', value: 'Porsche Zentrale in Moskau' },
@@ -230,7 +230,6 @@ const PROJEKTE: Projektdetail[] = [
     titel: 'Schweizer Botschaft in Moskau, 2005',
     kachel: 'Schweizer Botschaft, Moskau',
     absaetze: [
-      'Ca. 600.000 Euro\nElcon-Anteil 100.000 Euro',
       'Planung und Ausführung der elektrischen Anlagen und des PC-Netzes',
     ],
     felder: [
@@ -385,7 +384,6 @@ const PROJEKTE: Projektdetail[] = [
     slug: 'villa-rublowskoe-schosse-moskau-2005',
     titel: 'Villa Rublowskoe Schosse, Moskau, 2005',
     absaetze: [
-      'ca. 10 Mio Euro\nElcon Anteil 1,2 Mio Euro',
       'Planung und Ausführung aller technischen Anlagen',
     ],
     felder: [
@@ -506,7 +504,7 @@ const UEBERSETZUNGEN: Record<string, ProjektdetailEn> = {
     titel: 'Porsche centre in Moscow, 2006',
     kachel: 'New Porsche centre, Moscow',
     absaetze: [
-      'New Porsche car centre in Moscow\nGenerous exhibition areas, a sophisticated showroom and prestigious fittings are the hallmarks of the Porsche car centre in Moscow. ELCON is responsible here for delivering the complete building services, accounting for 3.5 million euros of the total project volume of approximately 10 million euros.',
+      'New Porsche car centre in Moscow\nGenerous exhibition areas, a sophisticated showroom and prestigious fittings are the hallmarks of the Porsche car centre in Moscow. ELCON is responsible here for delivering the complete building services.',
     ],
     felder: [
       { label: 'Project', value: 'Porsche centre in Moscow' },
@@ -568,7 +566,6 @@ const UEBERSETZUNGEN: Record<string, ProjektdetailEn> = {
     titel: 'Swiss Embassy in Moscow, 2005',
     kachel: 'Swiss Embassy, Moscow',
     absaetze: [
-      'Approx. 600,000 euros\nELCON share 100,000 euros',
       'Design and delivery of the electrical installations and the computer network',
     ],
     felder: [
@@ -703,7 +700,6 @@ const UEBERSETZUNGEN: Record<string, ProjektdetailEn> = {
   'villa-rublowskoe-schosse-moskau-2005': {
     titel: 'Villa on Rublyovskoye Shosse, Moscow, 2005',
     absaetze: [
-      'approx. 10 million euros\nELCON share 1.2 million euros',
       'Design and delivery of all technical installations',
     ],
     felder: [
@@ -726,7 +722,28 @@ const UEBERSETZUNGEN: Record<string, ProjektdetailEn> = {
  * Fehlt eine Übersetzung, bleibt `en` leer; die englischen Seiten fallen dann
  * sichtbar auf den deutschen Text zurück, statt einen leeren Eintrag zu zeigen.
  */
+/**
+ * Datenfelder, die nicht auf der Website erscheinen.
+ *
+ * Auftragswerte und Projektvolumen bleiben in den Quelldaten erhalten — sie
+ * stammen von den Projektseiten der bisherigen Website und sind Teil des
+ * Archivs —, werden aber nicht ausgegeben. Gefiltert wird über die
+ * Feldbezeichnung, weil die Vorlage sie uneinheitlich schreibt:
+ * „Projektvolumen", „Projekt-Volumen", „Bauvolumen", „ELCON-Anteil" und die
+ * englischen Entsprechungen.
+ */
+const VERBORGENE_FELDER = [
+  'projektvolumen', 'projekt-volumen', 'bauvolumen', 'elcon-anteil',
+  'project volume', 'construction volume', 'elcon share',
+];
+
+const sichtbar = (felder: Projektfeld[]): Projektfeld[] =>
+  felder.filter((f) => !VERBORGENE_FELDER.includes(f.label.trim().toLowerCase()));
+
 export const PROJEKTDETAILS: Projektdetail[] = PROJEKTE.map((p) => ({
   ...p,
-  en: UEBERSETZUNGEN[p.slug],
+  felder: sichtbar(p.felder),
+  en: UEBERSETZUNGEN[p.slug]
+    ? { ...UEBERSETZUNGEN[p.slug], felder: sichtbar(UEBERSETZUNGEN[p.slug].felder) }
+    : undefined,
 }));

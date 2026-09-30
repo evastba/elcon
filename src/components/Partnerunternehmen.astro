@@ -52,12 +52,12 @@ const partner = sichtbarePartner.map((p) => ({
                 <a class="cta-btn umriss partner-link" href={p.website} target="_blank" rel="noopener noreferrer">
                   {t.websiteLabel}
                 </a>
-              ) : (
+              ) : p.ohneWebsiteKnopf ? null : (
                 /* Ohne Adresse steht die Zeile nur da, damit die Kacheln
                    gleich aufgebaut bleiben. Bewusst kein Verweis: Ein Link
                    ins Leere führte zu einer Fehlerseite, und Vorleseprogramme
-                   kündigten ein Ziel an, das es nicht gibt. Sobald die
-                   Adresse vorliegt, wird daraus von selbst ein Verweis. */
+                   kündigten ein Ziel an, das es nicht gibt. Trägt der Eintrag
+                   ohneWebsiteKnopf, entfällt auch diese Zeile. */
                 <span class="cta-btn umriss partner-link partner-link--ohne-ziel">{t.websiteLabel}</span>
               )}
             </div>

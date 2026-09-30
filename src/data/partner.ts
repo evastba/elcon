@@ -53,6 +53,11 @@ export interface Partner {
    */
   stichworte: string[] | null;
   stichworteEn: string[] | null;
+  /**
+   * Der Knopf „Website" entfällt bei diesem Eintrag ganz, statt als Text ohne
+   * Verweis zu erscheinen.
+   */
+  ohneWebsiteKnopf?: boolean;
   /** Website des Partners; ohne Adresse entfällt die Verlinkung. */
   website: string | null;
   /**
@@ -109,7 +114,9 @@ export const PARTNER: Partner[] = [
        GmbH wird die Northtech GmbH zudem als ausführender Partner geführt. */
     stichworte: ['Ausrüstung für Energieprojekte', 'Zusammenarbeit bei internationalen Projekten'],
     stichworteEn: ['Equipment for energy projects', 'Cooperation on international projects'],
+    /* Ohne Website: Die Kachel zeigt deshalb keinen Knopf. */
     website: null,
+    ohneWebsiteKnopf: true,
     /* Vom Auftraggeber geliefert. Die Datei war randlos beschnitten; ein
        durchsichtiger Rand von vier Prozent haelt das Zeichen von der
        Kachelkante fort. */

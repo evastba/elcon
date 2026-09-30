@@ -185,8 +185,8 @@ export const historie: Meilenstein[] = [
     jahr: '2021',
     titel: 'Gründung Northtech GmbH',
     titelEn: 'Northtech GmbH founded',
-    text: 'Planung, Ausführung und Betreuung von Technik für Öl- und Gasförderung sowie -transport.',
-    textEn: 'Design, delivery and maintenance of technology for oil and gas production and transport.',
+    text: 'Planung, Ausführung und Betreuung von Technik für erneuerbare Energien.',
+    textEn: 'Design, delivery and maintenance of technology for renewable energy.',
   },
 ];
 
