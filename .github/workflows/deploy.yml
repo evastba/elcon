@@ -1,10 +1,13 @@
 name: Deploy auf Cloudflare Pages
 
+# Vorübergehend deaktiviert: Veröffentlicht wird derzeit über GitHub Pages
+# (siehe github-pages.yml). Zum Reaktivieren den push-Auslöser wieder
+# einkommentieren; von Hand starten lässt sich der Workflow weiterhin.
 on:
   # Jeder Branch wird deployt: main geht auf die Produktions-URL,
   # alle anderen bekommen ein Preview-Deployment unter eigener URL.
-  push:
-    branches: ['**']
+  # push:
+  #   branches: ['**']
   workflow_dispatch:
 
 # Ein Deployment pro Branch; laufende Vorgänger desselben Branches werden
