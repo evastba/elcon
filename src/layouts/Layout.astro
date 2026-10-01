@@ -124,7 +124,13 @@ const organisation = {
 
     <script type="application/ld+json" set:html={JSON.stringify(organisation)} is:inline />
 
-    <script is:inline async src="https://analytics.pulpo.cloud/script.js" data-website-id="cee1c2ea-6221-4b8e-af96-16f7021208b6"></script>
+    {/* Besucherstatistik nur im Betrieb: Beim lokalen Entwickeln wird das
+        Skript gar nicht erst eingebunden, und data-domains lässt es nur unter
+        den Produktionsadressen zählen — ein lokales `astro preview` oder eine
+        Vorschau-URL verfälscht die Zahlen dadurch nicht. */}
+    {import.meta.env.PROD && (
+      <script is:inline async src="https://analytics.pulpo.cloud/script.js" data-website-id="cee1c2ea-6221-4b8e-af96-16f7021208b6" data-domains="elcon-led.com,www.elcon-led.com"></script>
+    )}
   </head>
   <body>
     <slot />
