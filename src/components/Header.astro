@@ -1,6 +1,5 @@
 ---
-import logoElcon from '../assets/logo-elcon.png';
-import { Image } from 'astro:assets';
+import LogoZeichen from './LogoZeichen.astro';
 import { getLang, UI, LANGS, anderePfad, pfad } from '../i18n/ui';
 
 /* Die Navigation markiert die aktive Seite serverseitig. Astro.url.pathname
@@ -27,8 +26,18 @@ const isActive = (href: string) => path === href.replace(/\/+$/, '');
 
 <header class="site">
   <div class="wrap nav-row">
-<a href={pfad('/', lang)} class="brand" aria-label={t.zurStartseite}>
-      <Image src={logoElcon} alt="ELCON Gebäudetechnik" widths={[180, 360]} sizes="180px" loading="eager" />
+    <a href={pfad('/', lang)} class="brand" aria-label={t.zurStartseite}>
+      <LogoZeichen class="marke-zeichen" />
+      <span class="brand-text">
+        <span class="brand-word">ELCON</span>
+        {/* Die Unterzeile füllt genau die Breite von ELCON darüber. Damit sie
+            das trifft, steht jeder Buchstabe für sich und der Zwischenraum
+            verteilt sich gleichmäßig — ein fester Sperrwert träfe die Breite
+            nur zufällig und bräche bei jeder Änderung der Schriftgröße. */}
+        <span class="brand-tagline" aria-hidden="true">
+          {'GEBÄUDETECHNIK'.split('').map((z) => <span>{z}</span>)}
+        </span>
+      </span>
     </a>
 
     <input type="checkbox" id="menuToggle" class="menu-toggle">

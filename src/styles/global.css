@@ -207,16 +207,39 @@ html, body { overflow-x: clip; }
   .nav-row{display:flex;align-items:center;gap:1.5rem;padding-block:.9rem;}
   /* Marke.
 
-     Seit dem Austausch steht hier die gelieferte Logodatei als Ganzes statt
-     eines nachgebauten Zeichens mit gesetzter Wortmarke. Die Höhe richtet
-     sich weiterhin nach --marke-hoehe, damit die Kopfzeile ihre Maße behält. */
+     Der Würfel steht links, rechts daneben ELCON und darunter die Unterzeile,
+     die genau die Breite von ELCON füllt.
+
+     Der Würfel reicht von der Oberkante der Versalien von ELCON bis zur
+     Unterkante von GEBÄUDETECHNIK — nicht von Zeilenkasten zu Zeilenkasten.
+     Zwischen beiden liegt der Durchschuss der Schrift: Die Versalien beginnen
+     0,151 em unter der Oberkante ihres Kastens, die Grundlinie der Unterzeile
+     liegt 1,177 em darunter. Beide Werte sind an der gesetzten Schrift
+     gemessen, über die Glyphenkanten, nicht geschätzt.
+
+     Damit sie gültig bleiben, hängen Schriftgröße und Abstand der Unterzeile
+     an der Größe der Wortmarke; die ganze Marke wächst dadurch im selben
+     Verhältnis. */
   .brand{
-    display:inline-flex;align-items:center;
-    text-decoration:none;margin-right:auto;
+    font-size:var(--marke-wort);
+    display:inline-flex;align-items:flex-start;gap:.5rem;
+    text-decoration:none;color:var(--text);margin-right:auto;
   }
-  .brand img{
-    height:calc(var(--marke-hoehe) * 1.12);
-    width:auto;display:block;
+  .marke-zeichen{
+    height:1.1769em;width:1.1769em;margin-top:.1508em;
+    flex:none;display:block;
+  }
+  .brand-text{display:flex;flex-direction:column;line-height:1;}
+  /* Farben aus der Logovorlage: Der Schriftzug steht im Grün der Palette, die
+     Unterzeile im Orange des Würfels. */
+  .brand-word{
+    font-family:var(--schrift-titel);font-weight:800;
+    font-size:var(--marke-wort);letter-spacing:.01em;color:var(--forest);
+  }
+  .brand-tagline{
+    display:flex;justify-content:space-between;
+    font-size:var(--marke-unterzeile);font-weight:700;letter-spacing:0;line-height:1;
+    text-transform:uppercase;color:var(--copper);margin-top:var(--marke-abstand);
   }
 
   nav.primary{display:flex;gap:1.9rem;}
