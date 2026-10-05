@@ -207,39 +207,16 @@ html, body { overflow-x: clip; }
   .nav-row{display:flex;align-items:center;gap:1.5rem;padding-block:.9rem;}
   /* Marke.
 
-     Der Würfel steht links, rechts daneben ELCON und darunter die Unterzeile,
-     die genau die Breite von ELCON füllt.
-
-     Der Würfel reicht von der Oberkante der Versalien von ELCON bis zur
-     Unterkante von GEBÄUDETECHNIK — nicht von Zeilenkasten zu Zeilenkasten.
-     Zwischen beiden liegt der Durchschuss der Schrift: Die Versalien beginnen
-     0,151 em unter der Oberkante ihres Kastens, die Grundlinie der Unterzeile
-     liegt 1,177 em darunter. Beide Werte sind an der gesetzten Schrift
-     gemessen, über die Glyphenkanten, nicht geschätzt.
-
-     Damit sie gültig bleiben, hängen Schriftgröße und Abstand der Unterzeile
-     an der Größe der Wortmarke; die ganze Marke wächst dadurch im selben
-     Verhältnis. */
+     Seit dem Austausch steht hier die gelieferte Logodatei als Ganzes statt
+     eines nachgebauten Zeichens mit gesetzter Wortmarke. Die Höhe richtet
+     sich weiterhin nach --marke-hoehe, damit die Kopfzeile ihre Maße behält. */
   .brand{
-    font-size:var(--marke-wort);
-    display:inline-flex;align-items:flex-start;gap:.5rem;
-    text-decoration:none;color:var(--text);margin-right:auto;
+    display:inline-flex;align-items:center;
+    text-decoration:none;margin-right:auto;
   }
-  .marke-zeichen{
-    height:1.1769em;width:1.1769em;margin-top:.1508em;
-    flex:none;display:block;
-  }
-  .brand-text{display:flex;flex-direction:column;line-height:1;}
-  /* Farben aus der Logovorlage: Der Schriftzug steht im Grün der Palette, die
-     Unterzeile im Orange des Würfels. */
-  .brand-word{
-    font-family:var(--schrift-titel);font-weight:800;
-    font-size:var(--marke-wort);letter-spacing:.01em;color:var(--forest);
-  }
-  .brand-tagline{
-    display:flex;justify-content:space-between;
-    font-size:var(--marke-unterzeile);font-weight:700;letter-spacing:0;line-height:1;
-    text-transform:uppercase;color:var(--copper);margin-top:var(--marke-abstand);
+  .brand img{
+    height:calc(var(--marke-hoehe) * 1.12);
+    width:auto;display:block;
   }
 
   nav.primary{display:flex;gap:1.9rem;}
@@ -321,9 +298,13 @@ html, body { overflow-x: clip; }
      er auf jedem Bildausschnitt lesbar bleibt, liegt ein Verlauf dazwischen:
      links deckend, nach rechts auslaufend. Ohne ihn hinge die Lesbarkeit
      davon ab, welcher Teil des Bildes gerade sichtbar ist. */
+  /* Die Bannerhöhe richtet sich nach der sichtbaren Fensterhöhe, damit das
+     Logoband darunter ohne Scrollen zu sehen ist. Abgezogen werden die
+     230 Pixel, die Kopfzeile, Vertrauenszeile und Band zusammen brauchen;
+     nach unten begrenzt der Inhalt, nach oben die Obergrenze. */
   .hero{
     position:relative;padding:0;overflow:hidden;
-    min-height:clamp(420px,58vh,600px);
+    min-height:clamp(380px, calc(100vh - 230px), 540px);
     display:flex;align-items:center;
     background:var(--navy);
   }
@@ -343,11 +324,15 @@ html, body { overflow-x: clip; }
   }
   /* width:100% ist nötig, weil .wrap hier ein Flex-Element ist und sonst auf
      seine Inhaltsbreite schrumpfte, statt die Seitenbreite einzuhalten. */
-  .hero .wrap{position:relative;z-index:1;width:100%;padding-block:clamp(2.6rem,5vw,3.6rem);}
+  .hero .wrap{position:relative;z-index:1;width:100%;padding-block:clamp(1rem,2.6vh,3rem);}
   .hero-text{max-width:min(56ch,56%);}
-  .hero .eyebrow{margin-bottom:1.1rem;color:#E4EEE7;}
-  .hero h1{font-size:clamp(1.7rem,3vw,2.4rem);line-height:1.2;font-weight:800;margin:0 0 1.2rem;letter-spacing:-.01em;color:#FFFFFF;}
-  .hero p.lead{font-size:1rem;line-height:1.6;color:rgba(255,255,255,.92);max-width:56ch;margin:0 0 1.2rem;}
+  .hero .eyebrow{margin-bottom:clamp(.6rem,1.4vh,1.1rem);color:#E4EEE7;}
+  /* Die Schriftgröße folgt zusätzlich der Fensterhöhe: Auf flachen
+     Bildschirmen wird die Überschrift eine Spur kleiner, damit das Logoband
+     darunter noch ins Bild passt. Auf hohen Fenstern greift weiterhin die
+     Obergrenze. */
+  .hero h1{font-size:clamp(1.55rem, min(3vw, 1rem + 2.6vh), 2.4rem);line-height:1.2;font-weight:800;margin:0 0 clamp(.7rem,1.6vh,1.2rem);letter-spacing:-.01em;color:#FFFFFF;}
+  .hero p.lead{font-size:clamp(.92rem, .8rem + .35vh, 1rem);line-height:1.6;color:rgba(255,255,255,.92);max-width:56ch;margin:0 0 clamp(.7rem,1.6vh,1.2rem);}
   /* Auf dunklem Grund trägt der zweite Knopf einen hellen Rand statt des
      Rahmens für helle Flächen. */
   .hero .cta-btn.ghost{background:transparent;border-color:rgba(255,255,255,.55);color:#FFFFFF;}
@@ -358,6 +343,9 @@ html, body { overflow-x: clip; }
      max-content nehmen beide die Breite des längeren Knopfes an — ohne feste
      Pixelwerte, die bei einer Textänderung wieder nicht passen würden. */
   .hero .hero-ctas{
+    /* Unter den Knöpfen folgt im Banner nichts mehr; der geerbte Abstand wäre
+       nur tote Fläche und schöbe das Logoband unter die Falz. */
+    margin-bottom:0;
     display:grid;grid-template-columns:repeat(2,1fr);
     width:max-content;max-width:100%;
     /* Das Knopfpaar steht an der linken Kante der Textspalte, bündig mit
@@ -396,7 +384,7 @@ html, body { overflow-x: clip; }
 
   /* --- Einstieg ----------------------------------------------------------- */
   .hero-vertrauen{
-    margin:0 0 4.2rem;font-size:.9rem;font-weight:600;color:rgba(255,255,255,.92);
+    margin:0 0 clamp(1.6rem,4.4vh,4.2rem);font-size:.9rem;font-weight:600;color:rgba(255,255,255,.92);
     letter-spacing:.01em;
   }
 
@@ -554,7 +542,7 @@ html, body { overflow-x: clip; }
     .ablauf-schritte{grid-template-columns:repeat(2,1fr);}
     }
   @media (max-width:640px){
-    .hero-vertrauen{margin:0 0 3rem;font-size:.86rem;}
+    .hero-vertrauen{margin:0 0 clamp(1.4rem,3.4vh,3rem);font-size:.86rem;}
     .kennzahlen-titel{font-size:.95rem;}
     .kennzahlen{grid-template-columns:repeat(2,1fr);gap:1.1rem;padding-block:1.2rem;}
     .kennzahlen-band .wrap{padding-block:.2rem 1.2rem;}
