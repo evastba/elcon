@@ -141,7 +141,9 @@ export const PROJEKTREFERENZEN: Projektreferenz[] = [
     verifiziert: true,
     logoFreigabe: 'freigegeben',
     textFreigabe: 'freigegeben',
-    hervorgehoben: true,
+    /* Auf Weisung des Auftraggebers aus den drei Startseitenkacheln genommen;
+       der Eintrag bleibt in der Projektübersicht vollständig erhalten. */
+    hervorgehoben: false,
     quelle: 'Bestandswebsite www.elcon-led.com (Kachel ohne Detailseite)',
   },
   {
@@ -229,7 +231,11 @@ export const PROJEKTREFERENZEN: Projektreferenz[] = [
     verifiziert: true,
     logoFreigabe: 'freigegeben',
     textFreigabe: 'freigegeben',
-    hervorgehoben: false,
+    /* Auf Weisung des Auftraggebers an prominenter Stelle. Die Einstufung
+       bleibt 'historisch' — das Projekt ruht seit 2022 —, in der
+       Projektübersicht steht es deshalb weiter bei den historischen
+       Referenzen. */
+    hervorgehoben: true,
     quelle: 'Bestandswebsite www.elcon-led.com',
   },
   {
@@ -1651,6 +1657,7 @@ export const REFERENZSCHREIBEN: Referenzschreiben[] = [
 
 /** Branchengruppe — bestimmt die Reihenfolge in der Laufschrift. */
 export type Logogruppe =
+  | 'energie'
   | 'automobil'
   | 'hotellerie'
   | 'oeffentlich'
@@ -1678,17 +1685,21 @@ export interface Kundenlogo {
  * Verwendung auf dieser Website ist für keines der Logos belegt; alle stehen
  * deshalb auf `offen` und sind in LIVEGANG_CHECKLISTE.md aufgeführt.
  *
- * Nord Stream und Nord Stream 2 sind auf ausdrücklichen Wunsch des
- * Auftraggebers nicht mehr Teil der Laufschrift. Die Projekte selbst bleiben
- * in PROJEKTREFERENZEN als historische Referenzen erhalten.
+ * Nord Stream und Nord Stream 2 standen zwischenzeitlich nicht im Band; auf
+ * ausdrückliche Weisung des Auftraggebers laufen sie wieder mit, und zwar an
+ * erster Stelle.
  *
- * Die Reihenfolge folgt Branchen, nicht dem Zufall: Automobil, Hotellerie,
+ * Die Reihenfolge folgt Branchen, nicht dem Zufall: Energie, Automobil, Hotellerie,
  * öffentliche Auftraggeber, Konsumgüter, Industrie, Bau, Finanzen. Innerhalb
  * einer Gruppe stehen die bekanntesten Marken vorn, damit das Band nicht mit
  * einem unbekannten Namen beginnt. Das Feld `gruppe` hält die Zuordnung fest;
  * wer ein Logo ergänzt, sieht daran, wo es hingehört.
  */
 export const KUNDENLOGOS: Kundenlogo[] = [
+  /* Energie und Infrastruktur — auf Weisung des Auftraggebers am Anfang */
+  { name: 'Nord Stream', datei: 'nordstream.png', gross: false, gruppe: 'energie', freigabe: 'freigegeben', status: 'verified' },
+  { name: 'Nord Stream 2', datei: 'nordstream2.png', gross: false, gruppe: 'energie', freigabe: 'freigegeben', status: 'verified' },
+
   /* Automobil und Zulieferer */
   { name: 'Volkswagen', datei: 'volkswagen.png', gross: true, gruppe: 'automobil', freigabe: 'freigegeben', status: 'verified' },
   { name: 'Audi', datei: 'audi.png', gross: false, gruppe: 'automobil', freigabe: 'freigegeben', status: 'verified' },
@@ -1790,15 +1801,19 @@ export const referenzenNachTyp = [
 /**
  * Referenzen für den Startseitenabschnitt "Aktuelle Projekte".
  *
- * Verlangt: nicht historisch, geprüft, textlich freigegeben und ausdrücklich
- * für die Startseite markiert. Die Markierung ist das letzte Kriterium mit
- * Absicht — ohne sie entscheidet die Reihenfolge in der Datei darüber, was
- * an prominentester Stelle steht.
+ * Verlangt: geprüft, textlich freigegeben und ausdrücklich für die Startseite
+ * markiert. Die Markierung ist das letzte Kriterium mit Absicht — ohne sie
+ * entscheidet die Reihenfolge in der Datei darüber, was an prominentester
+ * Stelle steht.
+ *
+ * Die Einstufung als 'historisch' schließt eine Referenz hier nicht mehr aus:
+ * Welche drei Projekte vorn stehen, entscheidet der Auftraggeber über
+ * `hervorgehoben`. Die Einstufung bleibt davon unberührt und steuert
+ * weiterhin die Gruppierung der Projektübersicht.
  */
 export const startseitenReferenzen = PROJEKTREFERENZEN.filter(
   (r) =>
     r.hervorgehoben &&
-    r.referenzTyp !== 'historisch' &&
     r.status === 'verified' &&
     r.textFreigabe === 'freigegeben',
 ).slice(0, 3);
