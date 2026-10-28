@@ -1,5 +1,6 @@
 ---
-import LogoZeichen from './LogoZeichen.astro';
+import logoElcon from '../assets/logo-elcon.png';
+import { Image } from 'astro:assets';
 import Ansprechpartner from './Ansprechpartner.astro';
 import { sichtbarePartner } from '../data/partner';
 import { company, analyticsEnabled, ortZeile } from '../config';
@@ -31,18 +32,8 @@ const land = lang === 'de' ? company.country : company.countryEn;
 <footer class="site">
   <div class="wrap footer-grid">
     <div class="footer-marke">
-<a href={start} class="brand">
-        <LogoZeichen class="marke-zeichen" />
-        <span class="brand-text">
-          <span class="brand-word">ELCON</span>
-          {/* Die Unterzeile füllt genau die Breite von ELCON darüber. Damit sie
-              das trifft, steht jeder Buchstabe für sich und der Zwischenraum
-              verteilt sich gleichmäßig — ein fester Sperrwert träfe die Breite
-              nur zufällig und bräche bei jeder Änderung der Schriftgröße. */}
-          <span class="brand-tagline" aria-hidden="true">
-            {'GEBÄUDETECHNIK'.split('').map((z) => <span>{z}</span>)}
-          </span>
-        </span>
+      <a href={start} class="brand">
+        <Image src={logoElcon} alt="ELCON Gebäudetechnik" widths={[180, 360]} sizes="180px" />
       </a>
       <p class="footer-firma">{company.name}</p>
       <address class="footer-adresse">
