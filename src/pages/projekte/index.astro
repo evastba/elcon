@@ -2,10 +2,9 @@
 import { Image, getImage } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { asset } from '../../lib/assets';
-import Bildhinweis from '../../components/Bildhinweis.astro';
 import Projektkachel from '../../components/Projektkachel.astro';
 import Bewertungen from '../../components/Bewertungen.astro';
-import { referenzenNachTyp, istHistorisch } from '../../data/referenzen';
+import { referenzenNachTyp, beginntHistorischeGruppe } from '../../data/referenzen';
 import { useUi } from '../../i18n/ui';
 
 /* Die Großansicht der Referenzschreiben wird erst im Browser gesetzt und kann
@@ -49,11 +48,11 @@ const t = useUi(Astro.url);
    getrennt durch eine Überschrift mit der zeitlichen Einordnung. Die Trennung
    ergibt sich aus den Daten, nicht aus der Reihenfolge im Markup — sie kann
    deshalb nicht auseinanderlaufen, wenn eine Referenz umgestuft wird. */
-const ersteHistorische = referenzenNachTyp.findIndex(istHistorisch);
+const ersteHistorische = referenzenNachTyp.findIndex(beginntHistorischeGruppe);
 
-/* Das Motiv im Referenzbereich ist eine KI-Visualisierung und trägt darunter
-   den entsprechenden Hinweis. Für den Produktiveinsatz ist ein reales
-   ELCON-Projektfoto vorzuziehen — siehe LIVEGANG_CHECKLISTE.md, Abschnitt 10. */
+/* Das Motiv im Referenzbereich ist ein lizenziertes Shutterstock-Foto, kein
+   ELCON-Projekt. Ein reales ELCON-Projektfoto bleibt vorzuziehen — siehe
+   LIVEGANG_CHECKLISTE.md, Abschnitt 10. */
 ---
 
 <BaseLayout title="Projekte & Referenzen" description="Realisierte Projekte der ELCON LED GmbH: Elektro-, HKLS- und Automatisierungstechnik für Industrie, Gewerbe und öffentliche Auftraggeber im In- und Ausland.">
@@ -111,14 +110,13 @@ const ersteHistorische = referenzenNachTyp.findIndex(istHistorisch);
         <!-- ABSCHNITT 1: AUSGEWÄHLTE REFERENZEN -->
         <section class="ref-showcase">
           <div class="ref-stage">
-            <Image src={asset("/assets/offer/technik-msr.jpg")} width="900" height="519" alt="Technische Gebäudeausrüstung in einer Gewerbeimmobilie — Schaltschrank mit Gebäudeleittechnik" />
+            <Image src={asset("/assets/offer/technik-msr.jpg")} width="900" height="519" alt="Techniker mit Laptop bei der Inbetriebnahme einer Schaltanlage" />
             
             <div class="ref-stage-overlay"></div>
             <div class="ref-stage-content wrap">
               <h2>Erfahrung, die Vertrauen schafft</h2>
             </div>
           </div>
-          <Bildhinweis art="projekt" />
 
         </section>
 

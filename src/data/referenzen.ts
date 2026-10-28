@@ -101,12 +101,12 @@ export interface Projektreferenz {
   textFreigabe: Freigabe;
   hervorgehoben: boolean;
   /**
-   * Feste Position innerhalb der nicht-historischen Referenzen, 1 = ganz vorn.
+   * Feste Position in der Projektübersicht, 1 = ganz vorn.
    *
    * Ohne diese Angabe entscheidet die Reihenfolge in der Datei, welche
-   * Projekte in der ersten Reihe stehen. Die Trennung zu den historischen
-   * Referenzen bleibt davon unberührt — festgesetzt wird nur innerhalb der
-   * vorderen Gruppe.
+   * Projekte in der ersten Reihe stehen. Festgesetzt werden kann auch eine
+   * historische Referenz: Sie rückt dann nach vorn, behält aber ihre
+   * Einstufung und steht nicht unter der Überschrift der historischen Gruppe.
    */
   reihenfolge?: number;
   /** Woher die Angaben stammen. */
@@ -116,7 +116,7 @@ export interface Projektreferenz {
 export const PROJEKTREFERENZEN: Projektreferenz[] = [
   {
     id: 'audi-werk-ingolstadt-umbau',
-    reihenfolge: 1,
+    reihenfolge: 5,
     organisation: 'Audi AG',
     projektname: 'Audi-Werk Ingolstadt, Umbau',
     projektnameEn: 'Audi plant Ingolstadt, conversion',
@@ -207,6 +207,7 @@ export const PROJEKTREFERENZEN: Projektreferenz[] = [
   },
   {
     id: 'nord-stream-2-seit-2018',
+    reihenfolge: 1,
     organisation: null,
     projektname: 'Nord Stream 2 Gaspipeline, Ostsee',
     projektnameEn: 'Nord Stream 2 gas pipeline, Baltic Sea',
@@ -1784,19 +1785,27 @@ export const gesicherteAktuelleReferenzen = PROJEKTREFERENZEN.filter(
 export const istHistorisch = (r: Projektreferenz) => r.referenzTyp === 'historisch';
 
 /**
- * Sortierung der Projektübersicht: erst die nicht-historischen Referenzen,
- * dann die historischen. Innerhalb der Gruppen bleibt die bisherige
- * Reihenfolge erhalten.
+ * Sortierung der Projektübersicht: erst die festgesetzten Referenzen, dann
+ * die übrigen nicht-historischen, zuletzt die historischen. Innerhalb der
+ * Gruppen bleibt die bisherige Reihenfolge erhalten.
  */
-/* Innerhalb der nicht-historischen Referenzen stehen festgesetzte Projekte
-   vorn; die übrigen behalten ihre Reihenfolge aus der Datei. */
-const aktuell = sichtbareReferenzen.filter((r) => !istHistorisch(r));
+/* Festgesetzte Projekte stehen vorn, gleich welcher Einstufung — auf
+   Weisung des Auftraggebers steht dort Nord Stream 2, obwohl historisch. Die
+   übrigen behalten ihre Reihenfolge aus der Datei. */
+const festgesetzt = sichtbareReferenzen
+  .filter((r) => r.reihenfolge)
+  .sort((a, b) => (a.reihenfolge as number) - (b.reihenfolge as number));
+const frei = sichtbareReferenzen.filter((r) => !r.reihenfolge);
 
 export const referenzenNachTyp = [
-  ...aktuell.filter((r) => r.reihenfolge).sort((a, b) => (a.reihenfolge as number) - (b.reihenfolge as number)),
-  ...aktuell.filter((r) => !r.reihenfolge),
-  ...sichtbareReferenzen.filter(istHistorisch),
+  ...festgesetzt,
+  ...frei.filter((r) => !istHistorisch(r)),
+  ...frei.filter(istHistorisch),
 ];
+
+/** Beginnt hier die Gruppe der historischen Referenzen? Nach vorn gesetzte
+    historische Projekte zählen nicht dazu. */
+export const beginntHistorischeGruppe = (r: Projektreferenz) => istHistorisch(r) && !r.reihenfolge;
 
 /**
  * Referenzen für den Startseitenabschnitt "Aktuelle Projekte".
