@@ -38,6 +38,7 @@
  * 'ungeklaert'  — Herkunft nicht belegt
  * 'logo'        — Wort-/Bildmarke eines Dritten
  * 'grafik'      — eigene Grafik ohne Abbildungscharakter
+ * 'stock'       — lizenziertes Agenturfoto (Shutterstock), keine ELCON-Aufnahme
  */
 export type Bildart =
   | 'echt'
@@ -47,7 +48,8 @@ export type Bildart =
   | 'ki-projekt'
   | 'ungeklaert'
   | 'logo'
-  | 'grafik';
+  | 'grafik'
+  | 'stock';
 
 export interface Bildeintrag {
   /** Pfad unterhalb von src/assets. */
@@ -95,25 +97,28 @@ export const BILDREGISTER: Bildeintrag[] = [
   { datei: 'projekte/nord-stream-elcon-liefert-elt-te-07.jpg', art: 'echt', beleg: 'EXIF: Olympus uD800/S800.', verwendet: true, ersatzEmpfohlen: false, einsatzort: 'Projektdetailseite Nord Stream 2011, Galerie', bezug: 'Nord Stream, Ostsee, 2011', rechteinhaber: 'ELCON LED GmbH (Firmenarchiv)', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: null },
   { datei: 'projekte/nord-stream-elcon-liefert-elt-te-08.jpg', art: 'ungeklaert', beleg: 'Teil derselben Bildserie, trägt aber keine Aufnahmemetadaten — Herkunft nicht unabhängig belegt.', verwendet: true, ersatzEmpfohlen: false, einsatzort: 'Projektdetailseite Nord Stream 2011, Galerie', bezug: 'Nord Stream, Ostsee, 2011', rechteinhaber: null, nutzungsfreigabe: 'offen', veroeffentlichungsfreigabe: 'offen', ersatzPrioritaet: null },
 
-  /* --- Fotorealistische KI-Motive mit Personen -------------------------- */
-  { datei: 'leistungen/baustelle-messung.jpg', art: 'ki-personen', beleg: kiPerson, verwendet: false, ersatzEmpfohlen: true, einsatzort: null, bezug: 'Leistungsfeld Gebäudeautomation', rechteinhaber: 'KI-Erzeugnis, Auftraggeber', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: 4 },
-  { datei: 'leistungen/beratung-anlage.jpg', art: 'ki-personen', beleg: kiPerson, verwendet: true, ersatzEmpfohlen: true, einsatzort: 'Leistungsseite, Lebenszyklus-Band', bezug: 'Leistungsfeld Wartung und Betrieb', rechteinhaber: 'KI-Erzeugnis, Auftraggeber', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: 4 },
-  { datei: 'leistungen/hebebuehne-verkabelung.jpg', art: 'ki-personen', beleg: kiPerson, verwendet: false, ersatzEmpfohlen: true, einsatzort: null, bezug: 'Leistungsfeld Niederspannung', rechteinhaber: 'KI-Erzeugnis, Auftraggeber', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: 4 },
-  { datei: 'leistungen/kommunikationssysteme-rack.jpg', art: 'ki-personen', beleg: kiPerson, verwendet: false, ersatzEmpfohlen: true, einsatzort: null, bezug: 'Leistungsfeld Kommunikationstechnik', rechteinhaber: 'KI-Erzeugnis, Auftraggeber', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: 4 },
-  { datei: 'leistungen/mittelspannung-schneider.jpg', art: 'ki-personen', beleg: kiPerson, verwendet: false, ersatzEmpfohlen: true, einsatzort: null, bezug: 'Leistungsfeld Mittelspannung', rechteinhaber: 'KI-Erzeugnis, Auftraggeber', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: 4 },
-  { datei: 'leistungen/msr-handheld.jpg', art: 'ki-personen', beleg: kiPerson, verwendet: true, ersatzEmpfohlen: true, einsatzort: 'Leistungsseite, Leistungsfelder', bezug: 'Leistungsfeld MSR-Technik', rechteinhaber: 'KI-Erzeugnis, Auftraggeber', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: 4 },
-  { datei: 'leistungen/planbesprechung-baustelle.jpg', art: 'ki-personen', beleg: kiPerson, verwendet: true, ersatzEmpfohlen: true, einsatzort: 'Leistungsseite, Projektphase 01', bezug: 'Leistungsfeld Projektierung', rechteinhaber: 'KI-Erzeugnis, Auftraggeber', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: 4 },
-  { datei: 'leistungen/team-montage.jpg', art: 'ki-personen', beleg: kiPerson, verwendet: true, ersatzEmpfohlen: true, einsatzort: 'Leistungsseite, Projektphase 02', bezug: 'Leistungsfeld Montage', rechteinhaber: 'KI-Erzeugnis, Auftraggeber', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: 4 },
-  { datei: 'leistungen/thermografie.jpg', art: 'ki-personen', beleg: kiPerson, verwendet: true, ersatzEmpfohlen: true, einsatzort: 'Leistungsseite, Projektphase 03', bezug: 'Leistungsfeld Wartung', rechteinhaber: 'KI-Erzeugnis, Auftraggeber', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: 4 },
-  { datei: 'unternehmen/team-planung.jpg', art: 'ki-personen', beleg: kiPerson + ' Steht im Unternehmensabschnitt und könnte als ELCON-Team gelesen werden.', verwendet: true, ersatzEmpfohlen: true, einsatzort: 'Unternehmensseite, Leitbild-Band', bezug: 'Unternehmensdarstellung', rechteinhaber: 'KI-Erzeugnis, Auftraggeber', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: 3 },
+  /* --- Lizenzierte Shutterstock-Fotos ---------------------------------- */
+  { datei: 'leistungen/baustelle-messung.jpg', art: 'stock', beleg: 'Shutterstock 2396432143, lizenzierte Originaldatei. Symbolbild, keine ELCON-Aufnahme.', verwendet: false, ersatzEmpfohlen: true, einsatzort: null, bezug: 'Leistungsfeld Gebäudeautomation', rechteinhaber: 'Shutterstock', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: 4 },
+  { datei: 'leistungen/beratung-anlage.jpg', art: 'stock', beleg: 'Shutterstock 1009873003, lizenzierte Originaldatei. Symbolbild, keine ELCON-Aufnahme.', verwendet: true, ersatzEmpfohlen: true, einsatzort: 'Leistungsseite, Lebenszyklus-Band', bezug: 'Leistungsfeld Wartung und Betrieb', rechteinhaber: 'Shutterstock', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: 4 },
+  { datei: 'leistungen/hebebuehne-verkabelung.jpg', art: 'stock', beleg: 'Shutterstock 2266836155, lizenzierte Originaldatei. Symbolbild, keine ELCON-Aufnahme.', verwendet: true, ersatzEmpfohlen: true, einsatzort: 'Leistungsseite, Projektphase 02', bezug: 'Leistungsfeld Niederspannung', rechteinhaber: 'Shutterstock', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: 4 },
+  { datei: 'leistungen/kommunikationssysteme-rack.jpg', art: 'stock', beleg: 'Shutterstock 2745854529, lizenzierte Originaldatei. Symbolbild, keine ELCON-Aufnahme.', verwendet: false, ersatzEmpfohlen: true, einsatzort: null, bezug: 'Leistungsfeld Kommunikationstechnik', rechteinhaber: 'Shutterstock', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: 4 },
+  { datei: 'leistungen/mittelspannung-schneider.jpg', art: 'stock', beleg: 'Shutterstock 1107786923, lizenzierte Originaldatei. Symbolbild, keine ELCON-Aufnahme.', verwendet: false, ersatzEmpfohlen: true, einsatzort: null, bezug: 'Leistungsfeld Mittelspannung', rechteinhaber: 'Shutterstock', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: 4 },
+  { datei: 'leistungen/msr-handheld.jpg', art: 'stock', beleg: 'Shutterstock 2627657957, lizenzierte Originaldatei. Symbolbild, keine ELCON-Aufnahme.', verwendet: true, ersatzEmpfohlen: true, einsatzort: 'Leistungsseite, Leistungsfelder', bezug: 'Leistungsfeld MSR-Technik', rechteinhaber: 'Shutterstock', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: 4 },
+  { datei: 'leistungen/team-montage.jpg', art: 'stock', beleg: 'Shutterstock 217871872, lizenzierte Originaldatei. Symbolbild, keine ELCON-Aufnahme.', verwendet: false, ersatzEmpfohlen: true, einsatzort: null, bezug: 'Leistungsfeld Montage', rechteinhaber: 'Shutterstock', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: 4 },
+  { datei: 'leistungen/thermografie.jpg', art: 'stock', beleg: 'Shutterstock 1327190588, lizenzierte Originaldatei. Symbolbild, keine ELCON-Aufnahme.', verwendet: true, ersatzEmpfohlen: true, einsatzort: 'Leistungsseite, Projektphase 03', bezug: 'Leistungsfeld Wartung', rechteinhaber: 'Shutterstock', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: 4 },
+  { datei: 'unternehmen/team-planung.jpg', art: 'stock', beleg: 'Shutterstock 179702804, lizenzierte Originaldatei. Symbolbild, keine ELCON-Aufnahme.', verwendet: true, ersatzEmpfohlen: true, einsatzort: 'Unternehmensseite, Leitbild-Band', bezug: 'Unternehmensdarstellung', rechteinhaber: 'Shutterstock', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: 3 },
+  { datei: 'leistungen/kabeltrasse.jpg', art: 'stock', beleg: 'Shutterstock 2741487481, lizenzierte Originaldatei. Symbolbild, keine ELCON-Aufnahme.', verwendet: true, ersatzEmpfohlen: false, einsatzort: 'Leistungsseite, Leistungsfelder', bezug: 'Leistungsfeld Netzwerktechnik', rechteinhaber: 'Shutterstock', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: 4 },
 
-  /* --- Fotorealistische KI-Motive ohne Personen ------------------------- */
+  /* --- Fotorealistisches KI-Motiv mit Personen -------------------------- */
+  { datei: 'leistungen/planbesprechung-baustelle.jpg', art: 'ki-personen', beleg: kiPerson + ' Auf Wunsch des Auftraggebers statt des ausgewählten Shutterstock-Bildes 2654663775 beibehalten und auf seine Entscheidung ohne Hinweis am Bild gezeigt. Im Impressum unter Bildnachweise ausdrücklich als KI-generiert benannt.', verwendet: true, ersatzEmpfohlen: true, einsatzort: 'Leistungsseite, Projektphase 01', bezug: 'Leistungsfeld Projektierung', rechteinhaber: 'KI-Erzeugnis, Auftraggeber', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: 4 },
+
+  /* --- Fotorealistisches KI-Motiv ohne Personen ------------------------- */
   {
     datei: 'hero-building.jpg',
     art: 'ki-technik',
     beleg:
       kiTechnik +
-      ' Wird auf Entscheidung des Auftraggebers ohne Hinweis am Bild gezeigt: generisches Gebäude ohne Personen und ohne Bezug auf ein konkretes Projekt. Abgedeckt durch den Sammelnachweis im Impressum.' +
+      ' Wird auf Entscheidung des Auftraggebers ohne Hinweis am Bild gezeigt: generisches Gebäude ohne Personen und ohne Bezug auf ein konkretes Projekt. Im Impressum unter Bildnachweise ausdrücklich als KI-generiert und bearbeitet benannt.' +
       ' Fotografisch nachbearbeitet (scripts/bild-retusche.mjs): Farbe zurückgenommen und zum Grün der Hausmarke verschoben, Tiefen angehoben, Randabschattung, weiche Ecken, ungleiche Ausleuchtung, Farbsaum, Lichtblüte und Korn. Unbearbeitete Fassung: hero-building.png.',
     verwendet: true,
     einsatzort: 'Startseite, Einstieg',
@@ -124,28 +129,27 @@ export const BILDREGISTER: Bildeintrag[] = [
     ersatzEmpfohlen: true,
     ersatzPrioritaet: 6,
   },
-  { datei: 'leistungen/kabeltrasse.jpg', art: 'ki-technik', beleg: kiTechnik, verwendet: true, ersatzEmpfohlen: false, einsatzort: 'Leistungsseite, Leistungsfelder', bezug: 'Leistungsfeld Netzwerktechnik', rechteinhaber: 'KI-Erzeugnis, Auftraggeber', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: 4 },
 
-  /* --- KI-Motiv im Referenzumfeld --------------------------------------- */
+  /* --- Shutterstock-Foto im Referenzumfeld ------------------------------ */
   {
     datei: 'offer/technik-msr.jpg',
-    art: 'ki-projekt',
-    beleg: kiTechnik + ' Steht im Referenzbereich der Projektübersicht und könnte als Projektnachweis gelesen werden.',
+    art: 'stock',
+    beleg: 'Shutterstock 1009873033, lizenzierte Originaldatei. Symbolbild, keine ELCON-Aufnahme.',
     verwendet: true,
     einsatzort: 'Projektübersicht, Referenzband',
     bezug: 'Referenzbereich allgemein',
-    rechteinhaber: 'KI-Erzeugnis, Auftraggeber',
+    rechteinhaber: 'Shutterstock',
     nutzungsfreigabe: 'erteilt',
     veroeffentlichungsfreigabe: 'erteilt',
     ersatzEmpfohlen: true,
     ersatzPrioritaet: 2,
   },
 
-  /* --- Derzeit nicht verwendet, Herkunft nicht belegt -------------------- */
+  /* --- Derzeit nicht verwendet ------------------------------------------ */
   { datei: 'hero-building.png', art: 'ki-technik', beleg: 'PNG-Fassung desselben Motivs wie hero-building.jpg.', verwendet: false, ersatzEmpfohlen: false, einsatzort: null, bezug: 'Unternehmensdarstellung', rechteinhaber: 'KI-Erzeugnis, Auftraggeber', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: null },
-  { datei: 'offer/atrium.jpg', art: 'ungeklaert', beleg: 'Keine Metadaten, keine bisherige Kennzeichnung, derzeit nicht eingebunden.', verwendet: false, ersatzEmpfohlen: false, einsatzort: null, bezug: null, rechteinhaber: null, nutzungsfreigabe: 'offen', veroeffentlichungsfreigabe: 'offen', ersatzPrioritaet: null },
-  { datei: 'offer/pv-dach.jpg', art: 'ungeklaert', beleg: 'Keine Metadaten, keine bisherige Kennzeichnung, derzeit nicht eingebunden.', verwendet: false, ersatzEmpfohlen: false, einsatzort: null, bezug: null, rechteinhaber: null, nutzungsfreigabe: 'offen', veroeffentlichungsfreigabe: 'offen', ersatzPrioritaet: null },
-  { datei: 'unternehmen/tga-gebaeudetechnik.png', art: 'ungeklaert', beleg: 'Keine Metadaten, derzeit nicht eingebunden.', verwendet: false, ersatzEmpfohlen: false, einsatzort: null, bezug: null, rechteinhaber: null, nutzungsfreigabe: 'offen', veroeffentlichungsfreigabe: 'offen', ersatzPrioritaet: null },
+  { datei: 'offer/atrium.jpg', art: 'stock', beleg: 'Shutterstock 2149758209, lizenzierte Originaldatei. Symbolbild, keine ELCON-Aufnahme.', verwendet: false, ersatzEmpfohlen: false, einsatzort: null, bezug: null, rechteinhaber: 'Shutterstock', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: null },
+  { datei: 'offer/pv-dach.jpg', art: 'stock', beleg: 'Shutterstock 2038552058, lizenzierte Originaldatei. Symbolbild, keine ELCON-Aufnahme.', verwendet: false, ersatzEmpfohlen: false, einsatzort: null, bezug: null, rechteinhaber: 'Shutterstock', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: null },
+  { datei: 'unternehmen/tga-gebaeudetechnik.jpg', art: 'stock', beleg: 'Shutterstock 1240491433, lizenzierte Originaldatei. Symbolbild, keine ELCON-Aufnahme.', verwendet: false, ersatzEmpfohlen: false, einsatzort: null, bezug: null, rechteinhaber: 'Shutterstock', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: null },
 
   /* --- Eigene Grafik ---------------------------------------------------- */
   { datei: 'logo-icon-v2.png', art: 'grafik', beleg: 'Bildmarke der ELCON LED GmbH. Seit der Umstellung auf die neue Bildmarke nicht mehr eingebunden.', verwendet: false, ersatzEmpfohlen: false, einsatzort: 'Kopf- und Fußzeile', bezug: 'Bildmarke', rechteinhaber: 'ELCON LED GmbH', nutzungsfreigabe: 'erteilt', veroeffentlichungsfreigabe: 'erteilt', ersatzPrioritaet: null },

@@ -46,16 +46,21 @@ von einer fachkundigen Stelle bestätigt werden.
   raten von der Veröffentlichung ab, weil sie für Betrugsversuche missbraucht
   werden kann. Die Entscheidung, sie zu zeigen, haben Sie getroffen — bitte
   gegenprüfen lassen.
-- **Kennzeichnung KI-generierter Bilder.** Umgesetzt nach Art. 50 EU AI Act
-  (Transparenzpflicht seit 2. August 2026): Hinweis direkt unter dem Bild,
-  dauerhaft sichtbar, zusätzlich ein Sammelnachweis im Impressum. Ob das im
-  Einzelfall ausreicht, ist eine juristische Bewertung.
-- **Hero-Motiv der Startseite ohne Kennzeichnung.** Auf Ihre Entscheidung hin
-  trägt das Gebäudemotiv im Einstieg der Startseite keinen Hinweis am Bild
-  mehr. Es zeigt keine Personen und behauptet kein konkretes Projekt; der
-  Sammelnachweis im Impressum deckt es ab. Alle übrigen KI-Motive — besonders
-  die mit Personen — sind weiterhin am Bild gekennzeichnet. Bitte
+- **Kennzeichnung KI-generierter Bilder.** Seit dem 28. Oktober 2026 sind die
+  früheren KI-Motive durch lizenzierte Shutterstock-Fotos ersetzt; das
+  Impressum nennt Shutterstock als Bildquelle. KI-Motive sind nur noch das
+  Gebäude im Einstieg der Startseite und, auf Ihren Wunsch beibehalten, die
+  Planbesprechung unter „Projektierung“ auf der Leistungsseite. Beide zeigt die
+  Website auf Ihre Entscheidung ohne Hinweis am Bild; das Impressum nennt sie
+  ausdrücklich als KI-generiert. Die Planbesprechung zeigt Personen — damit ist
+  das Risiko unter Art. 50 EU AI Act höher als beim Gebäudemotiv. Bitte
   gegenprüfen lassen.
+- **Hero-Motiv der Startseite ohne Kennzeichnung am Bild.** Auf Ihre
+  Entscheidung hin trägt das Gebäudemotiv keinen Hinweis am Bild. Es zeigt
+  keine Personen und behauptet kein konkretes Projekt; das Impressum benennt es
+  unter „Bildnachweise“ ausdrücklich als KI-generiert und digital bearbeitet.
+  Ob das nach Art. 50 EU AI Act ausreicht, ist eine juristische Bewertung —
+  bitte gegenprüfen lassen.
 - **Referenzschreiben von Behörden und Abgeordneten.** Unter den 20 Schreiben
   sind Zuschriften aus dem Bundeskanzleramt, dem Deutschen Bundestag, dem
   Niedersächsischen Landtag und einem ausländischen Ministerium. Eine

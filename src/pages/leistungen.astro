@@ -3,7 +3,6 @@ import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Leistungsfinder from '../components/Leistungsfinder.astro';
 import { asset } from '../lib/assets';
-import KiMarke from '../components/KiMarke.astro';
 import Anlagentechnik from '../components/Anlagentechnik.astro';
 ---
 
@@ -28,7 +27,7 @@ import Anlagentechnik from '../components/Anlagentechnik.astro';
         </div>
         <div class="phase-grid">
           <div class="phase-item">
-            <div class="phase-photo"><Image src={asset("/assets/leistungen/planbesprechung-baustelle.jpg")} alt="Zwei Techniker besprechen Baupläne auf der Baustelle" /><KiMarke /></div>
+            <div class="phase-photo"><Image src={asset("/assets/leistungen/planbesprechung-baustelle.jpg")} alt="Zwei Techniker besprechen Baupläne auf der Baustelle" /></div>
             <div class="phase-item-body">
               <div class="phase-num">01</div>
               <h3>Projektierung</h3>
@@ -36,7 +35,7 @@ import Anlagentechnik from '../components/Anlagentechnik.astro';
             </div>
           </div>
           <div class="phase-item">
-            <div class="phase-photo"><Image src={asset("/assets/leistungen/team-montage.jpg")} alt="Vierköpfiges Montageteam bei der Installation eines Schaltschranks auf der Baustelle" /><KiMarke /></div>
+            <div class="phase-photo"><Image src={asset("/assets/leistungen/hebebuehne-verkabelung.jpg")} alt="Monteure auf Scherenhebebühnen bei der Installation in einer Stahlhalle" /></div>
             <div class="phase-item-body">
               <div class="phase-num">02</div>
               <h3>Montagearbeiten</h3>
@@ -44,7 +43,7 @@ import Anlagentechnik from '../components/Anlagentechnik.astro';
             </div>
           </div>
           <div class="phase-item">
-            <div class="phase-photo"><Image src={asset("/assets/leistungen/thermografie.jpg")} alt="Techniker führt eine Thermografie-Inspektion an einer Schaltanlage durch" /><KiMarke /></div>
+            <div class="phase-photo"><Image src={asset("/assets/leistungen/thermografie.jpg")} alt="Wärmebildkamera bei der Prüfung eines geöffneten Schaltschranks" /></div>
             <div class="phase-item-body">
               <div class="phase-num">03</div>
               <h3>Wartung, Instandhaltung &amp; Reparatur</h3>
@@ -70,7 +69,7 @@ import Anlagentechnik from '../components/Anlagentechnik.astro';
           </div>
         </div>
         <figure class="capability-photo">
-          <Image src={asset("/assets/leistungen/msr-handheld.jpg")} alt="Techniker programmiert eine SPS-Steuerung mit einem Handbediengerät am Schaltschrank" /><KiMarke />
+          <Image src={asset("/assets/leistungen/msr-handheld.jpg")} alt="Modulare SPS-Steuerung mit Ein- und Ausgangsklemmen im Schaltschrank" />
           
           <figcaption>MSR-Technik in der Praxis</figcaption>
         </figure>
@@ -117,14 +116,14 @@ import Anlagentechnik from '../components/Anlagentechnik.astro';
           </div>
         </div>
         <figure class="capability-photo">
-          <Image src={asset("/assets/leistungen/kabeltrasse.jpg")} alt="Kabeltrasse mit strukturierter Verkabelung und Anschlussklemmen unter der Decke" />
+          <Image src={asset("/assets/leistungen/kabeltrasse.jpg")} alt="Kabeltrassen mit Leitungsführung unter der Decke eines Technikraums" />
           
           <figcaption>Strukturierte Verkabelung &amp; Netzwerktechnik</figcaption>
         </figure>
       </div>
 
       <div class="lifecycle-band">
-        <div class="lifecycle-photo"><Image src={asset("/assets/leistungen/beratung-anlage.jpg")} alt="Techniker berät zwei Kollegen mit Tablet vor einer Heizungs- und Klimaanlage" /><KiMarke /></div>
+        <div class="lifecycle-photo"><Image src={asset("/assets/leistungen/beratung-anlage.jpg")} alt="Zwei Techniker mit Schutzhelm arbeiten mit einem Laptop an einer Schaltanlage" /></div>
         <div class="hex-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 1 3 6.7"/><path d="M3 12v6h6"/></svg></div>
         <div>
           <h3>Wir begleiten Anlagen ein Leben lang</h3>
